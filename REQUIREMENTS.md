@@ -29,14 +29,14 @@
 ### User Account
 
 - [ ] **로그인 구현**
-- [ ] 42 intranet으로 OAuth 사용
-- [ ] 2-factor authentication 구현
-  - [ ] google authenticator, SMS, email etc...
+  - [ ] 42 intranet으로 OAuth 사용
+  - [ ] 2-factor authentication 구현
+    - [ ] google authenticator, SMS, email etc...
 - [ ] **프로필**
-- [ ] 사용자 아이디
-  - [ ] 사용자 아이디는 고유해야 한다.
-- [ ] 사용자 승리, 패배 기록 페이지
-- [ ] ladder level, achievements
+  - [ ] 사용자 아이디
+    - [ ] 사용자 아이디는 고유해야 한다.
+  - [ ] 사용자 승리, 패배 기록 페이지
+  - [ ] ladder level, achievements
 - [ ] **아바타 이미지**
   - [ ] 아이디 생성 시 기본 이미지 생성
   - [ ] 사용자가 기본 이미지 변경 가능
@@ -51,9 +51,9 @@
   - [ ] 방장은 채널의 비밀번호를 삭제/추가/변경 할 수 있다.
   - [ ] 방장은 사용자를 관리자로 지정할 수 있다.
   - [ ] **관리자**
-  - [ ] 관리자는 여러명이서 할 수 있다.
-  - [ ] 관리자는 사용자를 일정시간동안 음소거할 수 있다.
-  - [ ] 관리자는 사용자를 밴할 수 있다.
+    - [ ] 관리자는 여러명이서 할 수 있다.
+    - [ ] 관리자는 사용자를 일정시간동안 음소거할 수 있다.
+    - [ ] 관리자는 사용자를 밴할 수 있다.
 - [ ] **모드**
   - [ ] public
   - [ ] private
