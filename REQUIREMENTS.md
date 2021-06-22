@@ -8,7 +8,7 @@
 - [ ] Backend는 NestJS로 구현해야한다.
 - [ ] Database는 PostgreSQL을 써야한다.
 - [ ] Frontend는 typescript framework를 써야한다.
-- [ ] 웹사이트는 SPA(single page app)이어야 한다.
+- [ ] 웹사이트는 SPA(single page app)이어야 한다. 웹브라우저의 뒤로가기 버튼을 사용할 수 있어야 한다
 - [ ] 웹사이트는 Google Chrome, Firefox, Safari과 호환되어야한다.
 - [ ] 웹사이트에 대한 모든 에러나 경고는 처리돼야한다.
 - [ ] 라이브러리는 자유롭게 사용해도 된다.
