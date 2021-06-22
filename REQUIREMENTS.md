@@ -2,6 +2,8 @@
 
 ## In this subject, you will need to build a website for the mighty pong contest
 
+**직접 설정한 룰은  +를 붙여 표기합니다. **
+
 ## Rules
 
 - [ ] 가장 최신의 stable 라이브러리나 프레임 워크를 써야한다.
@@ -54,6 +56,7 @@
     - [ ] 관리자는 여러명이서 할 수 있다.
     - [ ] 관리자는 사용자를 일정시간동안 음소거할 수 있다.
     - [ ] 관리자는 사용자를 밴할 수 있다.
+    - [ ] + 관리자는 방을 나갈 수 없다.(위임 후 나가기 가능, 방 삭제 가능)
 - [ ] **모드**
   - [ ] public
   - [ ] private
