@@ -9,12 +9,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: eslint
     steps:
       - uses: actions/checkout@v2
       - name: eslint
         run: |
-          pwd
           cd front
-          pwd
           yarn --frozen-lockfile
           yarn run eslint:github-action
