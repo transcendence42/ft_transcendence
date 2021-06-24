@@ -14,6 +14,20 @@ services:
       - ./back/database/data/prod:/var/lib/postgresql/data/
     restart: always
     container_name: db
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    volumes:
+      - ./front/src:/app/src
+      - ./front/public:/app/public
+    networks:
+      - webapp
+    ports:
+      - 8080:3000
+    stdin_open: true
+    restart: always
+    container_name: front
   back:
     build:
       context: ./back
@@ -29,25 +43,10 @@ services:
       - ./back/src:/app/src
     depends_on:
       - db
+      - front
     restart: always
-    command: ['./wait-for-it.sh', 'db:5432', '--', 'node', 'main.js']
+    command: ['./wait-for-it.sh', 'db:5432', '--', 'node', './dist/main.js']
     container_name: back
-  front:
-    build:
-      context: ./front
-      dockerfile: Dockerfile
-    depends_on: 
-      - back
-    volumes:
-      - ./front/src:/app/src
-      - ./front/public:/app/public
-    networks:
-      - webapp
-    ports:
-      - 8080:3000
-    stdin_open: true
-    restart: always
-    container_name: front
 
 networks:
   webapp:

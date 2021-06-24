@@ -1,6 +1,6 @@
 FROM node:14.17.1-alpine
 
-WORKDIR /front
+WORKDIR /app
 COPY . /app/
 
 RUN yarn install --silent

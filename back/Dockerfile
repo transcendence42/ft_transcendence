@@ -1,10 +1,11 @@
 FROM node:14.17.1-alpine
 
-WORKDIR /back
+WORKDIR /app
 COPY . /app/
 
+RUN apk update && apk add bash
 RUN yarn install --silent
 RUN yarn build
-RUN yarn start
+# RUN yarn start
 
-EXPOSE 8080
+EXPOSE 5500
