@@ -6,6 +6,5 @@ COPY . /app/
 RUN apk update && apk add bash
 RUN yarn install --silent
 RUN yarn build
-# RUN yarn start
 
 EXPOSE 5500
