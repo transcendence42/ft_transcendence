@@ -20,7 +20,8 @@
     "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "eslint:github-action": "./node_modules/.bin/eslint . --ignore-path ../.gitignore --max-warnings 0"
   },
   "eslintConfig": {
     "extends": "react-app"
