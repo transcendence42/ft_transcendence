@@ -1,9 +1,9 @@
- FROM ubuntu
+FROM node:14.17.1-alpine
 
- WORKDIR /front
- COPY . /front/
+WORKDIR /front
+COPY . /front/
 
- RUN yarn install --silent
- RUN yarn build
+RUN yarn install --silent
+RUN yarn build
 
- EXPOSE 8080
+EXPOSE 8080
