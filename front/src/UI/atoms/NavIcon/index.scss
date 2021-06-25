@@ -1,7 +1,10 @@
 .navigation-icon-container {
-  width: 60px;
-  height: 60px;
-  text-align: center;
+  width: 85px;
+  height: 85px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   color: white;
   &__icon {
     font-size: 23px;
