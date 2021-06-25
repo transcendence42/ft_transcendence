@@ -35,8 +35,6 @@ services:
     build:
       context: ./back
       dockerfile: Dockerfile
-    depends_on: 
-      - db
     networks:
       - webapp
       - database
