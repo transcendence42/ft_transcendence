@@ -1,11 +1,13 @@
 import React from 'react';
 
-export const NavIcon = ({ svg, text }: { svg: string; text: string }) => {
+import { Link } from 'react-router-dom';
+
+export const NavIcon = ({ title, icon, link }: { title: string; icon: string; link: string }) => {
   return (
     <>
       <div>
-        {svg}
-        {text}
+        {icon}
+        <Link to={link}>{title}</Link>
       </div>
     </>
   );

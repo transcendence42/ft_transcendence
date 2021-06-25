@@ -4,7 +4,7 @@ import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { Logo } from './Logo';
 
 import Layout from './templates/Layout';
-import { Navigation } from './UI/organisms/Navigatinon';
+import { Navigation } from './UI/organisms/Navigation';
 
 export const App = () => (
   <ChakraProvider theme={theme}>

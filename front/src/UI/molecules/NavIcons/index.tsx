@@ -2,27 +2,12 @@ import React from 'react';
 
 import { NavIcon } from '../../atoms/NavIcon';
 
-const NavIconData = [
-  {
-    svg: 'profile',
-    text: 'Profile',
-  },
-  {
-    svg: 'chat',
-    text: 'Chat',
-  },
-  {
-    svg: 'search',
-    text: 'Search',
-  },
-];
-
-export const NavIcons = () => {
+export const NavIcons = ({ NavigationData }: { NavigationData: { title: string; icon: string; link: string }[] }) => {
   return (
     <>
       <div>
-        {NavIconData.map(({ svg, text }, idx) => (
-          <NavIcon key={idx} svg={svg} text={text} />
+        {NavigationData.map(({ title, icon, link }, idx) => (
+          <NavIcon key={idx} title={title} icon={icon} link={link} />
         ))}
       </div>
     </>
