@@ -21,12 +21,15 @@ services:
     volumes:
       - ./front/src:/app/src
       - ./front/public:/app/public
+    depends_on:
+      - back
     networks:
       - webapp
     ports:
       - 8080:3000
     stdin_open: true
     restart: always
+    command: ['./wait-for-it.sh', 'back:5500', '--', 'yarn', 'start']
     container_name: front
   back:
     build:
@@ -43,7 +46,6 @@ services:
       - ./back/src:/app/src
     depends_on:
       - db
-      - front
     restart: always
     command: ['./wait-for-it.sh', 'db:5432', '--', 'node', './dist/main.js']
     container_name: back
