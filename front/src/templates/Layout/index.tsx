@@ -5,7 +5,7 @@ const Layout = () => {
   return (
     <>
       <Grid h="1024" templateColumns="repeat(288, 1fr)">
-        <GridItem w="85" colSpan={17} bg="papayawhip" />
+        <GridItem w="85" colSpan={17} bg="papayawhip"></GridItem>
         <GridItem colSpan={193} bg="tomato" />
         <GridItem colSpan={78} bg="papayawhip" />
       </Grid>
