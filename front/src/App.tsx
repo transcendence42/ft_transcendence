@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import Profile from './pages/Profile';
+import Layout from './templates/Layout';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Profile />
+      <Layout />
     </div>
   );
 };
