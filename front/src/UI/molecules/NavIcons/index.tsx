@@ -1,15 +1,14 @@
 import React from 'react';
 
 import { NavIcon } from '../../atoms/NavIcon';
+import { Iicon } from '../../organisms/Navigation/NavigationData';
 
-export const NavIcons = ({ NavigationData }: { NavigationData: { title: string; icon: string; link: string }[] }) => {
+export const NavIcons = ({ NavigationData }: { NavigationData: Iicon[] }) => {
   return (
     <>
-      <div>
-        {NavigationData.map(({ title, icon, link }, idx) => (
-          <NavIcon key={idx} title={title} icon={icon} link={link} />
-        ))}
-      </div>
+      {NavigationData.map(({ title, icon, link }, idx) => (
+        <NavIcon key={idx} title={title} icon={icon} link={link} />
+      ))}
     </>
   );
 };
