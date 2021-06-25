@@ -39,6 +39,8 @@
     ]
   },
   "devDependencies": {
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
     "@storybook/addon-actions": "^5.1.9",
     "@storybook/addon-knobs": "^5.1.9",
     "@storybook/addon-storyshots": "^5.1.9",
@@ -56,9 +58,11 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "framer-motion": "^4",
     "husky": "4",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
+    "react-icons": "^4.2.0",
     "react-test-renderer": "^16.8.6",
     "require-context.macro": "^1.0.4"
   },
