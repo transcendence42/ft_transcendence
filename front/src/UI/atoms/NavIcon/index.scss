@@ -1,0 +1,15 @@
+.navigation-icon-container {
+  width: 85px;
+  height: 85px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  &__icon {
+    font-size: 19.5px;
+  }
+  &__title {
+    font-size: 13px;
+  }
+}

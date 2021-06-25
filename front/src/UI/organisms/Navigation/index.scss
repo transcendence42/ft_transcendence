@@ -1,0 +1,11 @@
+.navigation-container {
+  position: fixed;
+  height: 100%;
+  background: linear-gradient(#2b6cb0, #48bb78);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  &__colorModeSwitcher {
+  }
+}

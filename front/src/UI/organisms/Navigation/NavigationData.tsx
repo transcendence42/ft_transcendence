@@ -1,22 +1,31 @@
-export const NavigationData = [
+import React from 'react';
+import { PhoneIcon, Search2Icon, ChatIcon, BellIcon, IconProps } from '@chakra-ui/icons';
+
+export interface Iicon {
+  title: string;
+  icon: React.FunctionComponentElement<IconProps>;
+  link: string;
+}
+
+export const NavigationData: Iicon[] = [
   {
     title: 'home',
-    icon: 'icon',
+    icon: React.createElement(PhoneIcon),
     link: '/',
   },
   {
     title: 'Profile',
-    icon: 'icon',
+    icon: React.createElement(BellIcon),
     link: '/profile',
   },
   {
     title: 'Chat',
-    icon: 'icon',
+    icon: React.createElement(ChatIcon),
     link: '/chat',
   },
   {
     title: 'Search',
-    icon: 'icon',
+    icon: React.createElement(Search2Icon),
     link: '/search',
   },
 ];
