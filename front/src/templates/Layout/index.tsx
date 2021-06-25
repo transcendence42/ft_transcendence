@@ -1,14 +1,14 @@
 import React from 'react';
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Flex, Box, Center } from '@chakra-ui/react';
 
 const Layout = () => {
   return (
     <>
-      <Grid h="1024" templateColumns="repeat(288, 1fr)">
-        <GridItem w="85" colSpan={17} bg="papayawhip"></GridItem>
-        <GridItem colSpan={193} bg="tomato" />
-        <GridItem colSpan={78} bg="papayawhip" />
-      </Grid>
+      <Flex minH="100vh" flexDirection="row">
+        <Box width="85px"></Box>
+        <Center width="full"></Center>
+        <Box width="390px" bg="green" />
+      </Flex>
     </>
   );
 };
