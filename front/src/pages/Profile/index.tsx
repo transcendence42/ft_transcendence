@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Profile: React.FC = () => {
   return <div>Profile</div>;
