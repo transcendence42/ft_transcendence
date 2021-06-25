@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 export const NavIcon = ({ title, icon, link }: { title: string; icon: string; link: string }) => {
   return (
     <>
-      <div>
-        {icon}
+      <div id="navigation-icon-container">
+        <div id="navigation-icon-container__icon">{icon}</div>
         <Link to={link}>{title}</Link>
       </div>
     </>
