@@ -1,0 +1,55 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    networks:
+      - database
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=database
+    volumes:
+      - ./back/database/data/prod:/var/lib/postgresql/data/
+    restart: always
+    container_name: db
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    volumes:
+      - ./front/src:/app/src
+      - ./front/public:/app/public
+    depends_on:
+      - back
+    networks:
+      - webapp
+    ports:
+      - 8080:3000
+    stdin_open: true
+    restart: always
+    command: ['./wait-for-it.sh', 'back:5500', '--', 'yarn', 'start']
+    container_name: front
+  back:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    networks:
+      - webapp
+      - database
+    ports:
+      - 5500:5500
+    volumes:
+      - ./back/src:/app/src
+    depends_on:
+      - db
+    restart: always
+    command: ['./wait-for-it.sh', 'db:5432', '--', 'node', './dist/main.js']
+    container_name: back
+
+networks:
+  webapp:
+    driver: bridge
+  database:
+    driver: bridge
