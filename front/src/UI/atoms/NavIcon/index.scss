@@ -1,0 +1,12 @@
+.navigation-icon-container {
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  color: white;
+  &__icon {
+    font-size: 23px;
+  }
+  &__title {
+    font-size: 14px;
+  }
+}
