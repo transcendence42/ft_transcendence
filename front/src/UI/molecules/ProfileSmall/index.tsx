@@ -19,10 +19,10 @@ const logoutIcon = () => {
 
 interface IUser {
   nickname: string;
-  totalWin: string;
-  totalLose: string;
-  radderRating: string;
-  ranking: string;
+  totalWin: number;
+  totalLose: number;
+  radderRating: number;
+  ranking: number;
 }
 
 const winRate = (totalWin: number, totalLose: number) => {
@@ -30,7 +30,7 @@ const winRate = (totalWin: number, totalLose: number) => {
 };
 
 export const ProfileSmall = ({ nickname, totalWin, totalLose, radderRating, ranking }: IUser) => {
-  const totalRating = winRate(Number(totalWin), Number(totalLose));
+  const totalRating = winRate(totalWin, totalLose);
   return (
     <Flex alignItems="center">
       <Box p="4" bg="gray.100">
