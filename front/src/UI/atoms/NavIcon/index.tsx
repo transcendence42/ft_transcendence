@@ -10,6 +10,7 @@ export const NavIcon = ({ title, icon, link }: Iicon) => {
     <>
       <Link to={link}>
         <div className="navigation-icon-container">
+          <span></span>
           <div className="navigation-icon-container__icon">{icon}</div>
           <div className="navigation-icon-container__title">{title}</div>
         </div>
