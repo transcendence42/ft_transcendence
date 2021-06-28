@@ -28,4 +28,9 @@ export const NavigationData: Iicon[] = [
     icon: React.createElement(Search2Icon),
     link: '/search',
   },
+  {
+    title: 'Game',
+    icon: React.createElement(Search2Icon),
+    link: '/game',
+  },
 ];

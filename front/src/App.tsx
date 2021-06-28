@@ -1,25 +1,38 @@
 import * as React from 'react';
-import { ChakraProvider, Box, Text, Link, VStack, Code, Grid, theme } from '@chakra-ui/react';
-import { Logo } from './Logo';
+import { ChakraProvider, Flex, Box, theme, Center } from '@chakra-ui/react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-// import Main from './pages/Main';
 import { Navigation } from './UI/organisms/Navigation';
+import Main from './pages/Main';
+import Profile from './pages/Profile';
+import Chat from './pages/Chat';
+import Game from './pages/Game';
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <Navigation />
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <VStack spacing={8}>
-          <Logo h="40vmin" pointerEvents="none" />
-          <Text>
-            Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
-          </Text>
-          <Link color="teal.500" href="https://chakra-ui.com" fontSize="2xl" target="_blank" rel="noopener noreferrer">
-            Hello world
-          </Link>
-        </VStack>
-      </Grid>
-    </Box>
+    <Router>
+      <Flex minH="100vh" flexDirection="row">
+        <Box width="85px">
+          <Navigation />
+        </Box>
+        <Center width="full">
+          <Switch>
+            <Route exact path="/">
+              <Main />
+            </Route>
+            <Route path="/profile">
+              <Profile />
+            </Route>
+            <Route path="/chat">
+              <Chat />
+            </Route>
+            <Route path="/game">
+              <Game />
+            </Route>
+          </Switch>
+        </Center>
+        <Box width="390px" bg="green" />
+      </Flex>
+    </Router>
   </ChakraProvider>
 );
