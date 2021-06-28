@@ -27,13 +27,13 @@ export const Alarm = () => {
               ranking={ranking}
             />
           </Box>
-          <Box bg="gray.400">
+          <Box bg="white">
             <AlarmNotifier />
           </Box>
-          <Box bg="gray.100">
+          <Box bg="white">
             <AlarmUser />
           </Box>
-          <Box bg="gray.400">
+          <Box bg="white">
             <AlarmChat />
           </Box>
         </Accordion>
