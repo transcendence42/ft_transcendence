@@ -32,7 +32,7 @@ export const App = () => (
             </Route>
           </Switch>
         </Center>
-        <Box width="390px" bg="green">
+        <Box minWidth="390px" maxWidth="390px">
           <Alarm />
         </Box>
       </Flex>
