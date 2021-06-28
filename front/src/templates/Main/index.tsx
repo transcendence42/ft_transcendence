@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Flex, Box } from '@chakra-ui/react';
 
-const MainPageTemplate = () => {
+interface MainPageTemplateProps {
+  mainHeader?: ReactNode;
+  children?: ReactNode;
+}
+
+const dummymainHeader = <div>mainHeader</div>;
+const dummyContents = <div>contents</div>;
+
+const MainPageTemplate = ({ mainHeader = dummymainHeader, children = dummyContents }: MainPageTemplateProps) => {
   return (
     <Flex minH="100vh" width="920px" margin="20px" flexDirection="column">
-      <Box minH="180px" backgroundColor="blue">
-        <div>상단 프로필</div>
+      <Box minH="180px" padding="10px" backgroundColor="teal">
+        {mainHeader}
       </Box>
-      <Box backgroundColor="red">
-        <div>하단 내용 </div>
+      <Box marginTop="10px" padding="10px" backgroundColor="red">
+        {children}
       </Box>
     </Flex>
   );
