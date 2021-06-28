@@ -5,11 +5,32 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: white;
+  color: #cbd5e0;
+  overflow: hidden;
   &__icon {
     font-size: 19.5px;
   }
   &__title {
     font-size: 13px;
+  }
+  &:hover {
+    color: white;
+    transition-delay: 100ms;
+  }
+  &:hover span {
+    position: absolute;
+    width: 0.2rem;
+    height: 85px;
+    left: 0px;
+    background: white;
+    animation: link-bar 0.2s linear;
+  }
+  @keyframes link-bar {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 }
