@@ -1,6 +1,6 @@
 import React from 'react';
 import MainPageTemplate from '../../templates/Main';
-import ProfileLarge from '../../UI/organisms/ProfileLarge';
+import ProfileLarge from '../../UI/organisms/MainHeader';
 import MainButtons from '../../UI/molecules/MainButtons';
 
 const Main: React.FC = () => {

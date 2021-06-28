@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react';
-import { Flex, Box, Avatar } from '@chakra-ui/react';
-import UserInfoCard from '../../molecules/UserInfoCard';
+import { Flex, Box } from '@chakra-ui/react';
+import ProfileLarge from '../../molecules/ProfileLarge';
 
-interface ProfileLargeProps {
+interface MainHeaderProps {
   name?: string;
   imageSrc?: string;
   ranking?: string;
@@ -15,7 +15,7 @@ interface ProfileLargeProps {
 
 const dummyRightcomponent = <div>dummy right</div>;
 
-const ProfileLarge = ({
+const MainHeader = ({
   name = 'user',
   imageSrc = '',
   ranking = 'unknown',
@@ -24,13 +24,13 @@ const ProfileLarge = ({
   totalWin = 0,
   totalLose = 0,
   rightComponent = dummyRightcomponent,
-}: ProfileLargeProps) => {
+}: MainHeaderProps) => {
   return (
     <Flex height="160px" flexDirection="row" alignItems="center">
       <Box display="flex" flexDirection="row" alignItems="center" width="50%">
-        <Avatar size="xl" margin="1rem" name={name} src={imageSrc} />
-        <UserInfoCard
+        <ProfileLarge
           name={name}
+          imageSrc={imageSrc}
           ranking={ranking}
           ladderScore={ladderScore}
           winningPercentage={winningPercentage}
@@ -45,4 +45,4 @@ const ProfileLarge = ({
   );
 };
 
-export default ProfileLarge;
+export default MainHeader;
