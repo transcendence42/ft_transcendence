@@ -1,7 +1,8 @@
 import React from 'react';
+import MainPageTemplate from '../../templates/Main';
 
 const Main: React.FC = () => {
-  return <div>Main</div>;
+  return <MainPageTemplate />;
 };
 
 export default Main;

@@ -31,7 +31,7 @@ export const App = () => (
             </Route>
           </Switch>
         </Center>
-        <Box width="390px" bg="green" />
+        <Box minWidth="390px" bg="green" />
       </Flex>
     </Router>
   </ChakraProvider>
