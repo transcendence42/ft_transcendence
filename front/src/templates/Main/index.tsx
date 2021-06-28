@@ -15,7 +15,7 @@ const MainPageTemplate = ({ mainHeader = dummymainHeader, children = dummyConten
       <Box minH="180px" padding="10px" backgroundColor="teal">
         {mainHeader}
       </Box>
-      <Box marginTop="10px" padding="10px" backgroundColor="red">
+      <Box marginTop="10px" padding="10px" backgroundColor="gray">
         {children}
       </Box>
     </Flex>
