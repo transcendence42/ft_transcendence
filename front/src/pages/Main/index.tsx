@@ -1,6 +1,6 @@
 import React from 'react';
-import MainPageTemplate from '../../templates/Main';
-import ProfileLarge from '../../UI/organisms/MainHeader';
+import MainPageTemplate from '../../templates/MiddleSection';
+import ProfileLarge from '../../UI/organisms/MiddleSectionHeader';
 import MainButtons from '../../UI/molecules/MainButtons';
 import GameCard from '../../UI/organisms/GameCard';
 import { DummyGameCardData } from '../../UI/organisms/GameCard/DummyGameCardData';

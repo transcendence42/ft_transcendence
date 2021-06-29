@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { Flex, Box } from '@chakra-ui/react';
 import ProfileLarge from '../../molecules/ProfileLarge';
 
-interface MainHeaderProps {
+interface MiddleSectionHeaderProps {
   name?: string;
   imageSrc?: string;
   ranking?: string;
@@ -15,7 +15,7 @@ interface MainHeaderProps {
 
 const dummyRightcomponent = <div>dummy right</div>;
 
-const MainHeader = ({
+const MiddleSectionHeader = ({
   name = 'user',
   imageSrc = '',
   ranking = 'unknown',
@@ -24,7 +24,7 @@ const MainHeader = ({
   totalWin = 0,
   totalLose = 0,
   rightComponent = dummyRightcomponent,
-}: MainHeaderProps) => {
+}: MiddleSectionHeaderProps) => {
   return (
     <Flex height="160px" flexDirection="row" alignItems="center">
       <Box display="flex" flexDirection="row" alignItems="center" width="50%">
@@ -45,4 +45,4 @@ const MainHeader = ({
   );
 };
 
-export default MainHeader;
+export default MiddleSectionHeader;
