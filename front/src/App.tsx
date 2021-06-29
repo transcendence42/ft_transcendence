@@ -12,8 +12,8 @@ import Game from './pages/Game';
 export const App = () => (
   <ChakraProvider theme={theme}>
     <Router>
-      <Flex minH="100vh" flexDirection="row">
-        <Box width="85px">
+      <Flex minH="100vh" minWidth="1395px" flexDirection="row">
+        <Box minwidth="85px" maxWidth="85px">
           <Navigation />
         </Box>
         <Center width="full">
