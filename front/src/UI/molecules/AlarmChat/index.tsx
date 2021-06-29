@@ -2,8 +2,7 @@ import React from 'react';
 
 import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
 
-// import { AlarmChatMessage } from '../../atoms/AlarmChatMessage';
-// import { PhoneIcon, AddIcon, WarningIcon } from '@chakra-ui/icons'
+import { AlarmChatMessage } from '../../atoms/AlarmChatMessage';
 
 // mute, enter
 
@@ -59,7 +58,7 @@ const dummyChatData = {
     },
     {
       index: '5',
-      type: 'message',
+      type: 'ownerMessage',
       chatId: 'yechoi',
       message: '안녕하세요 :)',
       createdAt: '15:23',
@@ -91,7 +90,6 @@ const LockIcon = ({ fill = 'none' }) => {
 
 export const AlarmChat = () => {
   const { chat, chatLog } = dummyChatData;
-  console.log(chatLog);
   return (
     <AccordionItem>
       <h2>
@@ -123,12 +121,11 @@ export const AlarmChat = () => {
         </AccordionButton>
       </h2>
       <AccordionPanel pb={4} bg="gray.50">
-        {/* <AlarmChatMessage
-          type={chatLog[0].type}
-          chatID={chatLog[0].chatId}
-          message={chatLog[0].message}
-          createdAt={chatLog[0].createdAt}
-        /> */}
+        <Flex flexDirection="column">
+          {chatLog.map(({ index, type, chatId, message, createdAt }) => (
+            <AlarmChatMessage key={index} type={type} chatID={chatId} message={message} createdAt={createdAt} />
+          ))}
+        </Flex>
       </AccordionPanel>
     </AccordionItem>
   );
