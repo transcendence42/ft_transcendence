@@ -25,9 +25,9 @@ const getRunningTime = (startTime: Date) => {
 const GameCard = ({ playerA, playerB, startTime }: GameCardProps) => {
   return (
     <>
-      <Box backgroundColor="white" w="290px" h="290px" maxW="md" borderRadius="lg" textAlign="center">
+      <Box backgroundColor="white" width="290px" height="290px" maxW="md" borderRadius="lg" textAlign="center">
         <Box
-          h="30px"
+          height="30px"
           backgroundColor="lightblue"
           borderTopRadius="lg"
           display="flex"
