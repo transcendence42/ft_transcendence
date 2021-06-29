@@ -10,6 +10,7 @@ interface ProfileLargeProps {
   winningPercentage: number;
   totalWin: number;
   totalLose: number;
+  reverse: boolean;
 }
 
 const ProfileLarge = ({
@@ -20,17 +21,16 @@ const ProfileLarge = ({
   winningPercentage = 0,
   totalWin = 0,
   totalLose = 0,
+  reverse = false,
 }: ProfileLargeProps) => {
   return (
     <>
-      <Box className="profile-large">
+      <Box className={reverse ? 'profile-large-reverse' : 'profile-large'}>
         <Avatar size="xl" margin="1rem" name={name} src={imageSrc} />
         <div>
           <table>
             <thead>
-              <tr>
-                <strong>{name}</strong>
-              </tr>
+              <tr>{name}</tr>
             </thead>
             <tbody>
               <tr>

@@ -5,12 +5,21 @@ td {
 
 thead {
   font-size: 1.2rem;
+  font-weight: 800;
 }
 
 .profile-large {
   min-width: 368px;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  padding: 0.3rem;
+}
+
+.profile-large-reverse {
+  min-width: 368px;
+  display: flex;
+  flex-direction: row-reverse;
   align-items: center;
   padding: 0.3rem;
 }

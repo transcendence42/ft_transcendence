@@ -11,7 +11,7 @@ const GamePageHeader = () => {
       </Box>
       <Box className="vs-card">VS</Box>
       <Box>
-        <ProfileLarge />
+        <ProfileLarge reverse={true} />
       </Box>
     </>
   );
