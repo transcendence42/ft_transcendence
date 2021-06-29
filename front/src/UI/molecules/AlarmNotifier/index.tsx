@@ -44,7 +44,7 @@ export const AlarmNotifier = () => {
           <AccordionIcon />
         </AccordionButton>
       </h2>
-      <AccordionPanel p={1} bg="gray.50">
+      <AccordionPanel pl={1} pr={1} pb={0.5} pt={0.5} bg="gray.50">
         <Flex flexDirection="column">
           {messageData.map(({ id, title, content, alarmTime }) => (
             <AlarmMessage key={id} title={title} content={content} alarmTime={alarmTime} />
