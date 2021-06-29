@@ -22,7 +22,7 @@ const ProfileLarge = ({
 }: ProfileLargeProps) => {
   return (
     <>
-      <Box display="flex" flexDirection="row" alignItems="center">
+      <Box minWidth="368px" display="flex" flexDirection="row" alignItems="center">
         <Avatar size="xl" margin="1rem" name={name} src={imageSrc} />
         <div>
           <table>
