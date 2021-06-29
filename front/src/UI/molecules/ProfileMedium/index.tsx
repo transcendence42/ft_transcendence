@@ -10,6 +10,10 @@ interface ProfileMediumProps {
   totalLose?: number;
 }
 
+const calculateWinningRate = (totalWin: number, totalLose: number) => {
+  return Math.floor((totalWin / (totalWin + totalLose)) * 100);
+};
+
 const ProfileMedium = ({
   name = 'unknown',
   imageSrc = '',
@@ -27,7 +31,7 @@ const ProfileMedium = ({
           </div>
           <div>래더 랭킹 {ranking}위</div>
           <div>
-            {totalWin}승 {totalLose}패({totalWin / (totalWin + totalLose)}%)
+            {totalWin}승 {totalLose}패({calculateWinningRate(totalWin, totalLose)}%)
           </div>
         </div>
       </Box>
