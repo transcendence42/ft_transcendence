@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Flex, Box } from '@chakra-ui/react';
 
-interface MainPageTemplateProps {
+interface MiddleSectionTemplateProps {
   mainHeader?: ReactNode;
   children?: ReactNode;
 }
@@ -9,7 +9,10 @@ interface MainPageTemplateProps {
 const dummymainHeader = <div>mainHeader</div>;
 const dummyContents = <div>contents</div>;
 
-const MainPageTemplate = ({ mainHeader = dummymainHeader, children = dummyContents }: MainPageTemplateProps) => {
+const MiddleSectionTemplate = ({
+  mainHeader = dummymainHeader,
+  children = dummyContents,
+}: MiddleSectionTemplateProps) => {
   return (
     <Flex minH="100vh" width="920px" margin="20px" flexDirection="column">
       <Box minH="180px" padding="10px" backgroundColor="teal">
@@ -22,4 +25,4 @@ const MainPageTemplate = ({ mainHeader = dummymainHeader, children = dummyConten
   );
 };
 
-export default MainPageTemplate;
+export default MiddleSectionTemplate;
