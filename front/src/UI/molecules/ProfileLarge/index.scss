@@ -6,3 +6,11 @@ td {
 thead {
   font-size: 1.2rem;
 }
+
+.profile-large {
+  min-width: 368px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.3rem;
+}

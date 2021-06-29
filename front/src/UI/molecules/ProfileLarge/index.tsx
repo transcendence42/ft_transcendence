@@ -1,5 +1,6 @@
 import React from 'react';
 import { Avatar, Box } from '@chakra-ui/react';
+import './index.scss';
 
 interface ProfileLargeProps {
   name: string;
@@ -22,7 +23,7 @@ const ProfileLarge = ({
 }: ProfileLargeProps) => {
   return (
     <>
-      <Box minWidth="368px" display="flex" flexDirection="row" alignItems="center">
+      <Box className="profile-large">
         <Avatar size="xl" margin="1rem" name={name} src={imageSrc} />
         <div>
           <table>
