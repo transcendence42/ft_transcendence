@@ -1,12 +1,10 @@
 import React from 'react';
 import MiddleSectionTemplate from '../../templates/MiddleSection';
-import MiddleSectionHeader from '../../UI/organisms/MiddleSectionHeader';
-import ProfileLarge from '../../UI/molecules/ProfileLarge';
 import { Table, Thead, Tr, Td, Th, Tbody, Tfoot } from '@chakra-ui/react';
 
 const Profile: React.FC = () => {
   return (
-    <MiddleSectionTemplate middleSectionHeader={<MiddleSectionHeader rightComponent={<ProfileLarge />} />}>
+    <MiddleSectionTemplate>
       <Table variant="simple" size="lg" cellPadding="10px">
         <Thead>
           <Tr borderTop="3px" borderColor="blue.400">

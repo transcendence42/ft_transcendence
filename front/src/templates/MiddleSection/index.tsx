@@ -6,7 +6,7 @@ interface MiddleSectionTemplateProps {
   children?: ReactNode;
 }
 
-const dummyMiddleSectionHeader = <div>mainHeader</div>;
+const dummyMiddleSectionHeader = <div>middle section header</div>;
 const dummyContents = <div>contents</div>;
 
 const MiddleSectionTemplate = ({
@@ -15,7 +15,7 @@ const MiddleSectionTemplate = ({
 }: MiddleSectionTemplateProps) => {
   return (
     <Flex minH="100vh" width="920px" margin="20px" flexDirection="column">
-      <Box minH="180px" padding="10px" backgroundColor="teal">
+      <Box minH="180px" padding="10px" backgroundColor="teal" display="flex" alignItems="center">
         {middleSectionHeader}
       </Box>
       <Box marginTop="10px" padding="10px" backgroundColor="gray">
