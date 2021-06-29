@@ -7,7 +7,7 @@ import { DummyGameCardData } from '../../UI/organisms/GameCard/DummyGameCardData
 
 const Main: React.FC = () => {
   return (
-    <MiddleSection mainHeader={<ProfileLarge rightComponent={<MainButtons />} />}>
+    <MiddleSection middleSectionHeader={<ProfileLarge rightComponent={<MainButtons />} />}>
       <GameCard playerA={DummyGameCardData.playerA} playerB={DummyGameCardData.playerB} />
     </MiddleSection>
   );
