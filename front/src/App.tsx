@@ -12,7 +12,7 @@ export const App = () => (
   <ChakraProvider theme={theme}>
     <Router>
       <Flex minH="100vh" minWidth="1395px" flexDirection="row">
-        <Box width="85px">
+        <Box minwidth="85px" maxWidth="85px">
           <Navigation />
         </Box>
         <Center width="full">
