@@ -27,7 +27,7 @@ const MiddleSectionHeader = ({
 }: MiddleSectionHeaderProps) => {
   return (
     <Flex height="160px" flexDirection="row" alignItems="center">
-      <Box display="flex" flexDirection="row" alignItems="center" width="50%">
+      <Box width="50%">
         <ProfileLarge
           name={name}
           imageSrc={imageSrc}
@@ -38,9 +38,7 @@ const MiddleSectionHeader = ({
           totalLose={totalLose}
         />
       </Box>
-      <Box height="100%" width="50%">
-        {rightComponent}
-      </Box>
+      <Box width="50%">{rightComponent}</Box>
     </Flex>
   );
 };
