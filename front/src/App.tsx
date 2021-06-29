@@ -3,6 +3,7 @@ import { ChakraProvider, Flex, Box, theme, Center } from '@chakra-ui/react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { Navigation } from './UI/organisms/Navigation';
+import { Alarm } from './UI/organisms/Alarm';
 import Main from './pages/Main';
 import Profile from './pages/Profile';
 import Chat from './pages/Chat';
@@ -31,7 +32,9 @@ export const App = () => (
             </Route>
           </Switch>
         </Center>
-        <Box width="390px" bg="green" />
+        <Box minWidth="390px" maxWidth="390px">
+          <Alarm />
+        </Box>
       </Flex>
     </Router>
   </ChakraProvider>
