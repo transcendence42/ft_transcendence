@@ -1,7 +1,8 @@
 import React from 'react';
+import ChatTemplate from '../../templates/Chat';
 
 const Chat: React.FC = () => {
-  return <div>Chat</div>;
+  return <ChatTemplate />;
 };
 
 export default Chat;
