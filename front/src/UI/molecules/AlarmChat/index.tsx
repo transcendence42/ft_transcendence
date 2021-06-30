@@ -29,7 +29,7 @@ const dummyChatData = {
       createdAt: '15:23',
     },
     {
-      index: '6',
+      index: '7',
       type: 'notification',
       chatId: 'holee',
       message: 'enter',
@@ -89,7 +89,9 @@ const LockIcon = ({ fill = 'none' }) => {
 };
 
 export const AlarmChat = () => {
+  // const { chatLog } = dummyChatData;
   const { chat, chatLog } = dummyChatData;
+
   return (
     <AccordionItem>
       <h2>
@@ -99,22 +101,24 @@ export const AlarmChat = () => {
               <Text fontWeight="bold" fontSize="1rem">
                 채팅
               </Text>
-              <Text pl="2" fontSize="12" fontWeight="semibold">
-                <Flex flexDirection="row" alignItems="center">
+              <Flex flexDirection="row" alignItems="center">
+                <Text pl="2" fontSize="12" fontWeight="semibold">
                   #{chat.index} {chat.name} (
-                  <Text pr="1">
-                    <PersonIcon />
-                  </Text>
+                </Text>
+                <Box pr="1">
+                  <PersonIcon />
+                </Box>
+                <Text fontSize="12" fontWeight="semibold">
                   {chat.personnel})
-                  {chat.type === 'private' ? (
-                    <Text pl="2">
-                      <LockIcon />
-                    </Text>
-                  ) : (
-                    ''
-                  )}
-                </Flex>
-              </Text>
+                </Text>
+                {chat.type === 'private' ? (
+                  <Box pl="2">
+                    <LockIcon />
+                  </Box>
+                ) : (
+                  ''
+                )}
+              </Flex>
             </Flex>
           </Box>
           <AccordionIcon />
