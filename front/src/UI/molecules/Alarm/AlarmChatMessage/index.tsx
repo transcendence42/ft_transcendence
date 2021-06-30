@@ -1,30 +1,30 @@
 import React from 'react';
 
 import { Box, Text, Flex } from '@chakra-ui/react';
+import { IchatMessage, IchatNotification } from '../../../../utils/interface';
 
-const ChatMessage = ({
-  type,
-  chatID,
-  message,
-  createdAt,
-}: {
-  type: string;
-  chatID: string;
-  message: string;
-  createdAt: string;
-}) => {
+import {
+  AlarmChatMessageBackgroundColor,
+  AlarmChatMessageFontSize,
+  AlarmChatMessageTimeFontSize,
+  AlarmChatMessageIDFontSize,
+  AlarmContentFontWeight,
+  AlarmChatMessageNotificationFontSize,
+} from '../../../../utils/constants';
+
+const ChatMessage = ({ type, chatID, message, createdAt }: IchatMessage) => {
   return (
     <Flex flexDirection="column" alignItems={type === 'message' ? '' : 'flex-end'}>
-      <Text pt="1" pb="0.5" fontSize="11px" fontWeight="semibold">
+      <Text pt="1" pb="0.5" fontSize={AlarmChatMessageIDFontSize} fontWeight={AlarmContentFontWeight}>
         {chatID}
       </Text>
       <Flex alignItems="flex-end" flexDirection={type === 'message' ? 'row' : 'row-reverse'}>
-        <Box p="2" border="1px solid black" borderRadius="15%" bg="gray.100">
-          <Text fontSize="14px" fontWeight="semibold">
+        <Box p="2" border="1px solid black" borderRadius="15%" bg={AlarmChatMessageBackgroundColor}>
+          <Text fontSize={AlarmChatMessageFontSize} fontWeight="semibold">
             {message}
           </Text>
         </Box>
-        <Text pl="1" pr="1" fontSize="9px">
+        <Text pl="1" pr="1" fontSize={AlarmChatMessageTimeFontSize}>
           {createdAt}
         </Text>
       </Flex>
@@ -32,26 +32,16 @@ const ChatMessage = ({
   );
 };
 
-const ChatNotification = ({
-  type,
-  chatID,
-  message,
-  createdAt,
-}: {
-  type: string;
-  chatID: string;
-  message: string;
-  createdAt: string;
-}) => {
+const ChatNotification = ({ chatID, message }: IchatNotification) => {
   if (message === 'mute') {
     return (
-      <Text p="1" fontSize="10px" textAlign="center">
+      <Text p="1" fontSize={AlarmChatMessageNotificationFontSize} textAlign="center">
         {chatID}님이 음소거되었습니다.
       </Text>
     );
   } else if (message === 'enter') {
     return (
-      <Text p="1" fontSize="10px" textAlign="center">
+      <Text p="1" fontSize={AlarmChatMessageNotificationFontSize} textAlign="center">
         {chatID}님이 입장하셨습니다.
       </Text>
     );
@@ -60,19 +50,9 @@ const ChatNotification = ({
   }
 };
 
-export const AlarmChatMessage = ({
-  type,
-  chatID,
-  message,
-  createdAt,
-}: {
-  type: string;
-  chatID: string;
-  message: string;
-  createdAt: string;
-}) => {
+export const AlarmChatMessage = ({ type, chatID, message, createdAt }: IchatMessage) => {
   if (type === 'notification') {
-    return <ChatNotification type={type} chatID={chatID} message={message} createdAt={createdAt} />;
+    return <ChatNotification chatID={chatID} message={message} />;
   }
   return <ChatMessage type={type} chatID={chatID} message={message} createdAt={createdAt} />;
 };

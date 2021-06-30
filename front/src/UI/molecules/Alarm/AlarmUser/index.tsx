@@ -2,14 +2,22 @@ import React from 'react';
 
 import { Avatar, AvatarBadge, Flex, Box, Text } from '@chakra-ui/react';
 
+import {
+  AlarmMessageLoginUserStateColor,
+  AlarmMessagePendingUserStateColor,
+  AlarmMessageLogoutUserStateColor,
+  AlarmContentFontWeight,
+  AlarmUserNickNameFontSize,
+} from '../../../../utils/constants';
+
 export const AlarmUser = ({ nickName, userState }: { nickName: string; userState: string }) => {
   let avatarState = '';
   if (userState === 'login') {
-    avatarState = 'green.500';
+    avatarState = AlarmMessageLoginUserStateColor;
   } else if (userState === 'pending') {
-    avatarState = 'orange.300';
+    avatarState = AlarmMessagePendingUserStateColor;
   } else if (userState === 'logout') {
-    avatarState = 'gray.300';
+    avatarState = AlarmMessageLogoutUserStateColor;
   }
   return (
     <Flex p="2" justifyContent="flex-start">
@@ -19,7 +27,7 @@ export const AlarmUser = ({ nickName, userState }: { nickName: string; userState
         </Avatar>
       </Box>
       <Box pl="4">
-        <Text fontSize="14px" fontWeight="semibold">
+        <Text fontSize={AlarmUserNickNameFontSize} fontWeight={AlarmContentFontWeight}>
           {nickName}
         </Text>
       </Box>

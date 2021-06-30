@@ -7,21 +7,30 @@ import { AlarmNotifier } from '../AlarmNotifier';
 import { AlarmUserList } from '../AlarmUserList';
 import { ProfileSmall } from '../../molecules';
 
-const user = {
-  nickname: 'yechoi',
-  totalWin: 72,
-  totalLose: 78,
-  radderRating: 4321,
-  ranking: 2,
-};
+import { user } from '../../../utils/dummy';
+import {
+  AlarmProfileBackgroundColor,
+  AlarmBackgroundColor,
+  AlarmTitleBackgroundColor,
+  AlarmMinWidth,
+  AlarmMaxWidth,
+  AlarmWidth,
+  AlarmHeight,
+} from '../../../utils/constants';
 
 export const Alarm = () => {
   const { nickname, totalWin, totalLose, radderRating, ranking } = user;
   return (
     <>
-      <Flex minWidth="390px" maxWidth="390px" height="100vh" flexDirection="column">
-        <Accordion defaultIndex={[0]} allowMultiple>
-          <Box bg="gray.100">
+      <Flex
+        minWidth={AlarmMinWidth}
+        maxWidth={AlarmMaxWidth}
+        width={AlarmWidth}
+        height={AlarmHeight}
+        flexDirection="column"
+      >
+        <Accordion defaultIndex={[0, 1, 2]} allowMultiple>
+          <Box bg={AlarmProfileBackgroundColor}>
             <ProfileSmall
               nickname={nickname}
               totalWin={totalWin}
@@ -30,17 +39,17 @@ export const Alarm = () => {
               ranking={ranking}
             />
           </Box>
-          <Box bg="white">
+          <Box bg={AlarmTitleBackgroundColor}>
             <AlarmNotifier />
           </Box>
-          <Box bg="white">
+          <Box bg={AlarmTitleBackgroundColor}>
             <AlarmUserList />
           </Box>
-          <Box bg="white">
+          <Box bg={AlarmTitleBackgroundColor}>
             <AlarmChat />
           </Box>
         </Accordion>
-        <Box height="full" bg="gray.50"></Box>
+        <Box height="full" bg={AlarmBackgroundColor}></Box>
       </Flex>
     </>
   );
