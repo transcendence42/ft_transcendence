@@ -11,8 +11,8 @@ const TableHeader = () => {
     <>
       <Thead>
         <Tr>
-          {headerMeta.map((d, i) => (
-            <Th key={i}>{d}</Th>
+          {headerMeta.map((title, index) => (
+            <Th key={index}>{title}</Th>
           ))}
         </Tr>
       </Thead>
@@ -56,8 +56,8 @@ const ProfileTable = (props) => {
           <Table>
             <TableHeader />
             <Tbody>
-              {tableData.map((d, i) => {
-                return <TableRow key={i} data={d} />;
+              {tableData.map((data, index) => {
+                return <TableRow key={index} data={data} />;
               })}
             </Tbody>
           </Table>
