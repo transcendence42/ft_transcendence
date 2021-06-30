@@ -2,42 +2,54 @@ import React from 'react';
 
 import { Flex, Box, Accordion } from '@chakra-ui/react';
 
-import { AlarmChat, AlarmNotifier, ProfileSmall, AlarmUserList } from '../../molecules';
+import { AlarmChat } from '../AlarmChat';
+import { AlarmNotifier } from '../AlarmNotifier';
+import { AlarmUserList } from '../AlarmUserList';
+import { AlarmProfile } from '../AlarmProfile';
 
-const user = {
-  nickname: 'yechoi',
-  totalWin: 72,
-  totalLose: 78,
-  radderRating: 4321,
-  ranking: 2,
-};
+import { user } from '../../../utils/dummy';
+import {
+  ALARM_PROFILE_BACKGROUND_COLOR,
+  ALARM_BACKGROUND_COLOR,
+  ALARM_TITLE_BACKGROOUND_COLOR,
+  ALARM_MIN_WIDTH,
+  ALARM_MAX_WIDTH,
+  ALARM_WIDTH,
+  ALARM_HEIGHT,
+} from '../../../utils/constants';
 
 export const Alarm = () => {
-  const { nickname, totalWin, totalLose, radderRating, ranking } = user;
+  const { nickname, totalWin, totalLose, ladderRating, ranking } = user;
   return (
     <>
-      <Flex minWidth="390px" maxWidth="390px" height="100vh" flexDirection="column">
-        <Accordion defaultIndex={[0]} allowMultiple>
-          <Box bg="gray.100">
-            <ProfileSmall
+      <Flex
+        minWidth={ALARM_MIN_WIDTH}
+        maxWidth={ALARM_MAX_WIDTH}
+        width={ALARM_WIDTH}
+        height={ALARM_HEIGHT}
+        flexDirection="column"
+      >
+        <Accordion defaultIndex={[0, 1, 2]} allowMultiple>
+          <Box bg={ALARM_PROFILE_BACKGROUND_COLOR}>
+            <AlarmProfile
               nickname={nickname}
               totalWin={totalWin}
               totalLose={totalLose}
-              radderRating={radderRating}
+              ladderRating={ladderRating}
               ranking={ranking}
             />
           </Box>
-          <Box bg="white">
+          <Box bg={ALARM_TITLE_BACKGROOUND_COLOR}>
             <AlarmNotifier />
           </Box>
-          <Box bg="white">
+          <Box bg={ALARM_TITLE_BACKGROOUND_COLOR}>
             <AlarmUserList />
           </Box>
-          <Box bg="white">
+          <Box bg={ALARM_TITLE_BACKGROOUND_COLOR}>
             <AlarmChat />
           </Box>
         </Accordion>
-        <Box height="full" bg="gray.50"></Box>
+        <Box height="full" bg={ALARM_BACKGROUND_COLOR}></Box>
       </Flex>
     </>
   );
