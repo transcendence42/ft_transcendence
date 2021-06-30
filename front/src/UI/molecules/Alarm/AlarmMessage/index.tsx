@@ -4,12 +4,12 @@ import { Box, Text, Avatar, Grid, Flex, CloseButton } from '@chakra-ui/react';
 
 import { IalarmMessage } from '../../../../utils/interface';
 import {
-  AlarmMessageBackgroundColor,
-  AlarmMessageTitleFontSize,
-  AlarmMessageContentFontSize,
-  AlarmMessageHeight,
-  AlarmMessageWidth,
-  AlarmContentFontWeight,
+  ALARM_MESSAGE_BACKGROUND_COLOR,
+  ALARM_MESSAGE_TITLE_FONTSIZE,
+  ALARM_MESSAGE_CONTENT_FONTSIZE,
+  ALARM_MESSAGE_HEIGHT,
+  ALARM_MESSAGE_WIDTH,
+  ALARM_CONTENT_FONTWEIGHT,
 } from '../../../../utils/constants';
 
 export const AlarmMessage = ({ title, content, alarmTime }: IalarmMessage) => {
@@ -18,10 +18,10 @@ export const AlarmMessage = ({ title, content, alarmTime }: IalarmMessage) => {
       mb="0.5"
       mt="0.5"
       p="2"
-      bg={AlarmMessageBackgroundColor}
+      bg={ALARM_MESSAGE_BACKGROUND_COLOR}
       borderRadius="5"
-      width={AlarmMessageWidth}
-      height={AlarmMessageHeight}
+      width={ALARM_MESSAGE_WIDTH}
+      height={ALARM_MESSAGE_HEIGHT}
     >
       <Grid templateColumns="1fr 10fr">
         <Box>
@@ -30,7 +30,7 @@ export const AlarmMessage = ({ title, content, alarmTime }: IalarmMessage) => {
         <Flex flexDirection="column">
           <Box>
             <Flex justifyContent="space-between">
-              <Text fontWeight={AlarmContentFontWeight} fontSize={AlarmMessageTitleFontSize}>
+              <Text fontWeight={ALARM_CONTENT_FONTWEIGHT} fontSize={ALARM_MESSAGE_TITLE_FONTSIZE}>
                 {title}
               </Text>
               <CloseButton pb="2" size="sm" />
@@ -38,10 +38,10 @@ export const AlarmMessage = ({ title, content, alarmTime }: IalarmMessage) => {
           </Box>
           <Box>
             <Flex justifyContent="space-between">
-              <Text pt="2" fontSize={AlarmMessageContentFontSize}>
+              <Text pt="2" fontSize={ALARM_MESSAGE_CONTENT_FONTSIZE}>
                 {content}
               </Text>
-              <Text pt="2" fontSize={AlarmMessageContentFontSize}>
+              <Text pt="2" fontSize={ALARM_MESSAGE_CONTENT_FONTSIZE}>
                 {alarmTime}
               </Text>
             </Flex>

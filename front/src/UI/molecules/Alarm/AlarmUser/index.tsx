@@ -3,21 +3,21 @@ import React from 'react';
 import { Avatar, AvatarBadge, Flex, Box, Text } from '@chakra-ui/react';
 
 import {
-  AlarmMessageLoginUserStateColor,
-  AlarmMessagePendingUserStateColor,
-  AlarmMessageLogoutUserStateColor,
-  AlarmContentFontWeight,
-  AlarmUserNickNameFontSize,
+  ALARM_MESSAGE_LOGIN_USER_STATE_COLOR,
+  ALARM_MESSAGE_PENDING_USER_STATE_COLOR,
+  ALARM_MESSAGE_LOGOUT_USER_STATE_COLOR,
+  ALARM_CONTENT_FONTWEIGHT,
+  ALARM_USER_NICKNAME_FONTSIZE,
 } from '../../../../utils/constants';
 
 export const AlarmUser = ({ nickName, userState }: { nickName: string; userState: string }) => {
   let avatarState = '';
   if (userState === 'login') {
-    avatarState = AlarmMessageLoginUserStateColor;
+    avatarState = ALARM_MESSAGE_LOGIN_USER_STATE_COLOR;
   } else if (userState === 'pending') {
-    avatarState = AlarmMessagePendingUserStateColor;
+    avatarState = ALARM_MESSAGE_PENDING_USER_STATE_COLOR;
   } else if (userState === 'logout') {
-    avatarState = AlarmMessageLogoutUserStateColor;
+    avatarState = ALARM_MESSAGE_LOGOUT_USER_STATE_COLOR;
   }
   return (
     <Flex p="2" justifyContent="flex-start">
@@ -27,7 +27,7 @@ export const AlarmUser = ({ nickName, userState }: { nickName: string; userState
         </Avatar>
       </Box>
       <Box pl="4">
-        <Text fontSize={AlarmUserNickNameFontSize} fontWeight={AlarmContentFontWeight}>
+        <Text fontSize={ALARM_USER_NICKNAME_FONTSIZE} fontWeight={ALARM_CONTENT_FONTWEIGHT}>
           {nickName}
         </Text>
       </Box>
