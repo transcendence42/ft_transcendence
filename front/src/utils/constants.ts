@@ -16,6 +16,8 @@ export const ALARM_MESSAGE_WIDTH = '100%';
 export const ALARM_MESSAGE_HEIGHT = '64px';
 
 export const ALARM_TITLE_FONTSIZE = '1rem';
+export const ALARM_PROFILE_NICKNAME_FONTSIZE = '1rem';
+export const ALARM_PROFILE_CONTENT_FONTSIZE = '12px';
 export const ALARM_CHAT_TITLE_CONTENT_FONTSIZE = '12px';
 export const ALARM_CHAT_MESSAGE_FONTSIZE = '14px';
 export const ALARM_CHAT_MESSAGE_ID_FONTSIZE = '9px';

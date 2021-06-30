@@ -108,7 +108,7 @@ const user = {
   nickname: 'yechoi',
   totalWin: 72,
   totalLose: 78,
-  radderRating: 4321,
+  ladderRating: 4321,
   ranking: 2,
 };
 

@@ -20,3 +20,21 @@ export interface IchatNotification {
   chatID: string;
   message: string;
 }
+
+export interface IUser {
+  nickname: string;
+  totalWin: number;
+  totalLose: number;
+  ladderRating: number;
+  ranking: number;
+}
+
+export interface IProfileSmall {
+  position: 'right' | 'left';
+  backgroundColor: string;
+  nickname: string;
+  totalWin: number;
+  totalLose: number;
+  ladderRating: number;
+  ranking: number;
+}

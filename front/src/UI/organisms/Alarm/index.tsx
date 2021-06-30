@@ -5,7 +5,7 @@ import { Flex, Box, Accordion } from '@chakra-ui/react';
 import { AlarmChat } from '../AlarmChat';
 import { AlarmNotifier } from '../AlarmNotifier';
 import { AlarmUserList } from '../AlarmUserList';
-import { ProfileSmall } from '../../molecules';
+import { AlarmProfile } from '../AlarmProfile';
 
 import { user } from '../../../utils/dummy';
 import {
@@ -19,7 +19,7 @@ import {
 } from '../../../utils/constants';
 
 export const Alarm = () => {
-  const { nickname, totalWin, totalLose, radderRating, ranking } = user;
+  const { nickname, totalWin, totalLose, ladderRating, ranking } = user;
   return (
     <>
       <Flex
@@ -31,11 +31,11 @@ export const Alarm = () => {
       >
         <Accordion defaultIndex={[0, 1, 2]} allowMultiple>
           <Box bg={ALARM_PROFILE_BACKGROUND_COLOR}>
-            <ProfileSmall
+            <AlarmProfile
               nickname={nickname}
               totalWin={totalWin}
               totalLose={totalLose}
-              radderRating={radderRating}
+              ladderRating={ladderRating}
               ranking={ranking}
             />
           </Box>
