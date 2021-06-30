@@ -8,6 +8,7 @@ services:
       - "5432:5432"
     environment:
       - POSTGRES_USER=user
+      - POSTGRES_PORT=5432
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=database
     volumes:
@@ -18,9 +19,6 @@ services:
     build:
       context: ./front
       dockerfile: Dockerfile
-    volumes:
-      - ./front/src:/app/src
-      - ./front/public:/app/public
     depends_on:
       - back
     networks:
@@ -40,8 +38,6 @@ services:
       - database
     ports:
       - 5500:5500
-    volumes:
-      - ./back/src:/app/src
     depends_on:
       - db
     restart: always
