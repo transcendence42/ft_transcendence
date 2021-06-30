@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Flex, Box, Accordion } from '@chakra-ui/react';
 
-import { AlarmChat, AlarmNotifier, ProfileSmall, AlarmUser } from '../../molecules';
+import { AlarmChat, AlarmNotifier, ProfileSmall, AlarmUserList } from '../../molecules';
 
 const user = {
   nickname: 'yechoi',
@@ -31,13 +31,13 @@ export const Alarm = () => {
             <AlarmNotifier />
           </Box>
           <Box bg="white">
-            <AlarmUser />
+            <AlarmUserList />
           </Box>
           <Box bg="white">
             <AlarmChat />
           </Box>
         </Accordion>
-        <Box height="full" bg="gray.100"></Box>
+        <Box height="full" bg="gray.50"></Box>
       </Flex>
     </>
   );
