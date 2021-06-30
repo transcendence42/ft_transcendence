@@ -11,7 +11,7 @@ export const AlarmProfile = ({ nickname, totalWin, totalLose, ladderRating, rank
   return (
     <Flex alignItems="center">
       <ProfileSmall
-        position={'left'}
+        position="left"
         nickname={nickname}
         totalWin={totalWin}
         totalLose={totalLose}
