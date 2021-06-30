@@ -17,12 +17,14 @@ export const ChatTable = ({
   chatListType,
   startRowNum,
   endRowNum,
+  exitChat,
 }: {
   chatList: IChat[];
   columns: string[];
   chatListType: string;
   startRowNum: number;
   endRowNum: number;
+  exitChat: (uuid: string) => void;
 }) => {
   return (
     <Table
@@ -80,6 +82,7 @@ export const ChatTable = ({
                 rowIndex={i}
                 chatListType={chatListType}
                 key={`ChatTable-${chatListType}-ChatTableRow-${i}`}
+                exitChat={exitChat}
               />
             );
           })}

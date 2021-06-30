@@ -1,6 +1,8 @@
 import React from 'react';
 import { Tr, Td } from '@chakra-ui/table';
 import { Box } from '@chakra-ui/react';
+import { ExitChatButton } from '../ExitChatButton';
+import { ExitChatMsg } from '../../molecules/ExitChatMsg';
 
 interface IChat {
   uuid: string;
@@ -14,10 +16,12 @@ export const ChatTableRow = ({
   chat,
   rowIndex,
   chatListType,
+  exitChat,
 }: {
   chat: IChat;
   rowIndex: number;
   chatListType: string;
+  exitChat: (uuid: string) => void;
 }) => {
   const chatWithIndex = { index: rowIndex + 1, ...chat };
   const chatWithCloseButton = ['myList', 'dmList'].includes(chatListType)
@@ -25,6 +29,8 @@ export const ChatTableRow = ({
     : chatWithIndex;
   const temp = Object.entries(chatWithCloseButton).filter((item) => !['uuid', 'type'].includes(item[0]));
   const tempLength = Object.keys(temp).length;
+  const exitChatMsg = 2 < 1 ? <ExitChatMsg /> : '';
+  const uuid = chat.uuid;
   return (
     <Tr style={{ backgroundColor: '#F7FAFC' }}>
       {temp.map((item, i) => {
@@ -58,7 +64,9 @@ export const ChatTableRow = ({
                 padding: '13px 2px',
               }}
             >
-              X
+              <ExitChatButton exitChat={exitChat} uuid={uuid}>
+                {exitChatMsg}
+              </ExitChatButton>
             </Td>
           );
         } else {

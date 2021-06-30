@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, GridItem, Tabs, TabPanels, TabPanel } from '@chakra-ui/react';
 import { ChatTabList } from '../../UI/organisms/ChatTabList';
 import { ChatTable } from '../../UI/organisms/ChatTable';
@@ -12,13 +12,16 @@ interface IChat {
 }
 
 const ChatTemplate = ({ myChatList, totalChatList }: { myChatList: IChat[]; totalChatList: IChat[] }) => {
-  const publicChatList = totalChatList.filter((item) => item.type === 'public');
-  const privateChatList = totalChatList.filter((item) => item.type === 'private');
   const myChatListTabs = ['나의채팅방', '1:1 채팅방'];
-  const dmList = myChatList.filter((item) => item.type === 'dm');
   const myChatListcolumns = ['#', '제목', '인원', '방장', ''];
   const totalChatListcolumns = ['#', '제목', '인원', '방장'];
   const totalChatListTabs = ['전체채팅방', '공개채팅방', '비공개채팅방'];
+  const exitChat = (uuid: string) => {
+    setMyList(myList.filter((item) => item.uuid !== uuid));
+    setTotalList(totalList.filter((item) => item.uuid !== uuid));
+  };
+  const [myList, setMyList] = useState(myChatList);
+  const [totalList, setTotalList] = useState(totalChatList);
   return (
     <Grid minH="100vh" width="920px" margin="20px" templateRows="1fr 1fr">
       <GridItem rowSpan={1}>
@@ -31,11 +34,12 @@ const ChatTemplate = ({ myChatList, totalChatList }: { myChatList: IChat[]; tota
               <TabPanel p={0}>
                 <GridItem rowSpan={1}>
                   <ChatTable
-                    chatList={myChatList}
+                    chatList={myList}
                     columns={myChatListcolumns}
                     chatListType="myList"
                     startRowNum={0}
                     endRowNum={3}
+                    exitChat={exitChat}
                   />
                 </GridItem>
                 <GridItem rowSpan={1}>
@@ -61,11 +65,12 @@ const ChatTemplate = ({ myChatList, totalChatList }: { myChatList: IChat[]; tota
               <TabPanel p={0}>
                 <GridItem rowSpan={1}>
                   <ChatTable
-                    chatList={dmList}
+                    chatList={myList.filter((item) => item.type === 'dm')}
                     columns={myChatListcolumns}
                     chatListType="dmList"
                     startRowNum={0}
                     endRowNum={3}
+                    exitChat={exitChat}
                   />
                 </GridItem>
                 <GridItem rowSpan={1}>
@@ -102,11 +107,12 @@ const ChatTemplate = ({ myChatList, totalChatList }: { myChatList: IChat[]; tota
               <TabPanel p={0}>
                 <GridItem rowSpan={1}>
                   <ChatTable
-                    chatList={totalChatList}
+                    chatList={totalList}
                     columns={totalChatListcolumns}
                     chatListType="totalList"
                     startRowNum={0}
                     endRowNum={3}
+                    exitChat={exitChat}
                   />
                 </GridItem>
                 <GridItem rowSpan={1}>
@@ -132,11 +138,12 @@ const ChatTemplate = ({ myChatList, totalChatList }: { myChatList: IChat[]; tota
               <TabPanel p={0}>
                 <GridItem rowSpan={1}>
                   <ChatTable
-                    chatList={publicChatList}
+                    chatList={totalList.filter((item) => item.type === 'public')}
                     columns={totalChatListcolumns}
                     chatListType="publicList"
                     startRowNum={0}
                     endRowNum={3}
+                    exitChat={exitChat}
                   />
                 </GridItem>
                 <GridItem rowSpan={1}>
@@ -162,11 +169,12 @@ const ChatTemplate = ({ myChatList, totalChatList }: { myChatList: IChat[]; tota
               <TabPanel p={0}>
                 <GridItem rowSpan={1}>
                   <ChatTable
-                    chatList={privateChatList}
+                    chatList={totalList.filter((item) => item.type === 'private')}
                     columns={totalChatListcolumns}
                     chatListType="privateList"
                     startRowNum={0}
                     endRowNum={3}
+                    exitChat={exitChat}
                   />
                 </GridItem>
                 <GridItem rowSpan={1}>
