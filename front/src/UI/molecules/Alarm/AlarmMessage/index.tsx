@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Text, Avatar, Grid, Flex, CloseButton } from '@chakra-ui/react';
 
-import { IalarmMessage } from '../../molecules/AlarmNotifier';
+import { IalarmMessage } from '../../../../utils/interface';
 
 export const AlarmMessage = ({ title, content, alarmTime }: IalarmMessage) => {
   return (

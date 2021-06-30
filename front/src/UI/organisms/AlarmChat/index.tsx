@@ -2,7 +2,7 @@ import React from 'react';
 
 import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
 
-import { AlarmChatMessage } from '../../atoms/AlarmChatMessage';
+import { AlarmChatMessage } from '../../molecules';
 
 // mute, enter
 

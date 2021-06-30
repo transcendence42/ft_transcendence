@@ -2,7 +2,7 @@ import React from 'react';
 
 import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
 
-import { AlarmUser } from '../../atoms/AlarmUser';
+import { AlarmUser } from '../../molecules';
 
 const userData = [
   {

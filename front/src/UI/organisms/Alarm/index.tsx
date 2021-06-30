@@ -2,7 +2,10 @@ import React from 'react';
 
 import { Flex, Box, Accordion } from '@chakra-ui/react';
 
-import { AlarmChat, AlarmNotifier, ProfileSmall, AlarmUserList } from '../../molecules';
+import { AlarmChat } from '../AlarmChat';
+import { AlarmNotifier } from '../AlarmNotifier';
+import { AlarmUserList } from '../AlarmUserList';
+import { ProfileSmall } from '../../molecules';
 
 const user = {
   nickname: 'yechoi',
