@@ -1,20 +1,6 @@
 import React from 'react';
-import {
-  Grid,
-  GridItem,
-  Tabs,
-  TabList,
-  Tab,
-  Table,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
-  Box,
-  TabPanels,
-  TabPanel,
-} from '@chakra-ui/react';
+import { Grid, GridItem, Tabs, Table, Thead, Tr, Th, Tbody, Td, Box, TabPanels, TabPanel } from '@chakra-ui/react';
+import { ChatTabList } from '../../UI/organisms/ChatTabList';
 
 interface IChat {
   title: string;
@@ -23,43 +9,19 @@ interface IChat {
   onwer: string;
 }
 
-const ChatTemplate = ({ myChatList, chatList }: { myChatList: IChat[]; chatList: IChat[] }) => {
-  console.log('myChatList', myChatList);
-  console.log('chatList', chatList);
-  const dmList = myChatList.filter((item) => item.type === 'dm');
-  console.log('dmList', dmList);
-  const publicList = chatList.filter((item) => item.type === 'public');
-  const privateList = chatList.filter((item) => item.type === 'private');
-  console.log('publicList', publicList);
-  console.log('privateList', privateList);
+const ChatTemplate = ({ myChatList, totalChatList }: { myChatList: IChat[]; totalChatList: IChat[] }) => {
+  // const dmList = myChatList.filter((item) => item.type === 'dm');
+  // const publicList = totalChatList.filter((item) => item.type === 'public');
+  // const privateList = totalChatList.filter((item) => item.type === 'private');
+  const myChatListTabs = ['나의채팅방', '1:1 채팅방'];
+  const totalChatListTabs = ['전체채팅방', '공개채팅방', '비공개채팅방'];
   return (
     <Grid minH="100vh" width="920px" margin="20px" templateRows="1fr 1fr">
       <GridItem rowSpan={1}>
         <Tabs variant="unstyled">
           <Grid h="100%" w="100%" templateRows="max-content max-content max-content">
             <GridItem rowSpan={1}>
-              <TabList style={{ color: '#A2A8B0', borderBottom: '1px solid #A2A8B0', fontSize: '1.5rem' }}>
-                <Tab
-                  style={{ fontSize: '1.3rem' }}
-                  _selected={{
-                    color: 'blue.600',
-                    bg: '#F7FAFC',
-                    borderBottom: '2px solid #2A69AC',
-                  }}
-                >
-                  나의 채팅방
-                </Tab>
-                <Tab
-                  style={{ fontSize: '1.3rem' }}
-                  _selected={{
-                    color: 'blue.600',
-                    bg: '#F7FAFC',
-                    borderBottom: '2px solid #2A69AC',
-                  }}
-                >
-                  1:1 채팅방
-                </Tab>
-              </TabList>
+              <ChatTabList tabs={myChatListTabs} />
             </GridItem>
             <TabPanels>
               <TabPanel p={0}>
@@ -698,38 +660,7 @@ const ChatTemplate = ({ myChatList, chatList }: { myChatList: IChat[]; chatList:
         <Tabs variant="unstyled">
           <Grid h="100%" w="100%" templateRows="max-content max-content max-content">
             <GridItem rowSpan={1}>
-              <TabList style={{ color: '#A2A8B0', borderBottom: '1px solid #A2A8B0', fontSize: '1.5rem' }}>
-                <Tab
-                  style={{ fontSize: '1.3rem' }}
-                  _selected={{
-                    color: 'blue.600',
-                    bg: '#F7FAFC',
-                    borderBottom: '2px solid #2A69AC',
-                  }}
-                >
-                  전체채팅방
-                </Tab>
-                <Tab
-                  style={{ fontSize: '1.3rem' }}
-                  _selected={{
-                    color: 'blue.600',
-                    bg: '#F7FAFC',
-                    borderBottom: '2px solid #2A69AC',
-                  }}
-                >
-                  공개채팅방
-                </Tab>
-                <Tab
-                  style={{ fontSize: '1.3rem' }}
-                  _selected={{
-                    color: 'blue.600',
-                    bg: '#F7FAFC',
-                    borderBottom: '2px solid #2A69AC',
-                  }}
-                >
-                  비공개채팅방
-                </Tab>
-              </TabList>
+              <ChatTabList tabs={totalChatListTabs} />
             </GridItem>
             <TabPanels>
               <TabPanel p={0}>
