@@ -1,5 +1,6 @@
 import React from 'react';
 import { Avatar, Box } from '@chakra-ui/react';
+import './index.scss';
 
 interface ProfileLargeProps {
   name: string;
@@ -9,6 +10,7 @@ interface ProfileLargeProps {
   winningPercentage: number;
   totalWin: number;
   totalLose: number;
+  reverse: boolean;
 }
 
 const ProfileLarge = ({
@@ -19,17 +21,16 @@ const ProfileLarge = ({
   winningPercentage = 0,
   totalWin = 0,
   totalLose = 0,
+  reverse = false,
 }: ProfileLargeProps) => {
   return (
     <>
-      <Box display="flex" flexDirection="row" alignItems="center">
+      <Box className={reverse ? 'profile-large-reverse' : 'profile-large'}>
         <Avatar size="xl" margin="1rem" name={name} src={imageSrc} />
         <div>
           <table>
             <thead>
-              <tr>
-                <strong>{name}</strong>
-              </tr>
+              <tr>{name}</tr>
             </thead>
             <tbody>
               <tr>
