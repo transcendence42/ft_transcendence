@@ -16,7 +16,22 @@ import {
   TabPanel,
 } from '@chakra-ui/react';
 
-const ChatTemplate = () => {
+interface IChat {
+  title: string;
+  type: 'public' | 'private' | 'dm';
+  numOfPeople: number;
+  onwer: string;
+}
+
+const ChatTemplate = ({ myChatList, chatList }: { myChatList: IChat[]; chatList: IChat[] }) => {
+  console.log('myChatList', myChatList);
+  console.log('chatList', chatList);
+  const dmList = myChatList.filter((item) => item.type === 'dm');
+  console.log('dmList', dmList);
+  const publicList = chatList.filter((item) => item.type === 'public');
+  const privateList = chatList.filter((item) => item.type === 'private');
+  console.log('publicList', publicList);
+  console.log('privateList', privateList);
   return (
     <Grid minH="100vh" width="920px" margin="20px" templateRows="1fr 1fr">
       <GridItem rowSpan={1}>
