@@ -89,7 +89,6 @@ const LockIcon = ({ fill = 'none' }) => {
 };
 
 export const AlarmChat = () => {
-  // const { chatLog } = dummyChatData;
   const { chat, chatLog } = dummyChatData;
 
   return (
