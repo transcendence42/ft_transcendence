@@ -79,7 +79,7 @@ export const ChatTable = ({
             return (
               <ChatTableRow
                 chat={chat}
-                rowIndex={i}
+                rowIndex={startRowNum + i}
                 chatListType={chatListType}
                 key={`ChatTable-${chatListType}-ChatTableRow-${i}`}
                 exitChat={exitChat}
