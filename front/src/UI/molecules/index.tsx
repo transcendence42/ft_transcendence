@@ -1,7 +1,5 @@
-import { AlarmChat } from './AlarmChat';
-import { AlarmNotifier } from './AlarmNotifier';
+import { AlarmMessage, AlarmUser, AlarmChatMessage } from './Alarm';
 import { ProfileSmall } from './ProfileSmall';
-import { AlarmUserList } from './AlarmUserList';
 import { NavIcons } from './NavIcons';
 
-export { AlarmChat, AlarmNotifier, ProfileSmall, AlarmUserList, NavIcons };
+export { AlarmMessage, AlarmUser, ProfileSmall, AlarmChatMessage, NavIcons };
