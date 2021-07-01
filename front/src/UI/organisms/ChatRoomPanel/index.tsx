@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { GridItem, Grid, ButtonProps, Button } from '@chakra-ui/react';
+import { GridItem, Grid, ButtonProps } from '@chakra-ui/react';
 import { ChatRoomTable } from '../ChatRoomTable';
 import { Paginator, PageGroup, usePaginator } from 'chakra-paginator';
+import { CreateChatRoomButton } from '../CreateChatRoomButton';
 
 export const ChatRoomPanel = ({ ...props }) => {
   const { chatList, chatListColumns, chatListType, leaveChatRoom, createChat } = props;
   const createChatButton = createChat ? (
-    <Button onClick={() => createChat({ name: 'name', type: 'public', password: 'password' })}>formcontrol</Button>
+    // <Button onClick={() => createChat({ name: 'name', type: 'public', password: 'password' })}>formcontrol</Button>
+    <CreateChatRoomButton />
   ) : (
     <></>
   );
