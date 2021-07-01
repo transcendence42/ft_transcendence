@@ -1,0 +1,72 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  username: String!
+  email: String!
+  password: String!
+  imageLink: String!
+}
+
+type Alarm {
+  PP_400_index: Float!
+  PP_400_userID: String!
+  PP_400_title: String!
+  PP_400_content: String!
+  PP_400_checked: Boolean!
+  PP_400_type: String!
+  PP_400_link: String!
+  PP_400_createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  users: [User!]!
+  user(username: String!): User!
+  alarms: [Alarm!]!
+  alarm(id: Int!): Alarm!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+  createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
+  updateAlarm(updateAlarmInput: UpdateAlarmInput!): Alarm!
+  removeAlarm(id: Int!): Alarm!
+}
+
+input CreateUserInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  username: String
+  email: String
+  password: String
+  id: Int!
+}
+
+input CreateAlarmInput {
+  PP_400_userID: String!
+  PP_400_title: String!
+  PP_400_content: String!
+  PP_400_type: String!
+  PP_400_link: String!
+}
+
+input UpdateAlarmInput {
+  PP_400_userID: String
+  PP_400_title: String
+  PP_400_content: String
+  PP_400_type: String
+  PP_400_link: String
+  id: Int!
+}
