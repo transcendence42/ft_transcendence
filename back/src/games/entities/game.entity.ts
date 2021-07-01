@@ -6,37 +6,38 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @ObjectType() // graphQL decorator
 export class Game extends BaseEntity {
   @PrimaryGeneratedColumn()
+  @Field(() => Int)
   id: number;
 
   @Column({ default: false }) // typeORM decorator
-  @Field(() => Boolean, { defaultValue: false }) // graphQL decorator
+  @Field(() => Boolean, { defaultValue: true }) // graphQL decorator
   isPlaying: boolean;
 
-  @Column({ length: 15 })
+  @Column({ length: 15, nullable: true })
   @Field(() => String, { nullable: true })
   winnerId: string;
 
-  @Column()
-  @Field(() => Int, {defaultValue: 0})
+  @Column({ default: 0 })
+  @Field(() => Int, { defaultValue: 0 })
   winnerScore: number;
 
-  @Column({ length: 15 })
+  @Column({ length: 15, nullable: true })
   @Field(() => String, { nullable: true })
   loserId: string;
 
-  @Column()
-  @Field(() => Int, {defaultValue: 0})
+  @Column({ default: 0 })
+  @Field(() => Int, { defaultValue: 0 })
   loserScore: number;
 
   @CreateDateColumn()
-  @Field(() => Date, {defaultValue: Date.now()})
+  @Field(() => Date, { defaultValue: Date.now() })
   createdAt: Date;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => Date, { nullable: true })
   finishedAt: Date;
 
   @UpdateDateColumn()
-  @Field(() => Date, { nullable: true })
+  @Field(() => Date, { defaultValue: Date.now() })
   modifiedAt: Date;
 }

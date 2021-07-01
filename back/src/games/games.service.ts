@@ -1,26 +1,59 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateGameInput } from './dto/create-game.input';
 import { UpdateGameInput } from './dto/update-game.input';
+import { Game } from './entities/game.entity';
+import { validate } from 'class-validator';
 
 @Injectable()
 export class GamesService {
-  create(createGameInput: CreateGameInput) {
-    return 'This action adds a new game';
+  async create(createGameInput: CreateGameInput) {
+    const game = new Game();
+    game.winnerScore = createGameInput.winnerScore;
+    game.loserScore = createGameInput.loserScore;
+
+    const validate_error = await validate(game);
+    if (validate_error.length > 0) {
+      const _error = { game: 'Game Input is not valid' };
+      throw new HttpException({ message: 'Game Input validation failed', _error }, HttpStatus.BAD_REQUEST);
+    } else {
+      return await Game.save(game);
+    }
   }
 
-  findAll() {
-    return `This action returns all games`;
+  async findAll() {
+    const games = await Game.find();
+    return games;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} game`;
+  async findOne(id: number) {
+    const game = await Game.findOne(id);
+    return game;
   }
 
-  update(id: number, updateGameInput: UpdateGameInput) {
-    return `This action updates a #${id} game`;
+  async update(id: number, updateGameInput: UpdateGameInput) {
+    const game = await Game.findOne(id);
+    game.isPlaying = updateGameInput.isPlaying;
+    game.winnerId = updateGameInput.winnerId;
+    game.winnerScore = updateGameInput.winnerScore;
+    game.loserId = updateGameInput.loserId;
+    game.loserScore = updateGameInput.loserScore;
+    game.finishedAt = updateGameInput.finishedAt;
+    game.modifiedAt = updateGameInput.modifiedAt;
+    const validate_error = await validate(game);
+    if (validate_error.length > 0) {
+      const _error = { game: 'Game Input is not valid' };
+      throw new HttpException({ message: 'Game Input validation failed', _error }, HttpStatus.BAD_REQUEST);
+    } else {
+      return await Game.save(game);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} game`;
+  async remove(id: number) {
+    const game = await Game.findOne(id);
+    if (!game) {
+      const _error = { id: `Game(${id}) does not exist.` };
+      throw new HttpException({ message: 'Wrong ID', _error }, HttpStatus.BAD_REQUEST);
+    }
+    return await Game.remove(game);
   }
 }

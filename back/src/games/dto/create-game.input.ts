@@ -4,10 +4,10 @@ import { IsNotEmpty } from 'class-validator';
 @InputType()
 export class CreateGameInput {
     @IsNotEmpty()
-    @Field()
+    @Field(() => Int)
     readonly winnerScore: number;
 
     @IsNotEmpty()
-    @Field()
+    @Field(() => Int)
     readonly loserScore: number;
 }
