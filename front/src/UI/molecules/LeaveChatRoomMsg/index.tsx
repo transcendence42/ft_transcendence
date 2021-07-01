@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from '@chakra-ui/react';
 
-export const ExitChatMsg = () => {
+export const LeaveChatRoomMsg = () => {
   return (
     <>
       <Text>회원님이 생성한 채팅방입니다.</Text>

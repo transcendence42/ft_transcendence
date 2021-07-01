@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Thead, Tr, Th, Tbody } from '@chakra-ui/table';
 import { Box } from '@chakra-ui/react';
-import { ChatTableRow } from '../ChatTableRow';
+import { ChatRoomTableRow } from '../ChatRoomTableRow';
 
 interface IChat {
   uuid: string;
@@ -11,21 +11,8 @@ interface IChat {
   owner: string;
 }
 
-export const ChatTable = ({
-  chatList,
-  columns,
-  chatListType,
-  startRowNum,
-  endRowNum,
-  exitChat,
-}: {
-  chatList: IChat[];
-  columns: string[];
-  chatListType: string;
-  startRowNum: number;
-  endRowNum: number;
-  exitChat: (uuid: string) => void;
-}) => {
+export const ChatRoomTable = ({ ...props }) => {
+  const { chatList, columns, chatListType, startRowNum, endRowNum, leaveChatRoom } = props;
   return (
     <Table
       variant="unstyled"
@@ -37,7 +24,7 @@ export const ChatTable = ({
     >
       <Thead>
         <Tr style={{ backgroundColor: '#EDF2F7' }}>
-          {columns.map((columnName, i) => {
+          {columns.map((columnName: string, i: number) => {
             return i === columns.length - 1 ? (
               <Th
                 key={`ChatTable-${chatListType}-Thead-Th-${i}`}
@@ -74,15 +61,15 @@ export const ChatTable = ({
       </Thead>
       <Tbody>
         {chatList
-          .filter((_, i) => i >= startRowNum && i < endRowNum)
-          .map((chat, i) => {
+          .filter((_: IChat, i: number) => i >= startRowNum && i < endRowNum)
+          .map((chat: IChat, i: number) => {
             return (
-              <ChatTableRow
+              <ChatRoomTableRow
                 chat={chat}
                 rowIndex={startRowNum + i}
                 chatListType={chatListType}
                 key={`ChatTable-${chatListType}-ChatTableRow-${i}`}
-                exitChat={exitChat}
+                leaveChatRoom={leaveChatRoom}
               />
             );
           })}

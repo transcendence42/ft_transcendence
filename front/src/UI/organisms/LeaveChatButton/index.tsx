@@ -10,19 +10,19 @@ import {
 } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 
-export const ExitChatButton = ({
+export const LeaveChatButton = ({
   children,
-  exitChat,
+  leaveChatRoom,
   uuid,
 }: {
   children: ReactNode;
-  exitChat: (uuid: string) => void;
+  leaveChatRoom: (uuid: string) => void;
   uuid: string;
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => setIsOpen(false);
-  const deleteChat = () => {
-    exitChat(uuid);
+  const handleClickDeleteChat = () => {
+    leaveChatRoom(uuid);
     onClose();
   };
   const cancelRef = React.useRef();
@@ -44,7 +44,7 @@ export const ExitChatButton = ({
               <Button ref={cancelRef} onClick={onClose}>
                 아니오
               </Button>
-              <Button bg="#319795" color="white" onClick={() => deleteChat()} ml={3}>
+              <Button bg="#319795" color="white" onClick={() => handleClickDeleteChat()} ml={3}>
                 네
               </Button>
             </AlertDialogFooter>

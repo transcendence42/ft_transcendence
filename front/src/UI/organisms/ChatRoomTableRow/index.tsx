@@ -1,35 +1,19 @@
 import React from 'react';
 import { Tr, Td } from '@chakra-ui/table';
 import { Box } from '@chakra-ui/react';
-import { ExitChatButton } from '../ExitChatButton';
-import { ExitChatMsg } from '../../molecules/ExitChatMsg';
+import { LeaveChatButton } from '../LeaveChatButton';
+import { LeaveChatRoomMsg } from '../../molecules/LeaveChatRoomMsg';
 
-interface IChat {
-  uuid: string;
-  name: string;
-  type: 'public' | 'private' | 'dm';
-  numOfPeople: number;
-  owner: string;
-}
-
-export const ChatTableRow = ({
-  chat,
-  rowIndex,
-  chatListType,
-  exitChat,
-}: {
-  chat: IChat;
-  rowIndex: number;
-  chatListType: string;
-  exitChat: (uuid: string) => void;
-}) => {
-  const chatWithIndex = { index: rowIndex + 1, ...chat };
+export const ChatRoomTableRow = ({ ...props }) => {
+  const { chat, rowIndex, chatListType, leaveChatRoom } = props;
+  const chatWithRowIndex = { index: rowIndex + 1, ...chat };
   const chatWithCloseButton = ['myList', 'dmList'].includes(chatListType)
-    ? { ...chatWithIndex, closeButton: true }
-    : chatWithIndex;
+    ? { ...chatWithRowIndex, closeButton: true }
+    : chatWithRowIndex;
   const temp = Object.entries(chatWithCloseButton).filter((item) => !['uuid', 'type'].includes(item[0]));
   const tempLength = Object.keys(temp).length;
-  const exitChatMsg = 2 < 1 ? <ExitChatMsg /> : '';
+  //로그인 정보를 확인하여 owner와 비교하고, alert-dialog 메시지를 다르게 부여. owner이면 메시지를 추가하고, 아니라면 없음.
+  const leaveChatMsg = 2 < 1 ? <LeaveChatRoomMsg /> : ''; //TODO: 로그인 정보 확인
   const uuid = chat.uuid;
   return (
     <Tr style={{ backgroundColor: '#F7FAFC' }}>
@@ -64,9 +48,9 @@ export const ChatTableRow = ({
                 padding: '13px 2px',
               }}
             >
-              <ExitChatButton exitChat={exitChat} uuid={uuid}>
-                {exitChatMsg}
-              </ExitChatButton>
+              <LeaveChatButton leaveChatRoom={leaveChatRoom} uuid={uuid}>
+                {leaveChatMsg}
+              </LeaveChatButton>
             </Td>
           );
         } else {
