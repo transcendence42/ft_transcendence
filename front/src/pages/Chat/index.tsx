@@ -1,5 +1,5 @@
 import React from 'react';
-import ChatTemplate from '../../templates/Chat';
+import ChatTemplate from '../../templates/ChatTemplate';
 import { DummyChatListData } from './DummyChatListData';
 
 const Chat: React.FC = () => {
