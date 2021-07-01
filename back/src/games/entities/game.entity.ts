@@ -29,14 +29,14 @@ export class Game extends BaseEntity {
   loserScore: number;
 
   @CreateDateColumn()
-  @Field(() => Date)
+  @Field(() => Date, {defaultValue: Date.now()})
   createdAt: Date;
 
   @Column()
-  @Field(() => Date)
+  @Field(() => Date, { nullable: true })
   finishedAt: Date;
 
   @UpdateDateColumn()
-  @Field(() => Date)
+  @Field(() => Date, { nullable: true })
   modifiedAt: Date;
 }
