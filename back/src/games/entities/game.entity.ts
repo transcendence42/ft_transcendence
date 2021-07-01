@@ -1,10 +1,10 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
 
 @Entity('game') // typeORM decorator
 @ObjectType() // graphQL decorator
-export class Game {
+export class Game extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
