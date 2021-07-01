@@ -1,7 +1,13 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
+import { IsNotEmpty } from 'class-validator';
 
 @InputType()
 export class CreateGameInput {
-  @Field()
-  
+    @IsNotEmpty()
+    @Field()
+    readonly winnerScore: number;
+
+    @IsNotEmpty()
+    @Field()
+    readonly loserScore: number;
 }

@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DateColumn, UpdateDateColumn, BaseEntity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity } from 'typeorm';
 
 
 @Entity('game') // typeORM decorator
@@ -32,7 +32,7 @@ export class Game extends BaseEntity {
   @Field(() => Date)
   createdAt: Date;
 
-  @DateColumn()
+  @Column()
   @Field(() => Date)
   finishedAt: Date;
 
