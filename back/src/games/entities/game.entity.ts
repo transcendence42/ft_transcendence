@@ -13,31 +13,31 @@ export class Game extends BaseEntity {
   @Field(() => Boolean, { defaultValue: true }) // graphQL decorator
   isPlaying: boolean;
 
-  @Column({ length: 15, nullable: true })
-  @Field(() => String, { nullable: true })
-  winnerId: string;
+  @Column({ type:'varchar', length: 15 })
+  @Field(() => String)
+  playerOneId: string;
 
   @Column({ default: 0 })
   @Field(() => Int, { defaultValue: 0 })
-  winnerScore: number;
+  playerOneScore: number;
 
-  @Column({ length: 15, nullable: true })
-  @Field(() => String, { nullable: true })
-  loserId: string;
+  @Column({ type:'varchar', length: 15 })
+  @Field(() => String)
+  playerTwoId: string;
 
   @Column({ default: 0 })
   @Field(() => Int, { defaultValue: 0 })
-  loserScore: number;
+  playerTwoScore: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp' })
   @Field(() => Date, { defaultValue: Date.now() })
   createdAt: Date;
 
-  @Column({ nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   @Field(() => Date, { nullable: true })
   finishedAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamp' })
   @Field(() => Date, { defaultValue: Date.now() })
   modifiedAt: Date;
 }

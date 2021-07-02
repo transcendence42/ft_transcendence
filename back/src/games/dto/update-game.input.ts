@@ -5,27 +5,19 @@ import { IsNotEmpty } from 'class-validator';
 @InputType()
 export class UpdateGameInput extends PartialType(CreateGameInput) {
   @Field(() => Int)
-  id: number;
+  readonly id: number;
 
   @IsNotEmpty()
   @Field()
   isPlaying: boolean;
-  
-  @IsNotEmpty()
-  @Field()
-  readonly winnerId: string;
 
   @IsNotEmpty()
   @Field(() => Int)
-  readonly winnerScore: number;
-
-  @IsNotEmpty()
-  @Field()
-  readonly loserId: string;
+  playerOneScore: number;
 
   @IsNotEmpty()
   @Field(() => Int)
-  readonly loserScore: number;
+  playerTwoScore: number;
 
   @IsNotEmpty()
   @Field()
