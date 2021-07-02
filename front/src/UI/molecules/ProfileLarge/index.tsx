@@ -20,7 +20,9 @@ const ProfileLarge = ({
         <div>
           <table>
             <thead>
-              <tr>{name}</tr>
+              <tr>
+                <td>{name}</td>
+              </tr>
             </thead>
             <tbody>
               <tr>
