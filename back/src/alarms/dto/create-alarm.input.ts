@@ -5,20 +5,20 @@ import { IsNotEmpty } from 'class-validator';
 export class CreateAlarmInput {
   @IsNotEmpty()
   @Field(() => String)
-  readonly PP_400_userID: string;
+  readonly userID: string;
 
   @IsNotEmpty()
   @Field(() => String)
-  readonly PP_400_title: string;
+  readonly title: string;
 
   @IsNotEmpty()
   @Field(() => String)
-  readonly PP_400_content: string;
+  readonly content: string;
 
   @IsNotEmpty()
   @Field(() => String)
-  readonly PP_400_type: string;
+  readonly type: string;
 
   @Field(() => String)
-  readonly PP_400_link: string;
+  readonly link: string;
 }

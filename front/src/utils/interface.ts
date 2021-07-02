@@ -2,10 +2,22 @@
  ** Alarm
  */
 
+export interface IAlarm {
+  content: string;
+  createdAt: string;
+  index: number;
+  link: string;
+  title: string;
+  type: 'addFriend' | 'defeat' | 'win';
+  userId: string;
+}
+
 export interface IalarmMessage {
   title: string;
   content: string;
   alarmTime: string;
+  type: 'addFriend' | 'defeat' | 'win';
+  link: string;
 }
 
 export interface IchatMessage {

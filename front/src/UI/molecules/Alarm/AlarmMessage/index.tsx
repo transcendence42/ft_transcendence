@@ -12,7 +12,8 @@ import {
   ALARM_CONTENT_FONTWEIGHT,
 } from '../../../../utils/constants';
 
-export const AlarmMessage = ({ title, content, alarmTime }: IalarmMessage) => {
+export const AlarmMessage = ({ title, content, alarmTime, type, link }: IalarmMessage) => {
+  console.log(type, link);
   return (
     <Box
       mb="0.5"
