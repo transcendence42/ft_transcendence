@@ -1,13 +1,13 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
-import { IsNotEmpty } from 'class-validator';
+import { IsInt, IsBoolean } from 'class-validator';
 
 @InputType()
 export class CheckAlarmInput {
-  @IsNotEmpty()
+  @IsInt()
   @Field(() => Int)
   PP_400_index: number;
 
-  @IsNotEmpty()
+  @IsBoolean()
   @Field(() => Boolean)
   PP_400_checked: boolean;
 }
