@@ -9,7 +9,7 @@ export class User extends BaseEntity {
 
   @Column({ type: 'varchar', length: 15 })
   @Field(() => String)
-  id: string;
+  userID: string;
 
   @Column({ type: 'varchar', length: 30 })
   @Field(() => String)
@@ -31,19 +31,19 @@ export class User extends BaseEntity {
   @Field(() => Int, { defaultValue: 0 })
   totalLose: number
 
-  @Column({ nullable: true })
-  @Field(() => Array)
+  @Column({ type: 'varchar', array: true, nullable: true })
+  @Field(() => [String])
   friendID: string[]
 
-  @Column()
-  @Field()
+  @Column({ type: 'varchar', array: true, nullable: true })
+  @Field(() => [String])
   blockID: string[]
 
-  @Column()
-  @Field()
+  @Column({ type: 'varchar', array: true, nullable: true })
+  @Field(() => [String])
   chatList: string[]
 
-  @Column()
+  @Column({ nullable: true })
   @Field()
   userState: string
 
