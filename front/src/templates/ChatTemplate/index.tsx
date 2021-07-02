@@ -25,9 +25,7 @@ const ChatTemplate = ({ ...props }) => {
     setTotalList(totalList.filter((item: IChat) => item.uuid !== uuid));
     //TODO: delete chat from db
   };
-  const createChat = ({ ...args }) => {
-    const { name, type, password } = args;
-    console.log(name, type, password);
+  const createChat = ({ name, type, password }: { name: string; type: 'public' | 'private'; password: string }) => {
     //TODO: insert chat into db and take return info
     const dummyChat: IChat = { uuid: uuidv4(), name: name, type: type, numOfPeople: 1, owner: 'session' };
     setMyList([...myList, dummyChat]);

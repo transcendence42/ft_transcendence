@@ -6,12 +6,7 @@ import { CreateChatRoomButton } from '../CreateChatRoomButton';
 
 export const ChatRoomPanel = ({ ...props }) => {
   const { chatList, chatListColumns, chatListType, leaveChatRoom, createChat } = props;
-  const createChatButton = createChat ? (
-    // <Button onClick={() => createChat({ name: 'name', type: 'public', password: 'password' })}>formcontrol</Button>
-    <CreateChatRoomButton />
-  ) : (
-    <></>
-  );
+  const createChatButton = createChat ? <CreateChatRoomButton createChat={createChat} /> : <></>;
 
   // react hooks
   const [chatsTotal, setChatsTotal] = useState<number | undefined>(chatList.length);
