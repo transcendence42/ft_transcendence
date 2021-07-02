@@ -1,5 +1,5 @@
 import { CreateGameInput } from './create-game.input';
-import { InputType, Field, PartialType, Int} from '@nestjs/graphql';
+import { InputType, Field, PartialType, Int } from '@nestjs/graphql';
 import { IsBoolean, IsInt, IsDate } from 'class-validator';
 
 @InputType()
@@ -7,20 +7,16 @@ export class UpdateGameInput extends PartialType(CreateGameInput) {
   @Field(() => Int)
   readonly id: number;
 
-  @IsBoolean()
-  @Field()
+  @Field({ nullable: true })
   isPlaying: boolean;
 
-  @IsInt()
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   playerOneScore: number;
 
-  @IsInt()
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   playerTwoScore: number;
 
-  @IsDate()
-  @Field()
+  @Field({ nullable: true })
   finishedAt: Date;
 
   @IsDate()

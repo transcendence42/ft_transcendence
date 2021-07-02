@@ -9,7 +9,7 @@ export class Game extends BaseEntity {
   @Field(() => Int)
   id: number;
 
-  @Column({ default: false }) // typeORM decorator
+  @Column({ type: 'boolean',  default: true }) // typeORM decorator
   @Field(() => Boolean, { defaultValue: true }) // graphQL decorator
   isPlaying: boolean;
 
@@ -17,7 +17,7 @@ export class Game extends BaseEntity {
   @Field(() => String)
   playerOneId: string;
 
-  @Column({ default: 0 })
+  @Column({ type:'integer', default: 0 })
   @Field(() => Int, { defaultValue: 0 })
   playerOneScore: number;
 
@@ -25,11 +25,11 @@ export class Game extends BaseEntity {
   @Field(() => String)
   playerTwoId: string;
 
-  @Column({ default: 0 })
+  @Column({ type:'integer', default: 0 })
   @Field(() => Int, { defaultValue: 0 })
   playerTwoScore: number;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   @Field(() => Date, { defaultValue: Date.now() })
   createdAt: Date;
 
@@ -37,7 +37,7 @@ export class Game extends BaseEntity {
   @Field(() => Date, { nullable: true })
   finishedAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   @Field(() => Date, { defaultValue: Date.now() })
   modifiedAt: Date;
 }
