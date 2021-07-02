@@ -53,10 +53,10 @@ export class UsersService {
     }
   }
 
-  async remove(index: number) {
-    const user = await User.findOne(index);
+  async remove(userID: string) {
+    const user = await User.findOne({ userID: userID });
     if (!user) {
-      const _error = { id: `User(${index}) does not exist.` };
+      const _error = { id: `(${userID}) User does not exist.` };
       throw new HttpException({ message: 'Wrong ID', _error }, HttpStatus.BAD_REQUEST);
     }
     return await User.remove(user);
