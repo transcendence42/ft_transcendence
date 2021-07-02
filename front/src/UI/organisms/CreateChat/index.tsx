@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { CHAT_INVALID_NAME_ERROR_MSG, CHAT_INVALID_PASSWORD_ERROR_MSG } from '../../../utils/constants';
 
-export const CreateChatButton = ({ ...props }) => {
+export const CreateChat = ({ ...props }) => {
   const { createChat } = props;
 
   const { isOpen, onOpen, onClose } = useDisclosure();

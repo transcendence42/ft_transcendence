@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { GridItem, Grid, ButtonProps } from '@chakra-ui/react';
 import { ChatTable } from '../ChatTable';
 import { Paginator, PageGroup, usePaginator } from 'chakra-paginator';
-import { CreateChatButton } from '../CreateChatButton';
+import { CreateChat } from '../CreateChat';
 import { CHAT_PAGE_OUTER_LIMIT, CHAT_PAGE_INNER_LIMIT, CHAT_PAGE_SIZE } from '../../../utils/constants';
 
 export const ChatPanel = ({ ...props }) => {
   const { chatList, chatListColumns, chatListType, leaveChat, createChat } = props;
 
-  const createChatButton = createChat ? <CreateChatButton createChat={createChat} /> : <></>;
+  const createChatButton = createChat ? <CreateChat createChat={createChat} /> : <></>;
 
   // react hooks
   const [chatsTotal, setChatsTotal] = useState<number | undefined>(chatList.length);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tr, Td } from '@chakra-ui/table';
 import { Box } from '@chakra-ui/react';
-import { LeaveChatButton } from '../LeaveChatButton';
+import { LeaveChat } from '../LeaveChat';
 import { LeaveChatMsg } from '../../molecules/LeaveChatMsg';
 import { LockIcon } from '../../../utils/icons';
 import { CHAT_LIST_TYPE_MY_LIST, CHAT_LIST_TYPE_DM_LIST } from '../../../utils/constants';
@@ -42,9 +42,9 @@ export const ChatTableRow = ({ ...props }) => {
         if (item[0] === 'closeButton' && item[1]) {
           return (
             <Td key={`ChatTableRow-${chatListType}-${i}-Td-${item[0]}`}>
-              <LeaveChatButton leaveChat={leaveChat} uuid={chat.uuid}>
+              <LeaveChat leaveChat={leaveChat} uuid={chat.uuid}>
                 {leaveChatMsg}
-              </LeaveChatButton>
+              </LeaveChat>
             </Td>
           );
         } else {

@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 
-export const LeaveChatButton = ({ ...props }) => {
+export const LeaveChat = ({ ...props }) => {
   const { children, leaveChat, uuid } = props;
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => setIsOpen(false);
