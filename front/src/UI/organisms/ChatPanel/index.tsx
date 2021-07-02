@@ -26,12 +26,9 @@ export const ChatPanel = ({ ...props }) => {
   useEffect(() => {
     const totalChatCount = chatList.length;
     setChatsTotal(totalChatCount);
-    //currentPage 값 변경. ex) 입장한 채팅방이 4개이고 2페이지를 참조하고 있을 때, 4개의 채팅방 중 하나를 나가게 되면 3개로 줄어들면서 currentPage는 1로 변경되어야 함. 아래 로직은 이를 위한 로직.
-    if (totalChatCount % CHAT_PAGE_SIZE !== 0) {
-      return;
-    }
     if (totalChatCount / CHAT_PAGE_SIZE < currentPage) {
-      setCurrentPage(totalChatCount / CHAT_PAGE_SIZE);
+      const curPage = Math.ceil(totalChatCount / CHAT_PAGE_SIZE);
+      setCurrentPage(curPage === 0 ? 1 : curPage);
     }
   }, [currentPage, setCurrentPage, chatList]);
 
