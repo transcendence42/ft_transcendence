@@ -2,15 +2,8 @@ import React from 'react';
 import { Table, Thead, Tr, Th, Tbody } from '@chakra-ui/table';
 import { Box } from '@chakra-ui/react';
 import { ChatTableRow } from '../ChatTableRow';
+import { IChat } from '../../../utils/interface';
 import './index.scss';
-
-interface IChat {
-  uuid: string;
-  name: string;
-  type: 'public' | 'private' | 'dm';
-  numOfPeople: number;
-  owner: string;
-}
 
 export const ChatTable = ({ ...props }) => {
   const { chatList, chatListColumns, chatListType, startRowNum, endRowNum, leaveChat } = props;

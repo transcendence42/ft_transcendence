@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import {
   Button,
   AlertDialog,
@@ -10,17 +10,11 @@ import {
 } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 
-export const LeaveChatButton = ({
-  children,
-  leaveChat,
-  uuid,
-}: {
-  children: ReactNode;
-  leaveChat: (uuid: string) => void;
-  uuid: string;
-}) => {
+export const LeaveChatButton = ({ ...props }) => {
+  const { children, leaveChat, uuid } = props;
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => setIsOpen(false);
+
   const handleClickDeleteChat = () => {
     leaveChat(uuid);
     onClose();

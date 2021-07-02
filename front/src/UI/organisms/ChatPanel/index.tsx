@@ -3,22 +3,20 @@ import { GridItem, Grid, ButtonProps } from '@chakra-ui/react';
 import { ChatTable } from '../ChatTable';
 import { Paginator, PageGroup, usePaginator } from 'chakra-paginator';
 import { CreateChatButton } from '../CreateChatButton';
+import { CHAT_PAGE_OUTER_LIMIT, CHAT_PAGE_INNER_LIMIT, CHAT_PAGE_SIZE } from '../../../utils/constants';
 
 export const ChatPanel = ({ ...props }) => {
   const { chatList, chatListColumns, chatListType, leaveChat, createChat } = props;
+
   const createChatButton = createChat ? <CreateChatButton createChat={createChat} /> : <></>;
 
   // react hooks
   const [chatsTotal, setChatsTotal] = useState<number | undefined>(chatList.length);
 
-  // constants
-  const outerLimit = 1;
-  const innerLimit = 1;
-
   const { isDisabled, pagesQuantity, currentPage, setCurrentPage } = usePaginator({
     total: chatsTotal,
     initialState: {
-      pageSize: 3,
+      pageSize: CHAT_PAGE_SIZE,
       currentPage: 1,
       isDisabled: false,
     },
@@ -29,11 +27,11 @@ export const ChatPanel = ({ ...props }) => {
     const totalChatCount = chatList.length;
     setChatsTotal(totalChatCount);
     //currentPage 값 변경. ex) 입장한 채팅방이 4개이고 2페이지를 참조하고 있을 때, 4개의 채팅방 중 하나를 나가게 되면 3개로 줄어들면서 currentPage는 1로 변경되어야 함. 아래 로직은 이를 위한 로직.
-    if (totalChatCount % 3 !== 0) {
+    if (totalChatCount % CHAT_PAGE_SIZE !== 0) {
       return;
     }
-    if (totalChatCount / 3 < currentPage) {
-      setCurrentPage(totalChatCount / 3);
+    if (totalChatCount / CHAT_PAGE_SIZE < currentPage) {
+      setCurrentPage(totalChatCount / CHAT_PAGE_SIZE);
     }
   }, [currentPage, setCurrentPage, chatList]);
 
@@ -75,8 +73,8 @@ export const ChatPanel = ({ ...props }) => {
           chatList={chatList}
           chatListColumns={chatListColumns}
           chatListType={chatListType}
-          startRowNum={(currentPage - 1) * 3}
-          endRowNum={currentPage * 3}
+          startRowNum={(currentPage - 1) * CHAT_PAGE_SIZE}
+          endRowNum={currentPage * CHAT_PAGE_SIZE}
           leaveChat={leaveChat}
         />
       </GridItem>
@@ -86,9 +84,9 @@ export const ChatPanel = ({ ...props }) => {
             <Paginator
               isDisabled={isDisabled}
               activeStyles={activeStyles}
-              innerLimit={innerLimit}
+              innerLimit={CHAT_PAGE_INNER_LIMIT}
               currentPage={currentPage}
-              outerLimit={outerLimit}
+              outerLimit={CHAT_PAGE_OUTER_LIMIT}
               normalStyles={normalStyles}
               separatorStyles={separatorStyles}
               pagesQuantity={pagesQuantity}

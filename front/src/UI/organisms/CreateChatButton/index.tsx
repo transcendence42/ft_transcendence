@@ -18,6 +18,7 @@ import {
   Radio,
   FormErrorMessage,
 } from '@chakra-ui/react';
+import { CHAT_INVALID_NAME_ERROR_MSG, CHAT_INVALID_PASSWORD_ERROR_MSG } from '../../../utils/constants';
 
 export const CreateChatButton = ({ ...props }) => {
   const { createChat } = props;
@@ -30,9 +31,6 @@ export const CreateChatButton = ({ ...props }) => {
   const [type, setType] = useState('public');
   const [isValidName, setIsValidName] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
-
-  const INVALID_NAME_ERROR_MSG = '유효하지 않은 이름입니다.';
-  const INVALID_PASSWORD_ERROR_MSG = '유효하지 않은 비밀번호입니다.';
 
   const passwordInputRef = React.useRef();
 
@@ -133,7 +131,7 @@ export const CreateChatButton = ({ ...props }) => {
                 </GridItem>
                 <GridItem colSpan={2}>
                   <FormHelperText>한글, 영문, 숫자 20자 이내</FormHelperText>
-                  <FormErrorMessage>{INVALID_NAME_ERROR_MSG}</FormErrorMessage>
+                  <FormErrorMessage>{CHAT_INVALID_NAME_ERROR_MSG}</FormErrorMessage>
                 </GridItem>
               </Grid>
             </FormControl>
@@ -149,7 +147,7 @@ export const CreateChatButton = ({ ...props }) => {
                 }}
               />
               <FormHelperText>숫자만 입력 가능</FormHelperText>
-              <FormErrorMessage>{INVALID_PASSWORD_ERROR_MSG}</FormErrorMessage>
+              <FormErrorMessage>{CHAT_INVALID_PASSWORD_ERROR_MSG}</FormErrorMessage>
             </FormControl>
           </ModalBody>
 

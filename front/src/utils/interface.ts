@@ -77,3 +77,20 @@ export interface ProfileLargeProps {
   totalLose: number;
   reverse: boolean;
 }
+
+/*
+ ** Chat
+ */
+
+export interface IChat {
+  uuid: string; // PP_200_uuid
+  name: string; // PP_200_name
+  type: 'public' | 'private' | 'dm'; // PP_200_type
+  numOfPeople: number; // DB에서 처리해서 반환
+  owner: string; // PP_200_ownerID
+}
+
+export interface IDummyChatListData {
+  myChatList: IChat[];
+  totalChatList: IChat[];
+}
