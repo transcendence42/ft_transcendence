@@ -38,3 +38,42 @@ export interface IProfileSmall {
   ladderRating: number;
   ranking: number;
 }
+
+/*
+ ** GameCard
+ */
+
+export interface PlayerInfo {
+  name?: string;
+  imageSrc?: string;
+  ranking?: string;
+  totalWin?: number;
+  totalLose?: number;
+  currentScore?: number;
+}
+
+export interface GameCardProps {
+  playerA: PlayerInfo;
+  playerB: PlayerInfo;
+  startTime: Date;
+}
+
+export interface ProfileMediumProps {
+  name: string;
+  imageSrc: string;
+  ranking: string;
+  totalWin: number;
+  totalLose: number;
+  currentScore?: number;
+}
+
+export interface ProfileLargeProps {
+  name: string;
+  imageSrc: string;
+  ranking: string;
+  ladderScore: string;
+  winningPercentage: number;
+  totalWin: number;
+  totalLose: number;
+  reverse: boolean;
+}

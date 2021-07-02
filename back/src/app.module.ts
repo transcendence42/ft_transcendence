@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { AlarmsModule } from './alarms/alarms.module';
+import { GamesModule } from './games/games.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AlarmsModule } from './alarms/alarms.module';
     TypeOrmModule.forRoot(),
     UsersModule,
     AlarmsModule,
+    GamesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
