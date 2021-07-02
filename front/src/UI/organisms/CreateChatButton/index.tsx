@@ -61,10 +61,7 @@ export const CreateChatButton = ({ ...props }) => {
   };
 
   const validateName = (value: string) => {
-    if (!value || value === '') {
-      setIsValidName(false);
-      return false;
-    } else if (value.search(/[^a-zA-Z0-9ㄱ-ㅎ가-힣]/g) !== -1) {
+    if (!value || value === '' || value.search(/[^a-zA-Z0-9ㄱ-ㅎ가-힣]/g) !== -1) {
       setIsValidName(false);
       return false;
     }
@@ -81,10 +78,7 @@ export const CreateChatButton = ({ ...props }) => {
     if (type === 'public') {
       return true;
     }
-    if (!value || value === '') {
-      setIsValidPassword(false);
-      return false;
-    } else if (value.search(/[^\d]/g) !== -1) {
+    if (!value || value === '' || value.search(/[^\d]/g) !== -1) {
       setIsValidPassword(false);
       return false;
     }
