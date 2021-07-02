@@ -5,7 +5,7 @@ import { IsNotEmpty } from 'class-validator';
 @InputType()
 export class UpdateUserInput extends PartialType(CreateUserInput) {
   @Field(() => String)
-  id: string;
+  userID: string;
 
   @IsNotEmpty()
   @Field()
@@ -13,7 +13,7 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
 
   @IsNotEmpty()
   @Field()
-  avator: string;
+  avatar: string;
 
   @IsNotEmpty()
   @Field()
@@ -28,15 +28,15 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
   totalLose: number;
 
   @IsNotEmpty()
-  @Field()
+  @Field(() => [String])
   friendID: string[];
 
   @IsNotEmpty()
-  @Field()
+  @Field(() => [String])
   blockID: string[];
 
   @IsNotEmpty()
-  @Field()
+  @Field(() => [String])
   chatList: string[];
 
   @IsNotEmpty()

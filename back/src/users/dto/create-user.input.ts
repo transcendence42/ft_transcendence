@@ -5,7 +5,7 @@ import { IsNotEmpty } from 'class-validator';
 export class CreateUserInput {
   @IsNotEmpty()
   @Field(() => String)
-  readonly id: string;
+  readonly userID: string;
 
   @IsNotEmpty()
   @Field(() => String)
