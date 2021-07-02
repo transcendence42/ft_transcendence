@@ -11,7 +11,10 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=database
+    stdin_open: true
+    tty: true
     volumes:
+      - ./db/:/docker-entrypoint-initdb.d
       - ./back/database/data/prod:/var/lib/postgresql/data/
     restart: always
     container_name: db
@@ -26,6 +29,7 @@ services:
     ports:
       - 8080:3000
     stdin_open: true
+    tty: true
     restart: always
     command: ['./wait-for-it.sh', 'back:5500', '--', 'yarn', 'start']
     container_name: front
@@ -40,6 +44,8 @@ services:
       - 5500:5500
     depends_on:
       - db
+    stdin_open: true
+    tty: true
     restart: always
     command: ['./wait-for-it.sh', 'db:5432', '--', 'node', './dist/main.js']
     container_name: back
