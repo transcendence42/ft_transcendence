@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { GamesModule } from './games/games.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { UsersModule } from './users/users.module';
     }),
     TypeOrmModule.forRoot(),
     UsersModule,
+    GamesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
