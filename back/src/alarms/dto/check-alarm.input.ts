@@ -1,8 +1,8 @@
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { InputType, Field, Int } from '@nestjs/graphql';
 import { IsNotEmpty } from 'class-validator';
 
 @InputType()
-export class UpdateAlarmInput {
+export class CheckAlarmInput {
   @IsNotEmpty()
   @Field(() => Int)
   PP_400_index: number;

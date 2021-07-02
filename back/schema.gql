@@ -14,7 +14,7 @@ type Alarm {
   PP_400_userID: String!
   PP_400_title: String!
   PP_400_content: String!
-  PP_400_checked: Boolean!
+  PP_400_checked: String!
   PP_400_type: String!
   PP_400_link: String!
   PP_400_createdAt: DateTime!
@@ -38,7 +38,7 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
   createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
-  updateAlarm(updateAlarmInput: UpdateAlarmInput!): Alarm!
+  checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
   removeAlarm(PP_400_index: Int!): Alarm!
 }
 
@@ -63,7 +63,7 @@ input CreateAlarmInput {
   PP_400_link: String!
 }
 
-input UpdateAlarmInput {
+input CheckAlarmInput {
   PP_400_index: Int!
   PP_400_checked: Boolean!
 }

@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateAlarmInput } from './dto/create-alarm.input';
-import { UpdateAlarmInput } from './dto/update-alarm.input';
+import { CheckAlarmInput } from './dto/check-alarm.input';
 import { Alarm } from './entities/alarm.entity';
 import { validate } from 'class-validator';
 
@@ -37,9 +37,9 @@ export class AlarmsService {
     return alarms;
   }
 
-  async update(PP_400_index: number, updateAlarmInput: UpdateAlarmInput) {
+  async update(PP_400_index: number, checkAlarmInput: CheckAlarmInput) {
     const alarm = await Alarm.findOne(PP_400_index);
-    alarm.PP_400_checked = updateAlarmInput.PP_400_checked;
+    alarm.PP_400_checked = checkAlarmInput.PP_400_checked;
     const validate_error = await validate(alarm);
     if (validate_error.length > 0) {
       const _error = { username: 'UserInput is not valid check type' };

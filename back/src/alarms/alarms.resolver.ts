@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { AlarmsService } from './alarms.service';
 import { Alarm } from './entities/alarm.entity';
 import { CreateAlarmInput } from './dto/create-alarm.input';
-import { UpdateAlarmInput } from './dto/update-alarm.input';
+import { CheckAlarmInput } from './dto/check-alarm.input';
 
 @Resolver(() => Alarm)
 export class AlarmsResolver {
@@ -29,8 +29,8 @@ export class AlarmsResolver {
   }
 
   @Mutation(() => Alarm)
-  updateAlarm(@Args('updateAlarmInput') updateAlarmInput: UpdateAlarmInput) {
-    return this.alarmsService.update(updateAlarmInput.PP_400_index, updateAlarmInput);
+  checkAlarm(@Args('checkAlarmInput') checkAlarmInput: CheckAlarmInput) {
+    return this.alarmsService.update(checkAlarmInput.PP_400_index, checkAlarmInput);
   }
 
   @Mutation(() => Alarm)

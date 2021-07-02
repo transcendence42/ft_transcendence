@@ -9,30 +9,30 @@ export class Alarm extends BaseEntity {
   PP_400_index: number;
 
   @Column({ type: 'varchar', length: 200 })
-  @Field()
+  @Field(() => String)
   PP_400_userID: string;
 
   @Column({ type: 'varchar', length: 200 })
-  @Field()
+  @Field(() => String)
   PP_400_title: string;
 
   @Column({ type: 'text' })
-  @Field()
+  @Field(() => String)
   PP_400_content: string;
 
   @Column({ default: false })
-  @Field()
+  @Field(() => String)
   PP_400_checked: boolean;
 
   @Column({ type: 'varchar', length: 20, default: '' })
-  @Field()
+  @Field(() => String)
   PP_400_type: string;
 
   @Column({ default: '' })
-  @Field()
+  @Field(() => String)
   PP_400_link: string;
 
   @CreateDateColumn()
-  @Field()
+  @Field(() => Date)
   PP_400_createdAt: Date;
 }
