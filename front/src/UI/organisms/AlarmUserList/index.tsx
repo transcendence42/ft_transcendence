@@ -2,30 +2,15 @@ import React from 'react';
 
 import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
 
-import { AlarmUser } from '../../atoms/AlarmUser';
-
-const userData = [
-  {
-    id: '1234asdaf',
-    nickName: 'jwon',
-    userState: 'login',
-  },
-  {
-    id: '23142dasfsdf',
-    nickName: 'yshin',
-    userState: 'pending',
-  },
-  {
-    id: 'asf123223',
-    nickName: 'holee',
-    userState: 'pending',
-  },
-  {
-    id: 'hfdgf2323',
-    nickName: '42_Dall',
-    userState: 'logout',
-  },
-];
+import { AlarmUser } from '../../molecules';
+import { userData } from '../../../utils/dummy';
+import {
+  ALARM_TITLE_FONTWEIGHT,
+  ALARM_CONTENT_FONTWEIGHT,
+  ALARM_TITLE_FONTSIZE,
+  ALARM_USER_LIST_TITLE_COUNT_FONTSIZE,
+  ALARM_BACKGROUND_COLOR,
+} from '../../../utils/constants';
 
 export const AlarmUserList = () => {
   return (
@@ -34,10 +19,10 @@ export const AlarmUserList = () => {
         <AccordionButton>
           <Box flex="1" textAlign="left">
             <Flex alignItems="center">
-              <Text fontWeight="bold" fontSize="1rem">
+              <Text fontWeight={ALARM_TITLE_FONTWEIGHT} fontSize={ALARM_TITLE_FONTSIZE}>
                 친구목록
               </Text>
-              <Text pl="2" fontWeight="semibold" fontSize="12">{`(${
+              <Text pl="2" fontWeight={ALARM_CONTENT_FONTWEIGHT} fontSize={ALARM_USER_LIST_TITLE_COUNT_FONTSIZE}>{`(${
                 userData.filter(({ userState }) => userState !== 'logout').length
               }/${userData.length})`}</Text>
             </Flex>
@@ -45,7 +30,7 @@ export const AlarmUserList = () => {
           <AccordionIcon />
         </AccordionButton>
       </h2>
-      <AccordionPanel pl={1} pb={2} pt={1} bg="gray.50">
+      <AccordionPanel pl={1} pb={2} pt={1} bg={ALARM_BACKGROUND_COLOR}>
         {userData.map(({ id, nickName, userState }) => {
           return <AlarmUser key={id} nickName={nickName} userState={userState} />;
         })}

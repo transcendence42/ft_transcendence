@@ -1,17 +1,7 @@
 import React from 'react';
 import { Avatar, Box } from '@chakra-ui/react';
+import { ProfileLargeProps } from '../../../utils/interface';
 import './index.scss';
-
-interface ProfileLargeProps {
-  name: string;
-  imageSrc: string;
-  ranking: string;
-  ladderScore: string;
-  winningPercentage: number;
-  totalWin: number;
-  totalLose: number;
-  reverse: boolean;
-}
 
 const ProfileLarge = ({
   name = 'unknown',
@@ -30,7 +20,9 @@ const ProfileLarge = ({
         <div>
           <table>
             <thead>
-              <tr>{name}</tr>
+              <tr>
+                <td>{name}</td>
+              </tr>
             </thead>
             <tbody>
               <tr>
