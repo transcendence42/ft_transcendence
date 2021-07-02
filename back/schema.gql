@@ -10,7 +10,7 @@ type User {
 }
 
 type Alarm {
-  PP_400_index: Float!
+  PP_400_index: Int!
   PP_400_userID: String!
   PP_400_title: String!
   PP_400_content: String!
@@ -64,6 +64,6 @@ input CreateAlarmInput {
 }
 
 input UpdateAlarmInput {
-  PP_400_index: Float!
+  PP_400_index: Int!
   PP_400_checked: Boolean!
 }

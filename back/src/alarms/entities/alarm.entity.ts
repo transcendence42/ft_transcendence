@@ -5,7 +5,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BaseEntity } 
 @Entity('alarm')
 export class Alarm extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field()
+  @Field(() => Int)
   PP_400_index: number;
 
   @Column({ type: 'varchar', length: 200 })
