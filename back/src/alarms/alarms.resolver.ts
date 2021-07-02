@@ -1,8 +1,11 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Subscription } from '@nestjs/graphql';
 import { AlarmsService } from './alarms.service';
 import { Alarm } from './entities/alarm.entity';
 import { CreateAlarmInput } from './dto/create-alarm.input';
 import { CheckAlarmInput } from './dto/check-alarm.input';
+import { PubSub } from 'graphql-subscriptions';
+
+const pubSub = new PubSub();
 
 @Resolver(() => Alarm)
 export class AlarmsResolver {
@@ -36,5 +39,22 @@ export class AlarmsResolver {
   @Mutation(() => Alarm)
   removeAlarm(@Args('PP_400_index', { type: () => Int }) PP_400_index: number) {
     return this.alarmsService.remove(PP_400_index);
+  }
+
+  @Mutation(() => Alarm)
+  addAlarm(@Args('createAlarmInput') createAlarmInput: CreateAlarmInput) {
+    const newAlarm = this.alarmsService.create(createAlarmInput);
+    pubSub.publish('alarmAdded', { alarmAdded: newAlarm });
+    return newAlarm;
+  }
+
+  @Subscription(() => Alarm, {
+    name: 'alarmAdded',
+    filter(this: AlarmsResolver, payload, variables) {
+      return payload.alarmAdded.PP_400_userID === variables.PP_400_userID;
+    },
+  })
+  addAlarmHandler() {
+    return pubSub.asyncIterator('alarmAdded');
   }
 }

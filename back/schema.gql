@@ -40,6 +40,7 @@ type Mutation {
   createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
   removeAlarm(PP_400_index: Int!): Alarm!
+  addAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
 }
 
 input CreateUserInput {
@@ -66,4 +67,8 @@ input CreateAlarmInput {
 input CheckAlarmInput {
   PP_400_index: Int!
   PP_400_checked: Boolean!
+}
+
+type Subscription {
+  alarmAdded: Alarm!
 }

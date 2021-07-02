@@ -10,6 +10,7 @@ import { AlarmsModule } from './alarms/alarms.module';
   imports: [
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
+      installSubscriptionHandlers: true,
     }),
     TypeOrmModule.forRoot(),
     UsersModule,
