@@ -1,25 +1,57 @@
-import { ObjectType, Field } from '@nestjs/graphql';
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@ObjectType()
 @Entity('user')
+@ObjectType()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  index: number;
 
-  @Column({ length: 32 })
-  @Field()
-  username: string;
+  @Column({ type: 'varchar', length: 15 })
+  @Field(() => String)
+  id: string;
 
-  @Column({ unique: true })
-  @Field()
-  email: string;
+  @Column({ type: 'varchar', length: 30 })
+  @Field(() => String)
+  nickname: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  @Field(() => String, { nullable: true })
+  avatar: string
+
+  @Column({ type: 'int', default: 0 })
+  @Field(() => Int, { defaultValue: 0 })
+  ladderRating: number
+
+  @Column({ type: 'int', default: 0 })
+  @Field(() => Int, { defaultValue: 0 })
+  totalWin: number
+
+  @Column({ type: 'int', default: 0 })
+  @Field(() => Int, { defaultValue: 0 })
+  totalLose: number
+
+  @Column({ nullable: true })
+  @Field(() => Array)
+  friendID: string[]
 
   @Column()
   @Field()
-  password: string;
+  blockID: string[]
 
-  @Column({ default: '' })
+  @Column()
   @Field()
-  imageLink: string;
+  chatList: string[]
+
+  @Column()
+  @Field()
+  userState: string
+
+  @CreateDateColumn({ type: 'date' })
+  @Field(() => Date, { defaultValue: Date.now() })
+  createdAt: Date
+
+  @UpdateDateColumn({ type: 'date' })
+  @Field(() => Date, { defaultValue: Date.now() })
+  modifiedAt: Date
 }
