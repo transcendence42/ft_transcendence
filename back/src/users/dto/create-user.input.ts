@@ -4,14 +4,10 @@ import { IsNotEmpty } from 'class-validator';
 @InputType()
 export class CreateUserInput {
   @IsNotEmpty()
-  @Field()
-  readonly username: string;
+  @Field(() => String)
+  readonly id: string;
 
   @IsNotEmpty()
-  @Field()
-  readonly email: string;
-
-  @IsNotEmpty()
-  @Field()
-  readonly password: string;
+  @Field(() => String)
+  readonly nickname: string;
 }
