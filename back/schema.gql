@@ -1,0 +1,72 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  username: String!
+  email: String!
+  password: String!
+  imageLink: String!
+}
+
+type Game {
+  id: Int!
+  isPlaying: Boolean!
+  playerOneId: String!
+  playerOneScore: Int!
+  playerTwoId: String!
+  playerTwoScore: Int!
+  createdAt: DateTime!
+  finishedAt: DateTime
+  modifiedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  users: [User!]!
+  user(username: String!): User!
+  games: [Game!]!
+  game(id: Int!): Game!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+  createGame(createGameInput: CreateGameInput!): Game!
+  updateGame(updateGameInput: UpdateGameInput!): Game!
+  removeGame(id: Int!): Game!
+}
+
+input CreateUserInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  username: String
+  email: String
+  password: String
+  id: Int!
+}
+
+input CreateGameInput {
+  playerOneId: String!
+  playerTwoId: String!
+}
+
+input UpdateGameInput {
+  playerOneId: String
+  playerTwoId: String
+  id: Int!
+  isPlaying: Boolean
+  playerOneScore: Int
+  playerTwoScore: Int
+  finishedAt: DateTime
+  modifiedAt: DateTime
+}

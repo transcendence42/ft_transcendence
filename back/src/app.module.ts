@@ -9,7 +9,7 @@ import { GamesModule } from './games/games.module';
 @Module({
   imports: [
     GraphQLModule.forRoot({
-      autoSchemaFile: true,
+      autoSchemaFile: 'schema.gql',
     }),
     TypeOrmModule.forRoot(),
     UsersModule,
