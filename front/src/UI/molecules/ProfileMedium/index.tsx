@@ -1,19 +1,8 @@
 import { Avatar, Box, Text } from '@chakra-ui/react';
 import React from 'react';
+import { winRate } from '../../../utils/util';
+import { ProfileMediumProps } from '../../../utils/interface';
 import './index.scss';
-
-interface ProfileMediumProps {
-  name: string;
-  imageSrc: string;
-  ranking: string;
-  totalWin: number;
-  totalLose: number;
-  currentScore?: number;
-}
-
-const calculateWinningRate = (totalWin: number, totalLose: number) => {
-  return Math.floor((totalWin / (totalWin + totalLose)) * 100);
-};
 
 const ProfileMedium = ({
   name = 'unknown',
@@ -33,7 +22,7 @@ const ProfileMedium = ({
           </div>
           <div>래더 랭킹 {ranking}위</div>
           <div>
-            {totalWin}승 {totalLose}패({calculateWinningRate(totalWin, totalLose)}%)
+            {totalWin}승 {totalLose}패({winRate(totalWin, totalLose)}%)
           </div>
           <Text className="profile-medium-score" fontSize="2xl">
             {currentScore}

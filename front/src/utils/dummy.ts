@@ -112,4 +112,23 @@ const user = {
   ranking: 2,
 };
 
-export { userData, messageData, dummyChatData, user };
+const dummyGameCardData = {
+  playerA: {
+    name: 'holee',
+    imageSrc: '',
+    ranking: '2',
+    totalWin: 62,
+    totalLose: 3,
+    currentScore: 2,
+  },
+  playerB: {
+    name: 'yshin',
+    imageSrc: '',
+    ranking: '3',
+    totalWin: 63,
+    totalLose: 5,
+    currentScore: 4,
+  },
+};
+
+export { userData, messageData, dummyChatData, user, dummyGameCardData };

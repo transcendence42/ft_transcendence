@@ -2,22 +2,8 @@ import React from 'react';
 import { Box, Text, Button, Icon } from '@chakra-ui/react';
 import { MdTimer } from 'react-icons/md';
 import ProfileMedium from '../../molecules/ProfileMedium';
+import { GameCardProps } from '../../../utils/interface';
 import './index.scss';
-
-interface PlayerInfo {
-  name?: string;
-  imageSrc?: string;
-  ranking?: string;
-  totalWin?: number;
-  totalLose?: number;
-  currentScore?: number;
-}
-
-interface GameCardProps {
-  playerA: PlayerInfo;
-  playerB: PlayerInfo;
-  startTime: Date;
-}
 
 const getRunningTime = (startTime: Date) => {
   return `00:00`;
