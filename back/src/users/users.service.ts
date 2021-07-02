@@ -7,17 +7,10 @@ import { validate } from 'class-validator';
 @Injectable()
 export class UsersService {
   async create(createUserInput: CreateUserInput) {
-    // check if user exist by email(email is unique)
-    const _user = await User.findOne({ email: createUserInput.email });
-    if (_user) {
-      const _error = { email: 'email is already exists' };
-      throw new HttpException({ message: 'Input data validation falied', _error }, HttpStatus.BAD_REQUEST);
-    }
-
     const user = new User();
-    user.username = createUserInput.username;
-    user.email = createUserInput.email;
-    user.password = createUserInput.password;
+    user.userID = createUserInput.userID;
+    user.nickname = createUserInput.nickname;
+
     const validate_error = await validate(user);
     if (validate_error.length > 0) {
       const _error = { username: 'UserInput is not valid check type' };
@@ -32,16 +25,25 @@ export class UsersService {
     return users;
   }
 
-  async findOne(username: string) {
-    const user = await User.findOne({ username: username });
+  async findOne(userID: string) {
+    const user = await User.findOne({ userID: userID });
     return user;
   }
 
-  async update(id: number, updateUserInput: UpdateUserInput) {
-    const user = await User.findOne(id);
-    user.username = updateUserInput.username;
-    user.email = updateUserInput.email;
-    user.password = updateUserInput.password;
+  async update(userID: string, updateUserInput: UpdateUserInput) {
+    const user = await User.findOne({ userID: userID });
+    user.userID = updateUserInput.userID;
+    user.nickname = updateUserInput.nickname;
+    user.avatar = updateUserInput.avatar;
+    user.ladderRating = updateUserInput.ladderRating;
+    user.totalWin = updateUserInput.totalWin;
+    user.totalLose = updateUserInput.totalLose;
+    user.friendID = updateUserInput.friendID;
+    user.blockID = updateUserInput.blockID;
+    user.chatList = updateUserInput.chatList;
+    user.userState = updateUserInput.userState;
+    user.createdAt = updateUserInput.createdAt;
+    user.modifiedAt = updateUserInput.modifiedAt;
     const validate_error = await validate(user);
     if (validate_error.length > 0) {
       const _error = { username: 'UserInput is not valid check type' };
@@ -51,10 +53,10 @@ export class UsersService {
     }
   }
 
-  async remove(id: number) {
-    const user = await User.findOne(id);
+  async remove(index: number) {
+    const user = await User.findOne(index);
     if (!user) {
-      const _error = { id: `User(${id}) does not exist.` };
+      const _error = { id: `User(${index}) does not exist.` };
       throw new HttpException({ message: 'Wrong ID', _error }, HttpStatus.BAD_REQUEST);
     }
     return await User.remove(user);
