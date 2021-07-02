@@ -19,17 +19,22 @@ export class AlarmsResolver {
   }
 
   @Query(() => Alarm, { name: 'alarm' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.alarmsService.findOne(id);
+  findOne(@Args('PP_400_index', { type: () => Int }) PP_400_index: number) {
+    return this.alarmsService.findOne(PP_400_index);
+  }
+
+  @Query(() => [Alarm], { name: 'userAlarm' })
+  findUserAlarm(@Args('PP_400_userID', { type: () => String }) PP_400_userID: string) {
+    return this.alarmsService.findUserAlarm(PP_400_userID);
   }
 
   @Mutation(() => Alarm)
   updateAlarm(@Args('updateAlarmInput') updateAlarmInput: UpdateAlarmInput) {
-    return this.alarmsService.update(updateAlarmInput.id, updateAlarmInput);
+    return this.alarmsService.update(updateAlarmInput.PP_400_index, updateAlarmInput);
   }
 
   @Mutation(() => Alarm)
-  removeAlarm(@Args('id', { type: () => Int }) id: number) {
-    return this.alarmsService.remove(id);
+  removeAlarm(@Args('PP_400_index', { type: () => Int }) PP_400_index: number) {
+    return this.alarmsService.remove(PP_400_index);
   }
 }

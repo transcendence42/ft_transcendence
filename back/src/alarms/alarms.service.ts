@@ -7,12 +7,6 @@ import { validate } from 'class-validator';
 @Injectable()
 export class AlarmsService {
   async create(createAlarmInput: CreateAlarmInput) {
-    const _alarm = await Alarm.findOne({ PP_400_userID: createAlarmInput.PP_400_userID });
-    if (_alarm) {
-      const _error = { PP_400_userID: 'userId is already exists' };
-      throw new HttpException({ message: ' Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
-    }
-
     const alarm = new Alarm();
     alarm.PP_400_userID = createAlarmInput.PP_400_userID;
     alarm.PP_400_title = createAlarmInput.PP_400_title;
@@ -24,26 +18,42 @@ export class AlarmsService {
     if (validate_error.length > 0) {
       const _error = { userID: 'UserID is not valid check type' };
       throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
-    } else {
-      return await Alarm.save(alarm);
     }
-
-    return 'This action adds a new alarm';
+    return await Alarm.save(alarm);
   }
 
-  findAll() {
-    return `This action returns all alarms`;
+  async findAll() {
+    const alarms = await Alarm.find();
+    return alarms;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} alarm`;
+  async findOne(PP_400_index: number) {
+    const alarm = await Alarm.findOne({ PP_400_index: PP_400_index });
+    return alarm;
   }
 
-  update(id: number, updateAlarmInput: UpdateAlarmInput) {
-    return `This action updates a #${id} alarm`;
+  async findUserAlarm(PP_400_userID: string) {
+    const alarms = await Alarm.find({ PP_400_userID: PP_400_userID, PP_400_checked: false });
+    return alarms;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} alarm`;
+  async update(PP_400_index: number, updateAlarmInput: UpdateAlarmInput) {
+    const alarm = await Alarm.findOne(PP_400_index);
+    alarm.PP_400_checked = updateAlarmInput.PP_400_checked;
+    const validate_error = await validate(alarm);
+    if (validate_error.length > 0) {
+      const _error = { username: 'UserInput is not valid check type' };
+      throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
+    }
+    return await Alarm.save(alarm);
+  }
+
+  async remove(PP_400_index: number) {
+    const alarm = await Alarm.findOne(PP_400_index);
+    if (!alarm) {
+      const _error = { username: `Alarm does not exist` };
+      throw new HttpException({ message: 'Wrong ID', _error }, HttpStatus.BAD_REQUEST);
+    }
+    return await Alarm.remove(alarm);
   }
 }

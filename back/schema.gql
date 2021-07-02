@@ -29,7 +29,8 @@ type Query {
   users: [User!]!
   user(username: String!): User!
   alarms: [Alarm!]!
-  alarm(id: Int!): Alarm!
+  alarm(PP_400_index: Int!): Alarm!
+  userAlarm(PP_400_userID: String!): [Alarm!]!
 }
 
 type Mutation {
@@ -38,7 +39,7 @@ type Mutation {
   removeUser(id: Int!): User!
   createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   updateAlarm(updateAlarmInput: UpdateAlarmInput!): Alarm!
-  removeAlarm(id: Int!): Alarm!
+  removeAlarm(PP_400_index: Int!): Alarm!
 }
 
 input CreateUserInput {
@@ -63,10 +64,6 @@ input CreateAlarmInput {
 }
 
 input UpdateAlarmInput {
-  PP_400_userID: String
-  PP_400_title: String
-  PP_400_content: String
-  PP_400_type: String
-  PP_400_link: String
-  id: Int!
+  PP_400_index: Float!
+  PP_400_checked: Boolean!
 }

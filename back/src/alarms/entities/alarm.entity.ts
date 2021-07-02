@@ -8,7 +8,7 @@ export class Alarm extends BaseEntity {
   @Field()
   PP_400_index: number;
 
-  @Column({ type: 'varchar', length: 200, unique: true })
+  @Column({ type: 'varchar', length: 200 })
   @Field()
   PP_400_userID: string;
 
