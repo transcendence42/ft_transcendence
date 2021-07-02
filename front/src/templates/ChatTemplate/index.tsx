@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Grid, GridItem, Tabs, TabPanels, TabPanel } from '@chakra-ui/react';
-import { ChatRoomTabList } from '../../UI/organisms/ChatRoomTabList';
-import { ChatRoomPanel } from '../../UI/organisms/ChatRoomPanel';
+import { ChatTabList } from '../../UI/organisms/ChatTabList';
+import { ChatPanel } from '../../UI/organisms/ChatPanel';
 import { v4 as uuidv4 } from 'uuid';
 
 interface IChat {
@@ -20,7 +20,7 @@ const ChatTemplate = ({ ...props }) => {
   const totalChatListTabs = ['전체채팅방', '공개채팅방', '비공개채팅방'];
   const [myList, setMyList] = useState(myChatList);
   const [totalList, setTotalList] = useState(totalChatList);
-  const leaveChatRoom = (uuid: string) => {
+  const leaveChat = (uuid: string) => {
     setMyList(myList.filter((item: IChat) => item.uuid !== uuid));
     setTotalList(totalList.filter((item: IChat) => item.uuid !== uuid));
     //TODO: delete chat from db
@@ -37,23 +37,23 @@ const ChatTemplate = ({ ...props }) => {
         <Tabs variant="unstyled">
           <Grid h="100%" w="100%" templateRows="repeat(3, max-content)">
             <GridItem rowSpan={1}>
-              <ChatRoomTabList tabs={myChatListTabs} />
+              <ChatTabList tabs={myChatListTabs} />
             </GridItem>
             <TabPanels>
               <TabPanel p={0}>
-                <ChatRoomPanel
+                <ChatPanel
                   chatList={myList}
                   chatListColumns={myChatListColumns}
                   chatListType="myList"
-                  leaveChatRoom={leaveChatRoom}
+                  leaveChat={leaveChat}
                 />
               </TabPanel>
               <TabPanel p={0}>
-                <ChatRoomPanel
+                <ChatPanel
                   chatList={myList.filter((item: IChat) => item.type === 'dm')}
                   chatListColumns={myChatListColumns}
                   chatListType="dmList"
-                  leaveChatRoom={leaveChatRoom}
+                  leaveChat={leaveChat}
                 />
               </TabPanel>
             </TabPanels>
@@ -64,33 +64,33 @@ const ChatTemplate = ({ ...props }) => {
         <Tabs variant="unstyled">
           <Grid h="100%" w="100%" templateRows="repeat(3, max-content)">
             <GridItem rowSpan={1}>
-              <ChatRoomTabList tabs={totalChatListTabs} />
+              <ChatTabList tabs={totalChatListTabs} />
             </GridItem>
             <TabPanels>
               <TabPanel p={0}>
-                <ChatRoomPanel
+                <ChatPanel
                   chatList={totalList}
                   chatListColumns={totalChatListColumns}
                   chatListType="totalList"
-                  leaveChatRoom={leaveChatRoom}
+                  leaveChat={leaveChat}
                   createChat={createChat}
                 />
               </TabPanel>
               <TabPanel p={0}>
-                <ChatRoomPanel
+                <ChatPanel
                   chatList={totalList.filter((item: IChat) => item.type === 'public')}
                   chatListColumns={totalChatListColumns}
                   chatListType="publicList"
-                  leaveChatRoom={leaveChatRoom}
+                  leaveChat={leaveChat}
                   createChat={createChat}
                 />
               </TabPanel>
               <TabPanel p={0}>
-                <ChatRoomPanel
+                <ChatPanel
                   chatList={totalList.filter((item: IChat) => item.type === 'private')}
                   chatListColumns={totalChatListColumns}
                   chatListType="privateList"
-                  leaveChatRoom={leaveChatRoom}
+                  leaveChat={leaveChat}
                   createChat={createChat}
                 />
               </TabPanel>

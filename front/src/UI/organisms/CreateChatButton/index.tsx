@@ -19,11 +19,12 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 
-export const CreateChatRoomButton = ({ ...props }) => {
+export const CreateChatButton = ({ ...props }) => {
   const { createChat } = props;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const chatRoomNameInputRef = React.useRef();
+  const chatNameInputRef = React.useRef();
   const finalRef = React.useRef();
 
   const [type, setType] = useState('public');
@@ -47,7 +48,7 @@ export const CreateChatRoomButton = ({ ...props }) => {
   };
 
   const handleClickCreateButton = () => {
-    const name = chatRoomNameInputRef.current.value;
+    const name = chatNameInputRef.current.value;
     const password = type === 'public' ? '' : passwordInputRef.current.value;
     if (!(validateName(name) && validatePassword(password))) {
       return;
@@ -99,7 +100,7 @@ export const CreateChatRoomButton = ({ ...props }) => {
         채팅방 생성
       </Button>
 
-      <Modal initialFocusRef={chatRoomNameInputRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+      <Modal initialFocusRef={chatNameInputRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalBody pb={6}>
@@ -122,7 +123,7 @@ export const CreateChatRoomButton = ({ ...props }) => {
                 </GridItem>
                 <GridItem colSpan={2}>
                   <Input
-                    ref={chatRoomNameInputRef}
+                    ref={chatNameInputRef}
                     placeholder="채팅방 이름을 입력하세요."
                     onChange={(e) => {
                       handleChangeName(e);

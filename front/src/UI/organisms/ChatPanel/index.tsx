@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { GridItem, Grid, ButtonProps } from '@chakra-ui/react';
-import { ChatRoomTable } from '../ChatRoomTable';
+import { ChatTable } from '../ChatTable';
 import { Paginator, PageGroup, usePaginator } from 'chakra-paginator';
-import { CreateChatRoomButton } from '../CreateChatRoomButton';
+import { CreateChatButton } from '../CreateChatButton';
 
-export const ChatRoomPanel = ({ ...props }) => {
-  const { chatList, chatListColumns, chatListType, leaveChatRoom, createChat } = props;
-  const createChatButton = createChat ? <CreateChatRoomButton createChat={createChat} /> : <></>;
+export const ChatPanel = ({ ...props }) => {
+  const { chatList, chatListColumns, chatListType, leaveChat, createChat } = props;
+  const createChatButton = createChat ? <CreateChatButton createChat={createChat} /> : <></>;
 
   // react hooks
   const [chatsTotal, setChatsTotal] = useState<number | undefined>(chatList.length);
@@ -71,13 +71,13 @@ export const ChatRoomPanel = ({ ...props }) => {
   return (
     <>
       <GridItem rowSpan={1} minH="207px">
-        <ChatRoomTable
+        <ChatTable
           chatList={chatList}
-          columns={chatListColumns}
+          chatListColumns={chatListColumns}
           chatListType={chatListType}
           startRowNum={(currentPage - 1) * 3}
           endRowNum={currentPage * 3}
-          leaveChatRoom={leaveChatRoom}
+          leaveChat={leaveChat}
         />
       </GridItem>
       <GridItem rowSpan={1}>
