@@ -4,8 +4,8 @@ import { IsNotEmpty } from 'class-validator';
 @InputType()
 export class CreateGameInput {
     @Field(() => String)
-    readonly playerOneId: string;
+    readonly playerOneID: string;
 
     @Field(() => String)
-    readonly playerTwoId: string;
+    readonly playerTwoID: string;
 }

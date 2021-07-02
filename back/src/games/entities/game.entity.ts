@@ -15,18 +15,18 @@ export class Game extends BaseEntity {
 
   @Column({ type: 'varchar', length: 15 })
   @Field(() => String)
-  playerOneId: string;
+  playerOneID: string;
 
-  @Column({ type: 'integer', default: 0 })
-  @Field(() => Int, { defaultValue: 0 })
+  @Column({ type: 'integer', nullable: true })
+  @Field(() => Int, { nullable: true })
   playerOneScore: number;
 
   @Column({ type: 'varchar', length: 15 })
   @Field(() => String)
-  playerTwoId: string;
+  playerTwoID: string;
 
-  @Column({ type: 'integer', default: 0 })
-  @Field(() => Int, { defaultValue: 0 })
+  @Column({ type: 'integer', nullable: true })
+  @Field(() => Int, { nullable: true })
   playerTwoScore: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

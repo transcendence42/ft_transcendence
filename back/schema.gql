@@ -12,10 +12,10 @@ type User {
 type Game {
   id: Int!
   isPlaying: Boolean!
-  playerOneId: String!
-  playerOneScore: Int!
-  playerTwoId: String!
-  playerTwoScore: Int!
+  playerOneID: String!
+  playerOneScore: Int
+  playerTwoID: String!
+  playerTwoScore: Int
   createdAt: DateTime!
   finishedAt: DateTime
   modifiedAt: DateTime!
@@ -56,13 +56,13 @@ input UpdateUserInput {
 }
 
 input CreateGameInput {
-  playerOneId: String!
-  playerTwoId: String!
+  playerOneID: String!
+  playerTwoID: String!
 }
 
 input UpdateGameInput {
-  playerOneId: String
-  playerTwoId: String
+  playerOneID: String
+  playerTwoID: String
   id: Int!
   isPlaying: Boolean
   playerOneScore: Int
