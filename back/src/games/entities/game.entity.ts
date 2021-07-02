@@ -9,23 +9,23 @@ export class Game extends BaseEntity {
   @Field(() => Int)
   id: number;
 
-  @Column({ type: 'boolean',  default: true }) // typeORM decorator
+  @Column({ type: 'boolean', default: true }) // typeORM decorator
   @Field(() => Boolean, { defaultValue: true }) // graphQL decorator
   isPlaying: boolean;
 
-  @Column({ type:'varchar', length: 15 })
+  @Column({ type: 'varchar', length: 15 })
   @Field(() => String)
   playerOneId: string;
 
-  @Column({ type:'integer', default: 0 })
+  @Column({ type: 'integer', default: 0 })
   @Field(() => Int, { defaultValue: 0 })
   playerOneScore: number;
 
-  @Column({ type:'varchar', length: 15 })
+  @Column({ type: 'varchar', length: 15 })
   @Field(() => String)
   playerTwoId: string;
 
-  @Column({ type:'integer', default: 0 })
+  @Column({ type: 'integer', default: 0 })
   @Field(() => Int, { defaultValue: 0 })
   playerTwoScore: number;
 
@@ -37,7 +37,7 @@ export class Game extends BaseEntity {
   @Field(() => Date, { nullable: true })
   finishedAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ type: 'timestamp' })
   @Field(() => Date, { defaultValue: Date.now() })
   modifiedAt: Date;
 }

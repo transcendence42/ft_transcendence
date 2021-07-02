@@ -19,7 +19,6 @@ export class UpdateGameInput extends PartialType(CreateGameInput) {
   @Field({ nullable: true })
   finishedAt: Date;
 
-  @IsDate()
-  @Field()
+  @Field({ nullable: true })
   modifiedAt: Date;
 }
