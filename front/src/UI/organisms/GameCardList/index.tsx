@@ -14,7 +14,7 @@ const GameCardList = () => {
   const playingGames = data.games.filter((x: IGame) => x.isPlaying === true);
   return (
     <>
-      <SimpleGrid columns={3}>
+      <SimpleGrid columns={3} spacing={4}>
         {playingGames.map(({ id, playerOneID, playerOneScore, playerTwoID, playerTwoScore, createdAt }: IGame) => {
           const playerOneInfo: PlayerInfo = {
             name: playerOneID,
