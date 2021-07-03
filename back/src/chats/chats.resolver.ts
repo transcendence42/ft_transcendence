@@ -32,4 +32,18 @@ export class ChatsResolver {
   removeChat(@Args('uuid') uuid: string) {
     return this.chatsService.remove(uuid);
   }
+
+  @Query(() => Int)
+  getTotalChatCount() {
+    return this.chatsService.getTotalCount();
+  }
+
+  @Query(() => [Chat], { name: 'findAliveChats' })
+  findAliveChats(
+    @Args('type', { type: () => String, nullable: true }) type: 'public' | 'private' | undefined,
+    @Args('page', { type: () => Int, nullable: true }) page: number,
+    @Args('pageSize', { type: () => Int, nullable: true }) pageSize: number,
+  ) {
+    return this.chatsService.findAliveChats({ type, page, pageSize });
+  }
 }

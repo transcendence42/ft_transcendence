@@ -60,6 +60,8 @@ type Query {
   game(id: Int!): Game!
   chats: [Chat!]!
   chat(uuid: String!): Chat!
+  getTotalChatCount: Int!
+  findAliveChats(pageSize: Int, page: Int, type: String): [Chat!]!
 }
 
 type Mutation {

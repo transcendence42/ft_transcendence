@@ -65,4 +65,29 @@ export class ChatsService {
     });
     return await Chat.remove(chat);
   }
+
+  async getTotalCount() {
+    return await Chat.count();
+  }
+
+  async findAliveChats({
+    type,
+    page = 0,
+    pageSize = 3,
+  }: {
+    type: 'public' | 'private' | undefined;
+    page: number;
+    pageSize: number;
+  }) {
+    const where = { isAlive: true };
+    if (type !== undefined) {
+      where['type'] = type;
+    }
+    const chats = await Chat.find({
+      where: where,
+      skip: page * pageSize,
+      take: pageSize,
+    });
+    return chats;
+  }
 }
