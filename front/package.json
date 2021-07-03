@@ -16,6 +16,7 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.7",
+    "chakra-paginator": "^0.7.2",
     "framer-motion": "^4.0.0",
     "graphql": "^15.5.1",
     "node-sass": "yarn:sass",
@@ -49,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.27.0",
     "classnames": "^2.3.1",
@@ -62,7 +64,8 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "4.3.8",
     "lint-staged": "^10.5.4",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "uuid": "^8.3.2"
   },
   "husky": {
     "hooks": {

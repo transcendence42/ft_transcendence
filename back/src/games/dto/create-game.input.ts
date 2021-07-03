@@ -3,11 +3,9 @@ import { IsNotEmpty } from 'class-validator';
 
 @InputType()
 export class CreateGameInput {
-    @IsNotEmpty()
-    @Field(() => Int)
-    readonly winnerScore: number;
+    @Field(() => String)
+    readonly playerOneID: string;
 
-    @IsNotEmpty()
-    @Field(() => Int)
-    readonly loserScore: number;
+    @Field(() => String)
+    readonly playerTwoID: string;
 }

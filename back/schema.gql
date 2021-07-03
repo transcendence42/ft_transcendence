@@ -102,6 +102,22 @@ input UpdateGameInput {
   modifiedAt: DateTime!
 }
 
+input CreateGameInput {
+  playerOneID: String!
+  playerTwoID: String!
+}
+
+input UpdateGameInput {
+  playerOneID: String
+  playerTwoID: String
+  id: Int!
+  isPlaying: Boolean
+  playerOneScore: Int
+  playerTwoScore: Int
+  finishedAt: DateTime
+  modifiedAt: DateTime
+}
+
 type Subscription {
   alarmAdded: Alarm!
 }
