@@ -132,7 +132,10 @@ input UpdateChatInput {
   password: String
   type: String = "public"
   ownerID: String
-  id: Int!
+  uuid: String!
+  isAlive: Boolean
+  adminID: [String!]
+  userID: [String!]
 }
 
 type Subscription {
