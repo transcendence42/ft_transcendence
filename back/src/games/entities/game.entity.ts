@@ -9,35 +9,35 @@ export class Game extends BaseEntity {
   @Field(() => Int)
   id: number;
 
-  @Column({ default: false }) // typeORM decorator
+  @Column({ type: 'boolean', default: true }) // typeORM decorator
   @Field(() => Boolean, { defaultValue: true }) // graphQL decorator
   isPlaying: boolean;
 
-  @Column({ length: 15, nullable: true })
-  @Field(() => String, { nullable: true })
-  winnerId: string;
+  @Column({ type: 'varchar', length: 15 })
+  @Field(() => String)
+  playerOneID: string;
 
-  @Column({ default: 0 })
-  @Field(() => Int, { defaultValue: 0 })
-  winnerScore: number;
+  @Column({ type: 'integer', nullable: true })
+  @Field(() => Int, { nullable: true })
+  playerOneScore: number;
 
-  @Column({ length: 15, nullable: true })
-  @Field(() => String, { nullable: true })
-  loserId: string;
+  @Column({ type: 'varchar', length: 15 })
+  @Field(() => String)
+  playerTwoID: string;
 
-  @Column({ default: 0 })
-  @Field(() => Int, { defaultValue: 0 })
-  loserScore: number;
+  @Column({ type: 'integer', nullable: true })
+  @Field(() => Int, { nullable: true })
+  playerTwoScore: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   @Field(() => Date, { defaultValue: Date.now() })
   createdAt: Date;
 
-  @Column({ nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   @Field(() => Date, { nullable: true })
   finishedAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamp' })
   @Field(() => Date, { defaultValue: Date.now() })
   modifiedAt: Date;
 }
