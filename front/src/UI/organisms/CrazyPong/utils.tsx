@@ -21,10 +21,12 @@ const drawCircle = (ctx: CanvasRenderingContext2D | null, x: number, y: number, 
   }
 };
 
-// const drawText = (ctx, text, x, y, color) => {
-//   ctx.fillStyle = color;
-//   ctx.fillfont = '75px fantasy';
-//   ctx.fillText(text, x, y);
-// };
+const drawText = (ctx: CanvasRenderingContext2D | null, text: string, x: number, y: number, color: string) => {
+  if (ctx) {
+    ctx.fillStyle = color;
+    ctx.font = '80px fantasy';
+    ctx.fillText(text, x, y);
+  }
+};
 
-export { drawRect, drawNet, drawCircle };
+export { drawRect, drawNet, drawCircle, drawText };
