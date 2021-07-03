@@ -75,7 +75,7 @@ type Mutation {
   removeGame(id: Int!): Game!
   createChat(createChatInput: CreateChatInput!): Chat!
   updateChat(updateChatInput: UpdateChatInput!): Chat!
-  removeChat(id: Int!): Chat!
+  removeChat(uuid: String!): Chat!
 }
 
 input CreateUserInput {

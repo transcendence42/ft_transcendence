@@ -29,7 +29,7 @@ export class ChatsResolver {
   }
 
   @Mutation(() => Chat)
-  removeChat(@Args('id', { type: () => Int }) id: number) {
-    return this.chatsService.remove(id);
+  removeChat(@Args('uuid') uuid: string) {
+    return this.chatsService.remove(uuid);
   }
 }

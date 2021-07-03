@@ -55,7 +55,14 @@ export class ChatsService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} chat`;
+  async remove(uuid: string) {
+    const chat = await Chat.findOneOrFail({
+      where: {
+        uuid: uuid,
+      },
+    }).catch(() => {
+      throw new HttpException({ message: `chat with uuid(${uuid}) does not exist` }, HttpStatus.BAD_REQUEST);
+    });
+    return await Chat.remove(chat);
   }
 }
