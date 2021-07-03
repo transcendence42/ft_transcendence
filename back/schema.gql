@@ -9,6 +9,22 @@ type User {
   imageLink: String!
 }
 
+type Alarm {
+  PP_400_index: Int!
+  PP_400_userID: String!
+  PP_400_title: String!
+  PP_400_content: String!
+  PP_400_checked: String!
+  PP_400_type: String!
+  PP_400_link: String!
+  PP_400_createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Game {
   id: Int!
   isPlaying: Boolean!
@@ -21,14 +37,12 @@ type Game {
   modifiedAt: DateTime!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type Query {
   users: [User!]!
   user(username: String!): User!
+  alarms: [Alarm!]!
+  alarm(PP_400_index: Int!): Alarm!
+  userAlarm(PP_400_userID: String!): [Alarm!]!
   games: [Game!]!
   game(id: Int!): Game!
 }
@@ -37,6 +51,10 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
+  checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
+  removeAlarm(PP_400_index: Int!): Alarm!
+  addAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   createGame(createGameInput: CreateGameInput!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
   removeGame(id: Int!): Game!
@@ -55,6 +73,19 @@ input UpdateUserInput {
   id: Int!
 }
 
+input CreateAlarmInput {
+  PP_400_userID: String!
+  PP_400_title: String!
+  PP_400_content: String!
+  PP_400_type: String!
+  PP_400_link: String!
+}
+
+input CheckAlarmInput {
+  PP_400_index: Int!
+  PP_400_checked: Boolean!
+}
+
 input CreateGameInput {
   playerOneID: String!
   playerTwoID: String!
@@ -69,4 +100,8 @@ input UpdateGameInput {
   playerTwoScore: Int
   finishedAt: DateTime
   modifiedAt: DateTime
+}
+
+type Subscription {
+  alarmAdded: Alarm!
 }
