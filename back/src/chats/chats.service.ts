@@ -1,12 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
 import { Chat } from './entities/chat.entity';
+import { validate } from 'class-validator';
 
 @Injectable()
 export class ChatsService {
-  create(createChatInput: CreateChatInput) {
-    return 'This action adds a new chat';
+  async create(createChatInput: CreateChatInput) {
+    const chat = new Chat();
+    chat.name = createChatInput.name;
+    chat.password = createChatInput.password;
+    chat.type = createChatInput.type;
+    chat.ownerID = createChatInput.ownerID;
+    const validate_error = await validate(chat);
+    if (validate_error.length > 0) {
+      throw new HttpException({ message: 'Input data validation failed' }, HttpStatus.BAD_REQUEST);
+    } else {
+      return await Chat.save(chat);
+    }
   }
 
   async findAll() {

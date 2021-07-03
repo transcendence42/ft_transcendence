@@ -123,14 +123,14 @@ input UpdateGameInput {
 input CreateChatInput {
   name: String!
   password: String
-  type: String!
+  type: String = "public"
   ownerID: String!
 }
 
 input UpdateChatInput {
   name: String
   password: String
-  type: String
+  type: String = "public"
   ownerID: String
   id: Int!
 }

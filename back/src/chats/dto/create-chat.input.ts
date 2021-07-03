@@ -1,7 +1,21 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
+import { IsNotEmpty } from 'class-validator';
+
+export type ChatType = 'public' | 'private' | 'dm';
 
 @InputType()
 export class CreateChatInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  @IsNotEmpty()
+  name: string;
+
+  @Field({ nullable: true })
+  password: string;
+
+  @Field({ defaultValue: 'public' })
+  type: ChatType;
+
+  @Field()
+  @IsNotEmpty()
+  ownerID: string;
 }
