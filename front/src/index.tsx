@@ -5,10 +5,15 @@ import { App } from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 
+import { client } from './apollo/apolloProvider';
+import { ApolloProvider } from '@apollo/client';
+
 ReactDOM.render(
   <React.StrictMode>
-    <ColorModeScript />
-    <App />
+    <ApolloProvider client={client}>
+      <ColorModeScript />
+      <App />
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

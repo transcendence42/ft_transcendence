@@ -78,6 +78,16 @@ export interface ProfileLargeProps {
   reverse: boolean;
 }
 
+export interface IGame {
+  id: number;
+  isPlaying: boolean;
+  playerOneID: string;
+  playerOneScore: number;
+  playerTwoID: string;
+  playerTwoScore: number;
+  createdAt: Date;
+}
+
 /*
  ** Chat
  */
