@@ -12,10 +12,10 @@ export const AlarmNotifierContainer = () => {
     removeAlarmMessage({
       variables: { alarmIndex: alarmIndex },
       update(store) {
-        const { alarms }: any = store.readQuery({ query: GET_ALARM_NOTIFIER });
+        const { alarms } = store.readQuery({ query: GET_ALARM_NOTIFIER });
         store.writeQuery({
           query: GET_ALARM_NOTIFIER,
-          data: { alarms: alarms.filter((alarm: any) => alarm.index !== alarmIndex) },
+          data: { alarms: alarms.filter((alarm) => alarm.index !== alarmIndex) },
         });
       },
     });
