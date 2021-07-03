@@ -1,7 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity } from 'typeorm';
 
-
 @Entity('game') // typeORM decorator
 @ObjectType() // graphQL decorator
 export class Game extends BaseEntity {
@@ -17,16 +16,16 @@ export class Game extends BaseEntity {
   @Field(() => String)
   playerOneID: string;
 
-  @Column({ type: 'integer', nullable: true })
-  @Field(() => Int, { nullable: true })
+  @Column({ type: 'integer', nullable: true, default: 0 })
+  @Field(() => Int, { nullable: true, defaultValue: 0 })
   playerOneScore: number;
 
   @Column({ type: 'varchar', length: 15 })
   @Field(() => String)
   playerTwoID: string;
 
-  @Column({ type: 'integer', nullable: true })
-  @Field(() => Int, { nullable: true })
+  @Column({ type: 'integer', nullable: true, default: 0 })
+  @Field(() => Int, { nullable: true, defaultValue: 0 })
   playerTwoScore: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
