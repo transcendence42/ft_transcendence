@@ -1,0 +1,64 @@
+.chat-list-table-myList,
+.chat-list-table-dmList,
+.chat-list-table-totalList,
+.chat-list-table-publicList,
+.chat-list-table-privateList {
+  font-size: 1.1rem;
+
+  thead tr {
+    background-color: #edf2f7;
+  }
+  th {
+    border-top: 2px solid #4299e1;
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 13px 2px;
+  }
+  div.chat-table-content-wrapper {
+    border-right: 2px solid #dadada;
+  }
+
+  tbody tr {
+    background-color: #f7fafc;
+  }
+
+  tbody tr td {
+    text-align: center;
+    padding: 13px 2px;
+  }
+}
+
+.chat-list-table-myList,
+.chat-list-table-dmList {
+  th:nth-child(1) {
+    width: 40px;
+  }
+  th:nth-child(2) {
+    width: 600px;
+  }
+  th:nth-child(3) {
+    width: 85px;
+  }
+  th:nth-child(4) {
+    width: 125px;
+  }
+  th:nth-child(5) {
+    width: 70px;
+  }
+}
+.chat-list-table-totalList,
+.chat-list-table-publicList,
+.chat-list-table-privateList {
+  th:nth-child(1) {
+    width: 45px;
+  }
+  th:nth-child(2) {
+    width: 650px;
+  }
+  th:nth-child(3) {
+    width: 90px;
+  }
+  th:nth-child(4) {
+    width: 135px;
+  }
+}

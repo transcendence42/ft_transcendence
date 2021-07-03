@@ -30,3 +30,25 @@ export const ALARM_USER_NICKNAME_FONTSIZE = '14px';
 
 export const ALARM_TITLE_FONTWEIGHT = 'bold';
 export const ALARM_CONTENT_FONTWEIGHT = 'semibold';
+
+/*
+ ** CHAT
+ */
+
+export const CHAT_MY_LIST_COLUMNS = ['#', '제목', '인원', '방장', ''];
+export const CHAT_TOTAL_LIST_COLUMNS = ['#', '제목', '인원', '방장'];
+export const CHAT_MY_LIST_TABS = ['나의채팅방', '1:1 채팅방'];
+export const CHAT_TOTAL_LIST_TABS = ['전체채팅방', '공개채팅방', '비공개채팅방'];
+
+export const CHAT_LIST_TYPE_MY_LIST = 'myList';
+export const CHAT_LIST_TYPE_DM_LIST = 'dmList';
+export const CHAT_LIST_TYPE_TOTAL_LIST = 'totalList';
+export const CHAT_LIST_TYPE_PUBLIC_LIST = 'publicList';
+export const CHAT_LIST_TYPE_PRIVATE_LIST = 'privateList';
+
+export const CHAT_PAGE_OUTER_LIMIT = 1;
+export const CHAT_PAGE_INNER_LIMIT = 1;
+export const CHAT_PAGE_SIZE = 3;
+
+export const CHAT_INVALID_NAME_ERROR_MSG = '유효하지 않은 이름입니다.';
+export const CHAT_INVALID_PASSWORD_ERROR_MSG = '유효하지 않은 비밀번호입니다.';
