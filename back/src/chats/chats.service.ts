@@ -26,10 +26,12 @@ export class ChatsService {
   }
 
   async findOne(uuid: string) {
-    const chat = await Chat.findOne({
+    const chat = await Chat.findOneOrFail({
       where: {
         uuid: uuid,
       },
+    }).catch(() => {
+      throw new HttpException({ message: `chat with uuid(${uuid}) does not exist` }, HttpStatus.BAD_REQUEST);
     });
     return chat;
   }
