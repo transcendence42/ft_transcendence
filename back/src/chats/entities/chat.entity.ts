@@ -1,31 +1,64 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Entity, PrimaryGeneratedColumn, BaseEntity, CreateDateColumn, UpdateDateColumn, Column } from 'typeorm';
+import { ObjectType, Field } from '@nestjs/graphql';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  BaseEntity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Column,
+  Generated,
+} from 'typeorm';
+
+export type ChatType = 'public' | 'private' | 'dm';
 
 @ObjectType()
-@Entity('Chat')
+@Entity()
 export class Chat extends BaseEntity {
   @PrimaryGeneratedColumn()
   index: number;
 
-  @PrimaryGeneratedColumn('uuid')
+  @Generated('uuid') // uuid 생성 코드. DB에서 생성됨.
+  @Column()
+  @Field()
   uuid: string;
 
+  @Field()
   @Column('varchar')
   name: string;
-  @Column('varchar')
+
+  @Field({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   password: string;
-  @Column('boolean')
+
+  @Field()
+  @Column({ type: 'boolean', default: true })
   isAlive: boolean;
-  @Column('boolean')
-  type: boolean;
+
+  @Field()
+  @Column({
+    type: 'enum',
+    enum: ['public', 'private', 'dm'],
+    default: 'public',
+  })
+  type: ChatType;
+
+  @Field()
   @Column('varchar')
   ownerID: string;
-  // @Column('varchar')
-  // adminID: string[];
-  // @Column('varchar')
-  // userID: string[];
+
+  @Field((type) => [String])
+  @Column({ type: 'varchar', array: true, nullable: true, default: {} })
+  adminID: string[];
+
+  @Field((type) => [String])
+  @Column({ type: 'varchar', array: true, nullable: true, default: {} })
+  userID: string[];
+
+  @Field()
   @CreateDateColumn()
   createdAt: Date;
+
+  @Field()
   @UpdateDateColumn()
   modifiedAt: Date;
 }

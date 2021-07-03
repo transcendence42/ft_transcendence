@@ -19,8 +19,8 @@ export class ChatsResolver {
   }
 
   @Query(() => Chat, { name: 'chat' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.chatsService.findOne(id);
+  findOne(@Args('uuid', { type: () => String }) uuid: string) {
+    return this.chatsService.findOne(uuid);
   }
 
   @Mutation(() => Chat)
