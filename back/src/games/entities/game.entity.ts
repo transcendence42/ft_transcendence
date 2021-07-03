@@ -29,7 +29,7 @@ export class Game extends BaseEntity {
   playerTwoScore: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  @Field(() => Date, { defaultValue: Date.now() })
+  @Field(() => Date, { defaultValue: new Date() })
   createdAt: Date;
 
   @Column({ type: 'timestamp', nullable: true })
@@ -37,6 +37,6 @@ export class Game extends BaseEntity {
   finishedAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  @Field(() => Date, { defaultValue: Date.now() })
+  @Field(() => Date, { defaultValue: new Date() })
   modifiedAt: Date;
 }

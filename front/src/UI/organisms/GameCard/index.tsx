@@ -5,8 +5,13 @@ import ProfileMedium from '../../molecules/ProfileMedium';
 import { GameCardProps } from '../../../utils/interface';
 import './index.scss';
 
-const getRunningTime = (startTime: Date) => {
-  return `00:00`;
+const getRunningTime = (startTime: Date): string => {
+  const currentTime: Date = new Date();
+  const isoStartTime: Date = new Date(startTime);
+  const rawGameTime = currentTime.getTime() - isoStartTime.getTime();
+  const min = String(Math.floor(rawGameTime / 1000 / 60));
+  const sec = String(Math.floor(rawGameTime / 1000) - Number(min) * 60);
+  return `${min}:${sec}`;
 };
 
 const GameCard = ({ playerA, playerB, startTime }: GameCardProps) => {
