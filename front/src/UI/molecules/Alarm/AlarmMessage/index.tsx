@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { Box, Text, Avatar, Grid, Flex, CloseButton } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 import { IalarmMessage } from '../../../../utils/interface';
+import { CheckIcon } from '../../../../utils/icons';
 import {
   ALARM_MESSAGE_BACKGROUND_COLOR,
   ALARM_MESSAGE_TITLE_FONTSIZE,
@@ -12,7 +14,15 @@ import {
   ALARM_CONTENT_FONTWEIGHT,
 } from '../../../../utils/constants';
 
-export const AlarmMessage = ({ title, content, alarmTime, type, link }: IalarmMessage) => {
+export const AlarmMessage = ({
+  index,
+  title,
+  content,
+  alarmTime,
+  type,
+  link,
+  removeAlarmMessageHandler,
+}: IalarmMessage) => {
   console.log(type, link);
   return (
     <Box
@@ -25,8 +35,8 @@ export const AlarmMessage = ({ title, content, alarmTime, type, link }: IalarmMe
       height={ALARM_MESSAGE_HEIGHT}
     >
       <Grid templateColumns="1fr 10fr">
-        <Box>
-          <Avatar size="xs" />
+        <Box p="1">
+          <Link to={link}>{type === 'addFriend' ? <Avatar size="xs" /> : <CheckIcon width="20" height="20" />}</Link>
         </Box>
         <Flex flexDirection="column">
           <Box>
@@ -34,7 +44,7 @@ export const AlarmMessage = ({ title, content, alarmTime, type, link }: IalarmMe
               <Text fontWeight={ALARM_CONTENT_FONTWEIGHT} fontSize={ALARM_MESSAGE_TITLE_FONTSIZE}>
                 {title}
               </Text>
-              <CloseButton pb="2" size="sm" />
+              <CloseButton pb="2" size="sm" onClick={() => removeAlarmMessageHandler(index)} />
             </Flex>
           </Box>
           <Box>

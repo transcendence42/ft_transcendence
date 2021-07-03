@@ -10,14 +10,17 @@ export interface IAlarm {
   title: string;
   type: 'addFriend' | 'defeat' | 'win';
   userId: string;
+  __typename: 'Alarm';
 }
 
 export interface IalarmMessage {
+  index: number;
   title: string;
   content: string;
   alarmTime: string;
   type: 'addFriend' | 'defeat' | 'win';
   link: string;
+  removeAlarmMessageHandler: (alarmIndex: number) => void;
 }
 
 export interface IchatMessage {
