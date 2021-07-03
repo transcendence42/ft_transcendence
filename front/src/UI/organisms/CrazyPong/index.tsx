@@ -43,7 +43,7 @@ const CrazyPong = () => {
       drawCircle(ctx, ball.x, ball.y, ball.radius, ball.color);
       drawNet(ctx, canvas.width, canvas.height);
     }
-  }, [userPaddle, comPaddle]);
+  }, [userPaddle.x, userPaddle.y, comPaddle.x, comPaddle.y, ball.x, ball.y]);
   return <canvas ref={canvasRef} className="canvas"></canvas>;
 };
 
