@@ -1,0 +1,8 @@
+{
+    "powermode.enableShake": false,
+    "powermode.enabled": true,
+    "prettier.printWidth": 120,
+    "prettier.singleQuote": true,
+    "eslint.autoFixOnSave": true,
+    "editor.formatOnSave": true
+}
