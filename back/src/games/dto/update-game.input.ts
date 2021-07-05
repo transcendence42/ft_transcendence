@@ -1,37 +1,24 @@
 import { CreateGameInput } from './create-game.input';
-import { InputType, Field, PartialType, Int} from '@nestjs/graphql';
-import { IsNotEmpty } from 'class-validator';
+import { InputType, Field, PartialType, Int } from '@nestjs/graphql';
+import { IsBoolean, IsInt, IsDate } from 'class-validator';
 
 @InputType()
 export class UpdateGameInput extends PartialType(CreateGameInput) {
   @Field(() => Int)
-  id: number;
+  readonly id: number;
 
-  @IsNotEmpty()
-  @Field()
+  @Field({ nullable: true })
   isPlaying: boolean;
-  
-  @IsNotEmpty()
-  @Field()
-  readonly winnerId: string;
 
-  @IsNotEmpty()
-  @Field(() => Int)
-  readonly winnerScore: number;
+  @Field(() => Int, { nullable: true })
+  playerOneScore: number;
 
-  @IsNotEmpty()
-  @Field()
-  readonly loserId: string;
+  @Field(() => Int, { nullable: true })
+  playerTwoScore: number;
 
-  @IsNotEmpty()
-  @Field(() => Int)
-  readonly loserScore: number;
-
-  @IsNotEmpty()
-  @Field()
+  @Field({ nullable: true })
   finishedAt: Date;
 
-  @IsNotEmpty()
-  @Field()
+  @Field({ nullable: true })
   modifiedAt: Date;
 }

@@ -6,13 +6,10 @@ services:
       - database
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PORT=5432
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=database
+    env_file:
+      - ./db/.env
     volumes:
-      - ./back/database/data/prod:/var/lib/postgresql/data/
+      - ./db/:/docker-entrypoint-initdb.d
     restart: always
     container_name: db
   front:
@@ -25,7 +22,6 @@ services:
       - webapp
     ports:
       - 8080:3000
-    stdin_open: true
     restart: always
     command: ['./wait-for-it.sh', 'back:5500', '--', 'yarn', 'start']
     container_name: front

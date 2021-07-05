@@ -1,7 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity } from 'typeorm';
 
-
 @Entity('game') // typeORM decorator
 @ObjectType() // graphQL decorator
 export class Game extends BaseEntity {
@@ -9,35 +8,35 @@ export class Game extends BaseEntity {
   @Field(() => Int)
   id: number;
 
-  @Column({ default: false }) // typeORM decorator
+  @Column({ type: 'boolean', default: true }) // typeORM decorator
   @Field(() => Boolean, { defaultValue: true }) // graphQL decorator
   isPlaying: boolean;
 
-  @Column({ length: 15, nullable: true })
-  @Field(() => String, { nullable: true })
-  winnerId: string;
+  @Column({ type: 'varchar', length: 15 })
+  @Field(() => String)
+  playerOneID: string;
 
-  @Column({ default: 0 })
-  @Field(() => Int, { defaultValue: 0 })
-  winnerScore: number;
+  @Column({ type: 'integer', nullable: true, default: 0 })
+  @Field(() => Int, { nullable: true, defaultValue: 0 })
+  playerOneScore: number;
 
-  @Column({ length: 15, nullable: true })
-  @Field(() => String, { nullable: true })
-  loserId: string;
+  @Column({ type: 'varchar', length: 15 })
+  @Field(() => String)
+  playerTwoID: string;
 
-  @Column({ default: 0 })
-  @Field(() => Int, { defaultValue: 0 })
-  loserScore: number;
+  @Column({ type: 'integer', nullable: true, default: 0 })
+  @Field(() => Int, { nullable: true, defaultValue: 0 })
+  playerTwoScore: number;
 
-  @CreateDateColumn()
-  @Field(() => Date, { defaultValue: Date.now() })
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Field(() => Date, { defaultValue: new Date() })
   createdAt: Date;
 
-  @Column({ nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   @Field(() => Date, { nullable: true })
   finishedAt: Date;
 
-  @UpdateDateColumn()
-  @Field(() => Date, { defaultValue: Date.now() })
+  @UpdateDateColumn({ type: 'timestamp' })
+  @Field(() => Date, { defaultValue: new Date() })
   modifiedAt: Date;
 }
