@@ -25,12 +25,26 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Game {
+  id: Int!
+  isPlaying: Boolean!
+  winnerId: String
+  winnerScore: Int!
+  loserId: String
+  loserScore: Int!
+  createdAt: DateTime!
+  finishedAt: DateTime
+  modifiedAt: DateTime!
+}
+
 type Query {
   users: [User!]!
   user(username: String!): User!
   alarms: [Alarm!]!
   alarm(PP_400_index: Int!): Alarm!
   userAlarm(PP_400_userID: String!): [Alarm!]!
+  games: [Game!]!
+  game(id: Int!): Game!
 }
 
 type Mutation {
@@ -41,6 +55,9 @@ type Mutation {
   checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
   removeAlarm(PP_400_index: Int!): Alarm!
   addAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
+  createGame(createGameInput: CreateGameInput!): Game!
+  updateGame(updateGameInput: UpdateGameInput!): Game!
+  removeGame(id: Int!): Game!
 }
 
 input CreateUserInput {
@@ -67,6 +84,22 @@ input CreateAlarmInput {
 input CheckAlarmInput {
   PP_400_index: Int!
   PP_400_checked: Boolean!
+}
+
+input CreateGameInput {
+  winnerScore: Int!
+  loserScore: Int!
+}
+
+input UpdateGameInput {
+  winnerScore: Int!
+  loserScore: Int!
+  id: Int!
+  isPlaying: Boolean!
+  winnerId: String!
+  loserId: String!
+  finishedAt: DateTime!
+  modifiedAt: DateTime!
 }
 
 type Subscription {
