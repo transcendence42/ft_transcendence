@@ -169,4 +169,5 @@ input UpdateChatLogInput {
 
 type Subscription {
   alarmAdded: Alarm!
+  chatLogAdded: ChatLog!
 }

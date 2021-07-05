@@ -1,16 +1,19 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Subscription } from '@nestjs/graphql';
 import { ChatLogsService } from './chat-logs.service';
 import { ChatLog } from './entities/chat-log.entity';
 import { CreateChatLogInput } from './dto/create-chat-log.input';
 import { UpdateChatLogInput } from './dto/update-chat-log.input';
+import { PubSubProvider } from '../pub-sub/pub-sub.provider';
 
 @Resolver(() => ChatLog)
 export class ChatLogsResolver {
-  constructor(private readonly chatLogsService: ChatLogsService) {}
+  constructor(private readonly chatLogsService: ChatLogsService, private readonly pubSubProvider: PubSubProvider) {}
 
   @Mutation(() => ChatLog)
-  createChatLog(@Args('createChatLogInput') createChatLogInput: CreateChatLogInput) {
-    return this.chatLogsService.create(createChatLogInput);
+  async createChatLog(@Args('createChatLogInput') createChatLogInput: CreateChatLogInput) {
+    const newChatLog = this.chatLogsService.create(createChatLogInput);
+    this.pubSubProvider.getPubSub().publish('chatLogAdded', { chatLogAdded: newChatLog });
+    return newChatLog;
   }
 
   @Query(() => [ChatLog], { name: 'chatLogs' })
@@ -36,5 +39,10 @@ export class ChatLogsResolver {
   @Mutation(() => ChatLog)
   removeChatLog(@Args('index', { type: () => Int }) index: number) {
     return this.chatLogsService.remove(index);
+  }
+
+  @Subscription((returns) => ChatLog)
+  chatLogAdded() {
+    return this.pubSubProvider.getPubSub().asyncIterator('chatLogAdded');
   }
 }
