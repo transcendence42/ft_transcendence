@@ -6,8 +6,8 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   index: number;
 
-  @Column({ type: 'varchar', length: 15 })
-  @Field(() => String)
+  @Column({ type: 'varchar', length: 15, unique: true })
+  @Field(() => String, {})
   userID: string;
 
   @Column({ type: 'varchar', length: 30, nullable: true })
@@ -37,21 +37,16 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', array: true, default: [] })
   @Field(() => [String], { defaultValue: [] })
   blockID: string[]
-
-  @Column({ type: 'varchar', array: true, default: [] })
-  @Field(() => [String], { defaultValue: [] })
-  chatList: string[]
-
   // default status set
   @Column({ default: "login" })
   @Field({ defaultValue: "login" })
   userState: string
 
   @CreateDateColumn()
-  @Field(() => Date, { defaultValue: Date.now() })
+  @Field(() => Date, { defaultValue: new Date() })
   createdAt: Date
 
   @UpdateDateColumn()
-  @Field(() => Date, { defaultValue: Date.now() })
+  @Field(() => Date, { defaultValue: new Date() })
   modifiedAt: Date
 }

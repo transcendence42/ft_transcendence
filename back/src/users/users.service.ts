@@ -40,9 +40,7 @@ export class UsersService {
     user.totalLose = updateUserInput.totalLose;
     user.friendID = updateUserInput.friendID;
     user.blockID = updateUserInput.blockID;
-    user.chatList = updateUserInput.chatList;
     user.userState = updateUserInput.userState;
-    user.createdAt = updateUserInput.createdAt;
     user.modifiedAt = updateUserInput.modifiedAt;
     const validate_error = await validate(user);
     if (validate_error.length > 0) {

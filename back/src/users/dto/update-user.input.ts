@@ -1,40 +1,34 @@
 import { CreateUserInput } from './create-user.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { InputType, Field, PartialType } from '@nestjs/graphql';
 @InputType()
 export class UpdateUserInput extends PartialType(CreateUserInput) {
   @Field(() => String)
   userID: string;
 
-  @Field()
+  @Field({ nullable: true })
   nickname: string;
 
-  @Field()
+  @Field({ nullable: true })
   avatar: string;
 
-  @Field()
+  @Field({ nullable: true })
   ladderRating: number;
 
-  @Field()
+  @Field({ nullable: true })
   totalWin: number;
 
-  @Field()
+  @Field({ nullable: true })
   totalLose: number;
 
-  @Field(() => [String])
+  @Field(() => [String], { nullable: true })
   friendID: string[];
 
-  @Field(() => [String])
+  @Field(() => [String], { nullable: true })
   blockID: string[];
 
-  @Field(() => [String])
-  chatList: string[];
-
-  @Field()
+  @Field({ nullable: true })
   userState: string;
 
-  @Field()
-  createdAt: Date;
-
-  @Field()
+  @Field({ nullable: true })
   modifiedAt: Date;
 }

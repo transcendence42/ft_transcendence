@@ -11,7 +11,6 @@ type User {
   totalLose: Int!
   friendID: [String!]!
   blockID: [String!]!
-  chatList: [String!]!
   userState: String!
   createdAt: DateTime!
   modifiedAt: DateTime!
@@ -22,13 +21,24 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Alarm {
+  PP_400_index: Int!
+  PP_400_userID: String!
+  PP_400_title: String!
+  PP_400_content: String!
+  PP_400_checked: String!
+  PP_400_type: String!
+  PP_400_link: String!
+  PP_400_createdAt: DateTime!
+}
+
 type Game {
   id: Int!
   isPlaying: Boolean!
-  winnerId: String
-  winnerScore: Int!
-  loserId: String
-  loserScore: Int!
+  playerOneID: String!
+  playerOneScore: Int
+  playerTwoID: String!
+  playerTwoScore: Int
   createdAt: DateTime!
   finishedAt: DateTime
   modifiedAt: DateTime!
@@ -37,6 +47,9 @@ type Game {
 type Query {
   users: [User!]!
   user(userID: String!): User!
+  alarms: [Alarm!]!
+  alarm(PP_400_index: Int!): Alarm!
+  userAlarm(PP_400_userID: String!): [Alarm!]!
   games: [Game!]!
   game(id: Int!): Game!
 }
@@ -45,6 +58,10 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(userID: String!): User!
+  createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
+  checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
+  removeAlarm(PP_400_index: Int!): Alarm!
+  addAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   createGame(createGameInput: CreateGameInput!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
   removeGame(id: Int!): Game!
@@ -57,31 +74,46 @@ input CreateUserInput {
 
 input UpdateUserInput {
   userID: String!
-  nickname: String!
-  avatar: String!
-  ladderRating: Float!
-  totalWin: Float!
-  totalLose: Float!
-  friendID: [String!]!
-  blockID: [String!]!
-  chatList: [String!]!
-  userState: String!
-  createdAt: DateTime!
-  modifiedAt: DateTime!
+  nickname: String
+  avatar: String
+  ladderRating: Float
+  totalWin: Float
+  totalLose: Float
+  friendID: [String!]
+  blockID: [String!]
+  userState: String
+  modifiedAt: DateTime
+}
+
+input CreateAlarmInput {
+  PP_400_userID: String!
+  PP_400_title: String!
+  PP_400_content: String!
+  PP_400_type: String!
+  PP_400_link: String!
+}
+
+input CheckAlarmInput {
+  PP_400_index: Int!
+  PP_400_checked: Boolean!
 }
 
 input CreateGameInput {
-  winnerScore: Int!
-  loserScore: Int!
+  playerOneID: String!
+  playerTwoID: String!
 }
 
 input UpdateGameInput {
-  winnerScore: Int!
-  loserScore: Int!
+  playerOneID: String
+  playerTwoID: String
   id: Int!
-  isPlaying: Boolean!
-  winnerId: String!
-  loserId: String!
-  finishedAt: DateTime!
-  modifiedAt: DateTime!
+  isPlaying: Boolean
+  playerOneScore: Int
+  playerTwoScore: Int
+  finishedAt: DateTime
+  modifiedAt: DateTime
+}
+
+type Subscription {
+  alarmAdded: Alarm!
 }
