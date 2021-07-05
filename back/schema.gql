@@ -50,6 +50,14 @@ type Chat {
   modifiedAt: DateTime!
 }
 
+type ChatLog {
+  index: Float!
+  chatID: String!
+  userID: String!
+  message: String!
+  createdAt: DateTime!
+}
+
 type Query {
   users: [User!]!
   user(username: String!): User!
@@ -62,6 +70,9 @@ type Query {
   chat(uuid: String!): Chat!
   getTotalChatCount: Int!
   findAliveChats(pageSize: Int, page: Int, type: String): [Chat!]!
+  chatLogs: [ChatLog!]!
+  chatLog(index: Int!): ChatLog!
+  chatLogsFromChat(uuid: String!): [ChatLog!]!
 }
 
 type Mutation {
@@ -78,6 +89,9 @@ type Mutation {
   createChat(createChatInput: CreateChatInput!): Chat!
   updateChat(updateChatInput: UpdateChatInput!): Chat!
   removeChat(uuid: String!): Chat!
+  createChatLog(createChatLogInput: CreateChatLogInput!): ChatLog!
+  updateChatLog(updateChatLogInput: UpdateChatLogInput!): ChatLog!
+  removeChatLog(index: Int!): ChatLog!
 }
 
 input CreateUserInput {
@@ -138,6 +152,19 @@ input UpdateChatInput {
   isAlive: Boolean
   adminID: [String!]
   userID: [String!]
+}
+
+input CreateChatLogInput {
+  chatID: String!
+  userID: String!
+  message: String!
+}
+
+input UpdateChatLogInput {
+  chatID: String
+  userID: String
+  message: String
+  index: Int!
 }
 
 type Subscription {

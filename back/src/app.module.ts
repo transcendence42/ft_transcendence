@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { AlarmsModule } from './alarms/alarms.module';
 import { GamesModule } from './games/games.module';
 import { ChatsModule } from './chats/chats.module';
+import { ChatLogsModule } from './chat-logs/chat-logs.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ChatsModule } from './chats/chats.module';
     AlarmsModule,
     GamesModule,
     ChatsModule,
+    ChatLogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
