@@ -3,11 +3,23 @@
 # ------------------------------------------------------
 
 type User {
-  username: String!
-  email: String!
-  password: String!
-  imageLink: String!
+  userID: String!
+  nickname: String
+  avatar: String!
+  ladderRating: Int!
+  totalWin: Int!
+  totalLose: Int!
+  friendID: [String!]!
+  blockID: [String!]!
+  userState: String!
+  createdAt: DateTime!
+  modifiedAt: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Alarm {
   index: Int!
@@ -19,11 +31,6 @@ type Alarm {
   link: String!
   createdAt: DateTime!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type Game {
   id: Int!
@@ -39,7 +46,7 @@ type Game {
 
 type Query {
   users: [User!]!
-  user(username: String!): User!
+  user(userID: String!): User!
   alarms: [Alarm!]!
   alarm(index: Int!): Alarm!
   userAlarm(userID: String!): [Alarm!]!
@@ -50,7 +57,7 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  removeUser(userID: String!): User!
   createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
   removeAlarm(index: Int!): Alarm!
@@ -61,16 +68,21 @@ type Mutation {
 }
 
 input CreateUserInput {
-  username: String!
-  email: String!
-  password: String!
+  userID: String!
+  nickname: String!
 }
 
 input UpdateUserInput {
-  username: String
-  email: String
-  password: String
-  id: Int!
+  userID: String!
+  nickname: String
+  avatar: String
+  ladderRating: Float
+  totalWin: Float
+  totalLose: Float
+  friendID: [String!]
+  blockID: [String!]
+  userState: String
+  modifiedAt: DateTime
 }
 
 input CreateAlarmInput {
