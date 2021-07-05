@@ -10,7 +10,7 @@ export class ChatLog extends BaseEntity {
 
   @Field()
   @Column({ type: 'uuid' })
-  chatID: string;
+  chatUUID: string;
 
   @Field()
   @Column()

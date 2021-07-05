@@ -5,7 +5,7 @@ import { IsNotEmpty } from 'class-validator';
 export class CreateChatLogInput {
   @Field()
   @IsNotEmpty()
-  readonly chatID: string;
+  readonly chatUUID: string;
 
   @Field()
   @IsNotEmpty()

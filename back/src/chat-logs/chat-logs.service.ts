@@ -10,10 +10,10 @@ export class ChatLogsService {
   async create(createChatLogInput: CreateChatLogInput) {
     const chat = await Chat.findOneOrFail({
       where: {
-        uuid: createChatLogInput.chatID,
+        uuid: createChatLogInput.chatUUID,
       },
     }).catch(() => {
-      const error = { uuid: `chat with uuid(${createChatLogInput.chatID}) does not exist.` };
+      const error = { uuid: `chat with uuid(${createChatLogInput.chatUUID}) does not exist.` };
       throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
     });
     //TODO: user resource 구현되면 아래 코드 주석 해제.
@@ -26,7 +26,7 @@ export class ChatLogsService {
     //   throw new HttpException({ message: 'Input data validation failed', error}, HttpStatus.BAD_REQUEST);
     // })
     const chatLog = new ChatLog();
-    chatLog.chatID = chat.uuid;
+    chatLog.chatUUID = chat.uuid;
     chatLog.message = createChatLogInput.message;
     chatLog.userID = Math.random() > 0.5 ? 'yshin' : 'holee'; // TODO: user resource 구현되면 아래 코드로 바꿀것.
     //chatLog.userID = user.userID;
@@ -46,7 +46,7 @@ export class ChatLogsService {
   async findChatLogsFromChat(uuid: string) {
     const chatLogs = await ChatLog.find({
       where: {
-        chatID: uuid,
+        chatUUID: uuid,
       },
     });
     return chatLogs;
