@@ -5,8 +5,8 @@ import { App } from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 
-import { client } from './apollo/apolloProvider';
 import { ApolloProvider } from '@apollo/client';
+import { client } from './apollo/apolloProvider';
 
 ReactDOM.render(
   <React.StrictMode>
