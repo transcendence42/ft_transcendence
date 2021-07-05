@@ -4,8 +4,8 @@
 
 type User {
   userID: String!
-  nickname: String!
-  avatar: String
+  nickname: String
+  avatar: String!
   ladderRating: Int!
   totalWin: Int!
   totalLose: Int!

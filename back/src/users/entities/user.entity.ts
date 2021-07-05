@@ -1,6 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-
+import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, CreateDateColumn, UpdateDateColumn, LockNotSupportedOnGivenDriverError } from 'typeorm';
 @Entity('user')
 @ObjectType()
 export class User extends BaseEntity {
@@ -11,12 +10,12 @@ export class User extends BaseEntity {
   @Field(() => String)
   userID: string;
 
-  @Column({ type: 'varchar', length: 30 })
-  @Field(() => String)
+  @Column({ type: 'varchar', length: 30, nullable: true })
+  @Field(() => String, { nullable: true })
   nickname: string;
 
-  @Column({ type: 'varchar', nullable: true })
-  @Field(() => String, { nullable: true })
+  @Column({ type: 'varchar', default: "" })
+  @Field(() => String, { defaultValue: "" })
   avatar: string
 
   @Column({ type: 'int', default: 0 })
@@ -31,27 +30,28 @@ export class User extends BaseEntity {
   @Field(() => Int, { defaultValue: 0 })
   totalLose: number
 
-  @Column({ type: 'varchar', array: true, nullable: true })
-  @Field(() => [String])
+  @Column({ type: 'varchar', array: true, default: [] })
+  @Field(() => [String], { defaultValue: [] })
   friendID: string[]
 
-  @Column({ type: 'varchar', array: true, nullable: true })
-  @Field(() => [String])
+  @Column({ type: 'varchar', array: true, default: [] })
+  @Field(() => [String], { defaultValue: [] })
   blockID: string[]
 
-  @Column({ type: 'varchar', array: true, nullable: true })
-  @Field(() => [String])
+  @Column({ type: 'varchar', array: true, default: [] })
+  @Field(() => [String], { defaultValue: [] })
   chatList: string[]
 
-  @Column({ nullable: true })
-  @Field()
+  // default status set
+  @Column({ default: "login" })
+  @Field({ defaultValue: "login" })
   userState: string
 
-  @CreateDateColumn({ type: 'date' })
+  @CreateDateColumn()
   @Field(() => Date, { defaultValue: Date.now() })
   createdAt: Date
 
-  @UpdateDateColumn({ type: 'date' })
+  @UpdateDateColumn()
   @Field(() => Date, { defaultValue: Date.now() })
   modifiedAt: Date
 }
