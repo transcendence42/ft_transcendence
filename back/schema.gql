@@ -10,14 +10,14 @@ type User {
 }
 
 type Alarm {
-  PP_400_index: Int!
-  PP_400_userID: String!
-  PP_400_title: String!
-  PP_400_content: String!
-  PP_400_checked: String!
-  PP_400_type: String!
-  PP_400_link: String!
-  PP_400_createdAt: DateTime!
+  index: Int!
+  userID: String!
+  title: String!
+  content: String!
+  checked: String!
+  type: String!
+  link: String!
+  createdAt: DateTime!
 }
 
 """
@@ -28,10 +28,10 @@ scalar DateTime
 type Game {
   id: Int!
   isPlaying: Boolean!
-  playerOneID: String!
-  playerOneScore: Int
-  playerTwoID: String!
-  playerTwoScore: Int
+  winnerId: String
+  winnerScore: Int!
+  loserId: String
+  loserScore: Int!
   createdAt: DateTime!
   finishedAt: DateTime
   modifiedAt: DateTime!
@@ -41,8 +41,8 @@ type Query {
   users: [User!]!
   user(username: String!): User!
   alarms: [Alarm!]!
-  alarm(PP_400_index: Int!): Alarm!
-  userAlarm(PP_400_userID: String!): [Alarm!]!
+  alarm(index: Int!): Alarm!
+  userAlarm(userID: String!): [Alarm!]!
   games: [Game!]!
   game(id: Int!): Game!
 }
@@ -53,7 +53,7 @@ type Mutation {
   removeUser(id: Int!): User!
   createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
-  removeAlarm(PP_400_index: Int!): Alarm!
+  removeAlarm(index: Int!): Alarm!
   addAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   createGame(createGameInput: CreateGameInput!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
@@ -74,16 +74,32 @@ input UpdateUserInput {
 }
 
 input CreateAlarmInput {
-  PP_400_userID: String!
-  PP_400_title: String!
-  PP_400_content: String!
-  PP_400_type: String!
-  PP_400_link: String!
+  userID: String!
+  title: String!
+  content: String!
+  type: String!
+  link: String!
 }
 
 input CheckAlarmInput {
-  PP_400_index: Int!
-  PP_400_checked: Boolean!
+  index: Int!
+  checked: Boolean!
+}
+
+input CreateGameInput {
+  winnerScore: Int!
+  loserScore: Int!
+}
+
+input UpdateGameInput {
+  winnerScore: Int!
+  loserScore: Int!
+  id: Int!
+  isPlaying: Boolean!
+  winnerId: String!
+  loserId: String!
+  finishedAt: DateTime!
+  modifiedAt: DateTime!
 }
 
 input CreateGameInput {

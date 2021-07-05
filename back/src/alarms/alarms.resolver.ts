@@ -22,23 +22,23 @@ export class AlarmsResolver {
   }
 
   @Query(() => Alarm, { name: 'alarm' })
-  findOne(@Args('PP_400_index', { type: () => Int }) PP_400_index: number) {
-    return this.alarmsService.findOne(PP_400_index);
+  findOne(@Args('index', { type: () => Int }) index: number) {
+    return this.alarmsService.findOne(index);
   }
 
   @Query(() => [Alarm], { name: 'userAlarm' })
-  findUserAlarm(@Args('PP_400_userID', { type: () => String }) PP_400_userID: string) {
-    return this.alarmsService.findUserAlarm(PP_400_userID);
+  findUserAlarm(@Args('userID', { type: () => String }) userID: string) {
+    return this.alarmsService.findUserAlarm(userID);
   }
 
   @Mutation(() => Alarm)
   checkAlarm(@Args('checkAlarmInput') checkAlarmInput: CheckAlarmInput) {
-    return this.alarmsService.update(checkAlarmInput.PP_400_index, checkAlarmInput);
+    return this.alarmsService.update(checkAlarmInput.index, checkAlarmInput);
   }
 
   @Mutation(() => Alarm)
-  removeAlarm(@Args('PP_400_index', { type: () => Int }) PP_400_index: number) {
-    return this.alarmsService.remove(PP_400_index);
+  removeAlarm(@Args('index', { type: () => Int }) index: number) {
+    return this.alarmsService.remove(index);
   }
 
   @Mutation(() => Alarm)
@@ -51,7 +51,7 @@ export class AlarmsResolver {
   @Subscription(() => Alarm, {
     name: 'alarmAdded',
     filter(this: AlarmsResolver, payload, variables) {
-      return payload.alarmAdded.PP_400_userID === variables.PP_400_userID;
+      return payload.alarmAdded.userID === variables.userID;
     },
   })
   addAlarmHandler() {
