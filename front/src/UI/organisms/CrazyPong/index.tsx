@@ -1,62 +1,63 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import './index.scss';
-import { drawRect, drawNet, drawCircle, drawText } from './utils';
+import { drawNet, drawText } from './utils';
+import { BallMovement } from './ballMovement';
+import { paddleMovement } from './paddleMovement';
+import { collision } from './collision';
+import { data } from './data';
+
+const { ball, player1, player2 } = data;
 
 const CrazyPong = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [userPaddle, setUserPaddle] = useState({
-    x: 0,
-    y: 0,
-    width: 10,
-    height: 100,
-    color: 'white',
-    score: 0,
-  });
-  const [comPaddle, setComPaddle] = useState({
-    x: 0,
-    y: 0,
-    width: 10,
-    height: 100,
-    color: 'white',
-    score: 0,
-  });
-  const [ball, setBall] = useState({
-    x: 0,
-    y: 0,
-    radius: 10,
-    speed: 5,
-    velocityX: 5,
-    velocityY: 5,
-    color: 'white',
-  });
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
+    const render = () => {
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // update
-      setBall((prev) => ({ ...prev, x: prev.x + prev.velocityX, y: prev.y + prev.velocityY }));
-      if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-        setBall((prev) => ({ ...prev, velocityY: -prev.velocityY }));
+          drawText(ctx, String(player1.score), canvas.width / 4 - 20, canvas.height / 5, 'white');
+          drawText(ctx, String(player2.score), (3 * canvas.width) / 4 - 20, canvas.height / 5, 'white');
+          drawNet(ctx, canvas.width, canvas.height);
+          BallMovement(ctx, ball);
+          paddleMovement(ctx, player1);
+          paddleMovement(ctx, player2);
+
+          if (!collision(canvas, ball, player1, player2)) {
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 2;
+          }
+
+          requestAnimationFrame(render);
+        }
       }
+    };
+    render();
+  }, []);
 
-      // init
-      canvas.width = 900;
-      canvas.height = 500;
-      setUserPaddle((prev) => ({ ...prev, y: canvas.height / 2 - 50 }));
-      setComPaddle((prev) => ({ ...prev, x: canvas.width - 10, y: canvas.height / 2 - 50 }));
-      setBall((prev) => ({ ...prev, x: canvas.width / 2, y: canvas.height / 2 }));
-      drawRect(ctx, userPaddle.x, userPaddle.y, userPaddle.width, userPaddle.height, userPaddle.color);
-      drawRect(ctx, comPaddle.x, comPaddle.y, comPaddle.width, comPaddle.height, comPaddle.color);
-      drawCircle(ctx, ball.x, ball.y, ball.radius, ball.color);
-      drawNet(ctx, canvas.width, canvas.height);
-      drawText(ctx, String(userPaddle.score), canvas.width / 4 - 20, canvas.height / 5, 'white');
-      drawText(ctx, String(comPaddle.score), (3 * canvas.width) / 4 - 20, canvas.height / 5, 'white');
-    }
-  }, [userPaddle.x, userPaddle.y, comPaddle.x, comPaddle.y, ball.x, ball.y]);
-  return <canvas ref={canvasRef} className="canvas"></canvas>;
+  return (
+    <canvas
+      ref={canvasRef}
+      onMouseMove={(event) => {
+        if (event.clientY < event.currentTarget.getBoundingClientRect().top + player1.height / 2) {
+          return (player1.y = 0);
+        }
+        if (event.clientY > event.currentTarget.getBoundingClientRect().top + 500 - player1.height / 2) {
+          return (player1.y = 500 - player1.height);
+        }
+        if (event.clientY - player1.height / 2 > event.currentTarget.getBoundingClientRect().top) {
+          return (player1.y = event.clientY - event.currentTarget.getBoundingClientRect().top - player1.height / 2);
+        }
+      }}
+      className="canvas"
+      width="900"
+      height="500"
+    ></canvas>
+  );
 };
 
 export default CrazyPong;
