@@ -45,14 +45,18 @@ const CrazyPong = () => {
     <canvas
       ref={canvasRef}
       onMouseMove={(event) => {
-        if (event.clientY < event.currentTarget.getBoundingClientRect().top + player1.height / 2) {
+        if (event.clientY < event.currentTarget.getBoundingClientRect().top + player1.paddleHeight / 2) {
           return (player1.y = 0);
         }
-        if (event.clientY > event.currentTarget.getBoundingClientRect().top + CANVAS_HEIGHT - player1.height / 2) {
-          return (player1.y = CANVAS_HEIGHT - player1.height);
+        if (
+          event.clientY >
+          event.currentTarget.getBoundingClientRect().top + CANVAS_HEIGHT - player1.paddleHeight / 2
+        ) {
+          return (player1.y = CANVAS_HEIGHT - player1.paddleHeight);
         }
-        if (event.clientY - player1.height / 2 > event.currentTarget.getBoundingClientRect().top) {
-          return (player1.y = event.clientY - event.currentTarget.getBoundingClientRect().top - player1.height / 2);
+        if (event.clientY - player1.paddleHeight / 2 > event.currentTarget.getBoundingClientRect().top) {
+          return (player1.y =
+            event.clientY - event.currentTarget.getBoundingClientRect().top - player1.paddleHeight / 2);
         }
       }}
       className="canvas"

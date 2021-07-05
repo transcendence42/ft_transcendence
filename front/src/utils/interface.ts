@@ -94,3 +94,26 @@ export interface IDummyChatListData {
   myChatList: IChat[];
   totalChatList: IChat[];
 }
+
+/*
+ ** Game
+ */
+
+export interface IPaddle {
+  x: number;
+  y: number;
+  paddleWidth: number;
+  paddleHeight: number;
+  color: string;
+  score: number;
+}
+
+export interface IBall {
+  x: number;
+  y: number;
+  velocityX: number;
+  velocityY: number;
+  radius: number;
+  speed: number;
+  color: string;
+}
