@@ -3,21 +3,17 @@
 # ------------------------------------------------------
 
 type User {
-  username: String!
-  email: String!
-  password: String!
-  imageLink: String!
-}
-
-type Alarm {
-  PP_400_index: Int!
-  PP_400_userID: String!
-  PP_400_title: String!
-  PP_400_content: String!
-  PP_400_checked: String!
-  PP_400_type: String!
-  PP_400_link: String!
-  PP_400_createdAt: DateTime!
+  userID: String!
+  nickname: String
+  avatar: String!
+  ladderRating: Int!
+  totalWin: Int!
+  totalLose: Int!
+  friendID: [String!]!
+  blockID: [String!]!
+  userState: String!
+  createdAt: DateTime!
+  modifiedAt: DateTime!
 }
 
 """
@@ -25,13 +21,24 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Alarm {
+  index: Int!
+  userID: String!
+  title: String!
+  content: String!
+  checked: String!
+  type: String!
+  link: String!
+  createdAt: DateTime!
+}
+
 type Game {
   id: Int!
   isPlaying: Boolean!
-  winnerId: String
-  winnerScore: Int!
-  loserId: String
-  loserScore: Int!
+  playerOneID: String!
+  playerOneScore: Int
+  playerTwoID: String!
+  playerTwoScore: Int
   createdAt: DateTime!
   finishedAt: DateTime
   modifiedAt: DateTime!
@@ -52,7 +59,7 @@ type Chat {
 
 type ChatLog {
   index: Float!
-  chatID: String!
+  chatUUID: String!
   userID: String!
   message: String!
   createdAt: DateTime!
@@ -60,16 +67,17 @@ type ChatLog {
 
 type Query {
   users: [User!]!
-  user(username: String!): User!
+  user(userID: String!): User!
   alarms: [Alarm!]!
-  alarm(PP_400_index: Int!): Alarm!
-  userAlarm(PP_400_userID: String!): [Alarm!]!
+  alarm(index: Int!): Alarm!
+  userAlarm(userID: String!): [Alarm!]!
   games: [Game!]!
   game(id: Int!): Game!
   chats: [Chat!]!
   chat(uuid: String!): Chat!
   getTotalChatCount: Int!
   findAliveChats(pageSize: Int, page: Int, type: String): [Chat!]!
+  findMyChatList(userID: String!): [Chat!]!
   chatLogs: [ChatLog!]!
   chatLog(index: Int!): ChatLog!
   chatLogsFromChat(uuid: String!): [ChatLog!]!
@@ -78,10 +86,10 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  removeUser(userID: String!): User!
   createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
-  removeAlarm(PP_400_index: Int!): Alarm!
+  removeAlarm(index: Int!): Alarm!
   addAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   createGame(createGameInput: CreateGameInput!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
@@ -95,45 +103,50 @@ type Mutation {
 }
 
 input CreateUserInput {
-  username: String!
-  email: String!
-  password: String!
+  userID: String!
+  nickname: String!
 }
 
 input UpdateUserInput {
-  username: String
-  email: String
-  password: String
-  id: Int!
+  userID: String!
+  nickname: String
+  avatar: String
+  ladderRating: Float
+  totalWin: Float
+  totalLose: Float
+  friendID: [String!]
+  blockID: [String!]
+  userState: String
+  modifiedAt: DateTime
 }
 
 input CreateAlarmInput {
-  PP_400_userID: String!
-  PP_400_title: String!
-  PP_400_content: String!
-  PP_400_type: String!
-  PP_400_link: String!
+  userID: String!
+  title: String!
+  content: String!
+  type: String!
+  link: String!
 }
 
 input CheckAlarmInput {
-  PP_400_index: Int!
-  PP_400_checked: Boolean!
+  index: Int!
+  checked: Boolean!
 }
 
 input CreateGameInput {
-  winnerScore: Int!
-  loserScore: Int!
+  playerOneID: String!
+  playerTwoID: String!
 }
 
 input UpdateGameInput {
-  winnerScore: Int!
-  loserScore: Int!
+  playerOneID: String
+  playerTwoID: String
   id: Int!
-  isPlaying: Boolean!
-  winnerId: String!
-  loserId: String!
-  finishedAt: DateTime!
-  modifiedAt: DateTime!
+  isPlaying: Boolean
+  playerOneScore: Int
+  playerTwoScore: Int
+  finishedAt: DateTime
+  modifiedAt: DateTime
 }
 
 input CreateChatInput {
@@ -155,13 +168,13 @@ input UpdateChatInput {
 }
 
 input CreateChatLogInput {
-  chatID: String!
+  chatUUID: String!
   userID: String!
   message: String!
 }
 
 input UpdateChatLogInput {
-  chatID: String
+  chatUUID: String
   userID: String
   message: String
   index: Int!
