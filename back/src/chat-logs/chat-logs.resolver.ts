@@ -19,17 +19,22 @@ export class ChatLogsResolver {
   }
 
   @Query(() => ChatLog, { name: 'chatLog' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.chatLogsService.findOne(id);
+  findOne(@Args('index', { type: () => Int }) index: number) {
+    return this.chatLogsService.findOne(index);
+  }
+
+  @Query(() => [ChatLog], { name: 'chatLogsFromChat' })
+  findChatLogsFromChat(@Args('uuid') uuid: string) {
+    return this.chatLogsService.findChatLogsFromChat(uuid);
   }
 
   @Mutation(() => ChatLog)
   updateChatLog(@Args('updateChatLogInput') updateChatLogInput: UpdateChatLogInput) {
-    return this.chatLogsService.update(updateChatLogInput.id, updateChatLogInput);
+    return this.chatLogsService.update(updateChatLogInput.index, updateChatLogInput);
   }
 
   @Mutation(() => ChatLog)
-  removeChatLog(@Args('id', { type: () => Int }) id: number) {
-    return this.chatLogsService.remove(id);
+  removeChatLog(@Args('index', { type: () => Int }) index: number) {
+    return this.chatLogsService.remove(index);
   }
 }

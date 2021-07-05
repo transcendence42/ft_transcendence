@@ -1,7 +1,26 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @ObjectType()
-export class ChatLog {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+@Entity()
+export class ChatLog extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  @Field()
+  index: number;
+
+  @Field()
+  @Column({ type: 'uuid' })
+  chatID: string;
+
+  @Field()
+  @Column()
+  userID: string;
+
+  @Field()
+  @Column({ type: 'text' })
+  message: string;
+
+  @Field()
+  @CreateDateColumn()
+  createdAt: Date;
 }
