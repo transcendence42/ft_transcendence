@@ -3,6 +3,7 @@ import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
 import { Chat } from './entities/chat.entity';
 import { validate } from 'class-validator';
+import { Any } from 'typeorm';
 
 @Injectable()
 export class ChatsService {
@@ -114,5 +115,14 @@ export class ChatsService {
       take: pageSize,
     });
     return chats;
+  }
+
+  //my chat 리스트 쿼리
+  async findMyChatList(userID: string) {
+    const chatList = await Chat.getRepository()
+      .createQueryBuilder()
+      .where(':userID=ANY("userID") OR :userID="ownerID"', { userID: userID })
+      .getMany();
+    return chatList;
   }
 }

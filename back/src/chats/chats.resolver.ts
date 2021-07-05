@@ -46,4 +46,9 @@ export class ChatsResolver {
   ) {
     return this.chatsService.findAliveChats({ type, page, pageSize });
   }
+
+  @Query(() => [Chat])
+  findMyChatList(@Args('userID') userID: string) {
+    return this.chatsService.findMyChatList(userID);
+  }
 }
