@@ -1,22 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Box, Text, Button, Icon } from '@chakra-ui/react';
 import { MdTimer } from 'react-icons/md';
 import ProfileMedium from '../../molecules/ProfileMedium';
 import { GameCardProps } from '../../../utils/interface';
+import { getRunningTime } from '../../../utils/util';
 import './index.scss';
 
-const getRunningTime = (startTime: Date) => {
-  return `00:00`;
-};
-
 const GameCard = ({ playerA, playerB, startTime }: GameCardProps) => {
+  const isoStartTime: Date = useMemo(() => new Date(startTime), [startTime]);
+  const [runningTime, setRunningTime] = useState(getRunningTime(isoStartTime));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRunningTime(getRunningTime(isoStartTime));
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isoStartTime]);
+
   return (
     <>
       <Box className="game-card">
         <Box className="game-card-running-time-section">
           <div>
             <Icon as={MdTimer} />
-            {getRunningTime(startTime)}
+            {runningTime}
           </div>
         </Box>
         <Box className="game-card-profile-section">

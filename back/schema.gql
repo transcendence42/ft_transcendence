@@ -28,10 +28,10 @@ scalar DateTime
 type Game {
   id: Int!
   isPlaying: Boolean!
-  winnerId: String
-  winnerScore: Int!
-  loserId: String
-  loserScore: Int!
+  playerOneID: String!
+  playerOneScore: Int
+  playerTwoID: String!
+  playerTwoScore: Int
   createdAt: DateTime!
   finishedAt: DateTime
   modifiedAt: DateTime!
@@ -84,22 +84,6 @@ input CreateAlarmInput {
 input CheckAlarmInput {
   index: Int!
   checked: Boolean!
-}
-
-input CreateGameInput {
-  winnerScore: Int!
-  loserScore: Int!
-}
-
-input UpdateGameInput {
-  winnerScore: Int!
-  loserScore: Int!
-  id: Int!
-  isPlaying: Boolean!
-  winnerId: String!
-  loserId: String!
-  finishedAt: DateTime!
-  modifiedAt: DateTime!
 }
 
 input CreateGameInput {
