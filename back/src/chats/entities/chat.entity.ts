@@ -18,12 +18,12 @@ export class Chat extends BaseEntity {
   index: number;
 
   @Generated('uuid') // uuid 생성 코드. DB에서 생성됨.
-  @Column()
+  @Column({ type: 'uuid' })
   @Field()
   uuid: string;
 
   @Field()
-  @Column('varchar')
+  @Column('varchar', { length: 20 })
   name: string;
 
   @Field({ nullable: true })

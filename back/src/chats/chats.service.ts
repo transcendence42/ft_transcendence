@@ -6,12 +6,33 @@ import { validate } from 'class-validator';
 
 @Injectable()
 export class ChatsService {
+  private checkPasswordValidation(type: string, password: string) {
+    if (type === 'private') {
+      if (password === '' || password === undefined) {
+        const error = { password: `Private chat must set password.` };
+        throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+      } else if (password.search(/[^\d]/g) !== -1) {
+        const error = { password: `Password must be number.` };
+        throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+      }
+    } else {
+      // public
+      if (!(password === '' || password === undefined)) {
+        const error = { password: `Public chat can't set password.` };
+        throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+      }
+    }
+  }
+
   async create(createChatInput: CreateChatInput) {
     const chat = new Chat();
     chat.name = createChatInput.name;
     chat.password = createChatInput.password;
     chat.type = createChatInput.type;
     chat.ownerID = createChatInput.ownerID;
+    this.checkPasswordValidation(createChatInput.type, createChatInput.password);
+
+    //class-validator
     const validate_error = await validate(chat);
     if (validate_error.length > 0) {
       throw new HttpException({ message: 'Input data validation failed' }, HttpStatus.BAD_REQUEST);
@@ -31,7 +52,8 @@ export class ChatsService {
         uuid: uuid,
       },
     }).catch(() => {
-      throw new HttpException({ message: `chat with uuid(${uuid}) does not exist` }, HttpStatus.BAD_REQUEST);
+      const error = { uuid: `chat with uuid(${uuid}) does not exist` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
     });
     return chat;
   }
@@ -42,7 +64,8 @@ export class ChatsService {
         uuid: uuid,
       },
     }).catch(() => {
-      throw new HttpException({ message: `chat with uuid(${uuid}) does not exist` }, HttpStatus.BAD_REQUEST);
+      const error = { uuid: `chat with uuid(${uuid}) does not exist` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
     });
     chat.isAlive = updateChatInput.isAlive ? updateChatInput.isAlive : chat.isAlive;
     chat.adminID = updateChatInput.adminID ? updateChatInput.adminID : chat.adminID;
@@ -61,7 +84,8 @@ export class ChatsService {
         uuid: uuid,
       },
     }).catch(() => {
-      throw new HttpException({ message: `chat with uuid(${uuid}) does not exist` }, HttpStatus.BAD_REQUEST);
+      const error = { uuid: `chat with uuid(${uuid}) does not exist` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
     });
     return await Chat.remove(chat);
   }
@@ -70,6 +94,7 @@ export class ChatsService {
     return await Chat.count();
   }
 
+  // chat 페이지 채팅 리스트 확인용 쿼리
   async findAliveChats({
     type,
     page = 0,

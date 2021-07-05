@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, MinLength, MaxLength } from 'class-validator';
 
 export type ChatType = 'public' | 'private' | 'dm';
 
@@ -7,6 +7,8 @@ export type ChatType = 'public' | 'private' | 'dm';
 export class CreateChatInput {
   @Field()
   @IsNotEmpty()
+  @MinLength(1)
+  @MaxLength(20)
   name: string;
 
   @Field({ nullable: true })
