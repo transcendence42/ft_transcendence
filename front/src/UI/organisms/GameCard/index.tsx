@@ -3,15 +3,8 @@ import { Box, Text, Button, Icon } from '@chakra-ui/react';
 import { MdTimer } from 'react-icons/md';
 import ProfileMedium from '../../molecules/ProfileMedium';
 import { GameCardProps } from '../../../utils/interface';
+import { getRunningTime } from '../../../utils/util';
 import './index.scss';
-
-const getRunningTime = (isoStartTime: Date): string => {
-  const currentTime: Date = new Date();
-  const rawGameTime = currentTime.getTime() - isoStartTime.getTime();
-  const min = String(Math.floor(rawGameTime / 1000 / 60));
-  const sec = String(Math.floor(rawGameTime / 1000) - Number(min) * 60);
-  return `${min}:${sec}`;
-};
 
 const GameCard = ({ playerA, playerB, startTime }: GameCardProps) => {
   const isoStartTime: Date = useMemo(() => new Date(startTime), [startTime]);
