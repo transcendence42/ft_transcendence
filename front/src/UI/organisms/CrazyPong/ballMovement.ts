@@ -1,14 +1,5 @@
 import { drawCircle } from './utils';
-
-interface IBall {
-  x: number;
-  y: number;
-  velocityX: number;
-  velocityY: number;
-  radius: number;
-  speed: number;
-  color: string;
-}
+import { IBall } from '../../../utils/interface';
 
 const BallMovement = (ctx: CanvasRenderingContext2D, ball: IBall) => {
   drawCircle(ctx, ball.x, ball.y, ball.radius, ball.color);

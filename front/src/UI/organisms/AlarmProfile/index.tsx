@@ -19,7 +19,7 @@ export const AlarmProfile = ({ nickname, totalWin, totalLose, ladderRating, rank
         ranking={ranking}
         backgroundColor={ALARM_PROFILE_BACKGROUND_COLOR}
       />
-      <Box position="fixed" right="1rem">
+      <Box position="absolute" right="1rem">
         {logoutIcon()}
       </Box>
     </Flex>
