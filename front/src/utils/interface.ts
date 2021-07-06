@@ -2,10 +2,25 @@
  ** Alarm
  */
 
+export interface IAlarm {
+  content: string;
+  createdAt: string;
+  index: number;
+  link: string;
+  title: string;
+  type: 'addFriend' | 'defeat' | 'win';
+  userId: string;
+  __typename: 'Alarm';
+}
+
 export interface IalarmMessage {
+  index: number;
   title: string;
   content: string;
   alarmTime: string;
+  type: 'addFriend' | 'defeat' | 'win';
+  link: string;
+  removeAlarmMessageHandler: (alarmIndex: number) => void;
 }
 
 export interface IchatMessage {
@@ -76,6 +91,16 @@ export interface ProfileLargeProps {
   totalWin: number;
   totalLose: number;
   reverse: boolean;
+}
+
+export interface IGame {
+  id: number;
+  isPlaying: boolean;
+  playerOneID: string;
+  playerOneScore: number;
+  playerTwoID: string;
+  playerTwoScore: number;
+  createdAt: Date;
 }
 
 /*

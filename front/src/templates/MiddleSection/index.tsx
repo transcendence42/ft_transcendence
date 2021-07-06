@@ -26,7 +26,7 @@ const MiddleSectionTemplate = ({
       >
         {middleSectionHeader}
       </Box>
-      <Box marginTop="10px" padding="10px" backgroundColor="gray">
+      <Box marginTop="10px" padding="10px">
         {children}
       </Box>
     </Flex>

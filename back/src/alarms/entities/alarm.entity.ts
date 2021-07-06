@@ -6,33 +6,33 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BaseEntity } 
 export class Alarm extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field(() => Int)
-  PP_400_index: number;
+  index: number;
 
   @Column({ type: 'varchar', length: 200 })
   @Field(() => String)
-  PP_400_userID: string;
+  userID: string;
 
   @Column({ type: 'varchar', length: 200 })
   @Field(() => String)
-  PP_400_title: string;
+  title: string;
 
   @Column({ type: 'text' })
   @Field(() => String)
-  PP_400_content: string;
+  content: string;
 
   @Column({ default: false })
   @Field(() => String)
-  PP_400_checked: boolean;
+  checked: boolean;
 
   @Column({ type: 'varchar', length: 20, default: '' })
   @Field(() => String)
-  PP_400_type: string;
+  type: string;
 
   @Column({ default: '' })
   @Field(() => String)
-  PP_400_link: string;
+  link: string;
 
   @CreateDateColumn()
   @Field(() => Date)
-  PP_400_createdAt: Date;
+  createdAt: Date;
 }

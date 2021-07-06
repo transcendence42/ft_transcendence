@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.3.20",
     "@chakra-ui/icons": "^1.0.13",
     "@chakra-ui/react": "^1.0.0",
     "@emotion/react": "^11.0.0",
@@ -17,6 +18,7 @@
     "@types/react-router-dom": "^5.1.7",
     "chakra-paginator": "^0.7.2",
     "framer-motion": "^4.0.0",
+    "graphql": "^15.5.1",
     "node-sass": "yarn:sass",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

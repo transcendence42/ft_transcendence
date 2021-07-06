@@ -5,9 +5,9 @@ import { IsInt, IsBoolean } from 'class-validator';
 export class CheckAlarmInput {
   @IsInt()
   @Field(() => Int)
-  PP_400_index: number;
+  index: number;
 
   @IsBoolean()
   @Field(() => Boolean)
-  PP_400_checked: boolean;
+  checked: boolean;
 }

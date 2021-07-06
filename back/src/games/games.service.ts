@@ -8,8 +8,8 @@ import { validate } from 'class-validator';
 export class GamesService {
   async create(createGameInput: CreateGameInput) {
     const game = new Game();
-    game.winnerScore = createGameInput.winnerScore;
-    game.loserScore = createGameInput.loserScore;
+    game.playerOneID = createGameInput.playerOneID;
+    game.playerTwoID = createGameInput.playerTwoID;
 
     const validate_error = await validate(game);
     if (validate_error.length > 0) {
@@ -33,10 +33,10 @@ export class GamesService {
   async update(id: number, updateGameInput: UpdateGameInput) {
     const game = await Game.findOne(id);
     game.isPlaying = updateGameInput.isPlaying;
-    game.winnerId = updateGameInput.winnerId;
-    game.winnerScore = updateGameInput.winnerScore;
-    game.loserId = updateGameInput.loserId;
-    game.loserScore = updateGameInput.loserScore;
+    game.playerOneID = updateGameInput.playerOneID;
+    game.playerOneScore = updateGameInput.playerOneScore;
+    game.playerTwoID = updateGameInput.playerTwoID;
+    game.playerTwoScore = updateGameInput.playerTwoScore;
     game.finishedAt = updateGameInput.finishedAt;
     game.modifiedAt = updateGameInput.modifiedAt;
     const validate_error = await validate(game);

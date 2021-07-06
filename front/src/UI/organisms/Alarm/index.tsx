@@ -3,7 +3,7 @@ import React from 'react';
 import { Flex, Box, Accordion } from '@chakra-ui/react';
 
 import { AlarmChat } from '../AlarmChat';
-import { AlarmNotifier } from '../AlarmNotifier';
+import AlarmNotifierContainer from '../AlarmNotifier';
 import { AlarmUserList } from '../AlarmUserList';
 import { AlarmProfile } from '../AlarmProfile';
 
@@ -40,7 +40,7 @@ export const Alarm = () => {
             />
           </Box>
           <Box bg={ALARM_TITLE_BACKGROOUND_COLOR}>
-            <AlarmNotifier />
+            <AlarmNotifierContainer />
           </Box>
           <Box bg={ALARM_TITLE_BACKGROOUND_COLOR}>
             <AlarmUserList />
