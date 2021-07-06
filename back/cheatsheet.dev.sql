@@ -21,11 +21,12 @@ INSERT INTO game ("playerOneID", "playerOneScore", "playerTwoID", "playerTwoScor
 ('holee', 2, 'jwon', 5),
 ('yshin', 6, 'jwon', 4);
 
-INSERT INTO public.user ("userID", nickname) VALUES
-('jwon', 'junho won'),
-('yechoi', 'yeji choi'),
-('holee', 'hochan lee'),
-('yshin', 'younghak shin');
+INSERT INTO public.user ("userID", nickname, "ladderRating", "totalWin", "totalLose", "friendID", "blockID") VALUES
+('jwon', 'junho won', 800, 5, 6, ['yechoi', 'holee'], [devil]),
+('yechoi', 'yeji choi', 1000, 6, 5, ['jwon', 'yshin'], [devil]),
+('holee', 'hochan lee', 1200, 7, 4, ['jwon', 'yechoi', 'yshin'], [devil]),
+('yshin', 'younghak shin', 1400, 8, 4, ['jwon', 'yechoi'], [devil]),
+('devil', 'who i am', 200, 0, 12, [], []);
 
 INSERT INTO chat (name, password, "isAlive", type, "ownerID", "adminID", "userID")
   VALUES
