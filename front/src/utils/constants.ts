@@ -1,3 +1,10 @@
+export const SPINNER_COLOR = 'gray.500';
+export const SPINNER_ERROR_COLOR = 'red.500';
+
+/*
+ ** Alarm
+ */
+
 export const ALARM_TITLE_BACKGROOUND_COLOR = 'white';
 export const ALARM_BACKGROUND_COLOR = 'gray.50';
 export const ALARM_PROFILE_BACKGROUND_COLOR = 'gray.100';

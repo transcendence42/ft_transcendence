@@ -16,6 +16,7 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.7",
+    "apollo-server-errors": "^2.5.0",
     "chakra-paginator": "^0.7.2",
     "framer-motion": "^4.0.0",
     "graphql": "^15.5.1",
