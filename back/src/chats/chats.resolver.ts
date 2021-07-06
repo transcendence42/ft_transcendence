@@ -38,7 +38,7 @@ export class ChatsResolver {
     return this.chatsService.getTotalCount();
   }
 
-  @Query(() => [Chat], { name: 'findAliveChats' })
+  @Query(() => [Chat], { name: 'aliveChats' })
   findAliveChats(
     @Args('type', { type: () => String, nullable: true }) type: 'public' | 'private' | undefined,
     @Args('page', { type: () => Int, nullable: true }) page: number,
@@ -47,7 +47,7 @@ export class ChatsResolver {
     return this.chatsService.findAliveChats({ type, page, pageSize });
   }
 
-  @Query(() => [Chat])
+  @Query(() => [Chat], { name: 'myChatList' })
   findMyChatList(
     @Args('userID', { type: () => String }) userID: string,
     @Args('type', { type: () => String, nullable: true }) type: 'dm' | undefined,
