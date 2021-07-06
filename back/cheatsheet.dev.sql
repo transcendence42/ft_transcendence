@@ -21,7 +21,7 @@ INSERT INTO game ("playerOneID", "playerOneScore", "playerTwoID", "playerTwoScor
 ('holee', 2, 'jwon', 5),
 ('yshin', 6, 'jwon', 4);
 
-INSERT INTO public.user ("userID", nickname, "ladderRating", "totalWin", "totalLose", "friendID", "blockID", avatar, userState) VALUES
+INSERT INTO public.user ("userID", nickname, "ladderRating", "totalWin", "totalLose", "friendID", "blockID", avatar, "userState") VALUES
 ('jwon', 'junho won', 800, 5, 6, '{yechoi, holee}', '{devil}', '', 'logout'),
 ('yechoi', 'yeji choi', 1200, 6, 5, '{jwon, yshin}', '{devil}', '', 'login'),
 ('holee', 'hochan lee', 1600, 7, 4, '{jwon, yechoi, yshin}', '{devil}', '', 'playing'),
