@@ -22,17 +22,17 @@ INSERT INTO game ("playerOneID", "playerOneScore", "playerTwoID", "playerTwoScor
 ('yshin', 6, 'jwon', 4);
 
 INSERT INTO public.user ("userID", nickname, "ladderRating", "totalWin", "totalLose", "friendID", "blockID") VALUES
-('jwon', 'junho won', 800, 5, 6, ['yechoi', 'holee'], [devil]),
-('yechoi', 'yeji choi', 1000, 6, 5, ['jwon', 'yshin'], [devil]),
-('holee', 'hochan lee', 1200, 7, 4, ['jwon', 'yechoi', 'yshin'], [devil]),
-('yshin', 'younghak shin', 1400, 8, 4, ['jwon', 'yechoi'], [devil]),
-('devil', 'who i am', 200, 0, 12, [], []);
+('jwon', 'junho won', 800, 5, 6, '{yechoi, holee}', '{devil}'),
+('yechoi', 'yeji choi', 1200, 6, 5, '{jwon, yshin}', '{devil}'),
+('holee', 'hochan lee', 1600, 7, 4, '{jwon, yechoi, yshin}', '{devil}'),
+('yshin', 'younghak shin', 1800, 8, 4, '{jwon, yechoi}', '{devil}'),
+('devil', 'who i am', -2400, 0, 12, '{}', '{}');
 
 INSERT INTO chat (name, password, "isAlive", type, "ownerID", "adminID", "userID")
   VALUES
-    ('채팅방1', '', true, 'public', 'yshin', '{}', '{holee, yshin}'),
+    ('채팅방1', '', true, 'public', 'yshin', '{}', '{holee, yshin, devil}'),
     ('채팅방2', '', false, 'public', 'yshin', '{}', '{yshin}'),
-    ('채팅방3', '', true, 'public', 'yshin', '{jwon, yechoi}', '{holee, jwon, yechoi, yshin}'),
+    ('채팅방3', '', true, 'public', 'yshin', '{jwon, yechoi}', '{holee, jwon, yechoi, yshin, devil}'),
     ('채팅방4', '1234', true, 'private', 'holee', '{}', '{holee, jwon, yechoi, yshin}'),
     ('채팅방5', '1234', true, 'private', 'jwon', '{holee, yechoi}', '{holee, jwon, yechoi}'),
     ('채팅방6', '', true, 'dm', 'holee', '{}', '{holee, jwon}'),
