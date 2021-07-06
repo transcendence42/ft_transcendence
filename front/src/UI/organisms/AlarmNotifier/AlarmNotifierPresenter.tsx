@@ -49,7 +49,7 @@ export const AlarmNotifierPresenter = ({
         {error ? (
           <Spinner m="5" ml="155" color={SPINNER_ERROR_COLOR} />
         ) : loading ? (
-          <Spinner m="5" color={SPINNER_COLOR} />
+          <Spinner m="5" ml="155" color={SPINNER_COLOR} />
         ) : (
           <Flex flexDirection="column">
             {data.alarms.map(({ index, title, content, createdAt, type, link }) => (
