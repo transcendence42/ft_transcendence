@@ -27,7 +27,7 @@ export class ChatLogsResolver {
   }
 
   @Query(() => [ChatLog], { name: 'chatLogsFromChat' })
-  findChatLogsFromChat(@Args('uuid') uuid: string) {
+  findChatLogsFromChat(@Args('uuid', { type: () => String }) uuid: string) {
     return this.chatLogsService.findChatLogsFromChat(uuid);
   }
 

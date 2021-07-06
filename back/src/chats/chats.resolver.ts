@@ -29,7 +29,7 @@ export class ChatsResolver {
   }
 
   @Mutation(() => Chat)
-  removeChat(@Args('uuid') uuid: string) {
+  removeChat(@Args('uuid', { type: () => String }) uuid: string) {
     return this.chatsService.remove(uuid);
   }
 
@@ -48,7 +48,7 @@ export class ChatsResolver {
   }
 
   @Query(() => [Chat])
-  findMyChatList(@Args('userID') userID: string) {
+  findMyChatList(@Args('userID', { type: () => String }) userID: string) {
     return this.chatsService.findMyChatList(userID);
   }
 }
