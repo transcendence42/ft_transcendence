@@ -3,7 +3,6 @@ import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
 import { Chat } from './entities/chat.entity';
 import { validate } from 'class-validator';
-import { Any } from 'typeorm';
 
 @Injectable()
 export class ChatsService {
@@ -95,7 +94,7 @@ export class ChatsService {
     return await Chat.count();
   }
 
-  // chat 페이지 채팅 리스트 확인용 쿼리
+  // chat 페이지 채팅 리스트 확인용 쿼리(전체채팅방, 공개채팅방, 비공개채팅방)
   async findAliveChats({
     type,
     page = 0,
@@ -117,11 +116,24 @@ export class ChatsService {
     return chats;
   }
 
-  //my chat 리스트 쿼리
-  async findMyChatList(userID: string) {
+  //my chat 리스트 쿼리(나의채팅방, 1:1채팅방)
+  async findMyChatList({
+    userID,
+    type,
+    page = 0,
+    pageSize = 3,
+  }: {
+    userID: string;
+    type: 'dm' | undefined;
+    page: number;
+    pageSize: number;
+  }) {
+    const additionalWhereClause = type === 'dm' ? ` AND "type"='dm'` : ''; // type이 dm일 때 추가되는 where절
     const chatList = await Chat.getRepository()
       .createQueryBuilder()
-      .where(':userID=ANY("userID") OR :userID="ownerID"', { userID: userID })
+      .where('(:userID=ANY("userID") OR :userID="ownerID")' + additionalWhereClause, { userID: userID })
+      .skip(page * pageSize)
+      .take(pageSize)
       .getMany();
     return chatList;
   }

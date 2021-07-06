@@ -48,7 +48,12 @@ export class ChatsResolver {
   }
 
   @Query(() => [Chat])
-  findMyChatList(@Args('userID', { type: () => String }) userID: string) {
-    return this.chatsService.findMyChatList(userID);
+  findMyChatList(
+    @Args('userID', { type: () => String }) userID: string,
+    @Args('type', { type: () => String, nullable: true }) type: 'dm' | undefined,
+    @Args('page', { type: () => Int, nullable: true }) page: number,
+    @Args('pageSize', { type: () => Int, nullable: true }) pageSize: number,
+  ) {
+    return this.chatsService.findMyChatList({ userID, type, page, pageSize });
   }
 }
