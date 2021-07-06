@@ -26,3 +26,24 @@ INSERT INTO public.user ("userID", nickname) VALUES
 ('yechoi', 'yeji choi'),
 ('holee', 'hochan lee'),
 ('yshin', 'younghak shin');
+
+INSERT INTO chat (name, password, "isAlive", type, "ownerID", "adminID", "userID")
+  VALUES
+    ('채팅방1', '', true, 'public', 'yshin', '{}', '{holee, yshin}'),
+    ('채팅방2', '', false, 'public', 'yshin', '{}', '{yshin}'),
+    ('채팅방3', '', true, 'public', 'yshin', '{jwon, yechoi}', '{holee, jwon, yechoi, yshin}'),
+    ('채팅방4', '1234', true, 'private', 'holee', '{}', '{holee, jwon, yechoi, yshin}'),
+    ('채팅방5', '1234', true, 'private', 'jwon', '{holee, yechoi}', '{holee, jwon, yechoi}'),
+    ('채팅방6', '', true, 'dm', 'holee', '{}', '{holee, jwon}'),
+    ('채팅방7', '', true, 'dm', 'yshin', '{}', '{holee, yshin}')
+;
+
+--uuid 컬럼은 uuid 형식을 따르며, chat 테이블의 uuid 컬럼을 참조하므로 서브 쿼리문을 작성하였습니다.
+INSERT INTO chat_log("chatUUID", "userID", "message")
+  VALUES
+    ((SELECT uuid FROM chat LIMIT 1), 'yshin', 'yshin 채팅방1 메시지'),
+    ((SELECT uuid FROM chat LIMIT 1), 'holee', 'holee 채팅방1 메시지'),
+    ((SELECT uuid FROM chat LIMIT 1 OFFSET 3), 'yshin', 'yshin 채팅방3 메시지'),
+    ((SELECT uuid FROM chat LIMIT 1 OFFSET 3), 'jwon', 'jwon 채팅방3 메시지'),
+    ((SELECT uuid FROM chat LIMIT 1 OFFSET 3), 'yechoi', 'yechoi 채팅방3 메시지')
+;
