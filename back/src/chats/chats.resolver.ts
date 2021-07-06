@@ -42,7 +42,7 @@ export class ChatsResolver {
   }
 
   @Query(() => [Chat], { name: 'aliveChats' })
-  findAliveMyChats(
+  findAliveChats(
     @Args('userID', { type: () => String, nullable: true }) userID: string,
     @Args('type', { type: () => String, nullable: true }) type: string,
     @Args('page', { type: () => Int, nullable: true }) page: number,
