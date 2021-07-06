@@ -1,11 +1,11 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @ObjectType()
 @Entity()
 export class ChatLog extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field()
+  @Field(() => Int)
   index: number;
 
   @Field()
