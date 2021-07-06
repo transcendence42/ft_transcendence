@@ -20,3 +20,9 @@ INSERT INTO game ("playerOneID", "playerOneScore", "playerTwoID", "playerTwoScor
 ('yechoi', 3, 'yshin', 7),
 ('holee', 2, 'jwon', 5),
 ('yshin', 6, 'jwon', 4);
+
+INSERT INTO public.user ("userID", nickname) VALUES
+('jwon', 'junho won'),
+('yechoi', 'yeji choi'),
+('holee', 'hochan lee'),
+('yshin', 'younghak shin');
