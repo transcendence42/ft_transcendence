@@ -34,26 +34,20 @@ export class ChatsResolver {
   }
 
   @Query(() => Int)
-  getTotalChatCount() {
-    return this.chatsService.getTotalCount();
+  getChatCount(
+    @Args('type', { type: () => String, nullable: true }) type: string,
+    @Args('userID', { type: () => String, nullable: true }) userID: string,
+  ) {
+    return this.chatsService.getCount({ type, userID });
   }
 
   @Query(() => [Chat], { name: 'aliveChats' })
-  findAliveChats(
-    @Args('type', { type: () => String, nullable: true }) type: 'public' | 'private' | undefined,
+  findAliveMyChats(
+    @Args('userID', { type: () => String, nullable: true }) userID: string,
+    @Args('type', { type: () => String, nullable: true }) type: string,
     @Args('page', { type: () => Int, nullable: true }) page: number,
     @Args('pageSize', { type: () => Int, nullable: true }) pageSize: number,
   ) {
-    return this.chatsService.findAliveChats({ type, page, pageSize });
-  }
-
-  @Query(() => [Chat], { name: 'myChatList' })
-  findMyChatList(
-    @Args('userID', { type: () => String }) userID: string,
-    @Args('type', { type: () => String, nullable: true }) type: 'dm' | undefined,
-    @Args('page', { type: () => Int, nullable: true }) page: number,
-    @Args('pageSize', { type: () => Int, nullable: true }) pageSize: number,
-  ) {
-    return this.chatsService.findMyChatList({ userID, type, page, pageSize });
+    return this.chatsService.findAliveChats({ userID, type, page, pageSize });
   }
 }

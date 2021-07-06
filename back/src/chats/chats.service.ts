@@ -90,48 +90,33 @@ export class ChatsService {
     return await Chat.remove(chat);
   }
 
-  async getTotalCount() {
-    return await Chat.count();
+  //type 별로 전체 카운트를 반환하는 메소드.
+  //userID가 있을 때 나의채팅방(type: undefined), 1:1채팅방(type: 'dm')으로 구분되고, 없으면 전체채팅방(type: undefined), 공개채팅방(type: 'public'), 비공개채팅방(type: 'private')으로 구분됨.
+  async getCount({ type, userID }: { type: string; userID: string }) {
+    const page = 0;
+    const pageSize = 0;
+    return await this.findAliveChats({ userID, type, page, pageSize }).then((res) => res.length);
   }
 
-  // chat 페이지 채팅 리스트 확인용 쿼리(전체채팅방, 공개채팅방, 비공개채팅방)
+  //채팅방 리스트 쿼리(전체채팅방, 공개채팅방, 비공개채팅방, 나의채팅방, 1:1채팅방)
   async findAliveChats({
-    type,
-    page = 0,
-    pageSize = 3,
-  }: {
-    type: 'public' | 'private' | undefined;
-    page: number;
-    pageSize: number;
-  }) {
-    const where = { isAlive: true };
-    if (type !== undefined) {
-      where['type'] = type;
-    }
-    const chats = await Chat.find({
-      where: where,
-      skip: page * pageSize,
-      take: pageSize,
-    });
-    return chats;
-  }
-
-  //my chat 리스트 쿼리(나의채팅방, 1:1채팅방)
-  async findMyChatList({
     userID,
     type,
     page = 0,
     pageSize = 3,
   }: {
     userID: string;
-    type: 'dm' | undefined;
+    type: string;
     page: number;
     pageSize: number;
   }) {
-    const additionalWhereClause = type === 'dm' ? ` AND "type"='dm'` : ''; // type이 dm일 때 추가되는 where절
+    let additionalWhereClause = ![undefined, null, ''].includes(type) ? ` AND "type"='${type}'` : ''; // type이 있을 때 추가되는 where절. 공개채팅방('public'), 비공개채팅방('private'), 1:1채팅방('dm'), 전체채팅방/나의채팅방(undefined, null, '')
+    additionalWhereClause += ![undefined, null, ''].includes(userID)
+      ? ` AND ('${userID}'=ANY("userID") OR '${userID}'="ownerID")`
+      : ''; // userID가 있을 때 추가되는 where절. 나의채팅방, 1:1채팅방이 where절을 사용
     const chatList = await Chat.getRepository()
       .createQueryBuilder()
-      .where('(:userID=ANY("userID") OR :userID="ownerID")' + additionalWhereClause, { userID: userID })
+      .where('"isAlive" = true' + additionalWhereClause)
       .skip(page * pageSize)
       .take(pageSize)
       .getMany();
