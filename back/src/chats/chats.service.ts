@@ -30,6 +30,7 @@ export class ChatsService {
     chat.password = createChatInput.password;
     chat.type = createChatInput.type;
     chat.ownerID = createChatInput.ownerID;
+    chat.userID = [createChatInput.ownerID];
     this.checkPasswordValidation(createChatInput.type, createChatInput.password);
 
     //class-validator
