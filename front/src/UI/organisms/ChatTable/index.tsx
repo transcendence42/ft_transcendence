@@ -6,7 +6,7 @@ import { IChat } from '../../../utils/interface';
 import './index.scss';
 
 export const ChatTable = ({ ...props }) => {
-  const { chatList, chatListColumns, chatListType, startRowNum, endRowNum, leaveChat } = props;
+  const { chatList, chatListColumns, chatListType, startRowNum, leaveChat } = props;
   return (
     // borderCollapse와 borderSpacing은 scss에서 적용되지 않아 아래의 style에서 정의함.
     <Table
@@ -28,19 +28,17 @@ export const ChatTable = ({ ...props }) => {
         </Tr>
       </Thead>
       <Tbody>
-        {chatList
-          .filter((_: IChat, i: number) => i >= startRowNum && i < endRowNum)
-          .map((chat: IChat, i: number) => {
-            return (
-              <ChatTableRow
-                chat={chat}
-                rowIndex={startRowNum + i}
-                chatListType={chatListType}
-                key={`ChatTable-${chatListType}-ChatTableRow-${i}`}
-                leaveChat={leaveChat}
-              />
-            );
-          })}
+        {chatList.map((chat: IChat, i: number) => {
+          return (
+            <ChatTableRow
+              chat={chat}
+              rowIndex={startRowNum + i}
+              chatListType={chatListType}
+              key={`ChatTable-${chatListType}-ChatTableRow-${i}`}
+              leaveChat={leaveChat}
+            />
+          );
+        })}
       </Tbody>
     </Table>
   );

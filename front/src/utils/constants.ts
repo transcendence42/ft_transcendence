@@ -37,8 +37,31 @@ export const ALARM_CONTENT_FONTWEIGHT = 'semibold';
 
 export const CHAT_MY_LIST_COLUMNS = ['#', '제목', '인원', '방장', ''];
 export const CHAT_TOTAL_LIST_COLUMNS = ['#', '제목', '인원', '방장'];
-export const CHAT_MY_LIST_TABS = ['나의채팅방', '1:1 채팅방'];
-export const CHAT_TOTAL_LIST_TABS = ['전체채팅방', '공개채팅방', '비공개채팅방'];
+
+export const CHAT_TOP_PANEL_TABS = [
+  {
+    name: '나의채팅방',
+    type: '',
+  },
+  {
+    name: '1:1 채팅방',
+    type: 'dm',
+  },
+];
+export const CHAT_BOTTOM_PANEL_TABS = [
+  {
+    name: '전체채팅방',
+    type: '',
+  },
+  {
+    name: '공개채팅방',
+    type: 'public',
+  },
+  {
+    name: '비공개채팅방',
+    type: 'private',
+  },
+];
 
 export const CHAT_LIST_TYPE_MY_LIST = 'myList';
 export const CHAT_LIST_TYPE_DM_LIST = 'dmList';

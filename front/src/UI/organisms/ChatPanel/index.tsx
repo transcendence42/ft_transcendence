@@ -1,37 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { GridItem, Grid, ButtonProps } from '@chakra-ui/react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import { GridItem, Grid, ButtonProps, Tabs } from '@chakra-ui/react';
 import { ChatTable } from '../ChatTable';
 import { Paginator, PageGroup, usePaginator } from 'chakra-paginator';
 import { CreateChat } from '../CreateChat';
 import { CHAT_PAGE_OUTER_LIMIT, CHAT_PAGE_INNER_LIMIT, CHAT_PAGE_SIZE } from '../../../utils/constants';
+import { ChatTabList } from '../../../UI/organisms/ChatTabList';
+import { useQuery, gql } from '@apollo/client';
 
 export const ChatPanel = ({ ...props }) => {
-  const { chatList, chatListColumns, chatListType, leaveChat, createChat } = props;
-
-  const createChatButton = createChat ? <CreateChat createChat={createChat} /> : <></>;
-
-  // react hooks
-  const [chatsTotal, setChatsTotal] = useState<number | undefined>(chatList.length);
-
-  const { isDisabled, pagesQuantity, currentPage, setCurrentPage } = usePaginator({
-    total: chatsTotal,
-    initialState: {
-      pageSize: CHAT_PAGE_SIZE,
-      currentPage: 1,
-      isDisabled: false,
-    },
-  });
-
-  // effects
-  useEffect(() => {
-    const totalChatCount = chatList.length;
-    setChatsTotal(totalChatCount);
-    if (totalChatCount / CHAT_PAGE_SIZE < currentPage) {
-      const curPage = Math.ceil(totalChatCount / CHAT_PAGE_SIZE);
-      setCurrentPage(curPage === 0 ? 1 : curPage);
-    }
-  }, [currentPage, setCurrentPage, chatList]);
-
   // styles
   const baseStyles: ButtonProps = {
     w: 7,
@@ -58,43 +34,118 @@ export const ChatPanel = ({ ...props }) => {
     bg: 'gray.200',
   };
 
+  //props
+  const { chatListColumns, chatListType, chatListTabs, userID } = props;
+
+  // react hooks
+  const [chatsTotal, setChatsTotal] = useState<number | undefined>();
+
+  const { isDisabled, pagesQuantity, currentPage, setCurrentPage } = usePaginator({
+    total: chatsTotal,
+    initialState: {
+      pageSize: CHAT_PAGE_SIZE,
+      currentPage: 1,
+      isDisabled: false,
+    },
+  });
+
+  //fetch
+  const { loading, error, data, refetch } = useQuery(
+    gql`
+      query ($userID: String, $type: String, $page: Int) {
+        getChatCount(userID: $userID, type: $type)
+        aliveChats(userID: $userID, type: $type, page: $page) {
+          uuid
+          name
+          type
+          ownerID
+          userID
+        }
+      }
+    `,
+    {
+      variables: { userID: userID, type: chatListTabs[0].type, page: currentPage - 1 },
+    },
+  );
+
+  const leaveChat = (uuid: string) => {
+    // setMyList(myList.filter((item: IChat) => item.uuid !== uuid));
+    // setTotalList(totalList.filter((item: IChat) => item.uuid !== uuid));
+    // TODO: delete chat from db
+  };
+
+  const createChatFunc = ({ name, type, password }: { name: string; type: 'public' | 'private'; password: string }) => {
+    // TODO: insert chat into db and take return info
+    // const dummyChat: IChat = { uuid: 'UUID', name: name, type: type, numOfPeople: 1, owner: 'session' }; //TODO: 더미 데이터이므로 삭제할 것.
+    // setMyList([...myList, dummyChat]);
+    // setTotalList([...totalList, dummyChat]);
+  };
+
+  const createChatButton = !userID ? <CreateChat createChat={createChatFunc} /> : <></>;
+
+  // effects
+  useEffect(() => {
+    if (data !== undefined) {
+      setChatsTotal(data.getChatCount);
+    }
+  }, [currentPage, data]);
+
   // handlers
   const handlePageChange = (nextPage: number) => {
     setCurrentPage(nextPage);
   };
 
+  const handleTabHandler = (e: ChangeEvent) => {
+    const tabName = e.target.name;
+    setCurrentPage(1);
+    for (const item of chatListTabs) {
+      if (item.name === tabName) {
+        refetch({ type: item.type });
+        return;
+      }
+    }
+    refetch({ type: '' });
+  };
+
+  if (loading) return <></>;
+  if (error) return <p>Error :(</p>;
+
   return (
-    <>
-      <GridItem rowSpan={1} minH="207px">
-        <ChatTable
-          chatList={chatList}
-          chatListColumns={chatListColumns}
-          chatListType={chatListType}
-          startRowNum={(currentPage - 1) * CHAT_PAGE_SIZE}
-          endRowNum={currentPage * CHAT_PAGE_SIZE}
-          leaveChat={leaveChat}
-        />
-      </GridItem>
-      <GridItem rowSpan={1}>
-        <Grid templateColumns="3fr 2fr 2fr 1fr">
-          <GridItem colStart={2}>
-            <Paginator
-              isDisabled={isDisabled}
-              activeStyles={activeStyles}
-              innerLimit={CHAT_PAGE_INNER_LIMIT}
-              currentPage={currentPage}
-              outerLimit={CHAT_PAGE_OUTER_LIMIT}
-              normalStyles={normalStyles}
-              separatorStyles={separatorStyles}
-              pagesQuantity={pagesQuantity}
-              onPageChange={handlePageChange}
-            >
-              <PageGroup isInline align="center" />
-            </Paginator>
-          </GridItem>
-          <GridItem colStart={4}>{createChatButton}</GridItem>
-        </Grid>
-      </GridItem>
-    </>
+    <Tabs>
+      <Grid h="100%" w="100%" templateRows="repeat(3, max-content)">
+        <GridItem rowSpan={1}>
+          <ChatTabList chatListTabs={chatListTabs} handleTabHandler={handleTabHandler} />
+        </GridItem>
+        <GridItem rowSpan={1} minH="207px">
+          <ChatTable
+            chatList={data.aliveChats}
+            chatListColumns={chatListColumns}
+            chatListType={chatListType}
+            startRowNum={(currentPage - 1) * CHAT_PAGE_SIZE}
+            leaveChat={leaveChat}
+          />
+        </GridItem>
+        <GridItem rowSpan={1}>
+          <Grid templateColumns="3fr 2fr 2fr 1fr">
+            <GridItem colStart={2}>
+              <Paginator
+                isDisabled={isDisabled}
+                activeStyles={activeStyles}
+                innerLimit={CHAT_PAGE_INNER_LIMIT}
+                currentPage={currentPage}
+                outerLimit={CHAT_PAGE_OUTER_LIMIT}
+                normalStyles={normalStyles}
+                separatorStyles={separatorStyles}
+                pagesQuantity={pagesQuantity}
+                onPageChange={handlePageChange}
+              >
+                <PageGroup isInline align="center" />
+              </Paginator>
+            </GridItem>
+            <GridItem colStart={4}>{createChatButton}</GridItem>
+          </Grid>
+        </GridItem>
+      </Grid>
+    </Tabs>
   );
 };

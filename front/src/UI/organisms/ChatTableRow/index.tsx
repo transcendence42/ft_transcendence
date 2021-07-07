@@ -14,7 +14,11 @@ export const ChatTableRow = ({ ...props }) => {
     : chatWithRowIndex;
 
   const lockSVGIcon = chat.type === 'private' ? LockIcon({ fill: 'none' }) : <></>; // 비공개 방에 자물쇠 아이콘 추가
-  const filteredChatList = Object.entries(chatWithCloseButton).filter((item) => !['uuid', 'type'].includes(item[0])); // uuid, type 제외한 나머지
+  const numOfPeople = chatWithCloseButton['userID'].length;
+  const filteredChatList = Object.entries(chatWithCloseButton).filter(
+    (item) => !['uuid', 'type', '__typename', 'userID'].includes(item[0]),
+  ); // 필수 컬럼 이외 값 필터링
+  filteredChatList.splice(2, 0, ['numOfPeople', numOfPeople]); // 인원수 추가
 
   //로그인 정보를 확인하여 owner와 비교하고, alert-dialog 메시지를 다르게 부여. owner이면 메시지를 추가하고, 아니라면 없음.
   const leaveChatMsg = chat.owner === 'yshin' ? <LeaveChatMsg /> : ''; //TODO: 로그인 정보 확인(세션 등)
