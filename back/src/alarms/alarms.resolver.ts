@@ -1,15 +1,17 @@
-import { Resolver, Query, Mutation, Args, Int, Subscription } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Subscription, ResolveField, Parent } from '@nestjs/graphql';
 import { AlarmsService } from './alarms.service';
 import { Alarm } from './entities/alarm.entity';
 import { CreateAlarmInput } from './dto/create-alarm.input';
 import { CheckAlarmInput } from './dto/check-alarm.input';
 import { PubSub } from 'graphql-subscriptions';
+import { User } from 'src/users/entities/user.entity';
+import { UsersService } from 'src/users/users.service';
 
 const pubSub = new PubSub();
 
 @Resolver(() => Alarm)
 export class AlarmsResolver {
-  constructor(private readonly alarmsService: AlarmsService) {}
+  constructor(private readonly alarmsService: AlarmsService, private readonly usersService: UsersService) {}
 
   @Mutation(() => Alarm)
   createAlarm(@Args('createAlarmInput') createAlarmInput: CreateAlarmInput) {
@@ -56,5 +58,10 @@ export class AlarmsResolver {
   })
   addAlarmHandler() {
     return pubSub.asyncIterator('alarmAdded');
+  }
+
+  @ResolveField(() => User)
+  user(@Parent() alarm: Alarm) {
+    return this.usersService.findOne(alarm.userID);
   }
 }
