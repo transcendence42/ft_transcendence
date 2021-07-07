@@ -67,7 +67,7 @@ export class ChatsService {
       const error = { uuid: `chat with uuid(${uuid}) does not exist` };
       throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
     });
-    chat.isAlive = updateChatInput.isAlive ? updateChatInput.isAlive : chat.isAlive;
+    chat.isAlive = updateChatInput.isAlive !== undefined ? updateChatInput.isAlive : chat.isAlive;
     chat.adminID = updateChatInput.adminID ? updateChatInput.adminID : chat.adminID;
     chat.userID = updateChatInput.userID ? updateChatInput.userID : chat.userID;
     const validate_error = await validate(chat);
