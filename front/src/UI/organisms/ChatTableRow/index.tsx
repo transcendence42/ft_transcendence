@@ -21,7 +21,7 @@ export const ChatTableRow = ({ ...props }) => {
   filteredChatList.splice(2, 0, ['numOfPeople', numOfPeople]); // 인원수 추가
 
   //로그인 정보를 확인하여 owner와 비교하고, alert-dialog 메시지를 다르게 부여. owner이면 메시지를 추가하고, 아니라면 없음.
-  const leaveChatMsg = chat.owner === 'yshin' ? <LeaveChatMsg /> : ''; //TODO: 로그인 정보 확인(세션 등)
+  const leaveChatMsg = chat.ownerID === 'yshin' ? <LeaveChatMsg /> : ''; //TODO: 로그인 정보 확인(세션 등)
 
   return (
     <Tr>
