@@ -1,0 +1,21 @@
+.menu {
+  background-color: #fff;
+  border-radius: 2px;
+  padding-left: 0;
+  margin: 0;
+  position: absolute;
+  list-style: none;
+  z-index: 1;
+}
+
+.menu li {
+  padding: 0.2em 1em;
+  color: #000;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.menu li:hover {
+  background-color: #f2f2f2;
+}
