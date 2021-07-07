@@ -120,6 +120,7 @@ export class ChatsService {
       .where('"isAlive" = true' + additionalWhereClause)
       .skip(page * pageSize)
       .take(pageSize)
+      .orderBy('"createdAt"')
       .getMany();
     return chatList;
   }
