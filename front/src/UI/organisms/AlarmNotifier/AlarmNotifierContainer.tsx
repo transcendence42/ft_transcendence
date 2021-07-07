@@ -25,9 +25,12 @@ export const AlarmNotifierContainer = () => {
     });
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
   return (
-    <AlarmNotifierPresenter data={data} removeAlarmMessageHandler={removeAlarmMessageHandler}></AlarmNotifierPresenter>
+    <AlarmNotifierPresenter
+      data={data}
+      loading={loading}
+      error={error}
+      removeAlarmMessageHandler={removeAlarmMessageHandler}
+    ></AlarmNotifierPresenter>
   );
 };

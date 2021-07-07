@@ -14,7 +14,7 @@ export const AlarmUser = ({ nickName, userState }: { nickName: string; userState
   let avatarState = '';
   if (userState === 'login') {
     avatarState = ALARM_MESSAGE_LOGIN_USER_STATE_COLOR;
-  } else if (userState === 'pending') {
+  } else if (userState === 'playing') {
     avatarState = ALARM_MESSAGE_PENDING_USER_STATE_COLOR;
   } else if (userState === 'logout') {
     avatarState = ALARM_MESSAGE_LOGOUT_USER_STATE_COLOR;

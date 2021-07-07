@@ -7,12 +7,12 @@ const userData = [
   {
     id: '23142dasfsdf',
     nickName: 'yshin',
-    userState: 'pending',
+    userState: 'playing',
   },
   {
     id: 'asf123223',
     nickName: 'holee',
-    userState: 'pending',
+    userState: 'playing',
   },
   {
     id: 'hfdgf2323',
