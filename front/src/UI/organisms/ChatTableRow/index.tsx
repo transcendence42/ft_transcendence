@@ -28,7 +28,7 @@ export const ChatTableRow = ({ ...props }) => {
       {filteredChatList.map((item, i) => {
         if (item[0] === 'name') {
           return (
-            <Td key={`ChatTableRow-${chatListType}-${i}-Td-${item[0]}`}>
+            <Td key={`ChatTableRow-${chatListType}-${chat.uuid}-Td-${item[0]}`}>
               <Box className="chat-table-content-wrapper" display="flex" justifyContent="center">
                 {item[1]}
                 {lockSVGIcon}
@@ -38,21 +38,21 @@ export const ChatTableRow = ({ ...props }) => {
         }
         if (i !== Object.keys(filteredChatList).length - 1) {
           return (
-            <Td key={`ChatTableRow-${chatListType}-${i}-Td-${item[0]}`}>
+            <Td key={`ChatTableRow-${chatListType}-${chat.uuid}-Td-${item[0]}`}>
               <Box className="chat-table-content-wrapper">{item[1]}</Box>
             </Td>
           );
         }
         if (item[0] === 'closeButton' && item[1]) {
           return (
-            <Td key={`ChatTableRow-${chatListType}-${i}-Td-${item[0]}`}>
+            <Td key={`ChatTableRow-${chatListType}-${chat.uuid}-Td-${item[0]}`}>
               <LeaveChat leaveChat={leaveChat} uuid={chat.uuid}>
                 {leaveChatMsg}
               </LeaveChat>
             </Td>
           );
         } else {
-          return <Td key={`ChatTableRow-${chatListType}-${i}-Td-${item[0]}`}>{item[1]}</Td>;
+          return <Td key={`ChatTableRow-${chatListType}-${chat.uuid}-Td-${item[0]}`}>{item[1]}</Td>;
         }
       })}
     </Tr>

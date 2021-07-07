@@ -34,7 +34,7 @@ export const ChatTable = ({ ...props }) => {
               chat={chat}
               rowIndex={startRowNum + i}
               chatListType={chatListType}
-              key={`ChatTable-${chatListType}-ChatTableRow-${i}`}
+              key={`ChatTable-${chatListType}-ChatTableRow-${chat.uuid}`}
               leaveChat={leaveChat}
             />
           );
