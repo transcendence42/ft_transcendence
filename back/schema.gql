@@ -105,6 +105,7 @@ type Mutation {
 input CreateUserInput {
   userID: String!
   nickname: String!
+  avatar: String!
 }
 
 input UpdateUserInput {

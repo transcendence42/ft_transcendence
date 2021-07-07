@@ -10,6 +10,7 @@ export class UsersService {
     const user = new User();
     user.userID = createUserInput.userID;
     user.nickname = createUserInput.nickname;
+    user.avatar = createUserInput.avatar;
 
     const validate_error = await validate(user);
     if (validate_error.length > 0) {

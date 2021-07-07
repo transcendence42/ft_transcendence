@@ -9,6 +9,8 @@ import { GamesModule } from './games/games.module';
 import { ChatsModule } from './chats/chats.module';
 import { ChatLogsModule } from './chat-logs/chat-logs.module';
 import { PubSubModule } from './pub-sub/pub-sub.module';
+import { AuthModule } from './auth/auth.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -23,8 +25,10 @@ import { PubSubModule } from './pub-sub/pub-sub.module';
     ChatsModule,
     ChatLogsModule,
     PubSubModule,
+    AuthModule,
+    PassportModule.register({ session: true }),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
