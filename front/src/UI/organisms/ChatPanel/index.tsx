@@ -64,7 +64,7 @@ export const ChatPanel = ({ ...props }) => {
       }
     `,
     {
-      variables: { userID: userID, type: chatListTabs[0].type, page: currentPage - 1 },
+      variables: { userID: userID, type: chatListTabs[0].type, page: 0 },
     },
   );
 
@@ -88,23 +88,25 @@ export const ChatPanel = ({ ...props }) => {
     if (data !== undefined) {
       setChatsTotal(data.getChatCount);
     }
-  }, [currentPage, data]);
+  }, [data]);
 
   // handlers
   const handlePageChange = (nextPage: number) => {
     setCurrentPage(nextPage);
+    refetch({
+      page: nextPage - 1,
+    });
   };
 
   const handleTabHandler = (e: ChangeEvent) => {
     const tabName = e.target.name;
-    setCurrentPage(1);
     for (const item of chatListTabs) {
       if (item.name === tabName) {
-        refetch({ type: item.type });
+        refetch({ page: 0, type: item.type });
+        setCurrentPage(1);
         return;
       }
     }
-    refetch({ type: '' });
   };
 
   if (loading) return <></>;
