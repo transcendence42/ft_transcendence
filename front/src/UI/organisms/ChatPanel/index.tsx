@@ -54,7 +54,7 @@ export const ChatPanel = ({ ...props }) => {
   // query
   const { loading, error, data, refetch } = useQuery(GET_CHATS, {
     variables: { userID: userID, type: chatListTabs[0].type, page: 1 },
-    nextFetchPolicy: 'cache-and-network',
+    nextFetchPolicy: 'network-only',
   });
 
   //mutation
