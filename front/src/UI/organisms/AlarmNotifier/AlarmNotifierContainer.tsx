@@ -1,9 +1,7 @@
 import React from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-
 import { AlarmNotifierPresenter } from './AlarmNotifierPresenter';
 import { GET_ALARM_NOTIFIER, REMOVE_ALARM_NOTIFIER } from './AlarmNotifierQueries';
-
 import { IAlarm } from '../../../utils/interface';
 
 export const AlarmNotifierContainer = () => {

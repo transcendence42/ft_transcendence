@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { FtStrategy } from './ft.strategy';
+import { FtStrategy } from './strategies/ft.strategy';
 import { UsersService } from 'src/users/users.service';
 import { SessionSerializer } from './utils/serializer';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './utils/constants';
-import { JwtStrategy } from './jwt.strategy';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -19,7 +19,6 @@ import { JwtStrategy } from './jwt.strategy';
   providers: [
     FtStrategy,
     SessionSerializer,
-    AuthService,
     {
       provide: 'AUTH_SERVICE',
       useClass: AuthService,

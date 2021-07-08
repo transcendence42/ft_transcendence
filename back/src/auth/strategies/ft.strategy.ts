@@ -1,7 +1,7 @@
 import { Strategy } from 'passport-42';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, Inject, UnauthorizedException } from '@nestjs/common';
-import { AuthenticationProvider, UserDetails } from './auth';
+import { AuthenticationProvider, UserDetails } from '../auth';
 
 @Injectable()
 export class FtStrategy extends PassportStrategy(Strategy) {

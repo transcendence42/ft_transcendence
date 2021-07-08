@@ -23,7 +23,7 @@ export class AuthController {
   @Get('redirect')
   @UseGuards(FtAuthGuard)
   redirect(@Res() res: Response) {
-    res.redirect('/');
+    res.redirect('http://localhost:3000/');
   }
 
   @Get('status')
