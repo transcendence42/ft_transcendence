@@ -3,6 +3,7 @@ import React from 'react';
 import { Box, Text, Avatar, Grid, Flex, CloseButton } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
+import { postgresTimeToDate, compareTimeLapseToString } from '../../../../utils/util';
 import { IalarmMessage } from '../../../../utils/interface';
 import { CheckIcon } from '../../../../utils/icons';
 import {
@@ -12,6 +13,7 @@ import {
   ALARM_MESSAGE_HEIGHT,
   ALARM_MESSAGE_WIDTH,
   ALARM_CONTENT_FONTWEIGHT,
+  ALARM_PROFILE_TIME_COLOR,
 } from '../../../../utils/constants';
 
 export const AlarmMessage = ({
@@ -52,8 +54,8 @@ export const AlarmMessage = ({
               <Text pt="2" fontSize={ALARM_MESSAGE_CONTENT_FONTSIZE}>
                 {content}
               </Text>
-              <Text pt="2" fontSize={ALARM_MESSAGE_CONTENT_FONTSIZE}>
-                {alarmTime}
+              <Text pt="2" fontSize={ALARM_MESSAGE_CONTENT_FONTSIZE} color={ALARM_PROFILE_TIME_COLOR}>
+                {compareTimeLapseToString(postgresTimeToDate(alarmTime), new Date())}
               </Text>
             </Flex>
           </Box>
