@@ -82,3 +82,6 @@ export const CHAT_PAGE_SIZE = 3;
 
 export const CHAT_INVALID_NAME_ERROR_MSG = '유효하지 않은 이름입니다.';
 export const CHAT_INVALID_PASSWORD_ERROR_MSG = '유효하지 않은 비밀번호입니다.';
+
+export const CHAT_DEFAULT_PAGE = 1; // 첫번째 페이지
+export const CHAT_DEFAULT_TYPE = '';

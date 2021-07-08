@@ -8,12 +8,14 @@ import {
   CHAT_BOTTOM_PANEL_TABS,
   CHAT_LIST_TYPE_MY_LIST,
   CHAT_LIST_TYPE_TOTAL_LIST,
+  CHAT_DEFAULT_PAGE,
+  CHAT_DEFAULT_TYPE,
 } from '../../utils/constants';
 
 const ChatTemplate = () => {
   const [chatMetadatas, setChatMetadatas] = useState({
-    user: { type: '', page: 1 },
-    total: { type: '', page: 1 },
+    user: { type: CHAT_DEFAULT_TYPE, page: CHAT_DEFAULT_PAGE }, //나의채팅방, 1:1채팅방
+    total: { type: CHAT_DEFAULT_TYPE, page: CHAT_DEFAULT_PAGE }, //전체채팅방, 공개채팅방, 비공개채팅방
   });
   return (
     <Grid minH="100vh" width="920px" margin="20px" templateRows="repeat(2, 1fr)">
