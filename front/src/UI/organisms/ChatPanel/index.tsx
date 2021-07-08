@@ -8,7 +8,7 @@ import { ChatTabList } from '../../../UI/organisms/ChatTabList';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
 export const ChatPanel = ({ ...props }) => {
-  // styles
+  // paginator styles
   const baseStyles: ButtonProps = {
     w: 7,
     fontSize: 'sm',
@@ -185,11 +185,10 @@ export const ChatPanel = ({ ...props }) => {
   // effects
   useEffect(() => {
     if (data !== undefined) {
-      console.log(data.aliveChats);
       setChatsTotal(data.getChatCount);
       if (data.getChatCount / CHAT_PAGE_SIZE < currentPage) {
         const curPage = Math.ceil(data.getChatCount / CHAT_PAGE_SIZE);
-        setCurrentPage(curPage);
+        setCurrentPage(curPage < 1 ? 1 : curPage);
         refetch({ page: curPage });
       }
     }
