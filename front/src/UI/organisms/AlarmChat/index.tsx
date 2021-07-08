@@ -21,7 +21,6 @@ const useContextMenu = (outerRef: React.MutableRefObject<HTMLDivElement>) => {
 
   const handleContextMenu = useCallback(
     (event) => {
-      event.preventDefault();
       setXPos(`${event.pageX}px`);
       setYPos(`${event.pageY}px`);
       if (
@@ -30,6 +29,7 @@ const useContextMenu = (outerRef: React.MutableRefObject<HTMLDivElement>) => {
         outerRef.current.getBoundingClientRect().left <= event.pageX &&
         outerRef.current.getBoundingClientRect().right >= event.pageX
       ) {
+        event.preventDefault();
         showMenu(true);
       } else {
         showMenu(false);
