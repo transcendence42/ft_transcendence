@@ -1,6 +1,6 @@
 import { Controller, Get, Res, UseGuards, Inject } from '@nestjs/common';
 import { Response } from 'express';
-import { FtAuthGuard, AuthenticatedGuard } from './ft.guard';
+import { FtAuthGuard, AuthenticatedGuard } from './guards/ft.guard';
 import { AuthenticationProvider } from './auth';
 
 @Controller('auth')
