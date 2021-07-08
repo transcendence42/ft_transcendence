@@ -5,7 +5,7 @@ import { Paginator, PageGroup, usePaginator } from 'chakra-paginator';
 import { CreateChat } from '../CreateChat';
 import { CHAT_PAGE_OUTER_LIMIT, CHAT_PAGE_INNER_LIMIT, CHAT_PAGE_SIZE } from '../../../utils/constants';
 import { ChatTabList } from '../../../UI/organisms/ChatTabList';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 
 export const ChatPanel = ({ ...props }) => {
   // styles
@@ -49,29 +49,90 @@ export const ChatPanel = ({ ...props }) => {
     },
   });
 
-  //fetch
-  const { loading, error, data, refetch } = useQuery(
-    gql`
-      query ($userID: String, $type: String, $page: Int) {
-        getChatCount(userID: $userID, type: $type)
-        aliveChats(userID: $userID, type: $type, page: $page) {
-          uuid
-          name
-          type
-          ownerID
-          userID
-        }
+  const GET_CHATS = gql`
+    query GetChats($userID: String, $type: String, $page: Int) {
+      getChatCount(userID: $userID, type: $type)
+      aliveChats(userID: $userID, type: $type, page: $page) {
+        uuid
+        name
+        type
+        ownerID
+        userID
       }
-    `,
-    {
-      variables: { userID: userID, type: chatListTabs[0].type, page: 0 },
-    },
-  );
+    }
+  `;
+  const UPDATE_CHAT = gql`
+    mutation UpdateChat($newChat: UpdateChatInput!) {
+      updateChat(updateChatInput: $newChat) {
+        uuid
+        name
+        type
+        ownerID
+        userID
+      }
+    }
+  `;
 
-  const leaveChat = (uuid: string) => {
-    // setMyList(myList.filter((item: IChat) => item.uuid !== uuid));
-    // setTotalList(totalList.filter((item: IChat) => item.uuid !== uuid));
-    // TODO: delete chat from db
+  //fetch
+  const { loading, error, data, refetch } = useQuery(GET_CHATS, {
+    variables: { userID: userID, type: chatListTabs[0].type, page: 1 },
+    onCompleted: () => {
+      localStorage.setItem(userID ? userID + '-chats-type' : 'total-chats-type', '');
+      localStorage.setItem(userID ? userID + '-chats-page' : 'total-chats-page', '1');
+    },
+    nextFetchPolicy: 'network-only',
+  });
+
+  const [updateChatToDead] = useMutation(UPDATE_CHAT, {
+    onCompleted: () => {
+      //페이지에 chat이 없으면 이전 페이지로 이동
+      let curPageNum = currentPage;
+      if (data.aliveChats.length === 1) {
+        curPageNum = curPageNum === 1 ? curPageNum : curPageNum - 1;
+      }
+      refetch({ page: curPageNum });
+      setCurrentPage(curPageNum);
+      localStorage.setItem(userID + '-chats-page', String(curPageNum));
+    },
+    refetchQueries: [
+      userID
+        ? {
+            query: GET_CHATS,
+            variables: {
+              type: localStorage.getItem('total-chats-type'),
+              page: Number(localStorage.getItem('total-chats-page')),
+            },
+          }
+        : {
+            query: GET_CHATS,
+            variables: {
+              userID: userID,
+              type: localStorage.getItem(userID + '-chats-type'),
+              page: Number(localStorage.getItem(userID + '-chats-page')),
+            },
+          },
+    ],
+  });
+
+  const leaveChat = (uuid: string, ownerID: string, userID: string[]) => {
+    let leftChat = {};
+    if (ownerID === 'yshin') {
+      // TODO: yshin을 session 값으로 바꿔야 함.
+      leftChat = {
+        uuid: uuid,
+        isAlive: false,
+      };
+    } else {
+      leftChat = {
+        uuid: uuid,
+        userID: userID.filter((user) => user !== 'yshin'), //TODO: 'yshin'을 session 값으로 바꿔야 함.
+      };
+    }
+    updateChatToDead({
+      variables: {
+        newChat: leftChat,
+      },
+    });
   };
 
   const createChatFunc = ({ name, type, password }: { name: string; type: 'public' | 'private'; password: string }) => {
@@ -86,24 +147,37 @@ export const ChatPanel = ({ ...props }) => {
   // effects
   useEffect(() => {
     if (data !== undefined) {
+      console.log(data.aliveChats);
       setChatsTotal(data.getChatCount);
     }
   }, [data]);
 
   // handlers
   const handlePageChange = (nextPage: number) => {
-    setCurrentPage(nextPage);
     refetch({
-      page: nextPage - 1,
+      page: nextPage,
     });
+    setCurrentPage(nextPage);
+    if (userID) {
+      localStorage.setItem(userID + '-chats-page', String(nextPage));
+    } else {
+      localStorage.setItem('total-chats-page', String(nextPage));
+    }
   };
 
   const handleTabHandler = (e: ChangeEvent) => {
     const tabName = e.target.name;
     for (const item of chatListTabs) {
       if (item.name === tabName) {
-        refetch({ page: 0, type: item.type });
+        refetch({ page: 1, type: item.type });
         setCurrentPage(1);
+        if (userID) {
+          localStorage.setItem(userID + '-chats-type', item.type);
+          localStorage.setItem(userID + '-chats-page', '1');
+        } else {
+          localStorage.setItem('total-chats-type', item.type);
+          localStorage.setItem('total-chats-page', '1');
+        }
         return;
       }
     }

@@ -46,7 +46,7 @@ export const ChatTableRow = ({ ...props }) => {
         if (item[0] === 'closeButton' && item[1]) {
           return (
             <Td key={`ChatTableRow-${chatListType}-${chat.uuid}-Td-${item[0]}`}>
-              <LeaveChat leaveChat={leaveChat} uuid={chat.uuid}>
+              <LeaveChat leaveChat={leaveChat} uuid={chat.uuid} ownerID={chat.ownerID} userID={chat.userID}>
                 {leaveChatMsg}
               </LeaveChat>
             </Td>
