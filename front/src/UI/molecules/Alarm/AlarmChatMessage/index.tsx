@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { Box, Text, Flex } from '@chakra-ui/react';
-import { IchatMessage, IchatNotification } from '../../../../utils/interface';
 
+import './index.scss';
+import { IchatMessage, IchatNotification } from '../../../../utils/interface';
 import {
   ALARM_CHAT_MESSAGE_BACKGROUND_COLOR,
   ALARM_CHAT_MESSAGE_FONTSIZE,
@@ -19,7 +20,10 @@ const ChatMessage = ({ type, chatID, message, createdAt }: IchatMessage) => {
         {chatID}
       </Text>
       <Flex alignItems="flex-end" flexDirection={type === 'message' ? 'row' : 'row-reverse'}>
-        <Box p="2" border="1px solid black" borderRadius="15%" bg={ALARM_CHAT_MESSAGE_BACKGROUND_COLOR}>
+        <Box
+          className={type === 'ownerMessage' ? 'speech-bubble-right' : 'speech-bubble-left'}
+          bg={ALARM_CHAT_MESSAGE_BACKGROUND_COLOR}
+        >
           <Text fontSize={ALARM_CHAT_MESSAGE_FONTSIZE} fontWeight="semibold">
             {message}
           </Text>
