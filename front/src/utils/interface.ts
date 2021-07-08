@@ -38,6 +38,7 @@ export interface IchatNotification {
 
 export interface IUser {
   nickname: string;
+  avatar: string;
   totalWin: number;
   totalLose: number;
   ladderRating: number;
@@ -47,6 +48,7 @@ export interface IUser {
 export interface IProfileSmall {
   position: 'right' | 'left';
   backgroundColor: string;
+  avatar?: string;
   nickname: string;
   totalWin: number;
   totalLose: number;

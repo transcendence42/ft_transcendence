@@ -11,6 +11,7 @@ import {
 
 export const ProfileSmall = ({
   position,
+  avatar,
   nickname,
   totalWin,
   totalLose,
@@ -22,7 +23,7 @@ export const ProfileSmall = ({
     <>
       <Flex alignItems="center" flexDirection={position === 'left' ? 'row' : 'row-reverse'}>
         <Box p="4" bg={backgroundColor}>
-          <Avatar size="sm" bg="teal.500" />
+          <Avatar size="sm" bg="teal.500" src={avatar} />
         </Box>
         <Box>
           <Flex flexDirection="column" pl={position === 'left' ? '0' : '4'}>
