@@ -35,7 +35,7 @@ export const ChatPanel = ({ ...props }) => {
   };
 
   //props
-  const { chatListColumns, chatListType, chatListTabs, userID } = props;
+  const { chatListColumns, chatListType, chatListTabs, userID, metadatas, setMetadatas } = props;
 
   // react hooks
   const [chatsTotal, setChatsTotal] = useState<number | undefined>();
@@ -76,10 +76,6 @@ export const ChatPanel = ({ ...props }) => {
   //fetch
   const { loading, error, data, refetch } = useQuery(GET_CHATS, {
     variables: { userID: userID, type: chatListTabs[0].type, page: 1 },
-    onCompleted: () => {
-      localStorage.setItem(userID ? userID + '-chats-type' : 'total-chats-type', '');
-      localStorage.setItem(userID ? userID + '-chats-page' : 'total-chats-page', '1');
-    },
     nextFetchPolicy: 'network-only',
   });
 
@@ -92,23 +88,23 @@ export const ChatPanel = ({ ...props }) => {
       }
       refetch({ page: curPageNum });
       setCurrentPage(curPageNum);
-      localStorage.setItem(userID + '-chats-page', String(curPageNum));
+      setMetadatas({ ...metadatas, user: { ...metadatas.user, page: curPageNum } });
     },
     refetchQueries: [
       userID
         ? {
             query: GET_CHATS,
             variables: {
-              type: localStorage.getItem('total-chats-type'),
-              page: Number(localStorage.getItem('total-chats-page')),
+              type: metadatas.total.type,
+              page: metadatas.total.page,
             },
           }
         : {
             query: GET_CHATS,
             variables: {
               userID: userID,
-              type: localStorage.getItem(userID + '-chats-type'),
-              page: Number(localStorage.getItem(userID + '-chats-page')),
+              type: metadatas.user.type,
+              page: metadatas.user.page,
             },
           },
     ],
@@ -159,9 +155,9 @@ export const ChatPanel = ({ ...props }) => {
     });
     setCurrentPage(nextPage);
     if (userID) {
-      localStorage.setItem(userID + '-chats-page', String(nextPage));
+      setMetadatas({ ...metadatas, user: { ...metadatas.user, page: nextPage } });
     } else {
-      localStorage.setItem('total-chats-page', String(nextPage));
+      setMetadatas({ ...metadatas, total: { ...metadatas.total, page: nextPage } });
     }
   };
 
@@ -172,11 +168,11 @@ export const ChatPanel = ({ ...props }) => {
         refetch({ page: 1, type: item.type });
         setCurrentPage(1);
         if (userID) {
-          localStorage.setItem(userID + '-chats-type', item.type);
-          localStorage.setItem(userID + '-chats-page', '1');
+          setMetadatas({ ...metadatas, user: { ...metadatas.user, page: 1 } });
+          setMetadatas({ ...metadatas, user: { ...metadatas.user, page: item.type } });
         } else {
-          localStorage.setItem('total-chats-type', item.type);
-          localStorage.setItem('total-chats-page', '1');
+          setMetadatas({ ...metadatas, total: { ...metadatas.total, page: 1 } });
+          setMetadatas({ ...metadatas, total: { ...metadatas.total, page: item.type } });
         }
         return;
       }
