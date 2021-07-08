@@ -20,6 +20,7 @@
     "chakra-paginator": "^0.7.2",
     "framer-motion": "^4.0.0",
     "graphql": "^15.5.1",
+    "js-cookie": "^2.2.1",
     "node-sass": "yarn:sass",
     "react": "^17.0.2",
     "react-cookie": "^4.0.3",
@@ -28,6 +29,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "typescript": "^3.9.5",
+    "universal-cookie": "^4.0.4",
     "web-vitals": "^0.2.2"
   },
   "scripts": {
@@ -81,5 +83,6 @@
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write"
     ]
-  }
+  },
+  "proxy": "http://localhost:5500"
 }

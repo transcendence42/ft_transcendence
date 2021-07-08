@@ -19,7 +19,7 @@ export class AuthService implements AuthenticationProvider {
     return newUser;
   }
 
-  async login(user: User) {
+  login(user: User): { access_token: string } {
     const payload = { username: user.nickname, sub: user.userID };
     return {
       access_token: this.jwtService.sign(payload),

@@ -1,20 +1,22 @@
-import { Controller, Get, Res, UseGuards, Inject } from '@nestjs/common';
+import { Controller, Get, Res, UseGuards, Inject, Req, Header } from '@nestjs/common';
 import { Response } from 'express';
 import { FtAuthGuard, AuthenticatedGuard } from './guards/ft.guard';
 import { AuthenticationProvider } from './auth';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(@Inject('AUTH_SERVICE') private readonly authService: AuthenticationProvider) {}
+  constructor(
+    @Inject('AUTH_SERVICE') private readonly authService: AuthenticationProvider,
+    private readonly userService: UsersService,
+  ) {}
   /*
    * /auth/login
    * Oauth provider로 redirect가 이뤄질 곳
    */
   @Get('login')
   @UseGuards(FtAuthGuard)
-  login(@Res() res) {
-    return this.authService.login(res.user);
-  }
+  login(@Res() res) {}
 
   /*
    * /auth/redirect
@@ -22,8 +24,18 @@ export class AuthController {
    */
   @Get('redirect')
   @UseGuards(FtAuthGuard)
-  redirect(@Res() res: Response) {
-    res.redirect('http://localhost:3000/');
+  @Header('access-control-expose-headers', 'Set-Cookie')
+  async redirect(@Req() req: any, @Res({ passthrough: true }) res: Response) {
+    if (req.user) {
+      const token = await this.authService.login(req.user);
+      console.log(token);
+      res.cookie('access_token', token.access_token, {
+        httpOnly: true,
+        maxAge: 60 * 60,
+        sameSite: 'lax',
+      });
+      res.status(302).redirect('http://localhost:3000/');
+    }
   }
 
   @Get('status')

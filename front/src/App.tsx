@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, Flex, Box, theme, Center } from '@chakra-ui/react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { CookiesProvider, useCookies, withCookies } from 'react-cookie';
+import { CookiesProvider, withCookies } from 'react-cookie';
 import { Navigation } from './UI/organisms/Navigation';
 import { Alarm } from './UI/organisms/Alarm';
 import Main from './pages/Main';
@@ -9,14 +9,16 @@ import Profile from './pages/Profile';
 import Chat from './pages/Chat';
 import Game from './pages/Game';
 import Login from './pages/Login';
+import Cookies from 'js-cookie';
 
 const App = () => {
-  const [cookies] = useCookies(['user']);
   const [hasCookie, setHasCookie] = useState(false);
-
+  const cookies = Cookies.get('access_token');
+  console.log(document.cookie);
   useEffect(() => {
-    if (cookies.user && cookies.user !== 'undefined') {
+    if (cookies && cookies !== 'undefined') {
       setHasCookie(true);
+      console.log(cookies);
     }
   }, [cookies]);
 
