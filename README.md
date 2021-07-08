@@ -8,5 +8,3 @@
 - NextJS
 - Docker Compose
 - PostgreSQL
-
-test
