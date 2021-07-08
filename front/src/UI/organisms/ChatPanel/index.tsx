@@ -72,11 +72,22 @@ export const ChatPanel = ({ ...props }) => {
       }
     }
   `;
+  const CREATE_CHAT = gql`
+    mutation CreateChat($newChat: CreateChatInput!) {
+      createChat(createChatInput: $newChat) {
+        uuid
+        name
+        type
+        ownerID
+        userID
+      }
+    }
+  `;
 
   //fetch
   const { loading, error, data, refetch } = useQuery(GET_CHATS, {
     variables: { userID: userID, type: chatListTabs[0].type, page: 1 },
-    nextFetchPolicy: 'network-only',
+    nextFetchPolicy: 'cache-and-network',
   });
 
   const [updateChatToDead] = useMutation(UPDATE_CHAT, {
@@ -110,8 +121,32 @@ export const ChatPanel = ({ ...props }) => {
     ],
   });
 
+  const [createChat] = useMutation(CREATE_CHAT, {
+    onCompleted: () => {
+      refetch();
+    },
+    refetchQueries: [
+      userID
+        ? {
+            query: GET_CHATS,
+            variables: {
+              type: metadatas.total.type,
+              page: metadatas.total.page,
+            },
+          }
+        : {
+            query: GET_CHATS,
+            variables: {
+              userID: userID,
+              type: metadatas.user.type,
+              page: metadatas.user.page,
+            },
+          },
+    ],
+  });
+
   const leaveChat = (uuid: string, ownerID: string, userID: string[]) => {
-    let leftChat = {};
+    let leftChat = {}; // 나간 채팅방 정보가 담김.
     if (ownerID === 'yshin') {
       // TODO: yshin을 session 값으로 바꿔야 함.
       leftChat = {
@@ -132,10 +167,17 @@ export const ChatPanel = ({ ...props }) => {
   };
 
   const createChatFunc = ({ name, type, password }: { name: string; type: 'public' | 'private'; password: string }) => {
-    // TODO: insert chat into db and take return info
-    // const dummyChat: IChat = { uuid: 'UUID', name: name, type: type, numOfPeople: 1, owner: 'session' }; //TODO: 더미 데이터이므로 삭제할 것.
-    // setMyList([...myList, dummyChat]);
-    // setTotalList([...totalList, dummyChat]);
+    let newChat = {};
+    if (type === 'public') {
+      newChat = { name: name, type: type, ownerID: 'yshin' }; //TODO: 'yshin' session 값으로 바꿔야 함.
+    } else {
+      newChat = { name: name, type: type, password: password, ownerID: 'yshin' };
+    }
+    createChat({
+      variables: {
+        newChat: newChat,
+      },
+    });
   };
 
   const createChatButton = !userID ? <CreateChat createChat={createChatFunc} /> : <></>;
@@ -145,8 +187,13 @@ export const ChatPanel = ({ ...props }) => {
     if (data !== undefined) {
       console.log(data.aliveChats);
       setChatsTotal(data.getChatCount);
+      if (data.getChatCount / CHAT_PAGE_SIZE < currentPage) {
+        const curPage = Math.ceil(data.getChatCount / CHAT_PAGE_SIZE);
+        setCurrentPage(curPage);
+        refetch({ page: curPage });
+      }
     }
-  }, [data]);
+  }, [data, currentPage, refetch, setCurrentPage]);
 
   // handlers
   const handlePageChange = (nextPage: number) => {
