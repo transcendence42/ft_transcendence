@@ -1,11 +1,12 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { GridItem, Grid, ButtonProps, Tabs } from '@chakra-ui/react';
+import { GridItem, Grid, ButtonProps, Tabs, Spinner } from '@chakra-ui/react';
 import { ChatTable } from '../ChatTable';
 import { Paginator, PageGroup, usePaginator } from 'chakra-paginator';
 import { CreateChat } from '../CreateChat';
 import { CHAT_PAGE_OUTER_LIMIT, CHAT_PAGE_INNER_LIMIT, CHAT_PAGE_SIZE } from '../../../utils/constants';
 import { ChatTabList } from '../../../UI/organisms/ChatTabList';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
+import { CREATE_CHAT, GET_CHATS, UPDATE_CHAT } from './ChatPanelQueries';
 
 export const ChatPanel = ({ ...props }) => {
   // paginator styles
@@ -40,6 +41,7 @@ export const ChatPanel = ({ ...props }) => {
   // react hooks
   const [chatsTotal, setChatsTotal] = useState<number | undefined>();
 
+  // paginator variables
   const { isDisabled, pagesQuantity, currentPage, setCurrentPage } = usePaginator({
     total: chatsTotal,
     initialState: {
@@ -49,47 +51,13 @@ export const ChatPanel = ({ ...props }) => {
     },
   });
 
-  const GET_CHATS = gql`
-    query GetChats($userID: String, $type: String, $page: Int) {
-      getChatCount(userID: $userID, type: $type)
-      aliveChats(userID: $userID, type: $type, page: $page) {
-        uuid
-        name
-        type
-        ownerID
-        userID
-      }
-    }
-  `;
-  const UPDATE_CHAT = gql`
-    mutation UpdateChat($newChat: UpdateChatInput!) {
-      updateChat(updateChatInput: $newChat) {
-        uuid
-        name
-        type
-        ownerID
-        userID
-      }
-    }
-  `;
-  const CREATE_CHAT = gql`
-    mutation CreateChat($newChat: CreateChatInput!) {
-      createChat(createChatInput: $newChat) {
-        uuid
-        name
-        type
-        ownerID
-        userID
-      }
-    }
-  `;
-
-  //fetch
+  // query
   const { loading, error, data, refetch } = useQuery(GET_CHATS, {
     variables: { userID: userID, type: chatListTabs[0].type, page: 1 },
     nextFetchPolicy: 'cache-and-network',
   });
 
+  //mutation
   const [updateChatToDead] = useMutation(UPDATE_CHAT, {
     onCompleted: () => {
       //페이지에 chat이 없으면 이전 페이지로 이동
@@ -145,6 +113,7 @@ export const ChatPanel = ({ ...props }) => {
     ],
   });
 
+  //채팅방 떠나기
   const leaveChat = (uuid: string, ownerID: string, userID: string[]) => {
     let leftChat = {}; // 나간 채팅방 정보가 담김.
     if (ownerID === 'yshin') {
@@ -166,6 +135,7 @@ export const ChatPanel = ({ ...props }) => {
     });
   };
 
+  //채팅방 생성
   const createChatFunc = ({ name, type, password }: { name: string; type: 'public' | 'private'; password: string }) => {
     let newChat = {};
     if (type === 'public') {
@@ -180,12 +150,14 @@ export const ChatPanel = ({ ...props }) => {
     });
   };
 
+  //userID가 prop으로 들어오면(나의채팅방, 1:1채팅방) 버튼 생성
   const createChatButton = !userID ? <CreateChat createChat={createChatFunc} /> : <></>;
 
   // effects
   useEffect(() => {
     if (data !== undefined) {
       setChatsTotal(data.getChatCount);
+      //채팅방 삭제 및 생성시 페이지 자동 조정
       if (data.getChatCount / CHAT_PAGE_SIZE < currentPage) {
         const curPage = Math.ceil(data.getChatCount / CHAT_PAGE_SIZE);
         setCurrentPage(curPage < 1 ? 1 : curPage);
@@ -195,6 +167,7 @@ export const ChatPanel = ({ ...props }) => {
   }, [data, currentPage, refetch, setCurrentPage]);
 
   // handlers
+  // 페이지 전환시
   const handlePageChange = (nextPage: number) => {
     refetch({
       page: nextPage,
@@ -207,6 +180,7 @@ export const ChatPanel = ({ ...props }) => {
     }
   };
 
+  //탭 전환시
   const handleTabHandler = (e: ChangeEvent) => {
     const tabName = e.target.name;
     for (const item of chatListTabs) {
@@ -225,7 +199,7 @@ export const ChatPanel = ({ ...props }) => {
     }
   };
 
-  if (loading) return <></>;
+  if (loading) return <Spinner />;
   if (error) return <p>Error :(</p>;
 
   return (
