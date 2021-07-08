@@ -1,21 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { AuthenticationProvider, UserDetails } from './auth';
-import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService implements AuthenticationProvider {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService, private jwtService: JwtService) {}
+
   async validateUser(details: UserDetails) {
     const { username } = details;
     const user: User | null = await this.usersService.findOne(username);
     if (user) {
-      console.log('login succes');
+      console.log('login success');
       return user;
     }
-    console.log(details);
     const newUser = await this.createUser(details);
+    return newUser;
+  }
+
+  async login(user: User) {
+    const payload = { username: user.nickname, sub: user.userID };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
   createUser(details: UserDetails) {
     const user = this.usersService.create({
@@ -25,7 +33,7 @@ export class AuthService implements AuthenticationProvider {
     });
     return;
   }
-  findUser() {
-    return;
+  findUser(userID: string): Promise<User> | undefined {
+    return this.usersService.findOne(userID);
   }
 }

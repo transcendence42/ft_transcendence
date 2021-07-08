@@ -1,17 +1,19 @@
-import { Controller, Get, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Res, UseGuards, Inject } from '@nestjs/common';
 import { Response } from 'express';
-import { FtAuthGuard } from './ft.guard';
+import { FtAuthGuard, AuthenticatedGuard } from './ft.guard';
+import { AuthenticationProvider } from './auth';
 
 @Controller('auth')
 export class AuthController {
+  constructor(@Inject('AUTH_SERVICE') private readonly authService: AuthenticationProvider) {}
   /*
    * /auth/login
    * Oauth provider로 redirect가 이뤄질 곳
    */
   @Get('login')
   @UseGuards(FtAuthGuard)
-  login() {
-    return;
+  login(@Res() res) {
+    return this.authService.login(res.user);
   }
 
   /*
@@ -21,10 +23,14 @@ export class AuthController {
   @Get('redirect')
   @UseGuards(FtAuthGuard)
   redirect(@Res() res: Response) {
-    console.log('haha');
-    res.redirect('http://localhost:5500');
+    res.redirect('/');
   }
 
+  @Get('status')
+  @UseGuards(AuthenticatedGuard)
+  status() {
+    return 'ok';
+  }
   /*
    * /auth/logout
    */
