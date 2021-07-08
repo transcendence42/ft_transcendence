@@ -48,6 +48,6 @@ export class ChatsResolver {
     @Args('page', { type: () => Int, nullable: true }) page: number,
     @Args('pageSize', { type: () => Int, nullable: true }) pageSize: number,
   ) {
-    return this.chatsService.findAliveChats({ userID, type, page: page - 1, pageSize });
+    return this.chatsService.findAliveChats({ userID, type, page, pageSize });
   }
 }

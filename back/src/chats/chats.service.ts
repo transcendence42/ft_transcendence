@@ -111,6 +111,7 @@ export class ChatsService {
     page: number;
     pageSize: number;
   }) {
+    page = page !== 0 ? page - 1 : page;
     let additionalWhereClause = ![undefined, null, ''].includes(type) ? ` AND "type"='${type}'` : ''; // type이 있을 때 추가되는 where절. 공개채팅방('public'), 비공개채팅방('private'), 1:1채팅방('dm'), 전체채팅방/나의채팅방(undefined, null, '')
     additionalWhereClause += ![undefined, null, ''].includes(userID)
       ? ` AND '${userID}'=ANY("userID")`
