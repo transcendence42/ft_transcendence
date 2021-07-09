@@ -19,7 +19,7 @@ import { PassportModule } from '@nestjs/passport';
       installSubscriptionHandlers: true,
       cors: {
         credentials: true,
-        origin: ['http://localhost:3000'],
+        origin: 'http://localhost:3000',
       },
     }),
     TypeOrmModule.forRoot(),

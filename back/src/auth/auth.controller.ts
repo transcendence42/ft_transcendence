@@ -32,10 +32,10 @@ export class AuthController {
       console.log(token);
       res.cookie('access_token', token.access_token, {
         httpOnly: true,
-        maxAge: 60 * 60,
+        maxAge: 60 * 60 * 24,
         sameSite: 'none',
-        domain: '127.0.0.1',
-        secure: true,
+        domain: 'http://localhost:3000',
+        secure: false, //https 사용시 true
       });
       res.status(302).redirect('http://localhost:3000/');
     }
