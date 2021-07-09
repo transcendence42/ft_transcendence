@@ -41,7 +41,7 @@ export const ChatPanel = ({ ...props }) => {
   };
 
   //props
-  const { chatListColumns, chatListType, chatListTabs, userID, metadatas, setMetadatas } = props;
+  const { chatListColumns, chatListType, chatListTabs, userID /*metadatas, setmetadata*/ } = props;
 
   // react hooks
   const [chatsTotal, setChatsTotal] = useState<number | undefined>();
@@ -65,57 +65,16 @@ export const ChatPanel = ({ ...props }) => {
   //mutation
   const [updateChatToDead] = useMutation(UPDATE_CHAT, {
     onCompleted: () => {
-      //페이지에 chat이 없으면 이전 페이지로 이동
-      let curPageNum = currentPage;
-      if (data.aliveChats.length === 1) {
-        curPageNum = curPageNum === CHAT_DEFAULT_PAGE ? CHAT_DEFAULT_PAGE : curPageNum - 1;
-      }
-      refetch({ page: curPageNum });
-      setCurrentPage(curPageNum);
-      setMetadatas({ ...metadatas, user: { ...metadatas.user, page: curPageNum } });
+      // 나의채팅방, 1:1채팅방 페이지를 첫 페이지로 변경
+      setCurrentPage(CHAT_DEFAULT_PAGE);
+      refetch({ page: CHAT_DEFAULT_PAGE });
     },
-    refetchQueries: [
-      userID
-        ? {
-            query: GET_CHATS,
-            variables: {
-              type: metadatas.total.type,
-              page: metadatas.total.page,
-            },
-          }
-        : {
-            query: GET_CHATS,
-            variables: {
-              userID: userID,
-              type: metadatas.user.type,
-              page: metadatas.user.page,
-            },
-          },
-    ],
   });
 
   const [createChat] = useMutation(CREATE_CHAT, {
     onCompleted: () => {
       refetch();
     },
-    refetchQueries: [
-      userID
-        ? {
-            query: GET_CHATS,
-            variables: {
-              type: metadatas.total.type,
-              page: metadatas.total.page,
-            },
-          }
-        : {
-            query: GET_CHATS,
-            variables: {
-              userID: userID,
-              type: metadatas.user.type,
-              page: metadatas.user.page,
-            },
-          },
-    ],
   });
 
   //채팅방 떠나기
@@ -146,6 +105,7 @@ export const ChatPanel = ({ ...props }) => {
     if (type === 'public') {
       newChat = { name: name, type: type, ownerID: 'yshin' }; //TODO: 'yshin' session 값으로 바꿔야 함.
     } else {
+      //private
       newChat = { name: name, type: type, password: password, ownerID: 'yshin' }; //TODO: 'yshin' session 값으로 바꿔야 함.
     }
     createChat({
@@ -159,17 +119,20 @@ export const ChatPanel = ({ ...props }) => {
   const createChatButton = !userID ? <CreateChat createChat={createChatFunc} /> : <></>;
 
   // effects
+  // query를 통해 데이터를 받아오면 전체 페이지 개수 설정.
   useEffect(() => {
     if (data !== undefined) {
       setChatsTotal(data.getChatCount);
-      //채팅방 삭제 및 생성시 페이지 자동 조정
-      if (data.getChatCount / CHAT_PAGE_SIZE < currentPage) {
-        const curPage = Math.ceil(data.getChatCount / CHAT_PAGE_SIZE);
-        setCurrentPage(curPage < CHAT_DEFAULT_PAGE ? CHAT_DEFAULT_PAGE : curPage);
-        refetch({ page: curPage });
-      }
     }
-  }, [data, currentPage, refetch, setCurrentPage]);
+  }, [data]);
+
+  // 채팅방 떠나기(mutation)이 동작하여 캐시 데이터가 변경되면 하단 ChatPanel의 페이지의 채팅방 개수가 0이 되는 경우가 있음. 이때 첫 페이지로 돌려보내는 기능
+  useEffect(() => {
+    if (data !== undefined && data.aliveChats.length === 0) {
+      setCurrentPage(CHAT_DEFAULT_PAGE);
+      refetch({ page: CHAT_DEFAULT_PAGE });
+    }
+  }, [data, setCurrentPage, refetch]);
 
   // handlers
   // 페이지 전환시
@@ -178,11 +141,6 @@ export const ChatPanel = ({ ...props }) => {
       page: nextPage,
     });
     setCurrentPage(nextPage);
-    if (userID) {
-      setMetadatas({ ...metadatas, user: { ...metadatas.user, page: nextPage } });
-    } else {
-      setMetadatas({ ...metadatas, total: { ...metadatas.total, page: nextPage } });
-    }
   };
 
   //탭 전환시
@@ -192,13 +150,6 @@ export const ChatPanel = ({ ...props }) => {
       if (item.name === tabName) {
         refetch({ page: CHAT_DEFAULT_PAGE, type: item.type });
         setCurrentPage(CHAT_DEFAULT_PAGE);
-        if (userID) {
-          setMetadatas({ ...metadatas, user: { ...metadatas.user, page: CHAT_DEFAULT_PAGE } });
-          setMetadatas({ ...metadatas, user: { ...metadatas.user, page: item.type } });
-        } else {
-          setMetadatas({ ...metadatas, total: { ...metadatas.total, page: CHAT_DEFAULT_PAGE } });
-          setMetadatas({ ...metadatas, total: { ...metadatas.total, page: item.type } });
-        }
         return;
       }
     }
@@ -208,7 +159,7 @@ export const ChatPanel = ({ ...props }) => {
   if (error) return <p>Error :(</p>;
 
   return (
-    <Tabs>
+    <Tabs h="440px">
       <Grid h="100%" w="100%" templateRows="repeat(3, max-content)">
         <GridItem rowSpan={1}>
           <ChatTabList chatListTabs={chatListTabs} handleTabHandler={handleTabHandler} />
