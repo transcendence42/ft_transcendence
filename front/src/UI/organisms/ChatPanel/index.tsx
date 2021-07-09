@@ -173,7 +173,7 @@ export const ChatPanel = ({ ...props }) => {
             leaveChat={leaveChat}
           />
         </GridItem>
-        <GridItem rowSpan={1} zIndex={-1}>
+        <GridItem rowSpan={1}>
           <Grid templateColumns="3fr 2fr 2fr 1fr">
             <GridItem colStart={2}>
               <Paginator
