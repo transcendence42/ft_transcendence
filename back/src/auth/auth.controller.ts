@@ -24,7 +24,8 @@ export class AuthController {
    */
   @Get('redirect')
   @UseGuards(FtAuthGuard)
-  @Header('access-control-expose-headers', 'Set-Cookie')
+  @Header('Access-Control-Expose-Headers', 'Set-Cookie')
+  @Header('Access-Control-Allow-Credentials', 'true')
   async redirect(@Req() req: any, @Res({ passthrough: true }) res: Response) {
     if (req.user) {
       const token = await this.authService.login(req.user);
@@ -32,7 +33,9 @@ export class AuthController {
       res.cookie('access_token', token.access_token, {
         httpOnly: true,
         maxAge: 60 * 60,
-        sameSite: 'lax',
+        sameSite: 'none',
+        domain: '127.0.0.1',
+        secure: true,
       });
       res.status(302).redirect('http://localhost:3000/');
     }

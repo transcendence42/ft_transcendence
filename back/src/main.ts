@@ -22,12 +22,10 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(
-    cors({
-      origin: ['http://localhost:3000'],
-      credentials: true,
-    }),
-  );
+  app.enableCors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+  });
   await app.listen(process.env.PORT || 5500);
 }
 bootstrap();
