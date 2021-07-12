@@ -24,8 +24,9 @@ export class AuthController {
    */
   @Get('redirect')
   @UseGuards(FtAuthGuard)
-  @Header('Access-Control-Expose-Headers', 'Set-Cookie')
-  @Header('Access-Control-Allow-Credentials', 'true')
+  // @Header('Access-Control-Allow-Origin', '*')
+  // @Header('Access-Control-Expose-Headers', 'Set-Cookie')
+  // @Header('Access-Control-Allow-Credentials', 'true')
   async redirect(@Req() req: any, @Res({ passthrough: true }) res: Response) {
     if (req.user) {
       const token = await this.authService.login(req.user);
@@ -34,7 +35,7 @@ export class AuthController {
         httpOnly: true,
         maxAge: 60 * 60 * 24,
         sameSite: 'none',
-        domain: 'http://localhost:3000',
+        domain: 'http://127.0.0.1:3000',
         secure: false, //https 사용시 true
       });
       res.status(302).redirect('http://localhost:3000/');

@@ -14,7 +14,9 @@ import Cookies from 'js-cookie';
 const App = () => {
   const [hasCookie, setHasCookie] = useState(false);
   const cookies = Cookies.get('access_token');
+  console.log('docu cookie');
   console.log(document.cookie);
+  // console.log(response.headers.map['set-cookie']);
   useEffect(() => {
     if (cookies && cookies !== 'undefined') {
       setHasCookie(true);
