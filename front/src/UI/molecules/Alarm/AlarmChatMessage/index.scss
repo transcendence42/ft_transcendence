@@ -1,0 +1,45 @@
+.speech-bubble-left {
+  position: relative;
+  background: #edf2f7;
+  border-radius: 4px;
+  border-top-left-radius: 0px;
+  padding: 10px;
+}
+
+.speech-bubble-left:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-right-color: #edf2f7;
+  border-left: 0;
+  border-top: 0;
+  margin-top: -21px;
+  margin-left: -10px;
+}
+
+.speech-bubble-right {
+  position: relative;
+  background: #edf2f7;
+  border-radius: 4px;
+  border-top-left-radius: 0px;
+  padding: 10px;
+}
+
+.speech-bubble-right:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-left-color: #edf2f7;
+  border-right: 0;
+  border-top: 0;
+  margin-top: -21px;
+  margin-right: -10px;
+}
