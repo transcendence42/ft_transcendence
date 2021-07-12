@@ -46,6 +46,7 @@ type Game {
 }
 
 type Chat {
+  index: Int!
   uuid: String!
   name: String!
   password: String
@@ -56,6 +57,7 @@ type Chat {
   userID: [String!]!
   createdAt: DateTime!
   modifiedAt: DateTime!
+  chatLog: [ChatLog!]!
 }
 
 type ChatLog {
@@ -181,6 +183,6 @@ input UpdateChatLogInput {
 }
 
 type Subscription {
-  alarmAdded: Alarm!
-  chatLogAdded: ChatLog!
+  alarmAdded(userID: String!): Alarm!
+  chatLogAdded(userID: String!): ChatLog!
 }

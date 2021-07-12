@@ -12,7 +12,7 @@ import {
   ALARM_CHAT_TITLE_CONTENT_FONTSIZE,
   ALARM_BACKGROUND_COLOR,
 } from '../../../utils/constants';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery, useSubscription } from '@apollo/client';
 
 export const AlarmChat = () => {
   const GET_CHATS = gql`
@@ -34,6 +34,23 @@ export const AlarmChat = () => {
       }
     }
   `;
+  const CHAT_SUBSCRIPTION = gql`
+    subscription onChatLogAdded($userID: String!) {
+      chatLogAdded(userID: $userID) {
+        index
+        chatUUID
+        userID
+        message
+        createdAt
+      }
+    }
+  `;
+  const { data: da, loading: lo } = useSubscription(CHAT_SUBSCRIPTION, {
+    variables: { userID: 'yshin' },
+  });
+  if (!lo) {
+    console.log('loading_subscription: ', da);
+  }
   const { loading, error, data } = useQuery(GET_CHATS, {
     variables: {
       uuid: '6803c039-c536-44cd-a4ba-44826ab9df91', //TODO: chat 목록에서 누른 값으로 변경할 것

@@ -15,6 +15,10 @@ import { PubSubModule } from './pub-sub/pub-sub.module';
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       installSubscriptionHandlers: true,
+      subscriptions: {
+        path: '/subscriptions',
+        keepAlive: 5000,
+      },
     }),
     TypeOrmModule.forRoot(),
     UsersModule,
@@ -27,4 +31,4 @@ import { PubSubModule } from './pub-sub/pub-sub.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
