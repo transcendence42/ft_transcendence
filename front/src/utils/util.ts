@@ -10,4 +10,27 @@ const getRunningTime = (isoStartTime: Date): string => {
   return `${min}:${sec}`;
 };
 
-export { winRate, getRunningTime };
+const postgresTimeToDate = (timestamp: string): Date => {
+  const dateTime = timestamp.substring(0, 19).split('T');
+  const [year, month, date, hour, minute, second] = [...dateTime[0].split('-'), ...dateTime[1].split(':')];
+  return new Date(Number(year), Number(month), Number(date), Number(hour), Number(minute), Number(second));
+};
+
+const compareTimeLapseToString = (startTimestamp: Date, endTimestamp: Date): string => {
+  if (startTimestamp.getFullYear() !== endTimestamp.getFullYear()) {
+    return String(startTimestamp.getFullYear() - endTimestamp.getFullYear() + '년전');
+  } else if (startTimestamp.getMonth() !== endTimestamp.getMonth()) {
+    return String(startTimestamp.getMonth() - endTimestamp.getMonth() + '개월전');
+  } else if (startTimestamp.getDate() !== endTimestamp.getDate()) {
+    return String(startTimestamp.getDate() - endTimestamp.getDate() + '일전');
+  } else if (startTimestamp.getHours() !== endTimestamp.getHours()) {
+    return String(startTimestamp.getHours() - endTimestamp.getHours() + '시간전');
+  } else if (startTimestamp.getMinutes() !== endTimestamp.getMinutes()) {
+    return String(startTimestamp.getMinutes() - endTimestamp.getMinutes() + '분전');
+  } else if (startTimestamp.getSeconds() !== endTimestamp.getSeconds()) {
+    return String(startTimestamp.getSeconds() - endTimestamp.getSeconds() + '초전');
+  }
+  return '방금전';
+};
+
+export { winRate, getRunningTime, postgresTimeToDate, compareTimeLapseToString };
