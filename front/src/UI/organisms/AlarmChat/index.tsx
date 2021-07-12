@@ -5,7 +5,6 @@ import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Tex
 import { Menu } from '../ContextMenu';
 import { AlarmChatMessage } from '../../molecules';
 import { PersonIcon, LockIcon } from '../../../utils/icons';
-import { dummyChatData } from '../../../utils/dummy';
 import {
   ALARM_TITLE_FONTWEIGHT,
   ALARM_TITLE_FONTSIZE,
@@ -13,9 +12,34 @@ import {
   ALARM_CHAT_TITLE_CONTENT_FONTSIZE,
   ALARM_BACKGROUND_COLOR,
 } from '../../../utils/constants';
+import { gql, useQuery } from '@apollo/client';
 
 export const AlarmChat = () => {
-  const { chat, chatLog } = dummyChatData;
+  const GET_CHATS = gql`
+    query GetChat($uuid: String!) {
+      chat(uuid: $uuid) {
+        index
+        uuid
+        name
+        type
+        ownerID
+        adminID
+        userID
+        chatLog {
+          index
+          userID
+          message
+          createdAt
+        }
+      }
+    }
+  `;
+  const { loading, error, data } = useQuery(GET_CHATS, {
+    variables: {
+      uuid: '6803c039-c536-44cd-a4ba-44826ab9df91', //TODO: chat 목록에서 누른 값으로 변경할 것
+    },
+  });
+
   const outerRef = useRef(null);
 
   const menuOnClickHandler = (
@@ -26,6 +50,15 @@ export const AlarmChat = () => {
       console.log(eventTarget.dataset.option);
     }
   };
+
+  if (loading) return <>LOADING...</>;
+  if (error) return <>ERROR</>;
+  let chat;
+  let chatLog;
+  if (data !== undefined) {
+    chat = data.chat;
+    chatLog = chat.chatLog;
+  }
 
   return (
     <AccordionItem>
@@ -54,7 +87,7 @@ export const AlarmChat = () => {
                   <PersonIcon />
                 </Box>
                 <Text fontSize={ALARM_CHAT_TITLE_CONTENT_FONTSIZE} fontWeight={ALARM_CONTENT_FONTWEIGHT}>
-                  {chat.personnel})
+                  {chat.userID.length})
                 </Text>
                 {chat.type === 'private' ? (
                   <Box pl="2">
@@ -72,9 +105,18 @@ export const AlarmChat = () => {
 
       <AccordionPanel pb={4} bg={ALARM_BACKGROUND_COLOR}>
         <Flex flexDirection="column">
-          {chatLog.map(({ index, type, chatId, message, createdAt }) => (
-            <AlarmChatMessage key={index} type={type} chatID={chatId} message={message} createdAt={createdAt} />
-          ))}
+          {chatLog.map(({ index, type, userID, message, createdAt }) => {
+            type = type === 'notification' ? type : userID === 'yshin' ? 'ownerMessage' : 'message'; // TODO: 'yshin' session 변경
+            return (
+              <AlarmChatMessage
+                key={`chat-room-${chat.index}-msg-${index}`}
+                type={type}
+                chatID={userID}
+                message={message}
+                createdAt={createdAt}
+              />
+            );
+          })}
         </Flex>
       </AccordionPanel>
     </AccordionItem>
