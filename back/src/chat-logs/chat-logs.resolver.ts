@@ -11,7 +11,7 @@ export class ChatLogsResolver {
 
   @Mutation(() => ChatLog)
   async createChatLog(@Args('createChatLogInput') createChatLogInput: CreateChatLogInput) {
-    const newChatLog = this.chatLogsService.create(createChatLogInput);
+    const newChatLog = await this.chatLogsService.create(createChatLogInput);
     this.pubSubProvider.getPubSub().publish('chatLogAdded', { chatLogAdded: newChatLog });
     return newChatLog;
   }
@@ -41,8 +41,12 @@ export class ChatLogsResolver {
     return this.chatLogsService.remove(index);
   }
 
-  @Subscription((returns) => ChatLog)
-  chatLogAdded() {
+  @Subscription((returns) => ChatLog, {
+    filter: (payload, variables) => {
+      return payload.chatLogAdded.userID === variables.userID;
+    },
+  })
+  chatLogAdded(@Args('userID') userID: string) {
     return this.pubSubProvider.getPubSub().asyncIterator('chatLogAdded');
   }
 }

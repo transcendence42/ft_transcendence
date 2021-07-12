@@ -44,19 +44,19 @@ export class AlarmsResolver {
   }
 
   @Mutation(() => Alarm)
-  addAlarm(@Args('createAlarmInput') createAlarmInput: CreateAlarmInput) {
-    const newAlarm = this.alarmsService.create(createAlarmInput);
+  async addAlarm(@Args('createAlarmInput') createAlarmInput: CreateAlarmInput) {
+    const newAlarm = await this.alarmsService.create(createAlarmInput);
     pubSub.publish('alarmAdded', { alarmAdded: newAlarm });
     return newAlarm;
   }
 
-  @Subscription(() => Alarm, {
+  @Subscription((returns) => Alarm, {
     name: 'alarmAdded',
-    filter(this: AlarmsResolver, payload, variables) {
+    filter(payload, variables) {
       return payload.alarmAdded.userID === variables.userID;
     },
   })
-  addAlarmHandler() {
+  addAlarmHandler(@Args('userID') userID: string) {
     return pubSub.asyncIterator('alarmAdded');
   }
 
