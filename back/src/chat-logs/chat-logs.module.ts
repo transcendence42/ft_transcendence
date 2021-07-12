@@ -4,5 +4,6 @@ import { ChatLogsResolver } from './chat-logs.resolver';
 
 @Module({
   providers: [ChatLogsResolver, ChatLogsService],
+  exports: [ChatLogsService],
 })
 export class ChatLogsModule {}
