@@ -13,6 +13,7 @@ export class FtStrategy extends PassportStrategy(Strategy) {
       scope: 'public',
     });
   }
+
   async validate(accessToken: string, refreshToken: string, profile: any) {
     const { username, photos } = profile;
     const details: UserDetails = { username, photos };

@@ -17,10 +17,6 @@ import { PassportModule } from '@nestjs/passport';
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       installSubscriptionHandlers: true,
-      cors: {
-        credentials: true,
-        origin: 'http://localhost:3000',
-      },
     }),
     TypeOrmModule.forRoot(),
     UsersModule,
