@@ -8,6 +8,7 @@ export const SPINNER_ERROR_COLOR = 'red.500';
 export const ALARM_TITLE_BACKGROOUND_COLOR = 'white';
 export const ALARM_BACKGROUND_COLOR = 'gray.50';
 export const ALARM_PROFILE_BACKGROUND_COLOR = 'gray.100';
+export const ALARM_PROFILE_TIME_COLOR = 'gray.400';
 export const ALARM_CHAT_MESSAGE_BACKGROUND_COLOR = 'gray.100';
 export const ALARM_MESSAGE_BACKGROUND_COLOR = 'gray.200';
 
