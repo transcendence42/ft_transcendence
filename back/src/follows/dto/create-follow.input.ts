@@ -1,6 +1,6 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { User } from 'src/users/entities/user.entity';
+import { InputType, Field } from '@nestjs/graphql';
 import { IsNotEmpty } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
 
 @InputType()
 export class CreateFollowInput {

@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Follow } from 'src/follow/entities/follow.entity';
+import { Follow } from 'src/follows/entities/follow.entity';
 import {
   PrimaryGeneratedColumn,
   Column,

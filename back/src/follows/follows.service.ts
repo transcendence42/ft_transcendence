@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { validate } from 'class-validator';
 import { CreateFollowInput } from './dto/create-follow.input';
 import { UpdateFollowInput } from './dto/update-follow.input';
 import { Follow } from './entities/follow.entity';
-import { validate } from 'class-validator';
 
 @Injectable()
-export class FollowService {
+export class FollowsService {
   async create(createFollowInput: CreateFollowInput) {
     const follow = new Follow();
     follow.follower = createFollowInput.follower;
@@ -21,7 +21,7 @@ export class FollowService {
   }
 
   findAll() {
-    return `This action returns all follow`;
+    return `This action returns all follows`;
   }
 
   findOne(index: number) {
