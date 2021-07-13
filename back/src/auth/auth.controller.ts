@@ -24,19 +24,12 @@ export class AuthController {
    */
   @Get('redirect')
   @UseGuards(FtAuthGuard)
-  // @Header('Access-Control-Allow-Origin', '*')
-  // @Header('Access-Control-Expose-Headers', 'Set-Cookie')
-  // @Header('Access-Control-Allow-Credentials', 'true')
   async redirect(@Req() req: any, @Res({ passthrough: true }) res: Response) {
     if (req.user) {
       const token = await this.authService.login(req.user);
       console.log(token);
       res.cookie('access_token', token.access_token, {
         httpOnly: false,
-        // maxAge: 60 * 60 * 24,
-        // sameSite: 'none',
-        // domain: 'http://127.0.0.1:3000',
-        // secure: false, //https 사용시 true
       });
       res.status(302).redirect('http://127.0.0.1:3000/');
     }
