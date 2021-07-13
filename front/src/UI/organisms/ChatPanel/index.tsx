@@ -123,18 +123,20 @@ export const ChatPanel = ({ ...props }) => {
   // effects
   // query를 통해 데이터를 받아오면 전체 페이지 개수 설정.
   useEffect(() => {
+    if (loading || error) return;
     if (data !== undefined) {
       setChatsTotal(data.getChatCount);
     }
-  }, [data]);
+  }, [data, loading, error]);
 
   // 채팅방 떠나기(mutation)이 동작하여 캐시 데이터가 변경되면 하단 ChatPanel의 페이지의 채팅방 개수가 0이 되는 경우가 있음. 이때 첫 페이지로 돌려보내는 기능
   useEffect(() => {
+    if (loading || error) return;
     if (data !== undefined && data.aliveChats.length === 0) {
       setCurrentPage(CHAT_DEFAULT_PAGE);
       refetch({ page: CHAT_DEFAULT_PAGE });
     }
-  }, [data, setCurrentPage, refetch]);
+  }, [data, setCurrentPage, refetch, loading, error]);
 
   // handlers
   // 페이지 전환시
