@@ -6,11 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 
 import { ApolloProvider } from '@apollo/client';
-import { client } from './apollo/apolloProvider';
+import { createClient } from './apollo/apolloProvider';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
+    <ApolloProvider client={createClient()}>
       <ColorModeScript />
       <App />
     </ApolloProvider>
