@@ -41,9 +41,11 @@ export class User extends BaseEntity {
   totalLose: number;
 
   @OneToMany(() => Follow, (follow) => follow.following)
+  @Field(() => [Follow], { defaultValue: [] })
   following: Follow[];
 
   @OneToMany(() => Follow, (follow) => follow.follower)
+  @Field(() => [Follow], { defaultValue: [] })
   follower: Follow[];
 
   @Column({ type: 'varchar', array: true, default: [] })
