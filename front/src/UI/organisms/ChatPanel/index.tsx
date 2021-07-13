@@ -1,16 +1,18 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { GridItem, Grid, ButtonProps, Tabs, Spinner } from '@chakra-ui/react';
-import { ChatTable } from '../ChatTable';
 import { Paginator, PageGroup, usePaginator } from 'chakra-paginator';
+import { useQuery, useMutation } from '@apollo/client';
+
+import { ChatTable } from '../ChatTable';
 import { CreateChat } from '../CreateChat';
+import { ChatTabList } from '../../../UI/organisms/ChatTabList';
+
 import {
   CHAT_PAGE_OUTER_LIMIT,
   CHAT_PAGE_INNER_LIMIT,
   CHAT_PAGE_SIZE,
   CHAT_DEFAULT_PAGE,
 } from '../../../utils/constants';
-import { ChatTabList } from '../../../UI/organisms/ChatTabList';
-import { useQuery, useMutation } from '@apollo/client';
 import { CREATE_CHAT, GET_CHATS, UPDATE_CHAT } from './ChatPanelQueries';
 
 export const ChatPanel = ({ ...props }) => {
