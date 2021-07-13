@@ -118,7 +118,7 @@ export const ChatPanel = ({ ...props }) => {
   };
 
   //userID가 prop으로 들어오면(나의채팅방, 1:1채팅방) 버튼 생성
-  const createChatButton = !userID ? <CreateChat createChat={createChatFunc} /> : <></>;
+  const createChatButton = !userID ? <CreateChat createChat={createChatFunc} /> : null;
 
   // effects
   // query를 통해 데이터를 받아오면 전체 페이지 개수 설정.

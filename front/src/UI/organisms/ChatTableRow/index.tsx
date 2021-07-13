@@ -13,7 +13,7 @@ export const ChatTableRow = ({ ...props }) => {
     ? { ...chatWithRowIndex, closeButton: true }
     : chatWithRowIndex;
 
-  const lockSVGIcon = chat.type === 'private' ? LockIcon({ fill: 'none' }) : <></>; // 비공개 방에 자물쇠 아이콘 추가
+  const lockSVGIcon = chat.type === 'private' ? LockIcon({ fill: 'none' }) : null; // 비공개 방에 자물쇠 아이콘 추가
   const numOfPeople = chatWithCloseButton['userID'].length;
   const filteredChatList = Object.entries(chatWithCloseButton).filter(
     (item) => !['uuid', 'type', '__typename', 'userID'].includes(item[0]),
