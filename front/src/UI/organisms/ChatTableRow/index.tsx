@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tr, Td } from '@chakra-ui/table';
 import { Box } from '@chakra-ui/react';
-import { LeaveChat } from '../LeaveChat';
+import { LeaveChatBox } from '../LeaveChatBox';
 import { LeaveChatMsg } from '../../molecules/LeaveChatMsg';
 import { LockIcon } from '../../../utils/icons';
 import { CHAT_LIST_TYPE_MY_LIST, CHAT_LIST_TYPE_DM_LIST } from '../../../utils/constants';
@@ -14,9 +14,9 @@ export const ChatTableRow = ({ ...props }) => {
   // 로그인 정보를 확인하여 owner와 비교하고, alert-dialog 메시지를 다르게 부여. owner이면 메시지를 추가하고, 아니라면 없음.
   const leaveChatMsg = chat.ownerID === 'yshin' ? <LeaveChatMsg /> : null; //TODO: 로그인 정보 확인(세션 등)
   const closeButton = (
-    <LeaveChat leaveChat={leaveChat} uuid={chat.uuid} ownerID={chat.ownerID} userID={chat.userID}>
+    <LeaveChatBox leaveChat={leaveChat} uuid={chat.uuid} ownerID={chat.ownerID} userID={chat.userID}>
       {leaveChatMsg}
-    </LeaveChat>
+    </LeaveChatBox>
   );
 
   // index 추가
