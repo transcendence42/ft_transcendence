@@ -38,7 +38,6 @@ export class UsersService {
     user.ladderRating = updateUserInput.ladderRating;
     user.totalWin = updateUserInput.totalWin;
     user.totalLose = updateUserInput.totalLose;
-    user.friendID = updateUserInput.friendID;
     user.blockID = updateUserInput.blockID;
     user.userState = updateUserInput.userState;
     user.modifiedAt = updateUserInput.modifiedAt;

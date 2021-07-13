@@ -9,7 +9,6 @@ type User {
   ladderRating: Int!
   totalWin: Int!
   totalLose: Int!
-  friendID: [String!]!
   blockID: [String!]!
   userState: String!
   createdAt: DateTime!
