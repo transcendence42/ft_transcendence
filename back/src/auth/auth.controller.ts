@@ -32,13 +32,13 @@ export class AuthController {
       const token = await this.authService.login(req.user);
       console.log(token);
       res.cookie('access_token', token.access_token, {
-        httpOnly: true,
-        maxAge: 60 * 60 * 24,
-        sameSite: 'none',
-        domain: 'http://127.0.0.1:3000',
-        secure: false, //https 사용시 true
+        httpOnly: false,
+        // maxAge: 60 * 60 * 24,
+        // sameSite: 'none',
+        // domain: 'http://127.0.0.1:3000',
+        // secure: false, //https 사용시 true
       });
-      res.status(302).redirect('http://localhost:3000/');
+      res.status(302).redirect('http://127.0.0.1:3000/');
     }
   }
 
