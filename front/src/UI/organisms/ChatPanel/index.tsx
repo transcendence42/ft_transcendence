@@ -43,7 +43,7 @@ export const ChatPanel = ({ ...props }) => {
   };
 
   //props
-  const { chatListColumns, chatListType, chatListTabs, userID /*metadatas, setmetadata*/ } = props;
+  const { chatListColumns, chatListType, chatListTabs, userID } = props;
 
   // react hooks
   const [chatsTotal, setChatsTotal] = useState<number | undefined>();
