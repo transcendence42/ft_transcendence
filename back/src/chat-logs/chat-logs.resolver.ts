@@ -43,10 +43,10 @@ export class ChatLogsResolver {
 
   @Subscription((returns) => ChatLog, {
     filter: (payload, variables) => {
-      return payload.chatLogAdded.userID === variables.userID;
+      return payload.chatLogAdded.chatUUID === variables.uuid;
     },
   })
-  chatLogAdded(@Args('userID') userID: string) {
+  chatLogAdded(@Args('uuid') uuid: string) {
     return this.pubSubProvider.getPubSub().asyncIterator('chatLogAdded');
   }
 }
