@@ -184,5 +184,5 @@ input UpdateChatLogInput {
 
 type Subscription {
   alarmAdded(userID: String!): Alarm!
-  chatLogAdded(userID: String!): ChatLog!
+  chatLogAdded(uuid: String!): ChatLog!
 }

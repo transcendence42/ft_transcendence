@@ -1,6 +1,18 @@
-import React, { useRef, MouseEvent } from 'react';
+import React, { useRef, MouseEvent, ChangeEvent } from 'react';
 
-import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
+import {
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Box,
+  Text,
+  Flex,
+  Input,
+  Button,
+  Grid,
+  GridItem,
+} from '@chakra-ui/react';
 
 import { Menu } from '../ContextMenu';
 import { PersonIcon, LockIcon } from '../../../utils/icons';
@@ -11,7 +23,7 @@ import {
   ALARM_CHAT_TITLE_CONTENT_FONTSIZE,
   ALARM_BACKGROUND_COLOR,
 } from '../../../utils/constants';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery, useMutation } from '@apollo/client';
 import { AlarmChatMessagesBox } from '../AlarmChatMessagesBox';
 
 export const AlarmChat = () => {
@@ -60,6 +72,47 @@ export const AlarmChat = () => {
     const eventTarget = e.target as HTMLUListElement;
     if (eventTarget) {
       console.log(eventTarget.dataset.option);
+    }
+  };
+
+  const CREATE_CHAT_LOG = gql`
+    mutation CreateChatLog($user: CreateChatLogInput!) {
+      createChatLog(createChatLogInput: $user) {
+        index
+        chatUUID
+        userID
+        message
+        createdAt
+      }
+    }
+  `;
+  //mutation
+  const [createChatLog] = useMutation(CREATE_CHAT_LOG);
+  const inputRef = useRef<HTMLInputElement>();
+  const tempRef = useRef<HTMLInputElement>();
+  const handleClickSend = () => {
+    if (inputRef.current.value === '') {
+      return;
+    }
+    if (!['devil', 'holee', 'jwon', 'yechoi', 'yshin'].includes(tempRef.current.value)) {
+      return;
+    }
+    createChatLog({
+      variables: {
+        user: {
+          chatUUID: 'e2d3dc39-0ca2-40f2-a890-ea18818aa049',
+          userID: tempRef.current.value,
+          message: inputRef.current.value,
+        },
+      },
+    }).then(() => {
+      inputRef.current.value = '';
+    });
+  };
+
+  const handleKeyPressInput = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleClickSend();
     }
   };
 
@@ -143,6 +196,19 @@ export const AlarmChat = () => {
             }
           />
         </Flex>
+        <Grid templateColumns="2fr 7fr 1fr">
+          {/* 임시 아이디 입력칸 begin */}
+          <GridItem colSpan={1}>
+            <Input placeholder="임시 아이디" ref={tempRef}></Input>
+          </GridItem>
+          {/* 임시 아이디 입력칸 end */}
+          <GridItem colSpan={1}>
+            <Input placeholder="메시지를 입력하세요" ref={inputRef} onKeyPress={(e) => handleKeyPressInput(e)}></Input>
+          </GridItem>
+          <GridItem colSpan={1}>
+            <Button onClick={handleClickSend}>send</Button>
+          </GridItem>
+        </Grid>
       </AccordionPanel>
     </AccordionItem>
   );
