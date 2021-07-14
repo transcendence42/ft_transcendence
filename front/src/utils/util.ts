@@ -33,4 +33,16 @@ const compareTimeLapseToString = (startTimestamp: Date, endTimestamp: Date): str
   return '방금전';
 };
 
-export { winRate, getRunningTime, postgresTimeToDate, compareTimeLapseToString };
+const getCookies = (key: string) => {
+  const cookie = document.cookie.split(';').filter((x) => x.trim().split('=')[0] === key)[0];
+  if (!cookie) {
+    return '';
+  }
+  return cookie.split('=')[1];
+};
+
+const bearerAuthorization = (token: string) => {
+  return token ? `bearer ${token}` : '';
+};
+
+export { winRate, getRunningTime, postgresTimeToDate, compareTimeLapseToString, getCookies, bearerAuthorization };
