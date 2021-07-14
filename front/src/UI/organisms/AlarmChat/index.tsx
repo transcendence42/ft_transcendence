@@ -3,7 +3,6 @@ import React, { useRef, MouseEvent } from 'react';
 import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
 
 import { Menu } from '../ContextMenu';
-import { AlarmChatMessage } from '../../molecules';
 import { PersonIcon, LockIcon } from '../../../utils/icons';
 import {
   ALARM_TITLE_FONTWEIGHT,
@@ -12,7 +11,8 @@ import {
   ALARM_CHAT_TITLE_CONTENT_FONTSIZE,
   ALARM_BACKGROUND_COLOR,
 } from '../../../utils/constants';
-import { gql, useQuery, useSubscription } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
+import { AlarmChatMessagesBox } from '../AlarmChatMessagesBox';
 
 export const AlarmChat = () => {
   const GET_CHATS = gql`
@@ -34,28 +34,23 @@ export const AlarmChat = () => {
       }
     }
   `;
-  const CHAT_SUBSCRIPTION = gql`
-    subscription onChatLogAdded($userID: String!) {
-      chatLogAdded(userID: $userID) {
+
+  const { loading, error, data, subscribeToMore } = useQuery(GET_CHATS, {
+    variables: {
+      uuid: 'e2d3dc39-0ca2-40f2-a890-ea18818aa049', //TODO: chat 목록에서 누른 값으로 변경할 것
+    },
+  });
+
+  const CHAT_LOG_SUBSCRIPTION = gql`
+    subscription onChatLogAdded($uuid: String!) {
+      chatLogAdded(uuid: $uuid) {
         index
-        chatUUID
         userID
         message
         createdAt
       }
     }
   `;
-  const { data: da, loading: lo } = useSubscription(CHAT_SUBSCRIPTION, {
-    variables: { userID: 'yshin' },
-  });
-  if (!lo) {
-    console.log('loading_subscription: ', da);
-  }
-  const { loading, error, data } = useQuery(GET_CHATS, {
-    variables: {
-      uuid: '6803c039-c536-44cd-a4ba-44826ab9df91', //TODO: chat 목록에서 누른 값으로 변경할 것
-    },
-  });
 
   const outerRef = useRef(null);
 
@@ -68,8 +63,13 @@ export const AlarmChat = () => {
     }
   };
 
-  if (loading) return <>LOADING...</>;
-  if (error) return <>ERROR</>;
+  if (loading) {
+    return <>LOADING...</>;
+  }
+  if (error) {
+    console.log(error);
+    return <>ERROR</>;
+  }
   let chat;
   let chatLog;
   if (data !== undefined) {
@@ -122,18 +122,26 @@ export const AlarmChat = () => {
 
       <AccordionPanel pb={4} bg={ALARM_BACKGROUND_COLOR}>
         <Flex flexDirection="column">
-          {chatLog.map(({ index, type, userID, message, createdAt }) => {
-            type = type === 'notification' ? type : userID === 'yshin' ? 'ownerMessage' : 'message'; // TODO: 'yshin' session 변경
-            return (
-              <AlarmChatMessage
-                key={`chat-room-${chat.index}-msg-${index}`}
-                type={type}
-                chatID={userID}
-                message={message}
-                createdAt={createdAt}
-              />
-            );
-          })}
+          <AlarmChatMessagesBox
+            chatLog={chatLog}
+            chatIndex={chat.index}
+            subscribeToNewMessage={() =>
+              subscribeToMore({
+                document: CHAT_LOG_SUBSCRIPTION,
+                variables: { uuid: 'e2d3dc39-0ca2-40f2-a890-ea18818aa049' }, //TODO: uuid session 바꿀것.
+                updateQuery: (prev, { subscriptionData }) => {
+                  if (!subscriptionData.data) return prev;
+                  const newFeedItem = subscriptionData.data.chatLogAdded;
+                  const res = Object.assign({}, prev, {
+                    chat: {
+                      chatLog: [...prev.chat.chatLog, newFeedItem],
+                    },
+                  });
+                  return res;
+                },
+              })
+            }
+          />
         </Flex>
       </AccordionPanel>
     </AccordionItem>
