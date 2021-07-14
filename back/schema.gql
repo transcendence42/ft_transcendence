@@ -2,6 +2,20 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Follow {
+  following: User!
+  follower: User!
+  checked: Boolean!
+  blocked: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type User {
   userID: String!
   nickname: String
@@ -9,16 +23,13 @@ type User {
   ladderRating: Int!
   totalWin: Int!
   totalLose: Int!
+  followings: [Follow!]!
+  followers: [Follow!]!
   blockID: [String!]!
   userState: String!
   createdAt: DateTime!
   modifiedAt: DateTime!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type Alarm {
   index: Int!
@@ -65,6 +76,30 @@ type ChatLog {
   createdAt: DateTime!
 }
 
+input follow {
+  following: user!
+  follower: user!
+  checked: Boolean = false
+  blocked: Boolean = false
+  createdAt: DateTime = "2021-07-14T03:07:31.707Z"
+  updatedAt: DateTime = "2021-07-14T03:07:31.707Z"
+}
+
+input user {
+  userID: String!
+  nickname: String
+  avatar: String = ""
+  ladderRating: Int = 0
+  totalWin: Int = 0
+  totalLose: Int = 0
+  followings: [follow!] = []
+  followers: [follow!] = []
+  blockID: [String!] = []
+  userState: String = "login"
+  createdAt: DateTime = "2021-07-14T03:07:31.708Z"
+  modifiedAt: DateTime = "2021-07-14T03:07:31.708Z"
+}
+
 type Query {
   users: [User!]!
   user(userID: String!): User!
@@ -80,6 +115,8 @@ type Query {
   chatLogs: [ChatLog!]!
   chatLog(index: Int!): ChatLog!
   chatLogsFromChat(uuid: String!): [ChatLog!]!
+  follows: [Follow!]!
+  follow(id: Int!): Follow!
 }
 
 type Mutation {
@@ -99,6 +136,9 @@ type Mutation {
   createChatLog(createChatLogInput: CreateChatLogInput!): ChatLog!
   updateChatLog(updateChatLogInput: UpdateChatLogInput!): ChatLog!
   removeChatLog(index: Int!): ChatLog!
+  createFollow(createFollowInput: CreateFollowInput!): Follow!
+  updateFollow(updateFollowInput: UpdateFollowInput!): Follow!
+  removeFollow(index: Int!): Follow!
 }
 
 input CreateUserInput {
@@ -113,8 +153,6 @@ input UpdateUserInput {
   ladderRating: Float
   totalWin: Float
   totalLose: Float
-  friendID: [String!]
-  blockID: [String!]
   userState: String
   modifiedAt: DateTime
 }
@@ -177,6 +215,19 @@ input UpdateChatLogInput {
   userID: String
   message: String
   index: Int!
+}
+
+input CreateFollowInput {
+  following: user!
+  follower: user!
+}
+
+input UpdateFollowInput {
+  following: user
+  follower: user
+  index: Int!
+  checked: Boolean
+  blocked: Boolean
 }
 
 type Subscription {

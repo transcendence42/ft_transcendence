@@ -1,17 +1,17 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, InputType } from '@nestjs/graphql';
 import { User } from '../../users/entities/user.entity';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('follow')
+@InputType('follow')
 @ObjectType()
 export class Follow extends BaseEntity {
   @PrimaryGeneratedColumn()

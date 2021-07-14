@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
 import { Follow } from '../../follows/entities/follow.entity';
 import {
   PrimaryGeneratedColumn,
@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 
 @Entity('user')
+@InputType('user')
 @ObjectType()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()

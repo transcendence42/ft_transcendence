@@ -3,7 +3,6 @@ import { validate } from 'class-validator';
 import { CreateFollowInput } from './dto/create-follow.input';
 import { UpdateFollowInput } from './dto/update-follow.input';
 import { Follow } from './entities/follow.entity';
-import { FollowsModule } from './follows.module';
 
 @Injectable()
 export class FollowsService {
