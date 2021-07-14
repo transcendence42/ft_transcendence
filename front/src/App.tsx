@@ -3,6 +3,7 @@ import { ChakraProvider, Flex, Box, theme, Center } from '@chakra-ui/react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Navigation } from './UI/organisms/Navigation';
 import { Alarm } from './UI/organisms/Alarm';
+import { getCookies } from './utils/util';
 import Main from './pages/Main';
 import Profile from './pages/Profile';
 import Chat from './pages/Chat';
@@ -13,7 +14,7 @@ const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <Router>
-        {document.cookie ? (
+        {getCookies('access_token') ? (
           <Flex minH="100vh" minWidth="1395px" flexDirection="row">
             <Box width="85px" minWidth="85px" maxWidth="85px">
               <Navigation />
