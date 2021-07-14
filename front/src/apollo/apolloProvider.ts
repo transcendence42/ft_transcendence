@@ -35,6 +35,18 @@ export const client = new ApolloClient({
               return [...incoming];
             },
           },
+          chat: {
+            merge(existing, incoming) {
+              const res = {};
+              if (existing !== undefined) {
+                Object.assign(res, existing);
+              }
+              if (incoming !== undefined) {
+                Object.assign(res, incoming);
+              }
+              return res;
+            },
+          },
         },
       },
     },
