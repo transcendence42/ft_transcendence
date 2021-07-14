@@ -10,13 +10,13 @@ import {
 } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 
-export const LeaveChat = ({ ...props }) => {
-  const { children, leaveChat, uuid } = props;
+export const LeaveChatBox = ({ ...props }) => {
+  const { children, leaveChat, uuid, ownerID, userID } = props;
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => setIsOpen(false);
 
   const handleClickDeleteChat = () => {
-    leaveChat(uuid);
+    leaveChat(uuid, ownerID, userID);
     onClose();
   };
   const cancelRef = React.useRef();
