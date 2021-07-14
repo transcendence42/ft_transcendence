@@ -16,7 +16,7 @@ export class AuthController {
    */
   @Get('login')
   @UseGuards(FtAuthGuard)
-  login(@Res() res) {}
+  login(@Req() res) {}
 
   /*
    * /auth/redirect

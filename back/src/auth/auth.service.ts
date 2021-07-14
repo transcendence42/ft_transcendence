@@ -26,7 +26,7 @@ export class AuthService implements AuthenticationProvider {
     };
   }
   createUser(details: UserDetails) {
-    const user = this.usersService.create({
+    this.usersService.create({
       userID: details.username,
       nickname: details.username,
       avatar: details.photos[0]['value'],

@@ -5,14 +5,15 @@ import { GRAPHQL_URL } from '../utils/constants';
 
 export const createClient = () => {
   const httpLink = createHttpLink({
-    uri: `${GRAPHQL_URL}/graphql`,
+    uri: `${GRAPHQL_URL}`,
+    credentials: 'include',
   });
 
   const authLink = setContext((_, { headers }) => {
     return {
       headers: {
         ...headers,
-        Cookie: document.cookie ? document.cookie : '',
+        authorization: document.cookie ? `bearer ${document.cookie}` : '',
       },
     };
   });
