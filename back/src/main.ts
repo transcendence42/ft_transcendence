@@ -10,10 +10,6 @@ async function bootstrap() {
   app.use(cookieParser());
   app.use(passport.initialize());
   app.use(passport.session());
-  app.enableCors({
-    origin: 'http://127.0.0.1:3000',
-    credentials: true,
-  });
   await app.listen(process.env.PORT || 5500);
 }
 bootstrap();

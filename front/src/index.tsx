@@ -10,7 +10,7 @@ import { createClient } from './apollo/apolloProvider';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={createClient()}>
+    <ApolloProvider client={createClient}>
       <ColorModeScript />
       <App />
     </ApolloProvider>
