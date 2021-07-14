@@ -1,18 +1,28 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { User } from 'src/users/entities/user.entity';
-import { BaseEntity, Column, CreateDateColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
+@Entity('follow')
 @ObjectType()
 export class Follow extends BaseEntity {
   @PrimaryGeneratedColumn()
   index: number;
 
-  @ManyToOne(() => User, (user) => user.following)
-  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.followings)
+  @Field(() => User!)
   following: User;
 
-  @ManyToOne(() => User, (user) => user.follower)
-  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.followers)
+  @Field(() => User!)
   follower: User;
 
   @Column({ type: Boolean, default: false })

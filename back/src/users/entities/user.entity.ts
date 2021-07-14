@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Follow } from 'src/follows/entities/follow.entity';
+import { Follow } from '../../follows/entities/follow.entity';
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -41,12 +41,12 @@ export class User extends BaseEntity {
   totalLose: number;
 
   @OneToMany(() => Follow, (follow) => follow.following)
-  @Field(() => [Follow], { defaultValue: [] })
-  following: Follow[];
+  @Field((type) => [Follow]!, { defaultValue: [] })
+  followings: Follow[];
 
   @OneToMany(() => Follow, (follow) => follow.follower)
-  @Field(() => [Follow], { defaultValue: [] })
-  follower: Follow[];
+  @Field((type) => [Follow]!, { defaultValue: [] })
+  followers: Follow[];
 
   @Column({ type: 'varchar', array: true, default: [] })
   @Field(() => [String], { defaultValue: [] })
