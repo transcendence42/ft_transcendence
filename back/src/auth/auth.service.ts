@@ -25,14 +25,16 @@ export class AuthService implements AuthenticationProvider {
       access_token: this.jwtService.sign(payload),
     };
   }
+
   createUser(details: UserDetails) {
-    this.usersService.create({
+    const user = this.usersService.create({
       userID: details.username,
       nickname: details.username,
       avatar: details.photos[0]['value'],
     });
-    return;
+    return user;
   }
+
   findUser(userID: string): Promise<User> | undefined {
     return this.usersService.findOne(userID);
   }

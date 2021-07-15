@@ -27,7 +27,6 @@ export class AuthController {
   async redirect(@Req() req: any, @Res({ passthrough: true }) res: Response) {
     if (req.user) {
       const token = await this.authService.login(req.user);
-      console.log(token);
       res.cookie('access_token', token.access_token, {
         httpOnly: false,
       });
