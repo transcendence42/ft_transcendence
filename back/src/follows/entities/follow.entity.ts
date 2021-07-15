@@ -17,13 +17,13 @@ export class Follow extends BaseEntity {
   @PrimaryGeneratedColumn()
   index: number;
 
-  @ManyToOne(() => User, (user) => user.followings)
-  @Field(() => User!)
-  following: User;
+  @ManyToOne(() => User, (user) => user.followings, { eager: true })
+  @Field(() => User, { nullable: true })
+  following: User | null;
 
-  @ManyToOne(() => User, (user) => user.followers)
-  @Field(() => User!)
-  follower: User;
+  @ManyToOne(() => User, (user) => user.followers, { eager: true })
+  @Field(() => User, { nullable: true })
+  follower: User | null;
 
   @Column({ type: Boolean, default: false })
   @Field(() => Boolean, { defaultValue: false })

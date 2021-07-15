@@ -5,10 +5,10 @@ import { User } from 'src/users/entities/user.entity';
 @InputType()
 export class CreateFollowInput {
   @IsNotEmpty()
-  @Field(() => User)
-  following: User;
+  @Field(() => String)
+  followingID: string;
 
   @IsNotEmpty()
-  @Field(() => User)
-  follower: User;
+  @Field(() => String)
+  followerID: string;
 }

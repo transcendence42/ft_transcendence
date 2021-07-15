@@ -3,9 +3,16 @@ import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 import { validate } from 'class-validator';
+import { forwardRef, Inject } from '@nestjs/common';
+import { FollowsService } from 'src/follows/follows.service';
 
 @Injectable()
 export class UsersService {
+  constructor(
+    @Inject(forwardRef(() => FollowsService))
+    private readonly followsService: FollowsService,
+  ) {}
+
   async create(createUserInput: CreateUserInput) {
     const user = new User();
     user.userID = createUserInput.userID;

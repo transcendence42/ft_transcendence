@@ -3,8 +3,8 @@
 # ------------------------------------------------------
 
 type Follow {
-  following: User!
-  follower: User!
+  following: User
+  follower: User
   checked: Boolean!
   blocked: Boolean!
   createdAt: DateTime!
@@ -17,15 +17,15 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type User {
+  index: Int!
   userID: String!
   nickname: String
   avatar: String!
   ladderRating: Int!
   totalWin: Int!
   totalLose: Int!
-  followings: [Follow!]!
-  followers: [Follow!]!
-  blockID: [String!]!
+  followings: [Follow!]
+  followers: [Follow!]
   userState: String!
   createdAt: DateTime!
   modifiedAt: DateTime!
@@ -77,32 +77,34 @@ type ChatLog {
 }
 
 input follow {
-  following: user!
-  follower: user!
+  following: user
+  follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-07-14T03:07:31.707Z"
-  updatedAt: DateTime = "2021-07-14T03:07:31.707Z"
+  createdAt: DateTime = "2021-07-15T08:17:08.608Z"
+  updatedAt: DateTime = "2021-07-15T08:17:08.608Z"
 }
 
 input user {
+  index: Int!
   userID: String!
   nickname: String
   avatar: String = ""
   ladderRating: Int = 0
   totalWin: Int = 0
   totalLose: Int = 0
-  followings: [follow!] = []
-  followers: [follow!] = []
-  blockID: [String!] = []
+  followings: [follow!]
+  followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-07-14T03:07:31.708Z"
-  modifiedAt: DateTime = "2021-07-14T03:07:31.708Z"
+  createdAt: DateTime = "2021-07-15T08:17:08.608Z"
+  modifiedAt: DateTime = "2021-07-15T08:17:08.608Z"
 }
 
 type Query {
   users: [User!]!
   user(userID: String!): User!
+  follows: [Follow!]!
+  follow(index: Int!): Follow!
   alarms: [Alarm!]!
   alarm(index: Int!): Alarm!
   userAlarm(userID: String!): [Alarm!]!
@@ -115,14 +117,15 @@ type Query {
   chatLogs: [ChatLog!]!
   chatLog(index: Int!): ChatLog!
   chatLogsFromChat(uuid: String!): [ChatLog!]!
-  follows: [Follow!]!
-  follow(id: Int!): Follow!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(userID: String!): User!
+  createFollow(createFollowInput: CreateFollowInput!): Follow!
+  updateFollow(updateFollowInput: UpdateFollowInput!): Follow!
+  removeFollow(index: Int!): Follow!
   createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
   removeAlarm(index: Int!): Alarm!
@@ -136,9 +139,6 @@ type Mutation {
   createChatLog(createChatLogInput: CreateChatLogInput!): ChatLog!
   updateChatLog(updateChatLogInput: UpdateChatLogInput!): ChatLog!
   removeChatLog(index: Int!): ChatLog!
-  createFollow(createFollowInput: CreateFollowInput!): Follow!
-  updateFollow(updateFollowInput: UpdateFollowInput!): Follow!
-  removeFollow(index: Int!): Follow!
 }
 
 input CreateUserInput {
@@ -155,6 +155,19 @@ input UpdateUserInput {
   totalLose: Float
   userState: String
   modifiedAt: DateTime
+}
+
+input CreateFollowInput {
+  followingID: String!
+  followerID: String!
+}
+
+input UpdateFollowInput {
+  followingID: String
+  followerID: String
+  index: Int!
+  checked: Boolean
+  blocked: Boolean
 }
 
 input CreateAlarmInput {
@@ -215,19 +228,6 @@ input UpdateChatLogInput {
   userID: String
   message: String
   index: Int!
-}
-
-input CreateFollowInput {
-  following: user!
-  follower: user!
-}
-
-input UpdateFollowInput {
-  following: user
-  follower: user
-  index: Int!
-  checked: Boolean
-  blocked: Boolean
 }
 
 type Subscription {

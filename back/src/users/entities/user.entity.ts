@@ -15,6 +15,7 @@ import {
 @ObjectType()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
+  @Field(() => Int, {})
   index: number;
 
   @Column({ type: 'varchar', length: 15, unique: true })
@@ -42,16 +43,13 @@ export class User extends BaseEntity {
   totalLose: number;
 
   @OneToMany(() => Follow, (follow) => follow.following)
-  @Field((type) => [Follow]!, { defaultValue: [] })
+  @Field((type) => [Follow], { nullable: true })
   followings: Follow[];
 
   @OneToMany(() => Follow, (follow) => follow.follower)
-  @Field((type) => [Follow]!, { defaultValue: [] })
+  @Field((type) => [Follow], { nullable: true })
   followers: Follow[];
 
-  @Column({ type: 'varchar', array: true, default: [] })
-  @Field(() => [String], { defaultValue: [] })
-  blockID: string[];
   // default status set
   @Column({ default: 'login' })
   @Field({ defaultValue: 'login' })

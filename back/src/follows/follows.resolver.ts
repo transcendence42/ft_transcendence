@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ResolveField } from '@nestjs/graphql';
 import { FollowsService } from './follows.service';
 import { Follow } from './entities/follow.entity';
 import { CreateFollowInput } from './dto/create-follow.input';
@@ -19,7 +19,7 @@ export class FollowsResolver {
   }
 
   @Query(() => Follow, { name: 'follow' })
-  findOne(@Args('id', { type: () => Int }) index: number) {
+  findOne(@Args('index', { type: () => Int }) index: number) {
     return this.followsService.findOne(index);
   }
 
