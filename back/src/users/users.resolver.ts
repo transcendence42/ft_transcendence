@@ -6,6 +6,8 @@ import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { GqlAuthGuard } from 'src/auth/guards/gql.guard';
 import { AuthenticationProvider } from 'src/auth/auth';
+import { AlarmsService } from 'src/alarms/alarms.service';
+import { Alarm } from 'src/alarms/entities/alarm.entity';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
@@ -18,6 +20,7 @@ export class UsersResolver {
   constructor(
     @Inject('AUTH_SERVICE') private readonly authService: AuthenticationProvider,
     private readonly usersService: UsersService,
+    private readonly alarmsService: AlarmsService,
   ) {}
 
   @Mutation(() => User)
@@ -31,8 +34,18 @@ export class UsersResolver {
   }
 
   @Query(() => User, { name: 'user' })
-  findOne(@CurrentUser() user: User, @Args('userID', { type: () => String }) userID: string) {
+  findOne(@Args('userID', { type: () => String }) userID: string) {
     return this.usersService.findOne(userID);
+  }
+
+  @Query(() => User, { name: 'me' })
+  async findMe(@CurrentUser() user: User) {
+    return this.usersService.findOne(user.userID);
+  }
+
+  @Query(() => [Alarm], { name: 'myAlarm' })
+  async findMyAlarm(@CurrentUser() user: User) {
+    return this.alarmsService.findUserAlarm(user.userID);
   }
 
   @Mutation(() => User)
