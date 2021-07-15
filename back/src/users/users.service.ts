@@ -40,6 +40,22 @@ export class UsersService {
     return user;
   }
 
+  async findOneByIndex(index: number) {
+    const user = await User.findOne({ index: index });
+    return user;
+  }
+
+  // async findFriends(userID: string) {
+  //   const friends = await User.getRepository()
+  //     .createQueryBuilder('user')
+  //     .select('user.follower')
+  //     .where('user.userID = :userID', { userID: userID })
+  //     .andWhere('user.follower.checked = :checked', { checked: true })
+  //     .getMany();
+  //   console.log(friends);
+  //   return friends;
+  // }
+
   async update(userID: string, updateUserInput: UpdateUserInput) {
     const user = await User.findOne({ userID: userID });
     user.userID = updateUserInput.userID;

@@ -71,12 +71,14 @@ export class FollowsService {
     return follows;
   }
 
-  async findFriends(userID: string) {
+  async findFriends(userIndex: number) {
     const friends = await Follow.getRepository()
       .createQueryBuilder('follow')
-      .where('follow.followerIndex = :userID', { userID: userID })
-      .andWhere('follow.checked =: checked', { checked: true })
-      .getMany();
+      .where('follow.followingIndex = :index', { index: userIndex })
+      .andWhere('follow.checked = :checked', { checked: true })
+      .select('follow.followerIndex')
+      .getRawMany();
+    // console.log(friends);
     return friends;
   }
 

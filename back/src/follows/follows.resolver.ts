@@ -1,12 +1,14 @@
-import { Resolver, Query, Mutation, Args, Int, ResolveField } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 import { FollowsService } from './follows.service';
 import { Follow } from './entities/follow.entity';
 import { CreateFollowInput } from './dto/create-follow.input';
 import { UpdateFollowInput } from './dto/update-follow.input';
+import { User } from 'src/users/entities/user.entity';
+import { UsersService } from 'src/users/users.service';
 
 @Resolver(() => Follow)
 export class FollowsResolver {
-  constructor(private readonly followsService: FollowsService) {}
+  constructor(private readonly followsService: FollowsService, private readonly usersService: UsersService) {}
 
   @Mutation(() => Follow)
   createFollow(@Args('createFollowInput') createFollowInput: CreateFollowInput) {

@@ -40,6 +40,11 @@ export class UsersResolver {
     return this.usersService.findOne(userID);
   }
 
+  @Query(() => User, { name: 'user' })
+  findOneByIndex(@Args('index', { type: () => Number }) index: number) {
+    return this.usersService.findOneByIndex(index);
+  }
+
   @Query(() => User, { name: 'me' })
   async findMe(@CurrentUser() user: User) {
     return this.usersService.findOne(user.userID);
@@ -51,8 +56,13 @@ export class UsersResolver {
   }
 
   @Query(() => [User], { name: 'friends' })
-  async findFriends(@CurrentUser() user: User) {
-    return this.followsService.findFriends(user.userID);
+  async findFriends(@Args('userID', { type: () => String, nullable: true }) userID: string) {
+    const user = await this.findOne(userID);
+    const usersIndex = (await this.followsService.findFriends(user.index)).map((x) => x['followerIndex']);
+    const users = usersIndex.map(async (x) => {
+      return await this.usersService.findOneByIndex(x);
+    });
+    return users;
   }
 
   @Mutation(() => User)
