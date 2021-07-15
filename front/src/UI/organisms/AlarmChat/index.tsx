@@ -1,18 +1,6 @@
-import React, { useRef, MouseEvent, ChangeEvent } from 'react';
+import React, { useRef, MouseEvent, useEffect } from 'react';
 
-import {
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-  Box,
-  Text,
-  Flex,
-  Input,
-  Button,
-  Grid,
-  GridItem,
-} from '@chakra-ui/react';
+import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
 
 import { Menu } from '../ContextMenu';
 import { PersonIcon, LockIcon } from '../../../utils/icons';
@@ -23,11 +11,13 @@ import {
   ALARM_CHAT_TITLE_CONTENT_FONTSIZE,
   ALARM_BACKGROUND_COLOR,
 } from '../../../utils/constants';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { AlarmChatMessagesBox } from '../AlarmChatMessagesBox';
+import { compareTimeLapseToString, postgresTimeToDate } from '../../../utils/util';
+import { ChatSendBox } from '../ChatSendBox';
 
 export const AlarmChat = () => {
-  const GET_CHATS = gql`
+  const GET_CHAT = gql`
     query GetChat($uuid: String!) {
       chat(uuid: $uuid) {
         index
@@ -47,13 +37,21 @@ export const AlarmChat = () => {
     }
   `;
 
-  const { loading, error, data, subscribeToMore } = useQuery(GET_CHATS, {
+  const { loading, error, data, subscribeToMore } = useQuery(GET_CHAT, {
     variables: {
       uuid: 'e2d3dc39-0ca2-40f2-a890-ea18818aa049', //TODO: chat 목록에서 누른 값으로 변경할 것
     },
   });
 
-  const CHAT_LOG_SUBSCRIPTION = gql`
+  // subscription으로 데이터가 들어오면 스크롤을 아래로 이동
+  const scrollRef = useRef();
+  useEffect(() => {
+    if (scrollRef.current !== undefined) {
+      scrollRef.current.scrollBy(0, scrollRef.current.scrollHeight);
+    }
+  }, [data]);
+
+  const CHATLOG_SUBSCRIPTION = gql`
     subscription onChatLogAdded($uuid: String!) {
       chatLogAdded(uuid: $uuid) {
         index
@@ -75,59 +73,15 @@ export const AlarmChat = () => {
     }
   };
 
-  const CREATE_CHAT_LOG = gql`
-    mutation CreateChatLog($user: CreateChatLogInput!) {
-      createChatLog(createChatLogInput: $user) {
-        index
-        chatUUID
-        userID
-        message
-        createdAt
-      }
-    }
-  `;
-  //mutation
-  const [createChatLog] = useMutation(CREATE_CHAT_LOG);
-  const inputRef = useRef<HTMLInputElement>();
-  const tempRef = useRef<HTMLInputElement>();
-  const handleClickSend = () => {
-    if (inputRef.current.value === '') {
-      return;
-    }
-    if (!['devil', 'holee', 'jwon', 'yechoi', 'yshin'].includes(tempRef.current.value)) {
-      return;
-    }
-    createChatLog({
-      variables: {
-        user: {
-          chatUUID: 'e2d3dc39-0ca2-40f2-a890-ea18818aa049',
-          userID: tempRef.current.value,
-          message: inputRef.current.value,
-        },
-      },
-    }).then(() => {
-      inputRef.current.value = '';
-    });
-  };
-
-  const handleKeyPressInput = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleClickSend();
-    }
-  };
-
   if (loading) {
     return <>LOADING...</>;
   }
   if (error) {
-    console.log(error);
+    console.error(error);
     return <>ERROR</>;
   }
-  let chat;
-  let chatLog;
-  if (data !== undefined) {
-    chat = data.chat;
-    chatLog = chat.chatLog;
+  if (data === undefined) {
+    return <>ERROR</>;
   }
 
   return (
@@ -151,15 +105,15 @@ export const AlarmChat = () => {
               </Text>
               <Flex flexDirection="row" alignItems="center">
                 <Text pl="2" fontSize={ALARM_CHAT_TITLE_CONTENT_FONTSIZE} fontWeight={ALARM_CONTENT_FONTWEIGHT}>
-                  #{chat.index} {chat.name} (
+                  #{data.chat.index} {data.chat.name} (
                 </Text>
                 <Box pr="1">
                   <PersonIcon />
                 </Box>
                 <Text fontSize={ALARM_CHAT_TITLE_CONTENT_FONTSIZE} fontWeight={ALARM_CONTENT_FONTWEIGHT}>
-                  {chat.userID.length})
+                  {data.chat.userID.length})
                 </Text>
-                {chat.type === 'private' ? (
+                {data.chat.type === 'private' ? (
                   <Box pl="2">
                     <LockIcon />
                   </Box>
@@ -174,13 +128,38 @@ export const AlarmChat = () => {
       </h2>
 
       <AccordionPanel pb={4} bg={ALARM_BACKGROUND_COLOR}>
-        <Flex flexDirection="column">
+        <Flex
+          flexDirection="column"
+          overflowX="hidden"
+          overflowY="auto"
+          height="258px"
+          style={{ scrollbarWidth: 'thin' }}
+          css={{
+            '&::-webkit-scrollbar': {
+              width: '5px',
+            },
+            '&::-webkit-scrollbar-track': {
+              width: '5px',
+              background: 'lightgray',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: 'gray',
+              borderRadius: '24px',
+            },
+          }}
+          ref={scrollRef}
+        >
           <AlarmChatMessagesBox
-            chatLog={chatLog}
-            chatIndex={chat.index}
+            chatLog={data.chat.chatLog.map((item) => {
+              return {
+                ...item,
+                createdAt: compareTimeLapseToString(new Date(), postgresTimeToDate(item.createdAt)),
+              };
+            })}
+            chatIndex={data.chat.index}
             subscribeToNewMessage={() =>
               subscribeToMore({
-                document: CHAT_LOG_SUBSCRIPTION,
+                document: CHATLOG_SUBSCRIPTION,
                 variables: { uuid: 'e2d3dc39-0ca2-40f2-a890-ea18818aa049' }, //TODO: uuid session 바꿀것.
                 updateQuery: (prev, { subscriptionData }) => {
                   if (!subscriptionData.data) return prev;
@@ -196,19 +175,7 @@ export const AlarmChat = () => {
             }
           />
         </Flex>
-        <Grid templateColumns="2fr 7fr 1fr">
-          {/* 임시 아이디 입력칸 begin */}
-          <GridItem colSpan={1}>
-            <Input placeholder="임시 아이디" ref={tempRef}></Input>
-          </GridItem>
-          {/* 임시 아이디 입력칸 end */}
-          <GridItem colSpan={1}>
-            <Input placeholder="메시지를 입력하세요" ref={inputRef} onKeyPress={(e) => handleKeyPressInput(e)}></Input>
-          </GridItem>
-          <GridItem colSpan={1}>
-            <Button onClick={handleClickSend}>send</Button>
-          </GridItem>
-        </Grid>
+        <ChatSendBox />
       </AccordionPanel>
     </AccordionItem>
   );
