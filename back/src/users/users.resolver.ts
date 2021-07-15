@@ -31,8 +31,13 @@ export class UsersResolver {
   }
 
   @Query(() => User, { name: 'user' })
-  findOne(@CurrentUser() user: User, @Args('userID', { type: () => String }) userID: string) {
+  findOne(@Args('userID', { type: () => String }) userID: string) {
     return this.usersService.findOne(userID);
+  }
+
+  @Query(() => User, { name: 'me' })
+  async findMe(@CurrentUser() user: User) {
+    return this.usersService.findOne(user.userID);
   }
 
   @Mutation(() => User)

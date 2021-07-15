@@ -69,6 +69,7 @@ type ChatLog {
 type Query {
   users: [User!]!
   user(userID: String!): User!
+  me: User!
   alarms: [Alarm!]!
   alarm(index: Int!): Alarm!
   userAlarm(userID: String!): [Alarm!]!
