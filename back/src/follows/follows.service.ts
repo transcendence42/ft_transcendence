@@ -5,6 +5,7 @@ import { CreateFollowInput } from './dto/create-follow.input';
 import { UpdateFollowInput } from './dto/update-follow.input';
 import { Follow } from './entities/follow.entity';
 import { forwardRef, Inject } from '@nestjs/common';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class FollowsService {
@@ -16,13 +17,18 @@ export class FollowsService {
     const follow = new Follow();
     follow.follower = await this.usersService.findOne(createFollowInput.followerID);
     follow.following = await this.usersService.findOne(createFollowInput.followingID);
-    console.log('follower', follow.follower);
 
     const validate_error = await validate(follow);
     if (validate_error.length > 0) {
       const _error = { follow: 'FollowInput is not valid check type' };
       throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
     } else {
+      let f4f = await this.findF4F(follow.follower, follow.following);
+      if (f4f) {
+        f4f.checked = true;
+        follow.checked = true;
+        Follow.save(f4f);
+      }
       return await Follow.save(follow);
     }
   }
@@ -34,6 +40,17 @@ export class FollowsService {
       .leftJoinAndSelect('follow.follower', 'followeruser')
       .getMany();
     return follows;
+  }
+
+  // 역으로 팔로잉 돼있는지 체크, 맞팔돼있으면 해당 follow 정보 반환
+  async findF4F(follower: User, following: User) {
+    const follow = await Follow.findOne({
+      where: {
+        following: follower,
+        follower: following,
+      },
+    });
+    return follow;
   }
 
   async findFollowers({ index: index }) {
