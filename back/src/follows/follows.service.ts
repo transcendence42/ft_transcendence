@@ -39,7 +39,7 @@ export class FollowsService {
   async findFollowers({ index: index }) {
     const follows = await Follow.getRepository()
       .createQueryBuilder('follow')
-      .leftJoinAndSelect('follow.following', 'followinguser')
+      .where('follow.followingIndex = :id', { id: index })
       .leftJoinAndSelect('follow.follower', 'followeruser')
       .getMany();
     return follows;
@@ -48,8 +48,8 @@ export class FollowsService {
   async findFollowings({ index: index }) {
     const follows = await Follow.getRepository()
       .createQueryBuilder('follow')
+      .where('follow.followerIndex = :id', { id: index })
       .leftJoinAndSelect('follow.following', 'followinguser')
-      .leftJoinAndSelect('follow.follower', 'followeruser')
       .getMany();
     return follows;
   }
