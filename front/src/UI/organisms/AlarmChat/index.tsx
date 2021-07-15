@@ -1,9 +1,14 @@
 import React, { useRef, MouseEvent, useEffect } from 'react';
-
 import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
+import { useQuery } from '@apollo/client';
 
 import { Menu } from '../ContextMenu';
+import { AlarmChatMessagesBox } from '../AlarmChatMessagesBox';
+import { ChatSendBox } from '../ChatSendBox';
+
 import { PersonIcon, LockIcon } from '../../../utils/icons';
+import { compareTimeLapseToString, postgresTimeToDate } from '../../../utils/util';
+
 import {
   ALARM_TITLE_FONTWEIGHT,
   ALARM_TITLE_FONTSIZE,
@@ -11,32 +16,9 @@ import {
   ALARM_CHAT_TITLE_CONTENT_FONTSIZE,
   ALARM_BACKGROUND_COLOR,
 } from '../../../utils/constants';
-import { gql, useQuery } from '@apollo/client';
-import { AlarmChatMessagesBox } from '../AlarmChatMessagesBox';
-import { compareTimeLapseToString, postgresTimeToDate } from '../../../utils/util';
-import { ChatSendBox } from '../ChatSendBox';
+import { GET_CHAT, CHATLOG_SUBSCRIPTION } from './AlarmChatQueries';
 
 export const AlarmChat = () => {
-  const GET_CHAT = gql`
-    query GetChat($uuid: String!) {
-      chat(uuid: $uuid) {
-        index
-        uuid
-        name
-        type
-        ownerID
-        adminID
-        userID
-        chatLog {
-          index
-          userID
-          message
-          createdAt
-        }
-      }
-    }
-  `;
-
   const { loading, error, data, subscribeToMore } = useQuery(GET_CHAT, {
     variables: {
       uuid: 'e2d3dc39-0ca2-40f2-a890-ea18818aa049', //TODO: chat 목록에서 누른 값으로 변경할 것
@@ -50,17 +32,6 @@ export const AlarmChat = () => {
       scrollRef.current.scrollBy(0, scrollRef.current.scrollHeight);
     }
   }, [data]);
-
-  const CHATLOG_SUBSCRIPTION = gql`
-    subscription onChatLogAdded($uuid: String!) {
-      chatLogAdded(uuid: $uuid) {
-        index
-        userID
-        message
-        createdAt
-      }
-    }
-  `;
 
   const outerRef = useRef(null);
 

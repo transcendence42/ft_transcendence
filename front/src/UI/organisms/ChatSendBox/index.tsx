@@ -1,20 +1,10 @@
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { Grid, GridItem } from '@chakra-ui/layout';
 import { Button, Input } from '@chakra-ui/react';
 import React, { useRef } from 'react';
+import { CREATE_CHAT_LOG } from './ChatSendBoxQueries';
 
 export const ChatSendBox = () => {
-  const CREATE_CHAT_LOG = gql`
-    mutation CreateChatLog($user: CreateChatLogInput!) {
-      createChatLog(createChatLogInput: $user) {
-        index
-        chatUUID
-        userID
-        message
-        createdAt
-      }
-    }
-  `;
   //mutation
   const [createChatLog] = useMutation(CREATE_CHAT_LOG);
   const inputRef = useRef<HTMLInputElement>();

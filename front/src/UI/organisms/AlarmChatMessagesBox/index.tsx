@@ -1,4 +1,3 @@
-// import { gql, useSubscription } from '@apollo/client';
 import { useEffect } from 'react';
 import { AlarmChatMessage } from '../../molecules';
 
