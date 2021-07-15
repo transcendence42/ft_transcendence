@@ -71,6 +71,8 @@ type ChatLog {
 type Query {
   users: [User!]!
   user(userID: String!): User!
+  me: User!
+  myAlarm: [Alarm!]!
   alarms: [Alarm!]!
   alarm(index: Int!): Alarm!
   userAlarm(userID: String!): [Alarm!]!
@@ -107,6 +109,7 @@ type Mutation {
 input CreateUserInput {
   userID: String!
   nickname: String!
+  avatar: String!
 }
 
 input UpdateUserInput {

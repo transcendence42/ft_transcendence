@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const GET_ALARM_NOTIFIER = gql`
   query {
-    alarms {
+    myAlarm {
       index
       userID
       title

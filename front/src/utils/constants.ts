@@ -1,3 +1,17 @@
+/*
+ ** URL
+ */
+
+export const BASE_URL = 'http://127.0.0.1:5500';
+export const LOGIN_URL = `/auth/login`;
+// export const LOGIN_URL = `${BASE_URL}/auth/login`;
+// export const GRAPHQL_URL = `${BASE_URL}/graphql`;
+export const GRAPHQL_URL = `/graphql`;
+
+/*
+ ** Spinner
+ */
+
 export const SPINNER_COLOR = 'gray.500';
 export const SPINNER_ERROR_COLOR = 'red.500';
 
