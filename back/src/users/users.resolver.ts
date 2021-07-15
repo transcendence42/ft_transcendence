@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, GqlExecutionContext } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, GqlExecutionContext, ResolveField, Parent } from '@nestjs/graphql';
 import { Inject, createParamDecorator, ExecutionContext, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';

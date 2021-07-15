@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
 import { Follow } from 'src/follows/entities/follow.entity';
 import {
   PrimaryGeneratedColumn,

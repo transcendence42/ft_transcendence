@@ -81,8 +81,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-07-15T11:52:16.934Z"
-  updatedAt: DateTime = "2021-07-15T11:52:16.934Z"
+  createdAt: DateTime = "2021-07-15T11:59:17.766Z"
+  updatedAt: DateTime = "2021-07-15T11:59:17.766Z"
 }
 
 input user {
@@ -96,23 +96,20 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-07-15T11:52:16.934Z"
-  modifiedAt: DateTime = "2021-07-15T11:52:16.934Z"
+  createdAt: DateTime = "2021-07-15T11:59:17.767Z"
+  modifiedAt: DateTime = "2021-07-15T11:59:17.767Z"
 }
 
 type Query {
   users: [User!]!
   user(userID: String!): User!
-<<<<<<< HEAD
-  follows: [Follow!]!
-  follow(index: Int!): Follow!
-=======
   me: User!
   myAlarm: [Alarm!]!
->>>>>>> e0d56d9c693f181151cf09fe87fce31795506584
   alarms: [Alarm!]!
   alarm(index: Int!): Alarm!
   userAlarm(userID: String!): [Alarm!]!
+  follows: [Follow!]!
+  follow(index: Int!): Follow!
   games: [Game!]!
   game(id: Int!): Game!
   chats: [Chat!]!
@@ -128,13 +125,13 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(userID: String!): User!
-  createFollow(createFollowInput: CreateFollowInput!): Follow!
-  updateFollow(updateFollowInput: UpdateFollowInput!): Follow!
-  removeFollow(index: Int!): Follow!
   createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
   removeAlarm(index: Int!): Alarm!
   addAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
+  createFollow(createFollowInput: CreateFollowInput!): Follow!
+  updateFollow(updateFollowInput: UpdateFollowInput!): Follow!
+  removeFollow(index: Int!): Follow!
   createGame(createGameInput: CreateGameInput!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
   removeGame(id: Int!): Game!
@@ -163,19 +160,6 @@ input UpdateUserInput {
   modifiedAt: DateTime
 }
 
-input CreateFollowInput {
-  followingID: String!
-  followerID: String!
-}
-
-input UpdateFollowInput {
-  followingID: String
-  followerID: String
-  index: Int!
-  checked: Boolean
-  blocked: Boolean
-}
-
 input CreateAlarmInput {
   userID: String!
   title: String!
@@ -187,6 +171,19 @@ input CreateAlarmInput {
 input CheckAlarmInput {
   index: Int!
   checked: Boolean!
+}
+
+input CreateFollowInput {
+  followingID: String!
+  followerID: String!
+}
+
+input UpdateFollowInput {
+  followingID: String
+  followerID: String
+  index: Int!
+  checked: Boolean
+  blocked: Boolean
 }
 
 input CreateGameInput {
