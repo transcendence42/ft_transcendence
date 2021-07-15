@@ -50,6 +50,11 @@ export class UsersResolver {
     return this.alarmsService.findUserAlarm(user.userID);
   }
 
+  @Query(() => [User], { name: 'friends' })
+  async findFriends(@CurrentUser() user: User) {
+    return this.followsService.findFriends(user.userID);
+  }
+
   @Mutation(() => User)
   updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     return this.usersService.update(updateUserInput.userID, updateUserInput);
