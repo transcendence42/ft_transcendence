@@ -1,11 +1,17 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
 import { CreateAlarmInput } from './dto/create-alarm.input';
 import { CheckAlarmInput } from './dto/check-alarm.input';
 import { Alarm } from './entities/alarm.entity';
 import { validate } from 'class-validator';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class AlarmsService {
+  constructor(
+    @Inject(forwardRef(() => UsersService))
+    private readonly usersService: UsersService,
+  ) {}
+
   async create(createAlarmInput: CreateAlarmInput) {
     const alarm = new Alarm();
     alarm.userID = createAlarmInput.userID;

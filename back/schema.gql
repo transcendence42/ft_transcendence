@@ -103,8 +103,13 @@ input user {
 type Query {
   users: [User!]!
   user(userID: String!): User!
+<<<<<<< HEAD
   follows: [Follow!]!
   follow(index: Int!): Follow!
+=======
+  me: User!
+  myAlarm: [Alarm!]!
+>>>>>>> e0d56d9c693f181151cf09fe87fce31795506584
   alarms: [Alarm!]!
   alarm(index: Int!): Alarm!
   userAlarm(userID: String!): [Alarm!]!
@@ -144,6 +149,7 @@ type Mutation {
 input CreateUserInput {
   userID: String!
   nickname: String!
+  avatar: String!
 }
 
 input UpdateUserInput {

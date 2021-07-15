@@ -1,3 +1,17 @@
+/*
+ ** URL
+ */
+
+export const BASE_URL = 'http://127.0.0.1:5500';
+export const LOGIN_URL = `/auth/login`;
+// export const LOGIN_URL = `${BASE_URL}/auth/login`;
+// export const GRAPHQL_URL = `${BASE_URL}/graphql`;
+export const GRAPHQL_URL = `/graphql`;
+
+/*
+ ** Spinner
+ */
+
 export const SPINNER_COLOR = 'gray.500';
 export const SPINNER_ERROR_COLOR = 'red.500';
 
@@ -45,8 +59,31 @@ export const ALARM_CONTENT_FONTWEIGHT = 'semibold';
 
 export const CHAT_MY_LIST_COLUMNS = ['#', '제목', '인원', '방장', ''];
 export const CHAT_TOTAL_LIST_COLUMNS = ['#', '제목', '인원', '방장'];
-export const CHAT_MY_LIST_TABS = ['나의채팅방', '1:1 채팅방'];
-export const CHAT_TOTAL_LIST_TABS = ['전체채팅방', '공개채팅방', '비공개채팅방'];
+
+export const CHAT_TOP_PANEL_TABS = [
+  {
+    name: '나의채팅방',
+    type: '',
+  },
+  {
+    name: '1:1 채팅방',
+    type: 'dm',
+  },
+];
+export const CHAT_BOTTOM_PANEL_TABS = [
+  {
+    name: '전체채팅방',
+    type: '',
+  },
+  {
+    name: '공개채팅방',
+    type: 'public',
+  },
+  {
+    name: '비공개채팅방',
+    type: 'private',
+  },
+];
 
 export const CHAT_LIST_TYPE_MY_LIST = 'myList';
 export const CHAT_LIST_TYPE_DM_LIST = 'dmList';
@@ -60,3 +97,6 @@ export const CHAT_PAGE_SIZE = 3;
 
 export const CHAT_INVALID_NAME_ERROR_MSG = '유효하지 않은 이름입니다.';
 export const CHAT_INVALID_PASSWORD_ERROR_MSG = '유효하지 않은 비밀번호입니다.';
+
+export const CHAT_DEFAULT_PAGE = 1; // 첫번째 페이지
+export const CHAT_DEFAULT_TYPE = '';

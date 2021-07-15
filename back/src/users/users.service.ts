@@ -1,14 +1,16 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 import { validate } from 'class-validator';
-import { forwardRef, Inject } from '@nestjs/common';
+import { AlarmsService } from 'src/alarms/alarms.service';
 import { FollowsService } from 'src/follows/follows.service';
 
 @Injectable()
 export class UsersService {
   constructor(
+    @Inject(forwardRef(() => AlarmsService))
+    private readonly alarmsService: AlarmsService,
     @Inject(forwardRef(() => FollowsService))
     private readonly followsService: FollowsService,
   ) {}
@@ -17,6 +19,7 @@ export class UsersService {
     const user = new User();
     user.userID = createUserInput.userID;
     user.nickname = createUserInput.nickname;
+    user.avatar = createUserInput.avatar;
 
     const validate_error = await validate(user);
     if (validate_error.length > 0) {

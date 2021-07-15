@@ -1,5 +1,5 @@
-import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
-import { Follow } from '../../follows/entities/follow.entity';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Follow } from 'src/follows/entities/follow.entity';
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -9,7 +9,6 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-
 @Entity('user')
 @InputType('user')
 @ObjectType()
