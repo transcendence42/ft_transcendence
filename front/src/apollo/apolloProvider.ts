@@ -1,7 +1,13 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-export const client = new ApolloClient({
-  uri: 'http://localhost:5500/graphql',
+import { GRAPHQL_URL } from '../utils/constants';
+import { getCookies, bearerAuthorization } from '../utils/util';
+
+export const createClient = new ApolloClient({
+  uri: GRAPHQL_URL,
+  headers: {
+    authorization: bearerAuthorization(getCookies('access_token')),
+  },
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
