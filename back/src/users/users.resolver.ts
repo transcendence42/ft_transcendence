@@ -59,7 +59,7 @@ export class UsersResolver {
   @Query(() => [User], { name: 'friends' })
   async findFriends(@Args('userID', { type: () => String, nullable: true }) userID: string) {
     const user = await this.findOne(userID);
-    const usersIndex = (await this.followsService.findFriends(user.index)).map((x) => x['followerIndex']);
+    const usersIndex = (await this.followsService.findFriends(user.index)).map((x) => x['followingIndex']);
     const users = usersIndex.map(async (x) => {
       return await this.usersService.findOneByIndex(x);
     });
@@ -68,7 +68,7 @@ export class UsersResolver {
 
   @Query(() => [User], { name: 'myFriends' })
   async findMyFriends(@CurrentUser() user: User) {
-    const usersIndex = (await this.followsService.findFriends(user.index)).map((x) => x['followerIndex']);
+    const usersIndex = (await this.followsService.findFriends(user.index)).map((x) => x['followingIndex']);
     const users = await Promise.all(
       usersIndex.map((x) => {
         return this.usersService.findOneByIndex(x);

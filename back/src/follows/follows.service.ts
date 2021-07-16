@@ -81,9 +81,8 @@ export class FollowsService {
       // 그 중에서 내가 block 하지 않은 사람을 추림
       .andWhere('follow.blocked = :blocked', { blocked: false })
       // 그 사람들의 index를 반환함
-      .select('follow.followerIndex')
+      .select('follow.followingIndex')
       .getRawMany();
-    // console.log(friends);
     return friends;
   }
 
