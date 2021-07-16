@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { UsersService } from 'src/users/users.service';
 import { CreateFollowInput } from './dto/create-follow.input';
-import { UpdateFollowInput } from './dto/update-follow.input';
+import { BlockInput, UpdateFollowInput } from './dto/update-follow.input';
 import { Follow } from './entities/follow.entity';
 import { forwardRef, Inject } from '@nestjs/common';
 import { User } from 'src/users/entities/user.entity';
@@ -74,11 +74,29 @@ export class FollowsService {
   async findFriends(userIndex: number) {
     const friends = await Follow.getRepository()
       .createQueryBuilder('follow')
-      .where('follow.followingIndex = :index', { index: userIndex })
+      // user가 follower로 돼있는 정보, 즉 user가 following 하는 정보를 나열
+      .where('follow.followerIndex = :index', { index: userIndex })
+      // 그 중에 맞팔하고 있는 사람을 추림
       .andWhere('follow.checked = :checked', { checked: true })
+      // 그 중에서 내가 block 하지 않은 사람을 추림
+      .andWhere('follow.blocked = :blocked', { blocked: false })
+      // 그 사람들의 index를 반환함
       .select('follow.followerIndex')
       .getRawMany();
     // console.log(friends);
+    return friends;
+  }
+
+  async findBlockedUsers(userIndex: number) {
+    const friends = await Follow.getRepository()
+      .createQueryBuilder('follow')
+      // user가 follower로 돼있는 정보, 즉 user가 following 하는 정보를 나열
+      .where('follow.followerIndex = :index', { index: userIndex })
+      // 그 중에서 내가 block 한 사람을 추림
+      .andWhere('follow.blocked = :blocked', { blocked: true })
+      // 그 사람들의 index를 반환함
+      .select('follow.followingIndex')
+      .getRawMany();
     return friends;
   }
 
@@ -97,6 +115,49 @@ export class FollowsService {
       throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
     } else {
       return await Follow.save(follow);
+    }
+  }
+
+  async findMatchingFollowData(followerIndex: number, followingIndex: number) {
+    const follow = await Follow.getRepository()
+      .createQueryBuilder('follow')
+      .where('follow.followerIndex = :followerIndex', { followerIndex: followerIndex })
+      .andWhere('follow.followingIndex = :followingIndex', { followingIndex: followingIndex })
+      .getOne();
+    return follow;
+  }
+
+  async createWithUser(follower: User, following: User) {
+    const follow = new Follow();
+    follow.follower = follower;
+    follow.following = following;
+    const validate_error = await validate(follow);
+    if (validate_error.length > 0) {
+      const _error = { follow: 'FollowInput is not valid check type' };
+      throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
+    } else {
+      let f4f = await this.findF4F(follow.follower, follow.following);
+      if (f4f) {
+        f4f.checked = true;
+        follow.checked = true;
+        Follow.save(f4f);
+      }
+      return await Follow.save(follow);
+    }
+  }
+
+  async toggleBlock(blockInput: BlockInput) {
+    const follower = await this.usersService.findOne(blockInput.followerID);
+    const following = await this.usersService.findOne(blockInput.followingID);
+    const followData = await this.findMatchingFollowData(follower.index, following.index);
+
+    if (followData) {
+      followData.blocked = followData.blocked ? false : true;
+      return await Follow.save(followData);
+    } else {
+      const newFollowData = await this.createWithUser(follower, following);
+      newFollowData.blocked = true;
+      return await Follow.save(newFollowData);
     }
   }
 

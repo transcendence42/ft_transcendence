@@ -9,6 +9,7 @@ import { AuthenticationProvider } from 'src/auth/auth';
 import { AlarmsService } from 'src/alarms/alarms.service';
 import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { FollowsService } from 'src/follows/follows.service';
+import { Follow } from 'src/follows/entities/follow.entity';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
@@ -68,10 +69,25 @@ export class UsersResolver {
   @Query(() => [User], { name: 'myFriends' })
   async findMyFriends(@CurrentUser() user: User) {
     const usersIndex = (await this.followsService.findFriends(user.index)).map((x) => x['followerIndex']);
-    const users = usersIndex.map(async (x) => {
-      return await this.usersService.findOneByIndex(x);
-    });
+    const users = await Promise.all(
+      usersIndex.map((x) => {
+        return this.usersService.findOneByIndex(x);
+      }),
+    );
+    console.log(users);
     return users;
+  }
+
+  @Query(() => [User], { name: 'blockedUsers' })
+  async findBlockedUsers(@Args('userID', { type: () => String }) userID: string) {
+    const user = await this.usersService.findOne(userID);
+    const blockedUsersIndex = (await this.followsService.findBlockedUsers(user.index)).map((x) => x['followingIndex']);
+    const blockedUsers = await Promise.all(
+      blockedUsersIndex.map((x) => {
+        return this.usersService.findOneByIndex(x);
+      }),
+    );
+    return blockedUsers;
   }
 
   @Mutation(() => User)

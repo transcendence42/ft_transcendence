@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nes
 import { FollowsService } from './follows.service';
 import { Follow } from './entities/follow.entity';
 import { CreateFollowInput } from './dto/create-follow.input';
-import { UpdateFollowInput } from './dto/update-follow.input';
+import { BlockInput, UpdateFollowInput } from './dto/update-follow.input';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 
@@ -28,6 +28,11 @@ export class FollowsResolver {
   @Mutation(() => Follow)
   updateFollow(@Args('updateFollowInput') updateFollowInput: UpdateFollowInput) {
     return this.followsService.update(updateFollowInput.index, updateFollowInput);
+  }
+
+  @Mutation(() => Follow)
+  toggleBlock(@Args('blockInput', { type: () => BlockInput }) blockInput: BlockInput) {
+    return this.followsService.toggleBlock(blockInput);
   }
 
   @Mutation(() => Follow)

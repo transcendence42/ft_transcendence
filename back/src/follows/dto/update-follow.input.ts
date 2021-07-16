@@ -12,3 +12,12 @@ export class UpdateFollowInput extends PartialType(CreateFollowInput) {
   @Field(() => Boolean, { nullable: true })
   blocked: Boolean;
 }
+
+@InputType()
+export class BlockInput {
+  @Field(() => String)
+  followerID: string;
+
+  @Field(() => String)
+  followingID: string;
+}
