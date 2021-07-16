@@ -39,5 +39,5 @@ export class Follow extends BaseEntity {
 
   @UpdateDateColumn()
   @Field(() => Date, { defaultValue: new Date() })
-  updatedAt: Date;
+  modifiedAt: Date;
 }

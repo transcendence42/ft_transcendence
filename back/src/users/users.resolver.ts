@@ -40,7 +40,7 @@ export class UsersResolver {
     return this.usersService.findOne(userID);
   }
 
-  @Query(() => User, { name: 'user' })
+  @Query(() => User, { name: 'userByIndex' })
   findOneByIndex(@Args('index', { type: () => Number }) index: number) {
     return this.usersService.findOneByIndex(index);
   }
