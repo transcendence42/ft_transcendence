@@ -65,6 +65,15 @@ export class UsersResolver {
     return users;
   }
 
+  @Query(() => [User], { name: 'myFriends' })
+  async findMyFriends(@CurrentUser() user: User) {
+    const usersIndex = (await this.followsService.findFriends(user.index)).map((x) => x['followerIndex']);
+    const users = usersIndex.map(async (x) => {
+      return await this.usersService.findOneByIndex(x);
+    });
+    return users;
+  }
+
   @Mutation(() => User)
   updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     return this.usersService.update(updateUserInput.userID, updateUserInput);
