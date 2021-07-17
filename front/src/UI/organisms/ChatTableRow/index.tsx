@@ -5,6 +5,7 @@ import { LeaveChatBox } from '../LeaveChatBox';
 import { LeaveChatMsg } from '../../molecules/LeaveChatMsg';
 import { LockIcon } from '../../../utils/icons';
 import { CHAT_LIST_TYPE_MY_LIST, CHAT_LIST_TYPE_DM_LIST } from '../../../utils/constants';
+import { currentChatVar } from '../../../apollo/apolloProvider';
 
 export const ChatTableRow = ({ ...props }) => {
   const { chat, rowIndex, chatListType, leaveChat } = props;
@@ -32,6 +33,14 @@ export const ChatTableRow = ({ ...props }) => {
   ); // 필수 컬럼 이외 값 필터링
   filteredChatList.splice(2, 0, ['numOfPeople', numOfPeople]); // 인원수 추가
 
+  const handleClickChat = () => {
+    if (chat.type === 'private') {
+      //TODO: display check password modal
+      console.log('private');
+    }
+    currentChatVar(chat.uuid);
+  };
+
   const resultRow = filteredChatList.map((item, i) => {
     // item[0]에는 컬럼명, item[1]에는 값이 들어감.
     if (item[0] === 'closeButton' && item[1]) {
@@ -42,7 +51,11 @@ export const ChatTableRow = ({ ...props }) => {
     }
     if (item[0] === 'name') {
       return (
-        <Td key={`ChatTableRow-${chatListType}-${chat.uuid}-Td-${item[0]}`}>
+        <Td
+          key={`ChatTableRow-${chatListType}-${chat.uuid}-Td-${item[0]}`}
+          onClick={handleClickChat}
+          style={{ cursor: 'pointer' }}
+        >
           <Box className="chat-table-content-wrapper" display="flex" justifyContent="center">
             {item[1]}
             {lockSVGIcon}

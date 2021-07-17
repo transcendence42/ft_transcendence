@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, HttpLink, split } from '@apollo/client';
+import { ApolloClient, InMemoryCache, HttpLink, split, makeVar } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { GRAPHQL_URL } from '../utils/constants';
@@ -23,6 +23,8 @@ const splitLink = split(
   wsLink,
   httpLink,
 );
+
+export const currentChatVar = makeVar('');
 
 export const createClient = new ApolloClient({
   link: splitLink,

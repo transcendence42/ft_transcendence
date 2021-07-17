@@ -46,6 +46,9 @@ export class ChatLogsService {
       where: {
         chatUUID: uuid,
       },
+      order: {
+        createdAt: 'ASC',
+      },
     });
     return chatLogs;
   }

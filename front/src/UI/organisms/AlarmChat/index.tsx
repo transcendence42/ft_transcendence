@@ -1,6 +1,6 @@
 import React, { useRef, MouseEvent, useEffect } from 'react';
 import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 
 import { Menu } from '../ContextMenu';
 import { AlarmChatMessagesBox } from '../AlarmChatMessagesBox';
@@ -17,18 +17,21 @@ import {
   ALARM_BACKGROUND_COLOR,
 } from '../../../utils/constants';
 import { GET_CHAT, CHATLOG_SUBSCRIPTION } from './AlarmChatQueries';
+import { currentChatVar } from '../../../apollo/apolloProvider';
 
 export const AlarmChat = () => {
+  const currentChat = useReactiveVar(currentChatVar);
   const { loading, error, data, subscribeToMore } = useQuery(GET_CHAT, {
     variables: {
-      uuid: 'e2d3dc39-0ca2-40f2-a890-ea18818aa049', //TODO: chat 목록에서 누른 값으로 변경할 것
+      uuid: currentChat, //TODO: chat 목록에서 누른 값으로 변경할 것
     },
+    fetchPolicy: 'network-only',
   });
 
   // subscription으로 데이터가 들어오면 스크롤을 아래로 이동
   const scrollRef = useRef();
   useEffect(() => {
-    if (scrollRef.current !== undefined) {
+    if (scrollRef.current !== undefined && scrollRef.current !== null) {
       scrollRef.current.scrollBy(0, scrollRef.current.scrollHeight);
     }
   }, [data]);
@@ -44,14 +47,27 @@ export const AlarmChat = () => {
     }
   };
 
+  if (currentChat === '') {
+    return (
+      <AccordionItem>
+        <h2>
+          <AccordionButton>
+            <Box flex="1" textAlign="left">
+              <Text fontWeight={ALARM_TITLE_FONTWEIGHT} fontSize={ALARM_TITLE_FONTSIZE}>
+                채팅
+              </Text>
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+        </h2>
+      </AccordionItem>
+    );
+  }
   if (loading) {
     return <>LOADING...</>;
   }
   if (error) {
     console.error(error);
-    return <>ERROR</>;
-  }
-  if (data === undefined) {
     return <>ERROR</>;
   }
 
@@ -131,7 +147,7 @@ export const AlarmChat = () => {
             subscribeToNewMessage={() =>
               subscribeToMore({
                 document: CHATLOG_SUBSCRIPTION,
-                variables: { uuid: 'e2d3dc39-0ca2-40f2-a890-ea18818aa049' }, //TODO: uuid session 바꿀것.
+                variables: { uuid: currentChat }, //TODO: uuid session 바꿀것.
                 updateQuery: (prev, { subscriptionData }) => {
                   if (!subscriptionData.data) return prev;
                   const newFeedItem = subscriptionData.data.chatLogAdded;
@@ -144,6 +160,7 @@ export const AlarmChat = () => {
                 },
               })
             }
+            chatUUID={data.chat.uuid}
           />
         </Flex>
         <ChatSendBox />

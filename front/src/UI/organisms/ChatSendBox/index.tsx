@@ -1,7 +1,8 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useReactiveVar } from '@apollo/client';
 import { Grid, GridItem } from '@chakra-ui/layout';
 import { Button, Input } from '@chakra-ui/react';
 import React, { useRef } from 'react';
+import { currentChatVar } from '../../../apollo/apolloProvider';
 import { CREATE_CHAT_LOG } from './ChatSendBoxQueries';
 
 export const ChatSendBox = () => {
@@ -9,6 +10,7 @@ export const ChatSendBox = () => {
   const [createChatLog] = useMutation(CREATE_CHAT_LOG);
   const inputRef = useRef<HTMLInputElement>();
   const tempRef = useRef<HTMLInputElement>(); // TODO: 삭제 할 것.
+  const currentChat = useReactiveVar(currentChatVar);
   const handleClickSend = () => {
     if (inputRef.current.value === '') {
       return;
@@ -21,7 +23,7 @@ export const ChatSendBox = () => {
       variables: {
         user: {
           // TODO: 채팅방 관련 내용으로 설정할 것
-          chatUUID: 'e2d3dc39-0ca2-40f2-a890-ea18818aa049',
+          chatUUID: currentChat,
           userID: tempRef.current.value,
           message: inputRef.current.value,
         },
