@@ -1,4 +1,5 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
+import { Follow } from 'src/follows/entities/follow.entity';
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -6,12 +7,14 @@ import {
   Entity,
   CreateDateColumn,
   UpdateDateColumn,
-  LockNotSupportedOnGivenDriverError,
+  OneToMany,
 } from 'typeorm';
 @Entity('user')
+@InputType('user')
 @ObjectType()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
+  @Field(() => Int, {})
   index: number;
 
   @Column({ type: 'varchar', length: 15, unique: true })
@@ -38,13 +41,14 @@ export class User extends BaseEntity {
   @Field(() => Int, { defaultValue: 0 })
   totalLose: number;
 
-  @Column({ type: 'varchar', array: true, default: [] })
-  @Field(() => [String], { defaultValue: [] })
-  friendID: string[];
+  @OneToMany(() => Follow, (follow) => follow.following)
+  @Field((type) => [Follow], { nullable: true })
+  followings: Follow[];
 
-  @Column({ type: 'varchar', array: true, default: [] })
-  @Field(() => [String], { defaultValue: [] })
-  blockID: string[];
+  @OneToMany(() => Follow, (follow) => follow.follower)
+  @Field((type) => [Follow], { nullable: true })
+  followers: Follow[];
+
   // default status set
   @Column({ default: 'login' })
   @Field({ defaultValue: 'login' })
