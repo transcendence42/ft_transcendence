@@ -22,10 +22,10 @@ export const ChatSendBox = () => {
     createChatLog({
       variables: {
         user: {
-          // TODO: 채팅방 관련 내용으로 설정할 것
           chatUUID: currentChat,
-          userID: tempRef.current.value,
+          userID: tempRef.current.value, // TODO: session 값으로 변경 할 것.
           message: inputRef.current.value,
+          type: 'message',
         },
       },
     }).then(() => {

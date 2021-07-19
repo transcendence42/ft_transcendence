@@ -7,6 +7,7 @@ export const CREATE_CHAT_LOG = gql`
       chatUUID
       userID
       message
+      type
       createdAt
     }
   }

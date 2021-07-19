@@ -28,6 +28,7 @@ export class ChatLogsService {
     chatLog.chatUUID = chat.uuid;
     chatLog.message = createChatLogInput.message;
     chatLog.userID = user.userID;
+    chatLog.type = createChatLogInput.type;
     return await ChatLog.save(chatLog);
   }
 

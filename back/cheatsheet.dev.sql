@@ -40,11 +40,11 @@ INSERT INTO chat (name, password, "isAlive", type, "ownerID", "adminID", "userID
 ;
 
 --uuid 컬럼은 uuid 형식을 따르며, chat 테이블의 uuid 컬럼을 참조하므로 서브 쿼리문을 작성하였습니다.
-INSERT INTO chat_log("chatUUID", "userID", "message")
+INSERT INTO chat_log("chatUUID", "userID", "message", "type")
   VALUES
-    ((SELECT uuid FROM chat LIMIT 1), 'yshin', 'yshin 채팅방1 메시지'),
-    ((SELECT uuid FROM chat LIMIT 1), 'holee', 'holee 채팅방1 메시지'),
-    ((SELECT uuid FROM chat LIMIT 1 OFFSET 3), 'yshin', 'yshin 채팅방3 메시지'),
-    ((SELECT uuid FROM chat LIMIT 1 OFFSET 3), 'jwon', 'jwon 채팅방3 메시지'),
-    ((SELECT uuid FROM chat LIMIT 1 OFFSET 3), 'yechoi', 'yechoi 채팅방3 메시지')
+    ((SELECT uuid FROM chat LIMIT 1), 'yshin', 'yshin 채팅방1 메시지', 'message'),
+    ((SELECT uuid FROM chat LIMIT 1), 'holee', 'holee 채팅방1 메시지', 'message'),
+    ((SELECT uuid FROM chat LIMIT 1 OFFSET 3), 'yshin', 'yshin 채팅방3 메시지', 'message'),
+    ((SELECT uuid FROM chat LIMIT 1 OFFSET 3), 'jwon', 'jwon 채팅방3 메시지', 'message'),
+    ((SELECT uuid FROM chat LIMIT 1 OFFSET 3), 'yechoi', 'yechoi 채팅방3 메시지', 'message')
 ;

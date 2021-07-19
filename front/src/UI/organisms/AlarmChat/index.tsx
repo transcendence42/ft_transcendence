@@ -23,7 +23,7 @@ export const AlarmChat = () => {
   const currentChat = useReactiveVar(currentChatVar);
   const { loading, error, data, subscribeToMore } = useQuery(GET_CHAT, {
     variables: {
-      uuid: currentChat, //TODO: chat 목록에서 누른 값으로 변경할 것
+      uuid: currentChat,
     },
     fetchPolicy: 'network-only',
   });
@@ -147,7 +147,7 @@ export const AlarmChat = () => {
             subscribeToNewMessage={() =>
               subscribeToMore({
                 document: CHATLOG_SUBSCRIPTION,
-                variables: { uuid: currentChat }, //TODO: uuid session 바꿀것.
+                variables: { uuid: currentChat },
                 updateQuery: (prev, { subscriptionData }) => {
                   if (!subscriptionData.data) return prev;
                   const newFeedItem = subscriptionData.data.chatLogAdded;

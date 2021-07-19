@@ -14,6 +14,7 @@ export const GET_CHAT = gql`
         index
         userID
         message
+        type
         createdAt
       }
     }
@@ -26,6 +27,7 @@ export const CHATLOG_SUBSCRIPTION = gql`
       index
       userID
       message
+      type
       createdAt
     }
   }
