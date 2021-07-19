@@ -35,13 +35,13 @@ export class UsersService {
     return users;
   }
 
-  async findOne(userID: string) {
-    const user = await User.findOne({ userID: userID });
+  async findOne(index: number) {
+    const user = await User.findOne(index);
     return user;
   }
 
-  async findOneByIndex(index: number) {
-    const user = await User.findOne({ index: index });
+  async findOneByUserID(userID: string) {
+    const user = await User.findOne({ userID: userID });
     return user;
   }
 

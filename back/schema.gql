@@ -81,8 +81,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-07-16T08:09:50.255Z"
-  modifiedAt: DateTime = "2021-07-16T08:09:50.256Z"
+  createdAt: DateTime = "2021-07-19T08:54:03.639Z"
+  modifiedAt: DateTime = "2021-07-19T08:54:03.639Z"
 }
 
 input user {
@@ -96,14 +96,14 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-07-16T08:09:50.256Z"
-  modifiedAt: DateTime = "2021-07-16T08:09:50.256Z"
+  createdAt: DateTime = "2021-07-19T08:54:03.639Z"
+  modifiedAt: DateTime = "2021-07-19T08:54:03.639Z"
 }
 
 type Query {
   users: [User!]!
   user(userID: String!): User!
-  userByIndex(index: Float!): User!
+  userByIndex(index: Int!): User!
   me: User!
   myAlarm: [Alarm!]!
   friends(userID: String): [User!]!

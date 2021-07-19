@@ -15,8 +15,8 @@ export class FollowsService {
   ) {}
   async create(createFollowInput: CreateFollowInput) {
     const follow = new Follow();
-    follow.follower = await this.usersService.findOne(createFollowInput.followerID);
-    follow.following = await this.usersService.findOne(createFollowInput.followingID);
+    follow.follower = await this.usersService.findOneByUserID(createFollowInput.followerID);
+    follow.following = await this.usersService.findOneByUserID(createFollowInput.followingID);
 
     const validate_error = await validate(follow);
     if (validate_error.length > 0) {
@@ -146,8 +146,8 @@ export class FollowsService {
   }
 
   async toggleBlock(blockInput: BlockInput) {
-    const follower = await this.usersService.findOne(blockInput.followerID);
-    const following = await this.usersService.findOne(blockInput.followingID);
+    const follower = await this.usersService.findOneByUserID(blockInput.followerID);
+    const following = await this.usersService.findOneByUserID(blockInput.followingID);
     const followData = await this.findMatchingFollowData(follower.index, following.index);
 
     if (followData) {
