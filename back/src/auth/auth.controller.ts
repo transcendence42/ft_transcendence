@@ -39,9 +39,15 @@ export class AuthController {
   status() {
     return 'ok';
   }
+
   /*
    * /auth/logout
    */
   @Get('logout')
-  logout() {}
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.cookie('access_token', '', {
+      httpOnly: false,
+    });
+    res.status(302).redirect('http://127.0.0.1:3000/');
+  }
 }

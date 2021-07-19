@@ -25,13 +25,13 @@ export class GamesService {
     return games;
   }
 
-  async findOne(id: number) {
-    const game = await Game.findOne(id);
+  async findOne(index: number) {
+    const game = await Game.findOne(index);
     return game;
   }
 
-  async update(id: number, updateGameInput: UpdateGameInput) {
-    const game = await Game.findOne(id);
+  async update(index: number, updateGameInput: UpdateGameInput) {
+    const game = await Game.findOne(index);
     game.isPlaying = updateGameInput.isPlaying;
     game.playerOneID = updateGameInput.playerOneID;
     game.playerOneScore = updateGameInput.playerOneScore;
@@ -48,10 +48,10 @@ export class GamesService {
     }
   }
 
-  async remove(id: number) {
-    const game = await Game.findOne(id);
+  async remove(index: number) {
+    const game = await Game.findOne(index);
     if (!game) {
-      const _error = { id: `Game(${id}) does not exist.` };
+      const _error = { index: `Game(${index}) does not exist.` };
       throw new HttpException({ message: 'Wrong ID', _error }, HttpStatus.BAD_REQUEST);
     }
     return await Game.remove(game);

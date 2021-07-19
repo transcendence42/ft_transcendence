@@ -44,7 +44,7 @@ type Alarm {
 }
 
 type Game {
-  id: Int!
+  index: Int!
   isPlaying: Boolean!
   playerOneID: String!
   playerOneScore: Int
@@ -115,7 +115,7 @@ type Query {
   follows: [Follow!]!
   follow(index: Int!): Follow!
   games: [Game!]!
-  game(id: Int!): Game!
+  game(index: Int!): Game!
   chats: [Chat!]!
   chat(uuid: String!): Chat!
   getChatCount(userID: String, type: String): Int!
@@ -139,7 +139,7 @@ type Mutation {
   removeFollow(index: Int!): Follow!
   createGame(createGameInput: CreateGameInput!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
-  removeGame(id: Int!): Game!
+  removeGame(index: Int!): Game!
   createChat(createChatInput: CreateChatInput!): Chat!
   updateChat(updateChatInput: UpdateChatInput!): Chat!
   removeChat(uuid: String!): Chat!
@@ -204,7 +204,7 @@ input CreateGameInput {
 input UpdateGameInput {
   playerOneID: String
   playerTwoID: String
-  id: Int!
+  index: Int!
   isPlaying: Boolean
   playerOneScore: Int
   playerTwoScore: Int
