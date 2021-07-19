@@ -1,12 +1,25 @@
 import { gql } from '@apollo/client';
 
 export const GET_ALARM_USER_LIST = gql`
-  query ($userID: String!) {
-    friends(userID: $userID) {
+  {
+    me {
       index
       userID
       nickname
-      userState
+      avatar
+      ladderRating
+      totalWin
+      totalLose
+      modifiedAt
+      followings {
+        following {
+          index
+          userID
+          userState
+          avatar
+        }
+        checked
+      }
     }
   }
 `;

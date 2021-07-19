@@ -19,5 +19,5 @@ export const AlarmUserListContainer = () => {
     return <Spinner m="5" ml="155" color={SPINNER_ERROR_COLOR} />;
   }
 
-  return <AlarmUserListPresenter data={data.friends} />;
+  return <AlarmUserListPresenter data={data.me.followings} />;
 };
