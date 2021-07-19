@@ -21,12 +21,49 @@ INSERT INTO game ("playerOneID", "playerOneScore", "playerTwoID", "playerTwoScor
 ('holee', 2, 'jwon', 5),
 ('yshin', 6, 'jwon', 4);
 
-INSERT INTO public.user ("userID", nickname, "ladderRating", "totalWin", "totalLose", "friendID", "blockID", avatar, "userState") VALUES
-('jwon', 'junho won', 800, 5, 6, '{yechoi, holee}', '{devil}', '', 'logout'),
-('yechoi', 'yeji choi', 1200, 6, 5, '{jwon, yshin}', '{devil}', '', 'login'),
-('holee', 'hochan lee', 1600, 7, 4, '{jwon, yechoi, yshin}', '{devil}', '', 'playing'),
-('yshin', 'younghak shin', 1800, 8, 4, '{jwon, yechoi}', '{devil}', 'https://cdn.intra.42.fr/users/medium_yshin.jpg', 'playing'),
-('devil', 'who i am', -2400, 0, 12, '{}', '{}', '', 'login');
+INSERT INTO public.user ("userID", nickname, "ladderRating", "totalWin", "totalLose", avatar, "userState") VALUES
+('jwon', 'junho won', 800, 5, 6, '', 'logout'),
+('yechoi', 'yeji choi', 1200, 6, 5, '', 'login'),
+('holee', 'hochan lee', 1600, 7, 4, '', 'playing'),
+('yshin', 'younghak shin', 1800, 8, 4, 'https://cdn.intra.42.fr/users/medium_yshin.jpg', 'playing'),
+('devil', 'who i am', -2400, 0, 12, '', 'login');
+
+-- 친구 추가
+
+-- mutation($follow: CreateFollowInput!) {
+--   createFollow(createFollowInput: $follow) {
+--     following {
+--       userID
+--     }
+--     follower {
+--       userID
+--     }
+--   }
+-- }
+
+-- {
+--   "follow": {
+--     "followingID": "holee",
+--     "followerID": "yechoi"
+--   }
+-- }
+
+-- 추가 확인
+
+-- {
+--   follows {
+--     follower {
+--       index
+--       userID
+--     }
+--     following {
+--       index
+--       userID
+--     }
+--     checked
+--     blocked
+--   }
+-- }
 
 INSERT INTO chat (name, password, "isAlive", type, "ownerID", "adminID", "userID")
   VALUES
