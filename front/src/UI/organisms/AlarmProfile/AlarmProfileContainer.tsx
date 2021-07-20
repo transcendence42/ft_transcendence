@@ -8,18 +8,23 @@ import { SPINNER_COLOR, SPINNER_ERROR_COLOR } from '../../../utils/constants';
 
 export const AlarmProfileContainer = () => {
   const { loading, error, data } = useQuery(GET_ALARM_PROFILE);
-  return loading ? (
-    <Spinner m="5" ml="155" color={SPINNER_COLOR} />
-  ) : error ? (
-    <Spinner m="5" ml="155" color={SPINNER_ERROR_COLOR} />
-  ) : (
+
+  if (loading) {
+    return <Spinner m="5" ml="155" color={SPINNER_COLOR} />;
+  }
+
+  if (error) {
+    return <Spinner m="5" ml="155" color={SPINNER_ERROR_COLOR} />;
+  }
+
+  return (
     <AlarmProfilePresenter
-      nickname={data.user.nickname}
-      avatar={data.user.avatar}
-      totalWin={data.user.totalWin}
-      totalLose={data.user.totalLose}
-      ladderRating={data.user.ladderRating}
-      ranking={data.user.ranking}
+      nickname={data.me.nickname}
+      avatar={data.me.avatar}
+      totalWin={data.me.totalWin}
+      totalLose={data.me.totalLose}
+      ladderRating={data.me.ladderRating}
+      ranking={data.me.ranking}
     />
   );
 };

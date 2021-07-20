@@ -10,6 +10,9 @@ import { ChatsModule } from './chats/chats.module';
 import { ChatLogsModule } from './chat-logs/chat-logs.module';
 import { PubSubModule } from './pub-sub/pub-sub.module';
 import { DefaultAdminModule } from 'nestjs-admin';
+import { FollowsModule } from './follows/follows.module';
+import { AuthModule } from './auth/auth.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -24,9 +27,15 @@ import { DefaultAdminModule } from 'nestjs-admin';
     ChatsModule,
     ChatLogsModule,
     PubSubModule,
+<<<<<<< HEAD
     DefaultAdminModule,
+=======
+    FollowsModule,
+    AuthModule,
+    PassportModule.register({ session: true }),
+>>>>>>> 7281adf2770a2ea1e3b4afe97c8c1bf165154ca9
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
