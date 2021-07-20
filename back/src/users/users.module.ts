@@ -12,7 +12,13 @@ import { AlarmsModule } from 'src/alarms/alarms.module';
 import { FollowsModule } from 'src/follows/follows.module';
 
 @Module({
-  imports: [forwardRef(() => AlarmsModule), forwardRef(() => AuthModule), forwardRef(() => FollowsModule), TypeOrmModule.forFeature([User]), DefaultAdminModule],
+  imports: [
+    forwardRef(() => AlarmsModule),
+    forwardRef(() => AuthModule),
+    forwardRef(() => FollowsModule),
+    TypeOrmModule.forFeature([User]),
+    DefaultAdminModule,
+  ],
   providers: [UsersResolver, UsersService],
   exports: [TypeOrmModule, UsersService],
 })
