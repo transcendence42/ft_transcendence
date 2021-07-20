@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-export const GET_ALARM_PROFILE = gql`
-  query {
+export const GET_ALARM_USER_LIST = gql`
+  {
     me {
       index
       userID

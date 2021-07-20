@@ -1,26 +1,3 @@
-const userData = [
-  {
-    id: '1234asdaf',
-    nickName: 'jwon',
-    userState: 'login',
-  },
-  {
-    id: '23142dasfsdf',
-    nickName: 'yshin',
-    userState: 'playing',
-  },
-  {
-    id: 'asf123223',
-    nickName: 'holee',
-    userState: 'playing',
-  },
-  {
-    id: 'hfdgf2323',
-    nickName: '42_Dall',
-    userState: 'logout',
-  },
-];
-
 const messageData = [
   {
     id: '123412a',
@@ -191,4 +168,4 @@ const dummyChatListData = {
   ],
 };
 
-export { userData, messageData, dummyChatData, user, dummyGameCardData, dummyChatListData };
+export { messageData, dummyChatData, user, dummyGameCardData, dummyChatListData };

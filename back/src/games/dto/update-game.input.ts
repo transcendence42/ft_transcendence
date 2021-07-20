@@ -1,11 +1,10 @@
 import { CreateGameInput } from './create-game.input';
 import { InputType, Field, PartialType, Int } from '@nestjs/graphql';
-import { IsBoolean, IsInt, IsDate } from 'class-validator';
 
 @InputType()
 export class UpdateGameInput extends PartialType(CreateGameInput) {
   @Field(() => Int)
-  readonly id: number;
+  readonly index: number;
 
   @Field({ nullable: true })
   isPlaying: boolean;

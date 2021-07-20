@@ -45,6 +45,13 @@ export interface IUser {
   ranking: number;
 }
 
+export interface IUserList {
+  index: string;
+  userID: string;
+  userState: string;
+  avatar: string;
+}
+
 export interface IProfileSmall {
   position: 'right' | 'left';
   backgroundColor: string;
