@@ -7,4 +7,6 @@ RUN apk update && apk add bash
 RUN yarn install --silent
 RUN yarn build
 
+ENTRYPOINT [ "./setup_admin.sh" ]
+
 EXPOSE 5500
