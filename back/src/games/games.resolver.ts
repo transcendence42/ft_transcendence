@@ -19,17 +19,17 @@ export class GamesResolver {
   }
 
   @Query(() => Game, { name: 'game' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.gamesService.findOne(id);
+  findOne(@Args('index', { type: () => Int }) index: number) {
+    return this.gamesService.findOne(index);
   }
 
   @Mutation(() => Game)
   updateGame(@Args('updateGameInput') updateGameInput: UpdateGameInput) {
-    return this.gamesService.update(updateGameInput.id, updateGameInput);
+    return this.gamesService.update(updateGameInput.index, updateGameInput);
   }
 
   @Mutation(() => Game)
-  removeGame(@Args('id', { type: () => Int }) id: number) {
-    return this.gamesService.remove(id);
+  removeGame(@Args('index', { type: () => Int }) index: number) {
+    return this.gamesService.remove(index);
   }
 }

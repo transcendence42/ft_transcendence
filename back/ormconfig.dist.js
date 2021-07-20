@@ -1,10 +1,11 @@
-{
+const AdminUser = require('nestjs-admin').AdminUserEntity
+module.exports = {
   "type": "postgres",
   "host": "db",
   "port": 5432,
   "username": "user",
   "password": "password",
   "database": "database",
-  "entities": ["dist/**/**.entity{.ts,.js}"],
+  "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true
 }

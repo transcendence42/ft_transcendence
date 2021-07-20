@@ -52,7 +52,7 @@ export const AlarmNotifierPresenter = ({
           <Spinner m="5" ml="155" color={SPINNER_COLOR} />
         ) : (
           <Flex flexDirection="column">
-            {data.alarms.map(({ index, title, content, createdAt, type, link }) => (
+            {data.myAlarm.map(({ index, title, content, createdAt, type, link }) => (
               <AlarmMessage
                 key={index}
                 index={index}

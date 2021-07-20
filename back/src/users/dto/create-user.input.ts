@@ -9,4 +9,8 @@ export class CreateUserInput {
   @IsNotEmpty()
   @Field(() => String)
   readonly nickname: string;
+
+  @IsNotEmpty()
+  @Field(() => String)
+  readonly avatar: string;
 }

@@ -6,7 +6,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 export class Game extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field(() => Int)
-  id: number;
+  index: number;
 
   @Column({ type: 'boolean', default: true }) // typeORM decorator
   @Field(() => Boolean, { defaultValue: true }) // graphQL decorator

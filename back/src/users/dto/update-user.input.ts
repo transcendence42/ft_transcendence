@@ -20,12 +20,6 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
   @Field({ nullable: true })
   totalLose: number;
 
-  @Field(() => [String], { nullable: true })
-  friendID: string[];
-
-  @Field(() => [String], { nullable: true })
-  blockID: string[];
-
   @Field({ nullable: true })
   userState: string;
 

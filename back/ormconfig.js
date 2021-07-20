@@ -7,7 +7,7 @@ module.exports = {
     "password": "password",
     "database": "database",
     "entities": [
-      "dist/**/**.entity{.ts,.js}",
+      "dist/**/*.entity{.ts,.js}",
       AdminUser
     ],
     "synchronize": true
