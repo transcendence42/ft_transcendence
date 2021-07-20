@@ -103,7 +103,7 @@ input user {
 type Query {
   users: [User!]!
   user(userID: String!): User!
-  userByIndex(index: Float!): User!
+  userByIndex(index: Int!): User!
   me: User!
   myAlarm: [Alarm!]!
   friends(userID: String): [User!]!

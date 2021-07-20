@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, GqlExecutionContext, ResolveField, Parent } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, GqlExecutionContext, ResolveField, Parent, Int } from '@nestjs/graphql';
 import { Inject, createParamDecorator, ExecutionContext, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
@@ -9,7 +9,6 @@ import { AuthenticationProvider } from 'src/auth/auth';
 import { AlarmsService } from 'src/alarms/alarms.service';
 import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { FollowsService } from 'src/follows/follows.service';
-import { Follow } from 'src/follows/entities/follow.entity';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
@@ -37,18 +36,18 @@ export class UsersResolver {
   }
 
   @Query(() => User, { name: 'user' })
-  findOne(@Args('userID', { type: () => String }) userID: string) {
-    return this.usersService.findOne(userID);
+  findOneByUserID(@Args('userID', { type: () => String }) userID: string) {
+    return this.usersService.findOneByUserID(userID);
   }
 
   @Query(() => User, { name: 'userByIndex' })
-  findOneByIndex(@Args('index', { type: () => Number }) index: number) {
-    return this.usersService.findOneByIndex(index);
+  findOne(@Args('index', { type: () => Int }) index: number) {
+    return this.usersService.findOne(index);
   }
 
   @Query(() => User, { name: 'me' })
   async findMe(@CurrentUser() user: User) {
-    return this.usersService.findOne(user.userID);
+    return this.usersService.findOne(user.index);
   }
 
   @Query(() => [Alarm], { name: 'myAlarm' })
@@ -58,10 +57,10 @@ export class UsersResolver {
 
   @Query(() => [User], { name: 'friends' })
   async findFriends(@Args('userID', { type: () => String, nullable: true }) userID: string) {
-    const user = await this.findOne(userID);
+    const user = await this.findOneByUserID(userID);
     const usersIndex = (await this.followsService.findFriends(user.index)).map((x) => x['followingIndex']);
     const users = usersIndex.map(async (x) => {
-      return await this.usersService.findOneByIndex(x);
+      return await this.usersService.findOne(x);
     });
     return users;
   }
@@ -71,7 +70,7 @@ export class UsersResolver {
     const usersIndex = (await this.followsService.findFriends(user.index)).map((x) => x['followingIndex']);
     const users = await Promise.all(
       usersIndex.map((x) => {
-        return this.usersService.findOneByIndex(x);
+        return this.usersService.findOne(x);
       }),
     );
     console.log(users);
@@ -80,11 +79,11 @@ export class UsersResolver {
 
   @Query(() => [User], { name: 'blockedUsers' })
   async findBlockedUsers(@Args('userID', { type: () => String }) userID: string) {
-    const user = await this.usersService.findOne(userID);
+    const user = await this.usersService.findOneByUserID(userID);
     const blockedUsersIndex = (await this.followsService.findBlockedUsers(user.index)).map((x) => x['followingIndex']);
     const blockedUsers = await Promise.all(
       blockedUsersIndex.map((x) => {
-        return this.usersService.findOneByIndex(x);
+        return this.usersService.findOne(x);
       }),
     );
     return blockedUsers;

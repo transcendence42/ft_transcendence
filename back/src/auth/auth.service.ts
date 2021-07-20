@@ -10,7 +10,7 @@ export class AuthService implements AuthenticationProvider {
 
   async validateUser(details: UserDetails) {
     const { username } = details;
-    const user: User | null = await this.usersService.findOne(username);
+    const user: User | null = await this.usersService.findOneByUserID(username);
     if (user) {
       console.log('login success');
       return user;
@@ -36,6 +36,6 @@ export class AuthService implements AuthenticationProvider {
   }
 
   findUser(userID: string): Promise<User> | undefined {
-    return this.usersService.findOne(userID);
+    return this.usersService.findOneByUserID(userID);
   }
 }
