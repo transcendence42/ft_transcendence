@@ -64,6 +64,6 @@ export class AlarmsResolver {
 
   @ResolveField(() => User)
   user(@Parent() alarm: Alarm) {
-    return this.usersService.findOne(alarm.userID);
+    return this.usersService.findOneByUserID(alarm.userID);
   }
 }

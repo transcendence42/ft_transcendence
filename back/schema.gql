@@ -44,7 +44,7 @@ type Alarm {
 }
 
 type Game {
-  id: Int!
+  index: Int!
   isPlaying: Boolean!
   playerOneID: String!
   playerOneScore: Int
@@ -84,8 +84,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-07-20T05:59:49.907Z"
-  modifiedAt: DateTime = "2021-07-20T05:59:49.907Z"
+  createdAt: DateTime = "2021-07-19T07:59:56.535Z"
+  modifiedAt: DateTime = "2021-07-19T07:59:56.535Z"
 }
 
 input user {
@@ -99,14 +99,14 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-07-20T05:59:49.908Z"
-  modifiedAt: DateTime = "2021-07-20T05:59:49.908Z"
+  createdAt: DateTime = "2021-07-19T07:59:56.537Z"
+  modifiedAt: DateTime = "2021-07-19T07:59:56.537Z"
 }
 
 type Query {
   users: [User!]!
   user(userID: String!): User!
-  userByIndex(index: Float!): User!
+  userByIndex(index: Int!): User!
   me: User!
   myAlarm: [Alarm!]!
   friends(userID: String): [User!]!
@@ -118,7 +118,7 @@ type Query {
   follows: [Follow!]!
   follow(index: Int!): Follow!
   games: [Game!]!
-  game(id: Int!): Game!
+  game(index: Int!): Game!
   chats: [Chat!]!
   chat(uuid: String!): Chat!
   getChatCount(userID: String, type: String): Int!
@@ -143,7 +143,7 @@ type Mutation {
   removeFollow(index: Int!): Follow!
   createGame(createGameInput: CreateGameInput!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
-  removeGame(id: Int!): Game!
+  removeGame(index: Int!): Game!
   createChat(createChatInput: CreateChatInput!): Chat!
   updateChat(updateChatInput: UpdateChatInput!): Chat!
   removeChat(uuid: String!): Chat!
@@ -208,7 +208,7 @@ input CreateGameInput {
 input UpdateGameInput {
   playerOneID: String
   playerTwoID: String
-  id: Int!
+  index: Int!
   isPlaying: Boolean
   playerOneScore: Int
   playerTwoScore: Int

@@ -10,7 +10,7 @@ import {
   ALARM_USER_NICKNAME_FONTSIZE,
 } from '../../../../utils/constants';
 
-export const AlarmUser = ({ nickName, userState }: { nickName: string; userState: string }) => {
+export const AlarmUser = ({ nickName, userState, avatar }: { nickName: string; userState: string; avatar: string }) => {
   let avatarState = '';
   if (userState === 'login') {
     avatarState = ALARM_MESSAGE_LOGIN_USER_STATE_COLOR;
@@ -22,7 +22,7 @@ export const AlarmUser = ({ nickName, userState }: { nickName: string; userState
   return (
     <Flex p="2" justifyContent="flex-start">
       <Box>
-        <Avatar size="xs">
+        <Avatar size="xs" src={avatar}>
           <AvatarBadge boxSize="1.25em" bg={avatarState} />
         </Avatar>
       </Box>
