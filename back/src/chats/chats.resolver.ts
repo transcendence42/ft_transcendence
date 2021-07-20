@@ -57,4 +57,12 @@ export class ChatsResolver {
   chatLog(@Parent() chat: Chat) {
     return this.chatLogsService.findChatLogsFromChat(chat.uuid);
   }
+
+  @Query(() => Boolean, { name: 'checkChatPassword' })
+  checkPassword(
+    @Args('uuid', { type: () => String }) uuid: string,
+    @Args('password', { type: () => String }) password: string,
+  ) {
+    return this.chatsService.checkPassword(uuid, password);
+  }
 }

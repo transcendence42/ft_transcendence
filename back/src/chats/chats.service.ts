@@ -125,4 +125,17 @@ export class ChatsService {
       .getMany();
     return chatList;
   }
+
+  //비공개 채팅방의 비밀번호가 맞는지 확인.
+  async checkPassword(uuid: string, password: string) {
+    const isMatchedPassword =
+      (await Chat.getRepository()
+        .createQueryBuilder()
+        .where('uuid=:uuid', { uuid: uuid })
+        .andWhere('password=:password', { password: password })
+        .getCount()) > 0
+        ? true
+        : false;
+    return isMatchedPassword;
+  }
 }
