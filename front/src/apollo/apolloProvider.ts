@@ -5,13 +5,19 @@ import { GRAPHQL_URL } from '../utils/constants';
 import { getCookies, bearerAuthorization } from '../utils/util';
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:5500/graphql',
+  uri: GRAPHQL_URL,
+  headers: {
+    authorization: bearerAuthorization(getCookies('access_token')),
+  },
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:5500/subscriptions',
+  uri: 'ws://127.0.0.1:5500/subscriptions',
   options: {
     reconnect: true,
+    connectionParams: {
+      authorization: bearerAuthorization(getCookies('access_token')),
+    },
   },
 });
 
@@ -28,10 +34,6 @@ export const currentChatVar = makeVar('');
 
 export const createClient = new ApolloClient({
   link: splitLink,
-  uri: GRAPHQL_URL,
-  headers: {
-    authorization: bearerAuthorization(getCookies('access_token')),
-  },
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
