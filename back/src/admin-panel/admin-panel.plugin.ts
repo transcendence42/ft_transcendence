@@ -21,8 +21,24 @@ export async function setupAdminPanel(app: INestApplication): Promise<void> {
     rootPath: '/admin', // Define path for the admin panel
   });
 
+  const adminUserInfo = {
+    email: 'admin@admin.com',
+    password: 'admin'
+  };
+
+  const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
+    authenticate: async (email, password) => {
+      if (adminUserInfo.email === email && adminUserInfo.password === password) {
+        return adminUserInfo
+      }
+      return null
+    },
+    cookieName: 'adminBro',
+    cookiePassword: 'testtest'
+  })
+
   /** Create router */
-  const router = AdminBroExpress.buildRouter(adminBro);
+  // const router = AdminBroExpress.buildRouter(adminBro);
 
   /** Bind routing */
   app.use(adminBro.options.rootPath, router);
