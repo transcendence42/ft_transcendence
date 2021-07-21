@@ -33,8 +33,7 @@ export async function setupAdminPanel(app: INestApplication): Promise<void> {
       }
       return null
     },
-    cookieName: 'adminBro',
-    cookiePassword: 'testtest'
+    cookiePassword: 'some-secret-password-used-to-secure-cookie'
   })
 
   /** Create router */
