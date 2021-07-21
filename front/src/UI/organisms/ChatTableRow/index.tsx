@@ -1,4 +1,5 @@
 import React from 'react';
+import { useQuery } from '@apollo/client';
 import { Tr, Td } from '@chakra-ui/table';
 import { Box } from '@chakra-ui/react';
 import { LeaveChatBox } from '../LeaveChatBox';
@@ -6,14 +7,25 @@ import { LeaveChatMsg } from '../../molecules/LeaveChatMsg';
 import { LockIcon } from '../../../utils/icons';
 import { currentChatVar } from '../../../apollo/apolloProvider';
 import { CHAT_LIST_TYPE_MY_LIST, CHAT_LIST_TYPE_DM_LIST } from '../../../utils/constants';
+import { GET_CURRENT_USERID } from './ChatTableRowQueries';
 
 export const ChatTableRow = ({ ...props }) => {
   const { chat, rowIndex, chatListType, leaveChat, onOpen, setCheckModalUuid } = props;
 
+  // 로그인 정보 가져오기
+  const { data, loading, error } = useQuery(GET_CURRENT_USERID);
+  if (loading) {
+    return <>Loading...</>;
+  }
+  if (error) {
+    console.log(error);
+    return <>ERROR</>;
+  }
+
   // 비공개 방 자물쇠 아이콘
   const lockSVGIcon = chat.type === 'private' ? LockIcon({ fill: 'none' }) : null;
   // 로그인 정보를 확인하여 owner와 비교하고, alert-dialog 메시지를 다르게 부여. owner이면 메시지를 추가하고, 아니라면 없음.
-  const leaveChatMsg = chat.ownerID === 'yshin' ? <LeaveChatMsg /> : null; //TODO: 로그인 정보 확인(세션 등)
+  const leaveChatMsg = chat.ownerID === data.me.userID ? <LeaveChatMsg /> : null;
   const closeButton = (
     <LeaveChatBox leaveChat={leaveChat} uuid={chat.uuid} ownerID={chat.ownerID} userID={chat.userID}>
       {leaveChatMsg}
@@ -35,7 +47,6 @@ export const ChatTableRow = ({ ...props }) => {
 
   const handleClickChat = () => {
     if (chat.type === 'private') {
-      //TODO: display check password modal
       setCheckModalUuid(chat.uuid);
       onOpen();
     } else {

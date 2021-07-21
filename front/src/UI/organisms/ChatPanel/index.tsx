@@ -43,7 +43,7 @@ export const ChatPanel = ({ ...props }) => {
   };
 
   //props
-  const { chatListColumns, chatListType, chatListTabs, userID } = props;
+  const { chatListColumns, chatListType, chatListTabs, userID, loginID } = props;
 
   // react hooks
   const [chatsTotal, setChatsTotal] = useState<number | undefined>();
@@ -82,8 +82,7 @@ export const ChatPanel = ({ ...props }) => {
   //채팅방 떠나기
   const leaveChat = (uuid: string, ownerID: string, userID: string[]) => {
     let leftChat = {}; // 나간 채팅방 정보가 담김.
-    if (ownerID === 'yshin') {
-      // TODO: yshin을 session 값으로 바꿔야 함.
+    if (ownerID === loginID) {
       leftChat = {
         uuid: uuid,
         isAlive: false,
@@ -91,7 +90,7 @@ export const ChatPanel = ({ ...props }) => {
     } else {
       leftChat = {
         uuid: uuid,
-        userID: userID.filter((user) => user !== 'yshin'), //TODO: 'yshin'을 session 값으로 바꿔야 함.
+        userID: userID.filter((user) => user !== loginID),
       };
     }
     updateChatToDead({
@@ -105,10 +104,10 @@ export const ChatPanel = ({ ...props }) => {
   const createChatFunc = ({ name, type, password }: { name: string; type: 'public' | 'private'; password: string }) => {
     let newChat = {};
     if (type === 'public') {
-      newChat = { name: name, type: type, ownerID: 'yshin' }; //TODO: 'yshin' session 값으로 바꿔야 함.
+      newChat = { name: name, type: type, ownerID: loginID };
     } else {
       //private
-      newChat = { name: name, type: type, password: password, ownerID: 'yshin' }; //TODO: 'yshin' session 값으로 바꿔야 함.
+      newChat = { name: name, type: type, password: password, ownerID: loginID };
     }
     createChat({
       variables: {

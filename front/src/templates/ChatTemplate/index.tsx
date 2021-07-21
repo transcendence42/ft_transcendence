@@ -1,4 +1,5 @@
 import React from 'react';
+import { useQuery } from '@apollo/client';
 import { Grid, GridItem } from '@chakra-ui/react';
 import { ChatPanel } from '../../UI/organisms/ChatPanel';
 import {
@@ -9,16 +10,27 @@ import {
   CHAT_LIST_TYPE_MY_LIST,
   CHAT_LIST_TYPE_TOTAL_LIST,
 } from '../../utils/constants';
+import { GET_CURRENT_USERID } from './ChatTemplateQueries';
 
 const ChatTemplate = () => {
+  // 로그인 정보 가져오기
+  const { data, loading, error } = useQuery(GET_CURRENT_USERID);
+  if (loading) {
+    return <>Loading...</>;
+  }
+  if (error) {
+    console.log(error);
+    return <>ERROR</>;
+  }
   return (
     <Grid minH="100vh" width="920px" margin="20px" templateRows="repeat(2, 1fr)">
       <GridItem rowSpan={1}>
         <ChatPanel
-          userID={'yshin'} //TODO: 'yshin' session 값으로 변경
+          userID={data.me.userID}
           chatListTabs={CHAT_TOP_PANEL_TABS}
           chatListColumns={CHAT_MY_LIST_COLUMNS}
           chatListType={CHAT_LIST_TYPE_MY_LIST}
+          loginID={data.me.userID}
         />
       </GridItem>
       <GridItem rowSpan={1}>
@@ -26,6 +38,7 @@ const ChatTemplate = () => {
           chatListTabs={CHAT_BOTTOM_PANEL_TABS}
           chatListColumns={CHAT_TOTAL_LIST_COLUMNS}
           chatListType={CHAT_LIST_TYPE_TOTAL_LIST}
+          loginID={data.me.userID}
         />
       </GridItem>
     </Grid>
