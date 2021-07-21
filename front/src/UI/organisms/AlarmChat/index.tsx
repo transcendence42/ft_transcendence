@@ -4,7 +4,7 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 
 import { Menu } from '../ContextMenu';
 import { AlarmChatMessagesBox } from '../AlarmChatMessagesBox';
-import { ChatSendBox } from '../ChatSendBox';
+import { ChatLogSendBox } from '../ChatLogSendBox';
 
 import { PersonIcon, LockIcon } from '../../../utils/icons';
 import { compareTimeLapseToString, postgresTimeToDate } from '../../../utils/util';
@@ -163,7 +163,7 @@ export const AlarmChat = () => {
             chatUUID={data.chat.uuid}
           />
         </Flex>
-        <ChatSendBox />
+        <ChatLogSendBox />
       </AccordionPanel>
     </AccordionItem>
   );

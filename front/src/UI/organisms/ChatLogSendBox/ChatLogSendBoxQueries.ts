@@ -12,3 +12,11 @@ export const CREATE_CHAT_LOG = gql`
     }
   }
 `;
+
+export const GET_CURRENT_USERID = gql`
+  query {
+    me {
+      userID
+    }
+  }
+`;

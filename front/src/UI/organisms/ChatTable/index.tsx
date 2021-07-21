@@ -9,7 +9,7 @@ import './index.scss';
 export const ChatTable = ({ ...props }) => {
   const { chatList, chatListColumns, chatListType, startRowNum, leaveChat } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [uuid, setUuid] = useState();
+  const [checkModalUuid, setCheckModalUuid] = useState();
   return (
     <>
       {/* borderCollapse와 borderSpacing은 scss에서 적용되지 않아 아래의 style에서 정의함. */}
@@ -41,13 +41,13 @@ export const ChatTable = ({ ...props }) => {
                 key={`ChatTable-${chatListType}-ChatTableRow-${chat.uuid}`}
                 leaveChat={leaveChat}
                 onOpen={onOpen}
-                setUuid={setUuid}
+                setCheckModalUuid={setCheckModalUuid}
               />
             );
           })}
         </Tbody>
       </Table>
-      <CheckChatPasswordModal isOpen={isOpen} onClose={onClose} uuid={uuid} />
+      <CheckChatPasswordModal isOpen={isOpen} onClose={onClose} uuid={checkModalUuid} />
     </>
   );
 };

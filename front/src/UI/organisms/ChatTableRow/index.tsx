@@ -8,7 +8,7 @@ import { currentChatVar } from '../../../apollo/apolloProvider';
 import { CHAT_LIST_TYPE_MY_LIST, CHAT_LIST_TYPE_DM_LIST } from '../../../utils/constants';
 
 export const ChatTableRow = ({ ...props }) => {
-  const { chat, rowIndex, chatListType, leaveChat, onOpen, setUuid } = props;
+  const { chat, rowIndex, chatListType, leaveChat, onOpen, setCheckModalUuid } = props;
 
   // 비공개 방 자물쇠 아이콘
   const lockSVGIcon = chat.type === 'private' ? LockIcon({ fill: 'none' }) : null;
@@ -36,7 +36,7 @@ export const ChatTableRow = ({ ...props }) => {
   const handleClickChat = () => {
     if (chat.type === 'private') {
       //TODO: display check password modal
-      setUuid(chat.uuid);
+      setCheckModalUuid(chat.uuid);
       onOpen();
     } else {
       currentChatVar(chat.uuid);
