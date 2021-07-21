@@ -14,11 +14,25 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { currentChatVar } from '../../../apollo/apolloProvider';
+import { useLazyQuery } from '@apollo/client';
+import { CHECK_CHAT_PASSWORD } from './CheckChatPasswordModalQueries';
 
 export const CheckChatPasswordModal = ({ ...props }) => {
   const { isOpen, onClose, uuid } = props;
   const inputRef = useRef<HTMLInputElement>();
   const [isWrongPassword, setIsWrongPassword] = useState(false);
+
+  const [getSuccess, { data }] = useLazyQuery(CHECK_CHAT_PASSWORD, {
+    onCompleted: () => {
+      if (data.checkChatPassword) {
+        setIsWrongPassword(false);
+        onClose();
+        currentChatVar(uuid);
+      } else {
+        setIsWrongPassword(true);
+      }
+    },
+  });
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -26,32 +40,7 @@ export const CheckChatPasswordModal = ({ ...props }) => {
     }
   };
   const checkPassword = () => {
-    const query = `query CheckChatPassword($uuid:String!, $password:String!) {
-      checkChatPassword(uuid:$uuid, password:$password)
-    }`;
-    const password = inputRef.current?.value;
-
-    fetch('http://localhost:5500/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        query,
-        variables: { uuid, password },
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
-        if (res.data.checkChatPassword === true) {
-          setIsWrongPassword(false);
-          onClose();
-          currentChatVar(uuid);
-        } else {
-          setIsWrongPassword(true);
-        }
-      });
+    getSuccess({ variables: { uuid: uuid, password: inputRef.current.value } });
   };
   return (
     <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={inputRef}>
