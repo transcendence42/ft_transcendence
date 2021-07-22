@@ -5,7 +5,7 @@ services:
     networks:
       - database
     ports:
-      - "5432:5432"
+      - '5432:5432'
     env_file:
       - ./db/.env
     volumes:
@@ -37,7 +37,7 @@ services:
     depends_on:
       - db
     restart: always
-    command: ['./wait-for-it.sh', 'db:5432', '--', 'node', './dist/main.js']
+    command: ['./wait-for-it.sh', 'db:5432', '--', 'yarn', 'start']
     container_name: back
 
 networks:

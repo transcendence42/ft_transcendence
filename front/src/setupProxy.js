@@ -4,14 +4,14 @@ module.exports = function (app) {
   app.use(
     '/auth',
     createProxyMiddleware({
-      target: 'http://127.0.0.1:5500',
+      target: `${process.env.REACT_APP_SERVER_URL}`,
       changeOrigin: true,
     }),
   );
   app.use(
     '/graphql',
     createProxyMiddleware({
-      target: 'http://127.0.0.1:5500/graphql',
+      target: `${process.env.REACT_APP_SERVER_URL}/graphql`,
       changeOrigin: true,
     }),
   );
