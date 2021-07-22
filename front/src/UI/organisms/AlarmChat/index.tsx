@@ -5,7 +5,6 @@ import { Menu } from '../ContextMenu';
 import { AlarmChatMessagesBox } from '../AlarmChatMessagesBox';
 import { ChatLogSendBox } from '../ChatLogSendBox';
 import { PersonIcon, LockIcon } from '../../../utils/icons';
-import { compareTimeLapseToString, postgresTimeToDate } from '../../../utils/util';
 import {
   ALARM_TITLE_FONTWEIGHT,
   ALARM_TITLE_FONTSIZE,
@@ -53,9 +52,13 @@ export const AlarmChat = () => {
   }
 
   const chatLog = data.chat.chatLog.map((item) => {
+    const createdDate = new Date(item.createdAt);
+    const hour = createdDate.getHours();
+    const min = createdDate.getMinutes() < 10 ? '0' + createdDate.getMinutes() : createdDate.getMinutes();
+    const messageCreatedTime = `${hour}:${min}`;
     return {
       ...item,
-      createdAt: compareTimeLapseToString(new Date(), postgresTimeToDate(item.createdAt)),
+      createdAt: messageCreatedTime,
     };
   });
 
