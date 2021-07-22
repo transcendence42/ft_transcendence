@@ -78,6 +78,22 @@ export const AlarmChat = () => {
     };
   });
 
+  const subscribeToNewMessage = () =>
+    subscribeToMore({
+      document: CHATLOG_SUBSCRIPTION,
+      variables: { uuid: currentChat },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        const newFeedItem = subscriptionData.data.chatLogAdded;
+        const res = Object.assign({}, prev, {
+          chat: {
+            chatLog: [...prev.chat.chatLog, newFeedItem],
+          },
+        });
+        return res;
+      },
+    });
+
   return (
     <AccordionItem>
       <h2>
@@ -126,22 +142,7 @@ export const AlarmChat = () => {
           <AlarmChatMessagesBox
             chatLog={chatLog}
             chatIndex={data.chat.index}
-            subscribeToNewMessage={() =>
-              subscribeToMore({
-                document: CHATLOG_SUBSCRIPTION,
-                variables: { uuid: currentChat },
-                updateQuery: (prev, { subscriptionData }) => {
-                  if (!subscriptionData.data) return prev;
-                  const newFeedItem = subscriptionData.data.chatLogAdded;
-                  const res = Object.assign({}, prev, {
-                    chat: {
-                      chatLog: [...prev.chat.chatLog, newFeedItem],
-                    },
-                  });
-                  return res;
-                },
-              })
-            }
+            subscribeToNewMessage={subscribeToNewMessage}
             chatUUID={data.chat.uuid}
           />
         </Flex>
