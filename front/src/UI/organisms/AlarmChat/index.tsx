@@ -18,6 +18,7 @@ import {
 } from '../../../utils/constants';
 import { GET_CHAT, CHATLOG_SUBSCRIPTION } from './AlarmChatQueries';
 import { currentChatVar } from '../../../apollo/apolloProvider';
+import { EmptyChat } from '../../molecules/EmptyChat';
 
 export const AlarmChat = () => {
   const currentChat = useReactiveVar(currentChatVar);
@@ -28,6 +29,7 @@ export const AlarmChat = () => {
     fetchPolicy: 'network-only',
   });
 
+  // subscription으로 데이터가 들어오면 스크롤을 아래로 이동
   const scrollRef = useRef();
   useEffect(() => {
     if (scrollRef.current !== undefined && scrollRef.current !== null) {
@@ -46,26 +48,11 @@ export const AlarmChat = () => {
     }
   };
 
-  if (currentChat === '') {
-    return (
-      <AccordionItem>
-        <h2>
-          <AccordionButton>
-            <Box flex="1" textAlign="left">
-              <Text fontWeight={ALARM_TITLE_FONTWEIGHT} fontSize={ALARM_TITLE_FONTSIZE}>
-                채팅
-              </Text>
-            </Box>
-            <AccordionIcon />
-          </AccordionButton>
-        </h2>
-      </AccordionItem>
-    );
-  }
   if (loading) {
     return <>LOADING...</>;
   }
   if (error) {
+    if (currentChat === '') return <EmptyChat />; // 입장한 채팅방이 없을 때
     console.error(error);
     return <>ERROR</>;
   }
