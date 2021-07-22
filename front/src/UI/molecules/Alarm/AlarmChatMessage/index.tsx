@@ -16,7 +16,14 @@ import {
 const ChatMessage = ({ type, chatID, message, createdAt }: IchatMessage) => {
   return (
     <Flex flexDirection="column" alignItems={type === 'message' ? '' : 'flex-end'}>
-      <Text pt="1" pb="0.5" fontSize={ALARM_CHAT_MESSAGE_ID_FONTSIZE} fontWeight={ALARM_CONTENT_FONTWEIGHT}>
+      <Text
+        pt="1"
+        pb="0.5"
+        fontSize={ALARM_CHAT_MESSAGE_ID_FONTSIZE}
+        fontWeight={ALARM_CONTENT_FONTWEIGHT}
+        ml="1"
+        mr="1"
+      >
         {chatID}
       </Text>
       <Flex alignItems="flex-end" flexDirection={type === 'message' ? 'row' : 'row-reverse'}>
