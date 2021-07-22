@@ -1,14 +1,11 @@
 import React, { useRef, MouseEvent, useEffect } from 'react';
 import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
 import { useQuery, useReactiveVar } from '@apollo/client';
-
 import { Menu } from '../ContextMenu';
 import { AlarmChatMessagesBox } from '../AlarmChatMessagesBox';
 import { ChatLogSendBox } from '../ChatLogSendBox';
-
 import { PersonIcon, LockIcon } from '../../../utils/icons';
 import { compareTimeLapseToString, postgresTimeToDate } from '../../../utils/util';
-
 import {
   ALARM_TITLE_FONTWEIGHT,
   ALARM_TITLE_FONTSIZE,
