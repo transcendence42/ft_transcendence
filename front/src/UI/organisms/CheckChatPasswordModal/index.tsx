@@ -18,7 +18,7 @@ import { useLazyQuery } from '@apollo/client';
 import { CHECK_CHAT_PASSWORD } from './CheckChatPasswordModalQueries';
 
 export const CheckChatPasswordModal = ({ ...props }) => {
-  const { isOpen, onClose, uuid } = props;
+  const { isOpen, onClose, chat } = props;
   const inputRef = useRef<HTMLInputElement>();
   const [isWrongPassword, setIsWrongPassword] = useState(false);
 
@@ -27,7 +27,7 @@ export const CheckChatPasswordModal = ({ ...props }) => {
       if (data.checkChatPassword) {
         setIsWrongPassword(false);
         onClose();
-        currentChatVar(uuid);
+        currentChatVar(chat.uuid);
       } else {
         setIsWrongPassword(true);
       }
@@ -40,7 +40,7 @@ export const CheckChatPasswordModal = ({ ...props }) => {
     }
   };
   const checkPassword = () => {
-    getSuccess({ variables: { uuid: uuid, password: inputRef.current.value } });
+    getSuccess({ variables: { uuid: chat.uuid, password: inputRef.current.value } });
   };
   return (
     <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={inputRef}>

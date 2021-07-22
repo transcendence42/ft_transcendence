@@ -10,7 +10,7 @@ import { CHAT_LIST_TYPE_MY_LIST, CHAT_LIST_TYPE_DM_LIST } from '../../../utils/c
 import { GET_CURRENT_USERID } from './ChatTableRowQueries';
 
 export const ChatTableRow = ({ ...props }) => {
-  const { chat, rowIndex, chatListType, leaveChat, onOpen, setCheckModalUuid } = props;
+  const { chat, rowIndex, chatListType, leaveChat, onOpen, setChatForCheckModal } = props;
 
   // 로그인 정보 가져오기
   const { data, loading, error } = useQuery(GET_CURRENT_USERID);
@@ -47,7 +47,7 @@ export const ChatTableRow = ({ ...props }) => {
 
   const handleClickChat = () => {
     if (chat.type === 'private') {
-      setCheckModalUuid(chat.uuid);
+      setChatForCheckModal(chat);
       onOpen();
     } else {
       currentChatVar(chat.uuid);
