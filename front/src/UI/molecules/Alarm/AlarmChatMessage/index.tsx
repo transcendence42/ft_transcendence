@@ -21,8 +21,8 @@ const ChatMessage = ({ type, chatID, message, createdAt }: IchatMessage) => {
         pb="0.5"
         fontSize={ALARM_CHAT_MESSAGE_ID_FONTSIZE}
         fontWeight={ALARM_CONTENT_FONTWEIGHT}
-        ml="1"
-        mr="1"
+        ml="2.5"
+        mr="2.5"
       >
         {chatID}
       </Text>
