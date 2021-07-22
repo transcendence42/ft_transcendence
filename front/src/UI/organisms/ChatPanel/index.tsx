@@ -65,7 +65,7 @@ export const ChatPanel = ({ ...props }) => {
   });
 
   //mutation
-  const [updateChatToDead] = useMutation(UPDATE_CHAT, {
+  const [updateChat] = useMutation(UPDATE_CHAT, {
     onCompleted: () => {
       // 나의채팅방, 1:1채팅방 페이지를 첫 페이지로 변경
       setCurrentPage(CHAT_DEFAULT_PAGE);
@@ -93,7 +93,7 @@ export const ChatPanel = ({ ...props }) => {
         userID: userID.filter((user) => user !== loginID),
       };
     }
-    updateChatToDead({
+    updateChat({
       variables: {
         newChat: leftChat,
       },
@@ -174,6 +174,7 @@ export const ChatPanel = ({ ...props }) => {
             chatListType={chatListType}
             startRowNum={(currentPage - 1) * CHAT_PAGE_SIZE}
             leaveChat={leaveChat}
+            refetchChat={refetch}
           />
         </GridItem>
         <GridItem rowSpan={1}>

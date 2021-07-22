@@ -14,19 +14,43 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { currentChatVar } from '../../../apollo/apolloProvider';
-import { useLazyQuery } from '@apollo/client';
-import { CHECK_CHAT_PASSWORD } from './CheckChatPasswordModalQueries';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { CHECK_CHAT_PASSWORD, CREATE_CHAT_LOG, UPDATE_CHAT } from './CheckChatPasswordModalQueries';
 
 export const CheckChatPasswordModal = ({ ...props }) => {
-  const { isOpen, onClose, chat } = props;
+  const { isOpen, onClose, chat, refetchChat } = props;
   const inputRef = useRef<HTMLInputElement>();
   const [isWrongPassword, setIsWrongPassword] = useState(false);
+  const [createChatLog] = useMutation(CREATE_CHAT_LOG);
+  const [updateChat] = useMutation(UPDATE_CHAT);
 
   const [getSuccess, { data }] = useLazyQuery(CHECK_CHAT_PASSWORD, {
-    onCompleted: () => {
-      if (data.checkChatPassword) {
+    fetchPolicy: 'network-only',
+    onCompleted: async () => {
+      if (data.checkChatPassword === true) {
         setIsWrongPassword(false);
         onClose();
+        if (!chat.userID.includes(data.me.userID)) {
+          await createChatLog({
+            variables: {
+              user: {
+                userID: data.me.userID,
+                chatUUID: chat.uuid,
+                type: 'notification',
+                message: 'enter',
+              },
+            },
+          });
+          await updateChat({
+            variables: {
+              newChat: {
+                uuid: chat.uuid,
+                userID: [...chat.userID, data.me.userID],
+              },
+            },
+          });
+          await refetchChat();
+        }
         currentChatVar(chat.uuid);
       } else {
         setIsWrongPassword(true);

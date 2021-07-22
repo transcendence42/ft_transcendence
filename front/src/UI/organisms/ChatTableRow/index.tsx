@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { Tr, Td } from '@chakra-ui/table';
 import { Box } from '@chakra-ui/react';
 import { LeaveChatBox } from '../LeaveChatBox';
@@ -7,10 +7,12 @@ import { LeaveChatMsg } from '../../molecules/LeaveChatMsg';
 import { LockIcon } from '../../../utils/icons';
 import { currentChatVar } from '../../../apollo/apolloProvider';
 import { CHAT_LIST_TYPE_MY_LIST, CHAT_LIST_TYPE_DM_LIST } from '../../../utils/constants';
-import { GET_CURRENT_USERID } from './ChatTableRowQueries';
+import { CREATE_CHAT_LOG, GET_CURRENT_USERID, UPDATE_CHAT } from './ChatTableRowQueries';
 
 export const ChatTableRow = ({ ...props }) => {
-  const { chat, rowIndex, chatListType, leaveChat, onOpen, setChatForCheckModal } = props;
+  const { chat, rowIndex, chatListType, leaveChat, onOpen, setChatForCheckModal, refetchChat } = props;
+  const [createChatLog] = useMutation(CREATE_CHAT_LOG);
+  const [updateChat] = useMutation(UPDATE_CHAT);
 
   // 로그인 정보 가져오기
   const { data, loading, error } = useQuery(GET_CURRENT_USERID);
@@ -45,11 +47,32 @@ export const ChatTableRow = ({ ...props }) => {
   ); // 필수 컬럼 이외 값 필터링
   filteredChatList.splice(2, 0, ['numOfPeople', numOfPeople]); // 인원수 추가
 
-  const handleClickChat = () => {
+  const handleClickChat = async () => {
     if (chat.type === 'private') {
       setChatForCheckModal(chat);
       onOpen();
     } else {
+      if (!chat.userID.includes(data.me.userID)) {
+        await createChatLog({
+          variables: {
+            user: {
+              userID: data.me.userID,
+              chatUUID: chat.uuid,
+              type: 'notification',
+              message: 'enter',
+            },
+          },
+        });
+        await updateChat({
+          variables: {
+            newChat: {
+              uuid: chat.uuid,
+              userID: [...chat.userID, data.me.userID],
+            },
+          },
+        });
+        await refetchChat();
+      }
       currentChatVar(chat.uuid);
     }
   };

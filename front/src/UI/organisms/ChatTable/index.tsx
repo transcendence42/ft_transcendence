@@ -7,7 +7,7 @@ import { IChat } from '../../../utils/interface';
 import './index.scss';
 
 export const ChatTable = ({ ...props }) => {
-  const { chatList, chatListColumns, chatListType, startRowNum, leaveChat } = props;
+  const { chatList, chatListColumns, chatListType, startRowNum, leaveChat, refetchChat } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [chatForCheckModal, setChatForCheckModal] = useState();
   return (
@@ -42,12 +42,13 @@ export const ChatTable = ({ ...props }) => {
                 leaveChat={leaveChat}
                 onOpen={onOpen}
                 setChatForCheckModal={setChatForCheckModal}
+                refetchChat={refetchChat}
               />
             );
           })}
         </Tbody>
       </Table>
-      <CheckChatPasswordModal isOpen={isOpen} onClose={onClose} chat={chatForCheckModal} />
+      <CheckChatPasswordModal isOpen={isOpen} onClose={onClose} chat={chatForCheckModal} refetchChat={refetchChat} />
     </>
   );
 };
