@@ -28,7 +28,6 @@ export const AlarmChat = () => {
     fetchPolicy: 'network-only',
   });
 
-  // subscription으로 데이터가 들어오면 스크롤을 아래로 이동
   const scrollRef = useRef();
   useEffect(() => {
     if (scrollRef.current !== undefined && scrollRef.current !== null) {
