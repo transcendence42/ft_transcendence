@@ -115,27 +115,7 @@ export const AlarmChat = () => {
       </h2>
 
       <AccordionPanel pb={4} bg={ALARM_BACKGROUND_COLOR}>
-        <Flex
-          flexDirection="column"
-          overflowX="hidden"
-          overflowY="auto"
-          height="258px"
-          style={{ scrollbarWidth: 'thin' }}
-          css={{
-            '&::-webkit-scrollbar': {
-              width: '5px',
-            },
-            '&::-webkit-scrollbar-track': {
-              width: '5px',
-              background: 'lightgray',
-            },
-            '&::-webkit-scrollbar-thumb': {
-              background: 'gray',
-              borderRadius: '24px',
-            },
-          }}
-          ref={scrollRef}
-        >
+        <Flex flexDirection="column" height="258px" overflowX="hidden" overflowY="auto" ref={scrollRef}>
           <AlarmChatMessagesBox
             chatLog={data.chat.chatLog.map((item) => {
               return {
