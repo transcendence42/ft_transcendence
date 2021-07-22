@@ -28,7 +28,7 @@ export const AlarmChat = () => {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (scrollRef.current !== undefined && scrollRef.current !== null) {
+    if (scrollRef.current) {
       scrollRef.current.scrollBy(0, scrollRef.current.scrollHeight);
     }
   }, [data]);
