@@ -65,7 +65,9 @@ export const AlarmChat = () => {
       document: CHATLOG_SUBSCRIPTION,
       variables: { uuid: currentChat },
       updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
+        if (!subscriptionData.data) {
+          return prev;
+        }
         const newFeedItem = subscriptionData.data.chatLogAdded;
         const res = Object.assign({}, prev, {
           chat: {
