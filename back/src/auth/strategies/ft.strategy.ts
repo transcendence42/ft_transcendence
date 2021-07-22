@@ -9,7 +9,7 @@ export class FtStrategy extends PassportStrategy(Strategy) {
     super({
       clientID: process.env.FT_CLIENT_ID,
       clientSecret: process.env.FT_CLIENT_SECRET,
-      callbackURL: 'http://127.0.0.1:5500/auth/redirect',
+      callbackURL: `${process.env.HOST}:${process.env.PORT}/auth/redirect`,
       scope: 'public',
     });
   }
