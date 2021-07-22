@@ -71,6 +71,13 @@ export const AlarmChat = () => {
     return <>ERROR</>;
   }
 
+  const chatLog = data.chat.chatLog.map((item) => {
+    return {
+      ...item,
+      createdAt: compareTimeLapseToString(new Date(), postgresTimeToDate(item.createdAt)),
+    };
+  });
+
   return (
     <AccordionItem>
       <h2>
@@ -117,12 +124,7 @@ export const AlarmChat = () => {
       <AccordionPanel pb={4} bg={ALARM_BACKGROUND_COLOR}>
         <Flex flexDirection="column" height="258px" overflowX="hidden" overflowY="auto" ref={scrollRef}>
           <AlarmChatMessagesBox
-            chatLog={data.chat.chatLog.map((item) => {
-              return {
-                ...item,
-                createdAt: compareTimeLapseToString(new Date(), postgresTimeToDate(item.createdAt)),
-              };
-            })}
+            chatLog={chatLog}
             chatIndex={data.chat.index}
             subscribeToNewMessage={() =>
               subscribeToMore({
