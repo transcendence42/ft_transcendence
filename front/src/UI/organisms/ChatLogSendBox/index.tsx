@@ -1,9 +1,9 @@
-import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { useMutation, useReactiveVar } from '@apollo/client';
 import { Grid, GridItem } from '@chakra-ui/layout';
 import { Button, Input } from '@chakra-ui/react';
 import React, { useRef } from 'react';
-import { currentChatVar } from '../../../apollo/apolloProvider';
-import { CREATE_CHAT_LOG, GET_CURRENT_USERID } from './ChatLogSendBoxQueries';
+import { currentChatVar, currentLoginIDVar } from '../../../apollo/apolloProvider';
+import { CREATE_CHAT_LOG } from './ChatLogSendBoxQueries';
 
 export const ChatLogSendBox = () => {
   //mutation
@@ -12,14 +12,8 @@ export const ChatLogSendBox = () => {
   const tempRef = useRef<HTMLInputElement>(); // TODO: 삭제 할 것.
   const currentChat = useReactiveVar(currentChatVar);
 
-  const { data, error, loading } = useQuery(GET_CURRENT_USERID);
-  if (loading) {
-    return <>Loading...</>;
-  }
-  if (error) {
-    console.log(error);
-    return <>ERROR</>;
-  }
+  // 로그인 ID 가져오기
+  const loginID = currentLoginIDVar();
   const handleClickSend = () => {
     if (inputRef.current.value === '') {
       return;
@@ -32,7 +26,7 @@ export const ChatLogSendBox = () => {
       variables: {
         user: {
           chatUUID: currentChat,
-          userID: tempRef.current.value ? tempRef.current.value : data.me.userID, // TODO: session 값으로 변경 할 것.
+          userID: tempRef.current.value ? tempRef.current.value : loginID, // TODO: session 값으로 변경 할 것.
           message: inputRef.current.value,
           type: 'message',
         },

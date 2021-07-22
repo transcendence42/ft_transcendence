@@ -13,7 +13,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { currentChatVar } from '../../../apollo/apolloProvider';
+import { currentChatVar, currentLoginIDVar } from '../../../apollo/apolloProvider';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { CHECK_CHAT_PASSWORD, CREATE_CHAT_LOG, UPDATE_CHAT } from './CheckChatPasswordModalQueries';
 
@@ -24,17 +24,20 @@ export const CheckChatPasswordModal = ({ ...props }) => {
   const [createChatLog] = useMutation(CREATE_CHAT_LOG);
   const [updateChat] = useMutation(UPDATE_CHAT);
 
+  // 로그인 ID 가져오기
+  const loginID = currentLoginIDVar();
+
   const [getSuccess, { data }] = useLazyQuery(CHECK_CHAT_PASSWORD, {
     fetchPolicy: 'network-only',
     onCompleted: async () => {
       if (data.checkChatPassword === true) {
         setIsWrongPassword(false);
         onClose();
-        if (!chat.userID.includes(data.me.userID)) {
+        if (!chat.userID.includes(loginID)) {
           await createChatLog({
             variables: {
               user: {
-                userID: data.me.userID,
+                userID: loginID,
                 chatUUID: chat.uuid,
                 type: 'notification',
                 message: 'enter',
@@ -45,7 +48,7 @@ export const CheckChatPasswordModal = ({ ...props }) => {
             variables: {
               newChat: {
                 uuid: chat.uuid,
-                userID: [...chat.userID, data.me.userID],
+                userID: [...chat.userID, loginID],
               },
             },
           });

@@ -12,27 +12,3 @@ export const CREATE_CHAT_LOG = gql`
     }
   }
 `;
-
-export const GET_CURRENT_USERID = gql`
-  query {
-    me {
-      index
-      userID
-      nickname
-      avatar
-      ladderRating
-      totalWin
-      totalLose
-      modifiedAt
-      followings {
-        following {
-          index
-          userID
-          userState
-          avatar
-        }
-        checked
-      }
-    }
-  }
-`;

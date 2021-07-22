@@ -14,6 +14,7 @@ import {
   CHAT_DEFAULT_PAGE,
 } from '../../../utils/constants';
 import { CREATE_CHAT, GET_CHATS, UPDATE_CHAT } from './ChatPanelQueries';
+import { currentLoginIDVar } from '../../../apollo/apolloProvider';
 
 export const ChatPanel = ({ ...props }) => {
   // paginator styles
@@ -43,7 +44,8 @@ export const ChatPanel = ({ ...props }) => {
   };
 
   //props
-  const { chatListColumns, chatListType, chatListTabs, userID, loginID } = props;
+  const { chatListColumns, chatListType, chatListTabs, userID } = props;
+  const loginID = currentLoginIDVar();
 
   // react hooks
   const [chatsTotal, setChatsTotal] = useState<number | undefined>();

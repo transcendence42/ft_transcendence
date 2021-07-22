@@ -31,6 +31,7 @@ const splitLink = split(
 );
 
 export const currentChatVar = makeVar('');
+export const currentLoginIDVar = makeVar('');
 
 export const createClient = new ApolloClient({
   link: splitLink,
