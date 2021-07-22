@@ -49,7 +49,6 @@ export const AlarmChat = () => {
   }
   if (error) {
     if (currentChat === '') return <EmptyChat />; // 입장한 채팅방이 없을 때
-    console.error(error);
     return <>ERROR</>;
   }
 

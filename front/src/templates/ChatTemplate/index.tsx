@@ -20,7 +20,6 @@ const ChatTemplate = () => {
     return <>Loading...</>;
   }
   if (error) {
-    console.log(error);
     return <>ERROR</>;
   }
   currentLoginIDVar(data.me.userID);
