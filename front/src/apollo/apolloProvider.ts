@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, HttpLink, split, makeVar } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
-import { GRAPHQL_URL } from '../utils/constants';
+import { GRAPHQL_URL, SUBSCRIPTION_URL } from '../utils/constants';
 import { getCookies, bearerAuthorization } from '../utils/util';
 
 const httpLink = new HttpLink({
@@ -12,7 +12,7 @@ const httpLink = new HttpLink({
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://127.0.0.1:5500/subscriptions',
+  uri: SUBSCRIPTION_URL,
   options: {
     reconnect: true,
     connectionParams: {
