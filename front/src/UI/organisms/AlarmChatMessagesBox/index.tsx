@@ -18,11 +18,11 @@ export const AlarmChatMessagesBox = ({ ...props }) => {
   return (
     <>
       {chatLog.map(({ index, type, userID, message, createdAt }) => {
-        type = type === 'notification' ? type : userID === loginID ? 'ownerMessage' : 'message';
+        const filteredType = type === 'notification' ? type : userID === loginID ? 'ownerMessage' : 'message';
         return (
           <AlarmChatMessage
             key={`chat-room-${chatIndex}-msg-${index}`}
-            type={type}
+            type={filteredType}
             chatID={userID}
             message={message}
             createdAt={createdAt}
