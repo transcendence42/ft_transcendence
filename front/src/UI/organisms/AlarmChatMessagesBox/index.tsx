@@ -1,13 +1,13 @@
 import { useQuery } from '@apollo/client';
 import React, { useEffect } from 'react';
 import { AlarmChatMessage } from '../../molecules';
-import { GET_CURRENT_USERID } from './AlarmChatMessagesBoxQueries';
+import { CHATLOG_SUBSCRIPTION, GET_CURRENT_USERID } from './AlarmChatMessagesBoxQueries';
 
 export const AlarmChatMessagesBox = ({ ...props }) => {
-  const { subscribeToNewMessage, chatLog, chatIndex, chatUUID } = props;
+  const { subscribeToNewMessage, chatLog, chatIndex } = props;
   useEffect(() => {
     const unsubscribe = subscribeToNewMessage({
-      document: chatUUID,
+      document: CHATLOG_SUBSCRIPTION,
     });
     return () => {
       unsubscribe();
