@@ -62,8 +62,8 @@ export const AlarmChat = () => {
     };
   });
 
-  const subscribeToNewMessage = () =>
-    subscribeToMore({
+  const subscribeToNewMessage = () => {
+    return subscribeToMore({
       document: CHATLOG_SUBSCRIPTION,
       variables: { uuid: currentChat },
       updateQuery: (prev, { subscriptionData }) => {
@@ -79,6 +79,7 @@ export const AlarmChat = () => {
         return res;
       },
     });
+  };
 
   return (
     <AccordionItem>
