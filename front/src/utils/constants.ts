@@ -7,6 +7,7 @@ export const LOGIN_URL = `/auth/login`;
 // export const LOGIN_URL = `${BASE_URL}/auth/login`;
 // export const GRAPHQL_URL = `${BASE_URL}/graphql`;
 export const GRAPHQL_URL = `/graphql`;
+export const SUBSCRIPTION_URL = 'ws://127.0.0.1:5500/subscriptions';
 
 /*
  ** Spinner
@@ -52,6 +53,8 @@ export const ALARM_USER_NICKNAME_FONTSIZE = '14px';
 
 export const ALARM_TITLE_FONTWEIGHT = 'bold';
 export const ALARM_CONTENT_FONTWEIGHT = 'semibold';
+
+export const ALARM_CHAT_BOX_HEIGHT = '258px';
 
 /*
  ** CHAT
@@ -100,3 +103,5 @@ export const CHAT_INVALID_PASSWORD_ERROR_MSG = '유효하지 않은 비밀번호
 
 export const CHAT_DEFAULT_PAGE = 1; // 첫번째 페이지
 export const CHAT_DEFAULT_TYPE = '';
+
+export const EMPTY_CHAT_UUID = '';

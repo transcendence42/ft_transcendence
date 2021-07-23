@@ -53,6 +53,10 @@ adminBro.registerAdapter({ Database, Resource });
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       installSubscriptionHandlers: true,
+      subscriptions: {
+        path: '/subscriptions',
+        keepAlive: 5000,
+      },
     }),
     AdminModule.createAdmin({
       adminBroOptions: {

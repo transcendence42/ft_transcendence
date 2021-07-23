@@ -1,12 +1,14 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 import { ChatsService } from './chats.service';
 import { Chat } from './entities/chat.entity';
 import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
+import { ChatLog } from 'src/chat-logs/entities/chat-log.entity';
+import { ChatLogsService } from 'src/chat-logs/chat-logs.service';
 
 @Resolver(() => Chat)
 export class ChatsResolver {
-  constructor(private readonly chatsService: ChatsService) {}
+  constructor(private readonly chatsService: ChatsService, private readonly chatLogsService: ChatLogsService) {}
 
   @Mutation(() => Chat)
   createChat(@Args('createChatInput') createChatInput: CreateChatInput) {
@@ -49,5 +51,18 @@ export class ChatsResolver {
     @Args('pageSize', { type: () => Int, nullable: true }) pageSize: number,
   ) {
     return this.chatsService.findAliveChats({ userID, type, page, pageSize });
+  }
+
+  @ResolveField(() => [ChatLog])
+  chatLog(@Parent() chat: Chat) {
+    return this.chatLogsService.findChatLogsFromChat(chat.uuid);
+  }
+
+  @Query(() => Boolean, { name: 'checkChatPassword' })
+  checkPassword(
+    @Args('uuid', { type: () => String }) uuid: string,
+    @Args('password', { type: () => String }) password: string,
+  ) {
+    return this.chatsService.checkPassword(uuid, password);
   }
 }

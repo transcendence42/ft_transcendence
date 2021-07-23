@@ -47,7 +47,7 @@ export class UsersResolver {
 
   @Query(() => User, { name: 'me' })
   async findMe(@CurrentUser() user: User) {
-    return this.usersService.findOne(user.index);
+    return this.usersService.findOneByUserID(user.userID);
   }
 
   @Query(() => [Alarm], { name: 'myAlarm' })

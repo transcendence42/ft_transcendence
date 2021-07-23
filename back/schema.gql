@@ -1,0 +1,255 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Follow {
+  following: User
+  follower: User
+  checked: Boolean!
+  blocked: Boolean!
+  createdAt: DateTime!
+  modifiedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type User {
+  index: Int!
+  userID: String!
+  nickname: String
+  avatar: String!
+  ladderRating: Int!
+  totalWin: Int!
+  totalLose: Int!
+  followings: [Follow!]
+  followers: [Follow!]
+  userState: String!
+  createdAt: DateTime!
+  modifiedAt: DateTime!
+}
+
+type Alarm {
+  index: Int!
+  userID: String!
+  title: String!
+  content: String!
+  checked: String!
+  type: String!
+  link: String!
+  createdAt: DateTime!
+  user: User!
+}
+
+type Game {
+  index: Int!
+  isPlaying: Boolean!
+  playerOneID: String!
+  playerOneScore: Int
+  playerTwoID: String!
+  playerTwoScore: Int
+  createdAt: DateTime!
+  finishedAt: DateTime
+  modifiedAt: DateTime!
+}
+
+type Chat {
+  index: Int!
+  uuid: String!
+  name: String!
+  password: String
+  isAlive: Boolean!
+  type: String!
+  ownerID: String!
+  adminID: [String!]!
+  userID: [String!]!
+  createdAt: DateTime!
+  modifiedAt: DateTime!
+  chatLog: [ChatLog!]!
+}
+
+type ChatLog {
+  index: Int!
+  chatUUID: String!
+  userID: String!
+  message: String!
+  type: String!
+  createdAt: DateTime!
+}
+
+input follow {
+  following: user
+  follower: user
+  checked: Boolean = false
+  blocked: Boolean = false
+  createdAt: DateTime = "2021-07-21T12:19:37.274Z"
+  modifiedAt: DateTime = "2021-07-21T12:19:37.274Z"
+}
+
+input user {
+  index: Int!
+  userID: String!
+  nickname: String
+  avatar: String = ""
+  ladderRating: Int = 0
+  totalWin: Int = 0
+  totalLose: Int = 0
+  followings: [follow!]
+  followers: [follow!]
+  userState: String = "login"
+  createdAt: DateTime = "2021-07-21T12:19:37.276Z"
+  modifiedAt: DateTime = "2021-07-21T12:19:37.276Z"
+}
+
+type Query {
+  users: [User!]!
+  user(userID: String!): User!
+  userByIndex(index: Int!): User!
+  me: User!
+  myAlarm: [Alarm!]!
+  friends(userID: String): [User!]!
+  myFriends: [User!]!
+  blockedUsers(userID: String!): [User!]!
+  alarms: [Alarm!]!
+  alarm(index: Int!): Alarm!
+  userAlarm(userID: String!): [Alarm!]!
+  follows: [Follow!]!
+  follow(index: Int!): Follow!
+  games: [Game!]!
+  game(index: Int!): Game!
+  chats: [Chat!]!
+  chat(uuid: String!): Chat!
+  getChatCount(userID: String, type: String): Int!
+  aliveChats(pageSize: Int, page: Int, type: String, userID: String): [Chat!]!
+  checkChatPassword(password: String!, uuid: String!): Boolean!
+  chatLogs: [ChatLog!]!
+  chatLog(index: Int!): ChatLog!
+  chatLogsFromChat(uuid: String!): [ChatLog!]!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(userID: String!): User!
+  createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
+  checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
+  removeAlarm(index: Int!): Alarm!
+  addAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
+  createFollow(createFollowInput: CreateFollowInput!): Follow!
+  updateFollow(updateFollowInput: UpdateFollowInput!): Follow!
+  toggleBlock(blockInput: BlockInput!): Follow!
+  removeFollow(index: Int!): Follow!
+  createGame(createGameInput: CreateGameInput!): Game!
+  updateGame(updateGameInput: UpdateGameInput!): Game!
+  removeGame(index: Int!): Game!
+  createChat(createChatInput: CreateChatInput!): Chat!
+  updateChat(updateChatInput: UpdateChatInput!): Chat!
+  removeChat(uuid: String!): Chat!
+  createChatLog(createChatLogInput: CreateChatLogInput!): ChatLog!
+  updateChatLog(updateChatLogInput: UpdateChatLogInput!): ChatLog!
+  removeChatLog(index: Int!): ChatLog!
+}
+
+input CreateUserInput {
+  userID: String!
+  nickname: String!
+  avatar: String!
+}
+
+input UpdateUserInput {
+  userID: String!
+  nickname: String
+  avatar: String
+  ladderRating: Float
+  totalWin: Float
+  totalLose: Float
+  userState: String
+  modifiedAt: DateTime
+}
+
+input CreateAlarmInput {
+  userID: String!
+  title: String!
+  content: String!
+  type: String!
+  link: String!
+}
+
+input CheckAlarmInput {
+  index: Int!
+  checked: Boolean!
+}
+
+input CreateFollowInput {
+  followingID: String!
+  followerID: String!
+}
+
+input UpdateFollowInput {
+  followingID: String
+  followerID: String
+  index: Int!
+  checked: Boolean
+  blocked: Boolean
+}
+
+input BlockInput {
+  followerID: String!
+  followingID: String!
+}
+
+input CreateGameInput {
+  playerOneID: String!
+  playerTwoID: String!
+}
+
+input UpdateGameInput {
+  playerOneID: String
+  playerTwoID: String
+  index: Int!
+  isPlaying: Boolean
+  playerOneScore: Int
+  playerTwoScore: Int
+  finishedAt: DateTime
+  modifiedAt: DateTime
+}
+
+input CreateChatInput {
+  name: String!
+  password: String
+  type: String = "public"
+  ownerID: String!
+}
+
+input UpdateChatInput {
+  name: String
+  password: String
+  type: String = "public"
+  ownerID: String
+  uuid: String!
+  isAlive: Boolean
+  adminID: [String!]
+  userID: [String!]
+}
+
+input CreateChatLogInput {
+  chatUUID: String!
+  userID: String!
+  message: String!
+  type: String!
+}
+
+input UpdateChatLogInput {
+  chatUUID: String
+  userID: String
+  message: String
+  type: String
+  index: Int!
+}
+
+type Subscription {
+  alarmAdded(userID: String!): Alarm!
+  chatLogAdded(uuid: String!): ChatLog!
+}

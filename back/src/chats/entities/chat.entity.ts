@@ -1,4 +1,4 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -15,6 +15,7 @@ export type ChatType = 'public' | 'private' | 'dm';
 @Entity()
 export class Chat extends BaseEntity {
   @PrimaryGeneratedColumn()
+  @Field(() => Int)
   index: number;
 
   @Generated('uuid') // uuid 생성 코드. DB에서 생성됨.
