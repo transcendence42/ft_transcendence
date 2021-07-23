@@ -11,6 +11,8 @@ import {
   ALARM_CONTENT_FONTWEIGHT,
   ALARM_CHAT_TITLE_CONTENT_FONTSIZE,
   ALARM_BACKGROUND_COLOR,
+  ALARM_CHAT_BOX_HEIGHT,
+  EMPTY_CHAT_UUID,
 } from '../../../utils/constants';
 import { GET_CHAT, CHATLOG_SUBSCRIPTION } from './AlarmChatQueries';
 import { currentChatVar } from '../../../apollo/apolloProvider';
@@ -47,7 +49,7 @@ export const AlarmChat = () => {
     return <>LOADING...</>;
   }
   if (error) {
-    if (currentChat === '') return <EmptyChat />; // 입장한 채팅방이 없을 때
+    if (currentChat === EMPTY_CHAT_UUID) return <EmptyChat />; // 입장한 채팅방이 없을 때
     return <>ERROR</>;
   }
 
@@ -125,7 +127,7 @@ export const AlarmChat = () => {
       </h2>
 
       <AccordionPanel pb={4} bg={ALARM_BACKGROUND_COLOR}>
-        <Flex flexDirection="column" height="258px" overflowX="hidden" overflowY="auto" ref={scrollRef}>
+        <Flex flexDirection="column" height={ALARM_CHAT_BOX_HEIGHT} overflowX="hidden" overflowY="auto" ref={scrollRef}>
           <AlarmChatMessagesBox
             chatLog={chatLog}
             chatIndex={data.chat.index}

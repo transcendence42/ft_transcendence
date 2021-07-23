@@ -12,6 +12,7 @@ import {
   CHAT_PAGE_INNER_LIMIT,
   CHAT_PAGE_SIZE,
   CHAT_DEFAULT_PAGE,
+  EMPTY_CHAT_UUID,
 } from '../../../utils/constants';
 import { CREATE_CHAT, CREATE_CHAT_LOG, GET_CHATS, UPDATE_CHAT } from './ChatPanelQueries';
 import { currentChatVar, currentLoginIDVar } from '../../../apollo/apolloProvider';
@@ -113,7 +114,7 @@ export const ChatPanel = ({ ...props }) => {
       },
     });
     if (uuid === currentChatVar()) {
-      currentChatVar('');
+      currentChatVar(EMPTY_CHAT_UUID);
     }
   };
 
