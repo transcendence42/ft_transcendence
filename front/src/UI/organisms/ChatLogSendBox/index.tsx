@@ -31,8 +31,13 @@ export const ChatLogSendBox = () => {
           type: 'message',
         },
       },
-    });
-    inputRef.current.value = '';
+    })
+      .then(() => {
+        inputRef.current.value = '';
+      })
+      .catch((err) => {
+        return;
+      });
   };
 
   const handleKeyPressInput = (e: ChangeEvent<HTMLInputElement>) => {

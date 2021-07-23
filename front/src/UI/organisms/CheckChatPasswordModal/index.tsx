@@ -51,6 +51,8 @@ export const CheckChatPasswordModal = ({ ...props }) => {
                 message: 'enter',
               },
             },
+          }).catch(() => {
+            return;
           });
           await refetchChat();
         }

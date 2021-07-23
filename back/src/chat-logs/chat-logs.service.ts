@@ -11,6 +11,7 @@ export class ChatLogsService {
     const chat = await Chat.findOneOrFail({
       where: {
         uuid: createChatLogInput.chatUUID,
+        isAlive: true,
       },
     }).catch(() => {
       const error = { uuid: `chat with uuid(${createChatLogInput.chatUUID}) does not exist.` };

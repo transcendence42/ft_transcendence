@@ -86,33 +86,45 @@ export const ChatPanel = ({ ...props }) => {
 
   //채팅방 떠나기
   const leaveChat = async (uuid: string, ownerID: string, userID: string[]) => {
-    let leftChat = {}; // 나간 채팅방 정보가 담김.
     if (ownerID === loginID) {
-      leftChat = {
-        uuid: uuid,
-        isAlive: false,
-      };
-    } else {
-      leftChat = {
-        uuid: uuid,
-        userID: userID.filter((user) => user !== loginID),
-      };
-    }
-    await updateChat({
-      variables: {
-        newChat: leftChat,
-      },
-    });
-    await createChatLog({
-      variables: {
-        user: {
-          userID: currentLoginIDVar(),
-          chatUUID: uuid,
-          message: 'exit',
-          type: 'notification',
+      await createChatLog({
+        variables: {
+          user: {
+            userID: currentLoginIDVar(),
+            chatUUID: uuid,
+            message: 'destroy',
+            type: 'notification',
+          },
         },
-      },
-    });
+      });
+      await updateChat({
+        variables: {
+          newChat: {
+            uuid: uuid,
+            isAlive: false,
+          },
+        },
+      });
+    } else {
+      await updateChat({
+        variables: {
+          newChat: {
+            uuid: uuid,
+            userID: userID.filter((user) => user !== loginID),
+          },
+        },
+      });
+      await createChatLog({
+        variables: {
+          user: {
+            userID: currentLoginIDVar(),
+            chatUUID: uuid,
+            message: 'exit',
+            type: 'notification',
+          },
+        },
+      });
+    }
     if (uuid === currentChatVar()) {
       currentChatVar(EMPTY_CHAT_UUID);
     }

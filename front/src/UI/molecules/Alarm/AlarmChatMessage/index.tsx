@@ -62,6 +62,12 @@ const ChatNotification = ({ chatID, message }: IchatNotification) => {
         {chatID}님이 채팅방을 나가셨습니다.
       </Text>
     );
+  } else if (message === 'destroy') {
+    return (
+      <Text p="1" fontSize={ALARM_CHAT_MESSAGE_NOTIFICATION_FONTSIZE} textAlign="center">
+        채팅이 종료되었습니다.
+      </Text>
+    );
   } else {
     return <Text>[Error: 0000]오류가 발생했습니다. 관리자에게 문의해주세요.</Text>;
   }
