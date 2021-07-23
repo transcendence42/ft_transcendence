@@ -46,6 +46,14 @@ export const ChatTableRow = ({ ...props }) => {
       onOpen();
     } else {
       if (!chat.userID.includes(loginID)) {
+        await updateChat({
+          variables: {
+            newChat: {
+              uuid: chat.uuid,
+              userID: [...chat.userID, loginID],
+            },
+          },
+        });
         await createChatLog({
           variables: {
             user: {
@@ -53,14 +61,6 @@ export const ChatTableRow = ({ ...props }) => {
               chatUUID: chat.uuid,
               type: 'notification',
               message: 'enter',
-            },
-          },
-        });
-        await updateChat({
-          variables: {
-            newChat: {
-              uuid: chat.uuid,
-              userID: [...chat.userID, loginID],
             },
           },
         });
