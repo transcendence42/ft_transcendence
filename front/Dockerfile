@@ -4,6 +4,7 @@ WORKDIR /app
 COPY . /app/
 
 RUN apk update && apk add bash
+RUN apk install nginx
 RUN yarn install --silent
 RUN yarn build
 
