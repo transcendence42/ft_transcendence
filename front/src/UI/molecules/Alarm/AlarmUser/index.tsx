@@ -14,6 +14,8 @@ import {
   TOAST_SEND_MESSAGE_DESCRIPTION,
   TOAST_ADD_FRIEND_TITLE,
   TOAST_ADD_FRIEND_DESCRIPTION,
+  TOAST_PLAY_GAME_TITLE,
+  TOAST_PLAY_GAME_DESCRIPTION,
 } from '../../../../utils/constants';
 
 export const AlarmUser = ({ nickName, userState, avatar }: { nickName: string; userState: string; avatar: string }) => {
@@ -54,6 +56,13 @@ export const AlarmUser = ({ nickName, userState, avatar }: { nickName: string; u
           });
           break;
         case 'play-game':
+          toast({
+            title: TOAST_PLAY_GAME_TITLE,
+            description: TOAST_PLAY_GAME_DESCRIPTION,
+            status: 'success',
+            duration: TOAST_DURATION,
+            isClosable: true,
+          });
           break;
         default:
       }
