@@ -14,7 +14,7 @@ export const ChatLogSendBox = () => {
 
   // 로그인 ID 가져오기
   const loginID = currentLoginIDVar();
-  const handleClickSend = () => {
+  const handleClickSend = async () => {
     if (inputRef.current.value === '') {
       return;
     }
@@ -22,7 +22,7 @@ export const ChatLogSendBox = () => {
     if (!['devil', 'holee', 'jwon', 'yechoi', 'yshin'].includes(tempRef.current.value)) {
       return;
     }
-    createChatLog({
+    await createChatLog({
       variables: {
         user: {
           chatUUID: currentChat,
@@ -31,9 +31,8 @@ export const ChatLogSendBox = () => {
           type: 'message',
         },
       },
-    }).then(() => {
-      inputRef.current.value = '';
     });
+    inputRef.current.value = '';
   };
 
   const handleKeyPressInput = (e: ChangeEvent<HTMLInputElement>) => {

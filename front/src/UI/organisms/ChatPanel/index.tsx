@@ -13,8 +13,8 @@ import {
   CHAT_PAGE_SIZE,
   CHAT_DEFAULT_PAGE,
 } from '../../../utils/constants';
-import { CREATE_CHAT, GET_CHATS, UPDATE_CHAT } from './ChatPanelQueries';
-import { currentLoginIDVar } from '../../../apollo/apolloProvider';
+import { CREATE_CHAT, CREATE_CHAT_LOG, GET_CHATS, UPDATE_CHAT } from './ChatPanelQueries';
+import { currentChatVar, currentLoginIDVar } from '../../../apollo/apolloProvider';
 
 export const ChatPanel = ({ ...props }) => {
   // paginator styles
@@ -75,6 +75,8 @@ export const ChatPanel = ({ ...props }) => {
     },
   });
 
+  const [createChatLog] = useMutation(CREATE_CHAT_LOG);
+
   const [createChat] = useMutation(CREATE_CHAT, {
     onCompleted: () => {
       refetch();
@@ -82,7 +84,7 @@ export const ChatPanel = ({ ...props }) => {
   });
 
   //채팅방 떠나기
-  const leaveChat = (uuid: string, ownerID: string, userID: string[]) => {
+  const leaveChat = async (uuid: string, ownerID: string, userID: string[]) => {
     let leftChat = {}; // 나간 채팅방 정보가 담김.
     if (ownerID === loginID) {
       leftChat = {
@@ -95,11 +97,24 @@ export const ChatPanel = ({ ...props }) => {
         userID: userID.filter((user) => user !== loginID),
       };
     }
-    updateChat({
+    await updateChat({
       variables: {
         newChat: leftChat,
       },
     });
+    await createChatLog({
+      variables: {
+        user: {
+          userID: currentLoginIDVar(),
+          chatUUID: uuid,
+          message: 'exit',
+          type: 'notification',
+        },
+      },
+    });
+    if (uuid === currentChatVar()) {
+      currentChatVar('');
+    }
   };
 
   //채팅방 생성
