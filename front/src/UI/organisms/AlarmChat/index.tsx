@@ -1,21 +1,39 @@
-import React, { useRef, MouseEvent } from 'react';
-
+import React, { useRef, MouseEvent, useEffect } from 'react';
 import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
-
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { Menu } from '../ContextMenu';
-import { AlarmChatMessage } from '../../molecules';
+import { AlarmChatMessagesBox } from '../AlarmChatMessagesBox';
+import { ChatLogSendBox } from '../ChatLogSendBox';
 import { PersonIcon, LockIcon } from '../../../utils/icons';
-import { dummyChatData } from '../../../utils/dummy';
 import {
   ALARM_TITLE_FONTWEIGHT,
   ALARM_TITLE_FONTSIZE,
   ALARM_CONTENT_FONTWEIGHT,
   ALARM_CHAT_TITLE_CONTENT_FONTSIZE,
   ALARM_BACKGROUND_COLOR,
+  ALARM_CHAT_BOX_HEIGHT,
+  EMPTY_CHAT_UUID,
 } from '../../../utils/constants';
+import { GET_CHAT, CHATLOG_SUBSCRIPTION } from './AlarmChatQueries';
+import { currentChatVar } from '../../../apollo/apolloProvider';
+import { EmptyChat } from '../../molecules/EmptyChat';
 
 export const AlarmChat = () => {
-  const { chat, chatLog } = dummyChatData;
+  const currentChat = useReactiveVar(currentChatVar);
+  const { loading, error, data, subscribeToMore } = useQuery(GET_CHAT, {
+    variables: {
+      uuid: currentChat,
+    },
+    fetchPolicy: 'network-only',
+  });
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy(0, scrollRef.current.scrollHeight);
+    }
+  }, [data]);
+
   const outerRef = useRef(null);
 
   const menuOnClickHandler = (
@@ -25,6 +43,44 @@ export const AlarmChat = () => {
     if (eventTarget) {
       console.log(eventTarget.dataset.option);
     }
+  };
+
+  if (loading) {
+    return <>LOADING...</>;
+  }
+  if (error) {
+    if (currentChat === EMPTY_CHAT_UUID) return <EmptyChat />; // 입장한 채팅방이 없을 때
+    return <>ERROR</>;
+  }
+
+  const chatLog = data.chat.chatLog.map((item) => {
+    const createdDate = new Date(item.createdAt);
+    const hour = createdDate.getHours();
+    const min = createdDate.getMinutes() < 10 ? '0' + createdDate.getMinutes() : createdDate.getMinutes();
+    const messageCreatedTime = `${hour}:${min}`;
+    return {
+      ...item,
+      createdAt: messageCreatedTime,
+    };
+  });
+
+  const subscribeToNewMessage = () => {
+    return subscribeToMore({
+      document: CHATLOG_SUBSCRIPTION,
+      variables: { uuid: currentChat },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) {
+          return prev;
+        }
+        const newFeedItem = subscriptionData.data.chatLogAdded;
+        const res = Object.assign({}, prev, {
+          chat: {
+            chatLog: [...prev.chat.chatLog, newFeedItem],
+          },
+        });
+        return res;
+      },
+    });
   };
 
   return (
@@ -48,15 +104,15 @@ export const AlarmChat = () => {
               </Text>
               <Flex flexDirection="row" alignItems="center">
                 <Text pl="2" fontSize={ALARM_CHAT_TITLE_CONTENT_FONTSIZE} fontWeight={ALARM_CONTENT_FONTWEIGHT}>
-                  #{chat.index} {chat.name} (
+                  #{data.chat.index} {data.chat.name} (
                 </Text>
                 <Box pr="1">
                   <PersonIcon />
                 </Box>
                 <Text fontSize={ALARM_CHAT_TITLE_CONTENT_FONTSIZE} fontWeight={ALARM_CONTENT_FONTWEIGHT}>
-                  {chat.personnel})
+                  {data.chat.userID.length})
                 </Text>
-                {chat.type === 'private' ? (
+                {data.chat.type === 'private' ? (
                   <Box pl="2">
                     <LockIcon />
                   </Box>
@@ -71,11 +127,15 @@ export const AlarmChat = () => {
       </h2>
 
       <AccordionPanel pb={4} bg={ALARM_BACKGROUND_COLOR}>
-        <Flex flexDirection="column">
-          {chatLog.map(({ index, type, chatId, message, createdAt }) => (
-            <AlarmChatMessage key={index} type={type} chatID={chatId} message={message} createdAt={createdAt} />
-          ))}
+        <Flex flexDirection="column" height={ALARM_CHAT_BOX_HEIGHT} overflowX="hidden" overflowY="auto" ref={scrollRef}>
+          <AlarmChatMessagesBox
+            chatLog={chatLog}
+            chatIndex={data.chat.index}
+            subscribeToNewMessage={subscribeToNewMessage}
+            chatUUID={data.chat.uuid}
+          />
         </Flex>
+        <ChatLogSendBox />
       </AccordionPanel>
     </AccordionItem>
   );

@@ -21,6 +21,10 @@ export class ChatLog extends BaseEntity {
   message: string;
 
   @Field()
+  @Column()
+  type: string;
+
+  @Field()
   @CreateDateColumn()
   createdAt: Date;
 }

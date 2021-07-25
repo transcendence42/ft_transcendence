@@ -10,6 +10,6 @@ async function bootstrap() {
   app.use(cookieParser());
   app.use(passport.initialize());
   app.use(passport.session());
-  await app.listen(process.env.PORT || 5500);
+  await app.listen(process.env.PORT);
 }
 bootstrap();

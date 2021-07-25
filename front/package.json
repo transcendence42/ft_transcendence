@@ -23,6 +23,7 @@
     "chakra-paginator": "^0.7.2",
     "framer-motion": "^4.0.0",
     "graphql": "^15.5.1",
+    "holee-contextmenu": "^1.2.3",
     "http-proxy-middleware": "^2.0.1",
     "node-sass": "yarn:sass",
     "react": "^17.0.2",
@@ -30,6 +31,7 @@
     "react-icons": "^3.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "subscriptions-transport-ws": "^0.9.19",
     "typescript": "^3.9.5",
     "web-vitals": "^0.2.2"
   },

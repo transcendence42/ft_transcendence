@@ -30,7 +30,7 @@ export class AuthController {
       res.cookie('access_token', token.access_token, {
         httpOnly: false,
       });
-      res.status(302).redirect('http://127.0.0.1:3000/');
+      res.status(302).redirect(`${process.env.HOST}:${process.env.CLIENT_PORT}`);
     }
   }
 
@@ -48,6 +48,6 @@ export class AuthController {
     res.cookie('access_token', '', {
       httpOnly: false,
     });
-    res.status(302).redirect('http://127.0.0.1:3000/');
+    res.status(302).redirect(`${process.env.HOST}:${process.env.CLIENT_PORT}`);
   }
 }

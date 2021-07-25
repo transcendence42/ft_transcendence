@@ -1,18 +1,26 @@
 import React from 'react';
+import { useMutation } from '@apollo/client';
 import { Tr, Td } from '@chakra-ui/table';
 import { Box } from '@chakra-ui/react';
 import { LeaveChatBox } from '../LeaveChatBox';
 import { LeaveChatMsg } from '../../molecules/LeaveChatMsg';
 import { LockIcon } from '../../../utils/icons';
+import { currentChatVar, currentLoginIDVar } from '../../../apollo/apolloProvider';
 import { CHAT_LIST_TYPE_MY_LIST, CHAT_LIST_TYPE_DM_LIST } from '../../../utils/constants';
+import { CREATE_CHAT_LOG, UPDATE_CHAT } from './ChatTableRowQueries';
 
 export const ChatTableRow = ({ ...props }) => {
-  const { chat, rowIndex, chatListType, leaveChat } = props;
+  const { chat, rowIndex, chatListType, leaveChat, onOpen, setChatForCheckModal, refetchChat } = props;
+  const [createChatLog] = useMutation(CREATE_CHAT_LOG);
+  const [updateChat] = useMutation(UPDATE_CHAT);
+
+  // 로그인 ID 가져오기
+  const loginID = currentLoginIDVar();
 
   // 비공개 방 자물쇠 아이콘
   const lockSVGIcon = chat.type === 'private' ? LockIcon({ fill: 'none' }) : null;
   // 로그인 정보를 확인하여 owner와 비교하고, alert-dialog 메시지를 다르게 부여. owner이면 메시지를 추가하고, 아니라면 없음.
-  const leaveChatMsg = chat.ownerID === 'yshin' ? <LeaveChatMsg /> : null; //TODO: 로그인 정보 확인(세션 등)
+  const leaveChatMsg = chat.ownerID === loginID ? <LeaveChatMsg /> : null;
   const closeButton = (
     <LeaveChatBox leaveChat={leaveChat} uuid={chat.uuid} ownerID={chat.ownerID} userID={chat.userID}>
       {leaveChatMsg}
@@ -32,6 +40,36 @@ export const ChatTableRow = ({ ...props }) => {
   ); // 필수 컬럼 이외 값 필터링
   filteredChatList.splice(2, 0, ['numOfPeople', numOfPeople]); // 인원수 추가
 
+  const handleClickChat = async () => {
+    if (chat.type === 'private') {
+      setChatForCheckModal(chat);
+      onOpen();
+    } else {
+      if (!chat.userID.includes(loginID)) {
+        await updateChat({
+          variables: {
+            newChat: {
+              uuid: chat.uuid,
+              userID: [...chat.userID, loginID],
+            },
+          },
+        });
+        await createChatLog({
+          variables: {
+            user: {
+              userID: loginID,
+              chatUUID: chat.uuid,
+              type: 'notification',
+              message: 'enter',
+            },
+          },
+        });
+        await refetchChat();
+      }
+      currentChatVar(chat.uuid);
+    }
+  };
+
   const resultRow = filteredChatList.map((item, i) => {
     // item[0]에는 컬럼명, item[1]에는 값이 들어감.
     if (item[0] === 'closeButton' && item[1]) {
@@ -42,7 +80,11 @@ export const ChatTableRow = ({ ...props }) => {
     }
     if (item[0] === 'name') {
       return (
-        <Td key={`ChatTableRow-${chatListType}-${chat.uuid}-Td-${item[0]}`}>
+        <Td
+          key={`ChatTableRow-${chatListType}-${chat.uuid}-Td-${item[0]}`}
+          onClick={handleClickChat}
+          style={{ cursor: 'pointer' }}
+        >
           <Box className="chat-table-content-wrapper" display="flex" justifyContent="center">
             {item[1]}
             {lockSVGIcon}

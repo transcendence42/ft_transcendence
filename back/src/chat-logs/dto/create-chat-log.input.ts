@@ -14,4 +14,8 @@ export class CreateChatLogInput {
   @Field()
   @IsNotEmpty()
   readonly message: string;
+
+  @Field()
+  @IsNotEmpty()
+  readonly type: string;
 }

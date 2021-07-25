@@ -21,18 +21,42 @@ import { Chat } from './chats/entities/chat.entity';
 import { Game } from './games/entities/game.entity';
 import { ChatLog } from './chat-logs/entities/chat-log.entity';
 import { Follow } from './follows/entities/follow.entity';
+import { ConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
 
 adminBro.registerAdapter({ Database, Resource });
-const adminUserInfo = {
-  email: 'admin@admin.com',
-  password: 'admin',
-};
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: process.env.NODE_ENV === 'dev' ? '.env.development' : '.env.production',
+      validationSchema: Joi.object({
+        NODE_ENV: Joi.string().valid('dev', 'prod').required(),
+        DB_HOST: Joi.string().required(),
+        DB_PORT: Joi.number().required(),
+        DB_USERNAME: Joi.string().required(),
+        DB_PASSWORD: Joi.string().required(),
+        DB_DATABASE: Joi.string().required(),
+      }),
+    }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT, 10) || 5432,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      entities: ['dist/**/*.entity{.ts,.js}'],
+      synchronize: true,
+    }),
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       installSubscriptionHandlers: true,
+      subscriptions: {
+        path: '/subscriptions',
+        keepAlive: 5000,
+      },
     }),
     AdminModule.createAdmin({
       adminBroOptions: {
@@ -41,16 +65,15 @@ const adminUserInfo = {
       },
       auth: {
         authenticate: async (email, password) => {
-          if (adminUserInfo.email === email && adminUserInfo.password === password) {
-            return adminUserInfo;
+          if (process.env.ADMIN_EMAIL === email && process.env.ADMIN_PASSWORD === password) {
+            return { email: email, password: password };
           }
           return null;
         },
-        cookiePassword: 'some-secret-password-used-to-secure-cookie',
-        cookieName: 'delicious-cookie',
+        cookiePassword: process.env.ADMIN_COOKIE_PASSWORD,
+        cookieName: process.env.ADMIN_COOKIE_NAME,
       },
     }),
-    TypeOrmModule.forRoot(),
     UsersModule,
     AlarmsModule,
     GamesModule,
