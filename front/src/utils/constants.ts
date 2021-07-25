@@ -1,4 +1,16 @@
 /*
+ ** toast
+ */
+
+export const TOAST_DURATION = 3000;
+export const TOAST_SEND_MESSAGE_TITLE = '메세지 알림';
+export const TOAST_SEND_MESSAGE_DESCRIPTION = '메세지를 성공적으로 보냈습니다.';
+export const TOAST_ADD_FRIEND_TITLE = '친구 추가 알림';
+export const TOAST_ADD_FRIEND_DESCRIPTION = '친구 추가 완료되었습니다.';
+export const TOAST_PLAY_GAME_TITLE = '게임 알림';
+export const TOAST_PLAY_GAME_DESCRIPTION = '게임 신청을 완료했습니다.';
+
+/*
  ** URL
  */
 
