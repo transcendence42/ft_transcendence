@@ -15,8 +15,6 @@ WORKDIR /app
 # COPY . /app/
 
 COPY ./build /usr/share/nginx/html
-COPY ./nginx/front.conf /etc/nginx/sites-available/default
-COPY ./nginx/front.conf /etc/nginx/sites-enabled/default
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 CMD ["nginx", "-g", "daemon off;"]
 
