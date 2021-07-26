@@ -1,10 +1,8 @@
 import React from 'react';
 import { Button } from '@chakra-ui/react';
 
-import { LOGIN_URL } from '../../utils/constants';
-
 const login = () => {
-  window.location.href = LOGIN_URL;
+  window.location.href = `${process.env.REACT_APP_SERVER_URL}/auth/login`;
 };
 
 const Login: React.FC = () => {

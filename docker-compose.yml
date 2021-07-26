@@ -12,6 +12,7 @@ services:
       - ./db/:/docker-entrypoint-initdb.d
     restart: always
     container_name: db
+    hostname: db
   front:
     build:
       context: ./front
@@ -21,10 +22,11 @@ services:
     networks:
       - webapp
     ports:
-      - 8080:3000
+      - 8080:8080
     restart: always
-    command: ['./wait-for-it.sh', 'back:5500', '--', 'yarn', 'start']
+    command: ['./wait-for-it.sh', 'back:5500', '--', 'nginx', '-g', 'pid /tmp/nginx.pid; daemon off;']
     container_name: front
+    hostname: front
   back:
     build:
       context: ./back
@@ -39,6 +41,7 @@ services:
     restart: always
     command: ['./wait-for-it.sh', 'db:5432', '--', 'yarn', 'start']
     container_name: back
+    hostname: back
 
 networks:
   webapp:
