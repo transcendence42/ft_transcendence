@@ -93,9 +93,9 @@ export interface ProfileMediumProps {
 
 export interface ProfileLargeProps {
   name: string;
-  imageSrc: string;
+  avatar: string;
   ranking: string;
-  ladderScore: string;
+  ladderRating: string;
   winningPercentage: number;
   totalWin: number;
   totalLose: number;
