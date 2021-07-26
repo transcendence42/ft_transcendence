@@ -7,7 +7,7 @@ const AlarmChatPerson = ({ outerRef, username, ownerID, adminID }) => {
   return (
     <div ref={outerRef}>
       {username}
-      {ownerID.includes(username) ? ' 🎖' : null}
+      {ownerID.includes(username) ? ' 👑' : null}
       {adminID.includes(username) ? ' 🏅' : null}
     </div>
   );
