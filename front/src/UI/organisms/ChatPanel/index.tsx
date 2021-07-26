@@ -12,8 +12,10 @@ import {
   CHAT_PAGE_INNER_LIMIT,
   CHAT_PAGE_SIZE,
   CHAT_DEFAULT_PAGE,
+  EMPTY_CHAT_UUID,
 } from '../../../utils/constants';
-import { CREATE_CHAT, GET_CHATS, UPDATE_CHAT } from './ChatPanelQueries';
+import { CREATE_CHAT, CREATE_CHAT_LOG, GET_CHATS, UPDATE_CHAT } from './ChatPanelQueries';
+import { currentChatVar, currentLoginIDVar } from '../../../apollo/apolloProvider';
 
 export const ChatPanel = ({ ...props }) => {
   // paginator styles
@@ -44,6 +46,7 @@ export const ChatPanel = ({ ...props }) => {
 
   //props
   const { chatListColumns, chatListType, chatListTabs, userID } = props;
+  const loginID = currentLoginIDVar();
 
   // react hooks
   const [chatsTotal, setChatsTotal] = useState<number | undefined>();
@@ -65,13 +68,15 @@ export const ChatPanel = ({ ...props }) => {
   });
 
   //mutation
-  const [updateChatToDead] = useMutation(UPDATE_CHAT, {
+  const [updateChat] = useMutation(UPDATE_CHAT, {
     onCompleted: () => {
       // 나의채팅방, 1:1채팅방 페이지를 첫 페이지로 변경
       setCurrentPage(CHAT_DEFAULT_PAGE);
       refetch({ page: CHAT_DEFAULT_PAGE });
     },
   });
+
+  const [createChatLog] = useMutation(CREATE_CHAT_LOG);
 
   const [createChat] = useMutation(CREATE_CHAT, {
     onCompleted: () => {
@@ -80,10 +85,9 @@ export const ChatPanel = ({ ...props }) => {
   });
 
   //채팅방 떠나기
-  const leaveChat = (uuid: string, ownerID: string, userID: string[]) => {
+  const leaveChat = async (uuid: string, ownerID: string, userID: string[]) => {
     let leftChat = {}; // 나간 채팅방 정보가 담김.
-    if (ownerID === 'yshin') {
-      // TODO: yshin을 session 값으로 바꿔야 함.
+    if (ownerID === loginID) {
       leftChat = {
         uuid: uuid,
         isAlive: false,
@@ -91,24 +95,37 @@ export const ChatPanel = ({ ...props }) => {
     } else {
       leftChat = {
         uuid: uuid,
-        userID: userID.filter((user) => user !== 'yshin'), //TODO: 'yshin'을 session 값으로 바꿔야 함.
+        userID: userID.filter((user) => user !== loginID),
       };
     }
-    updateChatToDead({
+    await updateChat({
       variables: {
         newChat: leftChat,
       },
     });
+    await createChatLog({
+      variables: {
+        user: {
+          userID: currentLoginIDVar(),
+          chatUUID: uuid,
+          message: 'exit',
+          type: 'notification',
+        },
+      },
+    });
+    if (uuid === currentChatVar()) {
+      currentChatVar(EMPTY_CHAT_UUID);
+    }
   };
 
   //채팅방 생성
   const createChatFunc = ({ name, type, password }: { name: string; type: 'public' | 'private'; password: string }) => {
     let newChat = {};
     if (type === 'public') {
-      newChat = { name: name, type: type, ownerID: 'yshin' }; //TODO: 'yshin' session 값으로 바꿔야 함.
+      newChat = { name: name, type: type, ownerID: loginID };
     } else {
       //private
-      newChat = { name: name, type: type, password: password, ownerID: 'yshin' }; //TODO: 'yshin' session 값으로 바꿔야 함.
+      newChat = { name: name, type: type, password: password, ownerID: loginID };
     }
     createChat({
       variables: {
@@ -175,6 +192,7 @@ export const ChatPanel = ({ ...props }) => {
             chatListType={chatListType}
             startRowNum={(currentPage - 1) * CHAT_PAGE_SIZE}
             leaveChat={leaveChat}
+            refetchChat={refetch}
           />
         </GridItem>
         <GridItem rowSpan={1}>

@@ -3,15 +3,17 @@ import { AlarmsService } from './alarms.service';
 import { Alarm } from './entities/alarm.entity';
 import { CreateAlarmInput } from './dto/create-alarm.input';
 import { CheckAlarmInput } from './dto/check-alarm.input';
-import { PubSub } from 'graphql-subscriptions';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
-
-const pubSub = new PubSub();
+import { PubSubProvider } from '../pub-sub/pub-sub.provider';
 
 @Resolver(() => Alarm)
 export class AlarmsResolver {
-  constructor(private readonly alarmsService: AlarmsService, private readonly usersService: UsersService) {}
+  constructor(
+    private readonly alarmsService: AlarmsService,
+    private readonly usersService: UsersService,
+    private readonly pubSubProvider: PubSubProvider,
+  ) {}
 
   @Mutation(() => Alarm)
   createAlarm(@Args('createAlarmInput') createAlarmInput: CreateAlarmInput) {
@@ -44,20 +46,20 @@ export class AlarmsResolver {
   }
 
   @Mutation(() => Alarm)
-  addAlarm(@Args('createAlarmInput') createAlarmInput: CreateAlarmInput) {
-    const newAlarm = this.alarmsService.create(createAlarmInput);
-    pubSub.publish('alarmAdded', { alarmAdded: newAlarm });
+  async addAlarm(@Args('createAlarmInput') createAlarmInput: CreateAlarmInput) {
+    const newAlarm = await this.alarmsService.create(createAlarmInput);
+    this.pubSubProvider.getPubSub().publish('alarmAdded', { alarmAdded: newAlarm });
     return newAlarm;
   }
 
-  @Subscription(() => Alarm, {
+  @Subscription((returns) => Alarm, {
     name: 'alarmAdded',
-    filter(this: AlarmsResolver, payload, variables) {
+    filter(payload, variables) {
       return payload.alarmAdded.userID === variables.userID;
     },
   })
-  addAlarmHandler() {
-    return pubSub.asyncIterator('alarmAdded');
+  addAlarmHandler(@Args('userID') userID: string) {
+    return this.pubSubProvider.getPubSub().asyncIterator('alarmAdded');
   }
 
   @ResolveField(() => User)

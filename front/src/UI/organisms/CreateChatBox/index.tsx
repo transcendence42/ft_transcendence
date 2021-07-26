@@ -25,14 +25,13 @@ export const CreateChatBox = ({ ...props }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const chatNameInputRef = React.useRef();
-  const finalRef = React.useRef();
+  const chatNameInputRef = React.useRef<HTMLInputElement>(null);
 
   const [type, setType] = useState('public');
   const [isValidName, setIsValidName] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
 
-  const passwordInputRef = React.useRef();
+  const passwordInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleClickOption = (event: ChangeEvent<HTMLOptionElement>) => {
     setType(event.target.value);
@@ -92,7 +91,7 @@ export const CreateChatBox = ({ ...props }) => {
         채팅방 생성
       </Button>
 
-      <Modal initialFocusRef={chatNameInputRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+      <Modal initialFocusRef={chatNameInputRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalBody pb={6}>

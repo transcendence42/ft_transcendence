@@ -19,7 +19,7 @@ export const LeaveChatBox = ({ ...props }) => {
     leaveChat(uuid, ownerID, userID);
     onClose();
   };
-  const cancelRef = React.useRef();
+  const cancelRef = React.useRef<HTMLButtonElement>(null);
 
   return (
     <>

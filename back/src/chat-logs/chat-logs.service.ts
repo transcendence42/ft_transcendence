@@ -3,7 +3,7 @@ import { CreateChatLogInput } from './dto/create-chat-log.input';
 import { UpdateChatLogInput } from './dto/update-chat-log.input';
 import { ChatLog } from '../chat-logs/entities/chat-log.entity';
 import { Chat } from 'src/chats/entities/chat.entity';
-// import { User } from 'src/users/entities/user.entity';  //TODO: user resource 구현되면 주석 해제.
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class ChatLogsService {
@@ -16,20 +16,19 @@ export class ChatLogsService {
       const error = { uuid: `chat with uuid(${createChatLogInput.chatUUID}) does not exist.` };
       throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
     });
-    //TODO: user resource 구현되면 아래 코드 주석 해제.
-    // const user = await User.findOne({
-    //   where: {
-    //     userID: createChatLogInput.userID,
-    //   }
-    // }).catch(()=>{
-    //   const error = { userID: `user(ID: ${createChatLogInput.userID}) does not exist.`};
-    //   throw new HttpException({ message: 'Input data validation failed', error}, HttpStatus.BAD_REQUEST);
-    // })
+    const user = await User.findOne({
+      where: {
+        userID: createChatLogInput.userID,
+      },
+    }).catch(() => {
+      const error = { userID: `user(ID: ${createChatLogInput.userID}) does not exist.` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+    });
     const chatLog = new ChatLog();
     chatLog.chatUUID = chat.uuid;
     chatLog.message = createChatLogInput.message;
-    chatLog.userID = Math.random() > 0.5 ? 'yshin' : 'holee'; // TODO: user resource 구현되면 아래 코드로 바꿀것.
-    //chatLog.userID = user.userID;
+    chatLog.userID = user.userID;
+    chatLog.type = createChatLogInput.type;
     return await ChatLog.save(chatLog);
   }
 
@@ -47,6 +46,9 @@ export class ChatLogsService {
     const chatLogs = await ChatLog.find({
       where: {
         chatUUID: uuid,
+      },
+      order: {
+        createdAt: 'ASC',
       },
     });
     return chatLogs;

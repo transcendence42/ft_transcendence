@@ -1,4 +1,16 @@
 /*
+ ** toast
+ */
+
+export const TOAST_DURATION = 3000;
+export const TOAST_SEND_MESSAGE_TITLE = '메세지 알림';
+export const TOAST_SEND_MESSAGE_DESCRIPTION = '메세지를 성공적으로 보냈습니다.';
+export const TOAST_ADD_FRIEND_TITLE = '친구 추가 알림';
+export const TOAST_ADD_FRIEND_DESCRIPTION = '친구 추가 완료되었습니다.';
+export const TOAST_PLAY_GAME_TITLE = '게임 알림';
+export const TOAST_PLAY_GAME_DESCRIPTION = '게임 신청을 완료했습니다.';
+
+/*
  ** URL
  */
 
@@ -7,6 +19,7 @@ export const LOGIN_URL = `/auth/login`;
 // export const LOGIN_URL = `${BASE_URL}/auth/login`;
 // export const GRAPHQL_URL = `${BASE_URL}/graphql`;
 export const GRAPHQL_URL = `/graphql`;
+export const SUBSCRIPTION_URL = 'ws://127.0.0.1:5500/subscriptions';
 
 /*
  ** Spinner
@@ -52,6 +65,8 @@ export const ALARM_USER_NICKNAME_FONTSIZE = '14px';
 
 export const ALARM_TITLE_FONTWEIGHT = 'bold';
 export const ALARM_CONTENT_FONTWEIGHT = 'semibold';
+
+export const ALARM_CHAT_BOX_HEIGHT = '258px';
 
 /*
  ** CHAT
@@ -100,3 +115,5 @@ export const CHAT_INVALID_PASSWORD_ERROR_MSG = '유효하지 않은 비밀번호
 
 export const CHAT_DEFAULT_PAGE = 1; // 첫번째 페이지
 export const CHAT_DEFAULT_TYPE = '';
+
+export const EMPTY_CHAT_UUID = '';
