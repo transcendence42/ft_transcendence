@@ -5,7 +5,8 @@ import React, { useRef } from 'react';
 import { currentChatVar, currentLoginIDVar } from '../../../apollo/apolloProvider';
 import { CREATE_CHAT_LOG } from './ChatLogSendBoxQueries';
 
-export const ChatLogSendBox = () => {
+export const ChatLogSendBox = ({ ...props }) => {
+  const { muteIDList } = props;
   //mutation
   const [createChatLog] = useMutation(CREATE_CHAT_LOG);
   const inputRef = useRef<HTMLInputElement>();
@@ -20,6 +21,10 @@ export const ChatLogSendBox = () => {
     }
     // TODO: 삭제 할 것.
     if (!['devil', 'holee', 'jwon', 'yechoi', 'yshin'].includes(tempRef.current.value)) {
+      return;
+    }
+    if (muteIDList.includes(tempRef.current.value)) {
+      inputRef.current.value = '';
       return;
     }
     await createChatLog({

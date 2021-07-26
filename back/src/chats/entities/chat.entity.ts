@@ -55,6 +55,10 @@ export class Chat extends BaseEntity {
   @Column({ type: 'varchar', array: true, nullable: true, default: {} })
   userID: string[];
 
+  @Field((type) => [String])
+  @Column({ type: 'varchar', array: true, nullable: true, default: {} })
+  muteID: string[];
+
   @Field()
   @CreateDateColumn()
   createdAt: Date;

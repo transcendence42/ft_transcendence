@@ -50,6 +50,12 @@ const ChatNotification = ({ chatID, message }: IchatNotification) => {
         {chatID}님이 음소거되었습니다.
       </Text>
     );
+  } else if (message === 'unmute') {
+    return (
+      <Text p="1" fontSize={ALARM_CHAT_MESSAGE_NOTIFICATION_FONTSIZE} textAlign="center">
+        {chatID}님의 음소거가 해제되었습니다.
+      </Text>
+    );
   } else if (message === 'enter') {
     return (
       <Text p="1" fontSize={ALARM_CHAT_MESSAGE_NOTIFICATION_FONTSIZE} textAlign="center">

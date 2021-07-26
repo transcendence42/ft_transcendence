@@ -71,6 +71,7 @@ export class ChatsService {
     chat.isAlive = updateChatInput.isAlive !== undefined ? updateChatInput.isAlive : chat.isAlive;
     chat.adminID = updateChatInput.adminID ? updateChatInput.adminID : chat.adminID;
     chat.userID = updateChatInput.userID ? updateChatInput.userID : chat.userID;
+    chat.muteID = updateChatInput.muteID ? updateChatInput.muteID : chat.muteID;
     const validate_error = await validate(chat);
     if (validate_error.length > 0) {
       throw new HttpException({ message: 'Input data validation failed' }, HttpStatus.BAD_REQUEST);
