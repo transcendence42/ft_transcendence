@@ -6,6 +6,13 @@ import { validate } from 'class-validator';
 
 @Injectable()
 export class ChatsService {
+  private checkNameValication(name: string) {
+    if (name === '' || name.search(/[^a-zA-Z0-9ㄱ-ㅎ가-힣]/g) !== -1) {
+      const error = { password: `Chat name must be number, english, or korean.` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   private checkPasswordValidation(type: string, password: string) {
     if (type === 'private') {
       if (password === '' || password === undefined) {
@@ -31,6 +38,7 @@ export class ChatsService {
     chat.type = createChatInput.type;
     chat.ownerID = createChatInput.ownerID;
     chat.userID = [createChatInput.ownerID];
+    this.checkNameValication(chat.name);
     this.checkPasswordValidation(createChatInput.type, createChatInput.password);
 
     //class-validator
