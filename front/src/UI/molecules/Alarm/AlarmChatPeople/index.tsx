@@ -63,14 +63,18 @@ export const AlarmChatPeople = ({
     return (
       <>
         <ContextMenu outerRef={outerRef} menuOnClick={(e) => menuOnClickHandler(e)}>
-          <li data-option="profile">프로필 보기</li>
-          <li data-option="send-message">메세지 보내기</li>
-          <li data-option="add-friend">친구추가 요청</li>
-          <li data-option="play-game">핑퐁게임 요청</li>
-          <li data-option="register-admin">관리자 임명(해임)</li>
-          <li data-option="block">차단(차단 해제)하기</li>
-          <li data-option="mute">음소거</li>
-          <li data-option="forced-out">강제퇴장</li>
+          {loginID === username ? null : (
+            <>
+              <li data-option="profile">{username} 프로필 보기</li>
+              <li data-option="send-message">메세지 보내기</li>
+              <li data-option="add-friend">친구추가 요청</li>
+              <li data-option="play-game">핑퐁게임 요청</li>
+              <li data-option="register-admin">관리자 임명(해임)</li>
+              <li data-option="block">차단(차단 해제)하기</li>
+              <li data-option="mute">음소거</li>
+              <li data-option="forced-out">강제퇴장</li>
+            </>
+          )}
         </ContextMenu>
         <AlarmChatPerson outerRef={outerRef} username={username} ownerID={ownerID} adminID={adminID} />
       </>
@@ -79,13 +83,17 @@ export const AlarmChatPeople = ({
     return (
       <>
         <ContextMenu outerRef={outerRef} menuOnClick={(e) => menuOnClickHandler(e)}>
-          <li data-option="profile">프로필 보기</li>
-          <li data-option="send-message">메세지 보내기</li>
-          <li data-option="add-friend">친구추가 요청</li>
-          <li data-option="play-game">핑퐁게임 요청</li>
-          <li data-option="block">차단(차단 해제)하기</li>
-          <li data-option="mute">음소거</li>
-          <li data-option="forced-out">강제퇴장</li>
+          {loginID === username ? null : (
+            <>
+              <li data-option="profile">{username} 프로필 보기</li>
+              <li data-option="send-message">메세지 보내기</li>
+              <li data-option="add-friend">친구추가 요청</li>
+              <li data-option="play-game">핑퐁게임 요청</li>
+              <li data-option="block">차단(차단 해제)하기</li>
+              <li data-option="mute">음소거</li>
+              <li data-option="forced-out">강제퇴장</li>
+            </>
+          )}
         </ContextMenu>
         <AlarmChatPerson outerRef={outerRef} username={username} />
       </>
@@ -94,11 +102,15 @@ export const AlarmChatPeople = ({
   return (
     <>
       <ContextMenu outerRef={outerRef} menuOnClick={(e) => menuOnClickHandler(e)}>
-        <li data-option="profile">프로필 보기</li>
-        <li data-option="send-message">메세지 보내기</li>
-        <li data-option="add-friend">친구추가 요청</li>
-        <li data-option="play-game">핑퐁게임 요청</li>
-        <li data-option="block">차단(차단 해제)하기</li>
+        {loginID === username ? null : (
+          <>
+            <li data-option="profile">{username} 프로필 보기</li>
+            <li data-option="send-message">메세지 보내기</li>
+            <li data-option="add-friend">친구추가 요청</li>
+            <li data-option="play-game">핑퐁게임 요청</li>
+            <li data-option="block">차단(차단 해제)하기</li>
+          </>
+        )}
       </ContextMenu>
       <AlarmChatPerson outerRef={outerRef} username={username} />
     </>
