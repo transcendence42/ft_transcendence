@@ -5,6 +5,7 @@ export const GET_FOLLOWERS = gql`
     me {
       followers {
         checked
+        createdAt
         follower {
           index
           userID
