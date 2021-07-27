@@ -3,11 +3,11 @@ import { ContextMenu } from 'holee-contextmenu';
 
 import { currentLoginIDVar } from '../../../../apollo/apolloProvider';
 
-const AlarmChatPerson = ({ outerRef, username, ownerID, adminID }) => {
+const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
   return (
     <div ref={outerRef}>
       {username}
-      {ownerID.includes(username) ? ' 👑' : null}
+      {ownerID === username ? ' 👑' : null}
       {adminID.includes(username) ? ' 🏅' : null}
     </div>
   );
@@ -19,7 +19,7 @@ export const AlarmChatPeople = ({
   adminID,
 }: {
   username: string;
-  ownerID: string[];
+  ownerID: string;
   adminID: string[];
 }) => {
   const outerRef = useRef<HTMLDivElement>(null);
@@ -95,7 +95,7 @@ export const AlarmChatPeople = ({
             </>
           )}
         </ContextMenu>
-        <AlarmChatPerson outerRef={outerRef} username={username} />
+        <AlarmChatPerson outerRef={outerRef} username={username} ownerID={ownerID} adminID={adminID} />
       </>
     );
   }
@@ -112,7 +112,7 @@ export const AlarmChatPeople = ({
           </>
         )}
       </ContextMenu>
-      <AlarmChatPerson outerRef={outerRef} username={username} />
+      <AlarmChatPerson outerRef={outerRef} username={username} ownerID={ownerID} adminID={adminID} />
     </>
   );
 };
