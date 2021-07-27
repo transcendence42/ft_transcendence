@@ -1,7 +1,9 @@
-import React, { useRef, MouseEvent, useEffect } from 'react';
+import React, { useRef, MouseEvent, useEffect, useState } from 'react';
 import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { Menu } from '../ContextMenu';
+import { ContextMenu } from 'holee-contextmenu';
+
+import { AlarmChatPeople } from '../../molecules';
 import { AlarmChatMessagesBox } from '../AlarmChatMessagesBox';
 import { ChatLogSendBox } from '../ChatLogSendBox';
 import { PersonIcon, LockIcon } from '../../../utils/icons';
@@ -19,6 +21,7 @@ import { currentChatVar } from '../../../apollo/apolloProvider';
 import { EmptyChat } from '../../molecules/EmptyChat';
 
 export const AlarmChat = () => {
+  const [chatRoomState, setChatRoomState] = useState<string>('chat-room');
   const currentChat = useReactiveVar(currentChatVar);
   const { loading, error, data, subscribeToMore } = useQuery(GET_CHAT, {
     variables: {
@@ -41,7 +44,7 @@ export const AlarmChat = () => {
   ) => {
     const eventTarget = e.target as HTMLUListElement;
     if (eventTarget) {
-      console.log(eventTarget.dataset.option);
+      setChatRoomState(eventTarget.dataset.option as string);
     }
   };
 
@@ -52,7 +55,6 @@ export const AlarmChat = () => {
     if (currentChat === EMPTY_CHAT_UUID) return <EmptyChat />; // 입장한 채팅방이 없을 때
     return <>ERROR</>;
   }
-
   const chatLog = data.chat.chatLog.map((item) => {
     const createdDate = new Date(item.createdAt);
     const hour = createdDate.getHours();
@@ -82,22 +84,15 @@ export const AlarmChat = () => {
       },
     });
   };
-
   return (
     <AccordionItem>
       <h2>
         <AccordionButton>
           <Box flex="1" textAlign="left">
-            <Menu outerRef={outerRef} menuOnClick={(e) => menuOnClickHandler(e)}>
-              <li data-option="profile">프로필 보기</li>
-              <li data-option="send-message">메세지 보내기</li>
-              <li data-option="add-friend">친구추가 요청</li>
-              <li data-option="game-pong">핑퐁게임 요청</li>
-              <li data-option="register-admin">관리자 임명(해임)</li>
-              <li data-option="block">차단(차단 해제)하기</li>
-              <li data-option="mute">음소거</li>
-              <li data-option="forced-out">강제퇴장</li>
-            </Menu>
+            <ContextMenu outerRef={outerRef} menuOnClick={(e) => menuOnClickHandler(e)}>
+              <li data-option="chat-room">채팅창</li>
+              <li data-option="chat-people-room">채팅 인원창</li>
+            </ContextMenu>
             <Flex ref={outerRef} flexDirection="row" alignItems="center">
               <Text fontWeight={ALARM_TITLE_FONTWEIGHT} fontSize={ALARM_TITLE_FONTSIZE}>
                 채팅
@@ -127,15 +122,36 @@ export const AlarmChat = () => {
       </h2>
 
       <AccordionPanel pb={4} bg={ALARM_BACKGROUND_COLOR}>
-        <Flex flexDirection="column" height={ALARM_CHAT_BOX_HEIGHT} overflowX="hidden" overflowY="auto" ref={scrollRef}>
-          <AlarmChatMessagesBox
-            chatLog={chatLog}
-            chatIndex={data.chat.index}
-            subscribeToNewMessage={subscribeToNewMessage}
-            chatUUID={data.chat.uuid}
-          />
-        </Flex>
-        <ChatLogSendBox muteIDList={data.chat.muteID} />
+        {chatRoomState === 'chat-room' ? (
+          <>
+            <Flex
+              flexDirection="column"
+              height={ALARM_CHAT_BOX_HEIGHT}
+              overflowX="hidden"
+              overflowY="auto"
+              ref={scrollRef}
+            >
+              <AlarmChatMessagesBox
+                chatLog={chatLog}
+                chatIndex={data.chat.index}
+                subscribeToNewMessage={subscribeToNewMessage}
+                chatUUID={data.chat.uuid}
+              />
+            </Flex>
+            <ChatLogSendBox />{' '}
+          </>
+        ) : (
+          <>
+            {data.chat.userID.map((username) => (
+              <AlarmChatPeople
+                key={username}
+                ownerID={data.chat.ownerID}
+                adminID={data.chat.adminID}
+                username={username}
+              />
+            ))}
+          </>
+        )}
       </AccordionPanel>
     </AccordionItem>
   );
