@@ -79,13 +79,23 @@ type ChatLog {
   createdAt: DateTime!
 }
 
+type PlayingInfo {
+  index: Int!
+  uuid: String!
+  ballX: Float!
+  ballY: Float!
+  player1Y: Float!
+  player2Y: Float!
+  createdAt: DateTime!
+}
+
 input follow {
   following: user
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-07-26T11:05:04.857Z"
-  modifiedAt: DateTime = "2021-07-26T11:05:04.857Z"
+  createdAt: DateTime = "2021-07-27T06:02:02.407Z"
+  modifiedAt: DateTime = "2021-07-27T06:02:02.407Z"
 }
 
 input user {
@@ -99,8 +109,8 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-07-26T11:05:04.883Z"
-  modifiedAt: DateTime = "2021-07-26T11:05:04.883Z"
+  createdAt: DateTime = "2021-07-27T06:02:02.408Z"
+  modifiedAt: DateTime = "2021-07-27T06:02:02.408Z"
 }
 
 type Query {
@@ -150,6 +160,8 @@ type Mutation {
   createChatLog(createChatLogInput: CreateChatLogInput!): ChatLog!
   updateChatLog(updateChatLogInput: UpdateChatLogInput!): ChatLog!
   removeChatLog(index: Int!): ChatLog!
+  createPlayingInfo(createPlayingInfoInput: CreatePlayingInfoInput!): PlayingInfo!
+  updatePlayingInfo(playingInfoInput: UpdatePlayingInfoInput!): PlayingInfo!
 }
 
 input CreateUserInput {
@@ -249,7 +261,26 @@ input UpdateChatLogInput {
   index: Int!
 }
 
+input CreatePlayingInfoInput {
+  index: Int!
+  uuid: String!
+  ballX: Float!
+  ballY: Float!
+  player1Y: Float!
+  player2Y: Float!
+}
+
+input UpdatePlayingInfoInput {
+  index: Int!
+  uuid: String!
+  ballX: Float!
+  ballY: Float!
+  player1Y: Float!
+  player2Y: Float!
+}
+
 type Subscription {
   alarmAdded(userID: String!): Alarm!
   chatLogAdded(uuid: String!): ChatLog!
+  playingInfo(uuid: String!): PlayingInfo!
 }

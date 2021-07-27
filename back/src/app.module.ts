@@ -22,6 +22,7 @@ import { Game } from './games/entities/game.entity';
 import { ChatLog } from './chat-logs/entities/chat-log.entity';
 import { Follow } from './follows/entities/follow.entity';
 import { ConfigModule } from '@nestjs/config';
+import { PlayingInfoModule } from './playing-info/playing-info.module';
 import * as Joi from 'joi';
 
 adminBro.registerAdapter({ Database, Resource });
@@ -83,6 +84,7 @@ adminBro.registerAdapter({ Database, Resource });
     FollowsModule,
     AuthModule,
     PassportModule.register({ session: true }),
+    PlayingInfoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
