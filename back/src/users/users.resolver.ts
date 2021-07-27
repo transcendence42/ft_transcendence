@@ -55,6 +55,11 @@ export class UsersResolver {
     return this.usersService.calculateLadderRanking(userID);
   }
 
+  @Query(() => Int)
+  getMyLadderRanking(@CurrentUser() user: User) {
+    return this.usersService.calculateLadderRanking(user.userID);
+  }
+
   @Query(() => [Alarm], { name: 'myAlarm' })
   async findMyAlarm(@CurrentUser() user: User) {
     return this.alarmsService.findUserAlarm(user.userID);
