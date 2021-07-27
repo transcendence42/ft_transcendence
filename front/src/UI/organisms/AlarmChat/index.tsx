@@ -138,7 +138,7 @@ export const AlarmChat = () => {
                 chatUUID={data.chat.uuid}
               />
             </Flex>
-            <ChatLogSendBox />{' '}
+            <ChatLogSendBox muteIDList={data.chat.muteID} />
           </>
         ) : (
           <>
