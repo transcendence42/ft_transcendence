@@ -5,9 +5,9 @@ import './index.scss';
 
 const ProfileLarge = ({
   name = 'unknown',
-  imageSrc = '',
+  avatar = '',
   ranking = '?',
-  ladderScore = '?',
+  ladderRating = '?',
   winningPercentage = 0,
   totalWin = 0,
   totalLose = 0,
@@ -16,7 +16,7 @@ const ProfileLarge = ({
   return (
     <>
       <Box className={reverse ? 'profile-large-reverse' : 'profile-large'}>
-        <Avatar size="xl" margin="1rem" name={name} src={imageSrc} />
+        <Avatar size="xl" margin="1rem" name={name} src={avatar} />
         <div>
           <table>
             <thead>
@@ -30,7 +30,7 @@ const ProfileLarge = ({
                   랭킹 <strong>{ranking}위</strong>
                 </td>
                 <td>
-                  래더 점수 <strong>{ladderScore}점</strong>
+                  래더 점수 <strong>{ladderRating}점</strong>
                 </td>
               </tr>
               <tr>
