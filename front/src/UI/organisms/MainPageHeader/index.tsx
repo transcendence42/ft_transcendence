@@ -21,7 +21,8 @@ const MainPageHeader = () => {
     <>
       <Box width="50%">
         <ProfileLarge
-          name={data.me.userID}
+          userID={data.me.userID}
+          nickname={data.me.nickname}
           avatar={data.me.avatar}
           ranking={data.me.ranking}
           ladderRating={data.me.ladderRating}
