@@ -1,10 +1,11 @@
 import React from 'react';
 import { Avatar, Box } from '@chakra-ui/react';
-import { ProfileLargeProps } from '../../../utils/interface';
+import { IProfileLarge } from '../../../utils/interface';
 import './index.scss';
 
 const ProfileLarge = ({
-  name = 'unknown',
+  userID = 'ID',
+  nickname = 'nickname',
   avatar = '',
   ranking = '?',
   ladderRating = '?',
@@ -12,16 +13,18 @@ const ProfileLarge = ({
   totalWin = 0,
   totalLose = 0,
   reverse = false,
-}: ProfileLargeProps) => {
+}: IProfileLarge) => {
   return (
     <>
       <Box className={reverse ? 'profile-large-reverse' : 'profile-large'}>
-        <Avatar size="xl" margin="1rem" name={name} src={avatar} />
+        <Avatar size="xl" margin="1rem" userID={userID} src={avatar} />
         <div>
           <table>
             <thead>
               <tr>
-                <td>{name}</td>
+                <td>
+                  {nickname}({userID})
+                </td>
               </tr>
             </thead>
             <tbody>
