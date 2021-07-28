@@ -6,7 +6,9 @@ import { CHATLOG_SUBSCRIPTION, GET_CURRENT_USER } from './AlarmChatMessagesBoxQu
 
 export const AlarmChatMessagesBox = ({ ...props }) => {
   const { subscribeToNewMessage, chatLog, chatIndex } = props;
-  const { loading, error, data } = useQuery(GET_CURRENT_USER); // block ID 조회용 쿼리
+  const { loading, error, data } = useQuery(GET_CURRENT_USER, {
+    fetchPolicy: 'network-only',
+  }); // block ID 조회용 쿼리
 
   useEffect(() => {
     const unsubscribe = subscribeToNewMessage({
@@ -15,7 +17,7 @@ export const AlarmChatMessagesBox = ({ ...props }) => {
     return () => {
       unsubscribe();
     };
-  });
+  }, [subscribeToNewMessage]);
   if (loading) {
     return <>Loading...</>;
   }
@@ -26,12 +28,14 @@ export const AlarmChatMessagesBox = ({ ...props }) => {
   const loginID = currentLoginIDVar();
 
   //block ID 필터링
-  const blockedIDList = data.me.followings.map((item) => {
-    if (item.blocked === true) {
-      return item.following.userID;
-    }
-    return null;
-  });
+  const blockedIDList = data.me.followings
+    .map((item) => {
+      if (item.blocked === true) {
+        return item.following.userID;
+      }
+      return null;
+    })
+    .filter((item) => item !== null);
   const filteredChatLogs = chatLog.filter((item) => {
     return !blockedIDList.includes(item.userID);
   });

@@ -3,6 +3,9 @@ import { ContextMenu } from 'holee-contextmenu';
 
 import { currentLoginIDVar } from '../../../../apollo/apolloProvider';
 
+import { TOGGLE_BLOCK } from './AlarmChatPeopleQueries';
+import { useMutation } from '@apollo/client';
+
 const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
   return (
     <div ref={outerRef}>
@@ -23,9 +26,10 @@ export const AlarmChatPeople = ({
   adminID: string[];
 }) => {
   const outerRef = useRef<HTMLDivElement>(null);
+  const [toggleBlock] = useMutation(TOGGLE_BLOCK);
   const loginID = currentLoginIDVar();
 
-  const menuOnClickHandler = (
+  const menuOnClickHandler = async (
     e: React.MouseEvent<HTMLUListElement, MouseEvent> | React.KeyboardEvent<HTMLUListElement>,
   ) => {
     const eventTarget = e.target as HTMLUListElement;
@@ -47,7 +51,14 @@ export const AlarmChatPeople = ({
           console.log(eventTarget.dataset.option);
           break;
         case 'block':
-          console.log(eventTarget.dataset.option);
+          await toggleBlock({
+            variables: {
+              blockInput: {
+                followerID: loginID,
+                followingID: username,
+              },
+            },
+          });
           break;
         case 'mute':
           console.log(eventTarget.dataset.option);
