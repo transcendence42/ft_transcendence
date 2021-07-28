@@ -1,5 +1,5 @@
 import React from 'react';
-import ProfileLarge from '../../molecules/ProfileLarge';
+import { ProfileLarge } from '../../molecules/ProfileLarge';
 import { Box } from '@chakra-ui/react';
 import './index.scss';
 

@@ -92,7 +92,6 @@ export interface ProfileMediumProps {
 }
 
 export interface IProfileLarge {
-  owner: boolean;
   userID: string;
   nickname: string;
   avatar: string;

@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { Spinner, Box } from '@chakra-ui/react';
 import MainButtons from '../../molecules/MainButtons';
-import ProfileLarge from '../../molecules/ProfileLarge';
+import { ProfileLarge } from '../../molecules/ProfileLarge';
 import { SPINNER_COLOR } from '../../../utils/constants';
 import { winRate } from '../../../utils/util';
 import { GET_OTHERS_PROFILE } from './ProfilePageHeaderQueries';
 import { GET_MY_PROFILE } from '../MainPageHeader/MainPageHeaderQueries';
 import { Redirect } from 'react-router-dom';
+import { ProfileLargeEdit } from '../../molecules/ProfileLargeEdit';
 
 const ProfilePageHeader = ({ ...props }) => {
   const { userID } = props;
@@ -33,7 +34,6 @@ const ProfilePageHeader = ({ ...props }) => {
     <>
       <Box width="50%">
         <ProfileLarge
-          owner={false}
           userID={data.user.userID}
           nickname={data.user.nickname}
           avatar={data.user.avatar}
@@ -52,8 +52,7 @@ const ProfilePageHeader = ({ ...props }) => {
   ) : (
     <>
       <Box width="50%">
-        <ProfileLarge
-          owner={true}
+        <ProfileLargeEdit
           userID={data.me.userID}
           nickname={data.me.nickname}
           avatar={data.me.avatar}

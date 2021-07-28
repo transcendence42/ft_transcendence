@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box, Img } from '@chakra-ui/react';
 import { IProfileLarge } from '../../../utils/interface';
-import './index.scss';
+import '../ProfileLarge/index.scss';
 
-export const ProfileLarge = ({
+export const ProfileLargeEdit = ({
   userID = 'ID',
   nickname = 'nickname',
   avatar = '',
