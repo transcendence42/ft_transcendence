@@ -1,10 +1,9 @@
 import React, { useRef } from 'react';
+import { useMutation, useReactiveVar } from '@apollo/client';
 import { ContextMenu } from 'holee-contextmenu';
 
-import { currentLoginIDVar } from '../../../../apollo/apolloProvider';
-
-import { TOGGLE_BLOCK } from './AlarmChatPeopleQueries';
-import { useMutation } from '@apollo/client';
+import { currentChatVar, currentLoginIDVar } from '../../../../apollo/apolloProvider';
+import { CREATE_CHAT_LOG, TOGGLE_BLOCK, TOGGLE_MUTE } from './AlarmChatPeopleQueries';
 
 const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
   return (
@@ -27,7 +26,10 @@ export const AlarmChatPeople = ({
 }) => {
   const outerRef = useRef<HTMLDivElement>(null);
   const [toggleBlock] = useMutation(TOGGLE_BLOCK);
+  const [toggleMute] = useMutation(TOGGLE_MUTE);
+  const [createChatLog] = useMutation(CREATE_CHAT_LOG);
   const loginID = currentLoginIDVar();
+  const currentChatUUID = useReactiveVar(currentChatVar);
 
   const menuOnClickHandler = async (
     e: React.MouseEvent<HTMLUListElement, MouseEvent> | React.KeyboardEvent<HTMLUListElement>,
@@ -61,7 +63,24 @@ export const AlarmChatPeople = ({
           });
           break;
         case 'mute':
-          console.log(eventTarget.dataset.option);
+          await toggleMute({
+            variables: {
+              uuid: currentChatUUID,
+              userID: username,
+            },
+          }).then((res) => {
+            const message = res.data.toggleMute.muteID.includes(username) ? 'mute' : 'unmute';
+            createChatLog({
+              variables: {
+                chatLog: {
+                  chatUUID: currentChatUUID,
+                  userID: username,
+                  type: 'notification',
+                  message: message,
+                },
+              },
+            });
+          });
           break;
         case 'forced-out':
           console.log(eventTarget.dataset.option);
@@ -82,7 +101,7 @@ export const AlarmChatPeople = ({
               <li data-option="play-game">핑퐁게임 요청</li>
               <li data-option="register-admin">관리자 임명(해임)</li>
               <li data-option="block">차단(차단 해제)하기</li>
-              <li data-option="mute">음소거</li>
+              <li data-option="mute">음소거(음소거 해제)하기</li>
               <li data-option="forced-out">강제퇴장</li>
             </>
           )}
@@ -101,7 +120,7 @@ export const AlarmChatPeople = ({
               <li data-option="add-friend">친구추가 요청</li>
               <li data-option="play-game">핑퐁게임 요청</li>
               <li data-option="block">차단(차단 해제)하기</li>
-              <li data-option="mute">음소거</li>
+              <li data-option="mute">음소거(음소거 해제)하기</li>
               <li data-option="forced-out">강제퇴장</li>
             </>
           )}

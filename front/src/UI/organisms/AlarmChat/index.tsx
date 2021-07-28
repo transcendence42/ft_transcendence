@@ -23,7 +23,7 @@ import { EmptyChat } from '../../molecules/EmptyChat';
 export const AlarmChat = () => {
   const [chatRoomState, setChatRoomState] = useState<string>('chat-room');
   const currentChat = useReactiveVar(currentChatVar);
-  const { loading, error, data, subscribeToMore } = useQuery(GET_CHAT, {
+  const { loading, error, data, subscribeToMore, refetch } = useQuery(GET_CHAT, {
     variables: {
       uuid: currentChat,
     },
@@ -45,6 +45,7 @@ export const AlarmChat = () => {
     const eventTarget = e.target as HTMLUListElement;
     if (eventTarget) {
       setChatRoomState(eventTarget.dataset.option as string);
+      refetch();
     }
   };
 
