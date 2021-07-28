@@ -69,7 +69,6 @@ export const CrazyPongPresenter = ({
           return;
         }
         if (event.clientY < event.currentTarget.getBoundingClientRect().top + player1.paddleHeight / 2) {
-          console.log('hi');
           updatePlayingInfoHandler({
             index: 1,
             uuid: '1',
