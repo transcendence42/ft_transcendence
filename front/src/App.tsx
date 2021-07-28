@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChakraProvider, Flex, Box, theme, Center } from '@chakra-ui/react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { Navigation } from './UI/organisms/Navigation';
 import { Alarm } from './UI/organisms/Alarm';
 import { getCookies } from './utils/util';
@@ -27,7 +27,8 @@ const App = () => {
                 <Route exact path="/profile/:userID" component={Profile} />
                 <Route path="/chat" component={Chat} />
                 <Route path="/game" component={Game} />
-                <Route path={'*'} component={NotFound} />
+                <Route path="/404" component={NotFound} />
+                <Redirect from="*" to="/404" />
               </Switch>
             </Center>
             <Box width="390px" minWidth="390px" maxWidth="390px">
