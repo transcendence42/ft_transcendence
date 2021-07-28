@@ -5,6 +5,7 @@ import { User } from './entities/user.entity';
 import { validate } from 'class-validator';
 import { AlarmsService } from 'src/alarms/alarms.service';
 import { FollowsService } from 'src/follows/follows.service';
+import { getConnection } from 'typeorm';
 
 @Injectable()
 export class UsersService {
@@ -13,7 +14,7 @@ export class UsersService {
     private readonly alarmsService: AlarmsService,
     @Inject(forwardRef(() => FollowsService))
     private readonly followsService: FollowsService,
-  ) {}
+  ) { }
 
   async create(createUserInput: CreateUserInput) {
     const user = new User();
@@ -82,5 +83,19 @@ export class UsersService {
       throw new HttpException({ message: 'Wrong ID', _error }, HttpStatus.BAD_REQUEST);
     }
     return await User.remove(user);
+  }
+
+  async calculateLadderRanking(userID: string) {
+    const rankingQb = await User.getRepository()
+      .createQueryBuilder()
+      .select('RANK() OVER (ORDER BY "ladderRating" DESC) AS "ladderRanking"')
+      .addSelect('"userID"')
+    const ranking = await getConnection()
+      .createQueryBuilder()
+      .select('"ladderRanking"')
+      .from("(" + rankingQb.getQuery() + ")", "user")
+      .where('"userID" = :userID', { userID: userID })
+      .getRawOne();
+    return (ranking.ladderRanking);
   }
 }
