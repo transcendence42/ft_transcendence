@@ -22,7 +22,8 @@ const App = () => {
             <Center width="full" minWidth="965px">
               <Switch>
                 <Route exact path="/" component={Main} />
-                <Route path="/profile" component={Profile} />
+                <Route exact path="/profile" component={Profile} />
+                <Route exact path="/profile/:userID" component={Profile} />
                 <Route path="/chat" component={Chat} />
                 <Route path="/game" component={Game} />
               </Switch>

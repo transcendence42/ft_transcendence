@@ -4,11 +4,14 @@ import { Spinner, Box } from '@chakra-ui/react';
 import MainButtons from '../../molecules/MainButtons';
 import ProfileLarge from '../../molecules/ProfileLarge';
 import { SPINNER_COLOR, SPINNER_ERROR_COLOR } from '../../../utils/constants';
-import { GET_MY_PROFILE } from './MainPageHeaderQueries';
 import { winRate } from '../../../utils/util';
+import { GET_OTHERS_PROFILE } from './ProfilePageHeaderQueries';
+import { GET_MY_PROFILE } from '../MainPageHeader/MainPageHeaderQueries';
 
-const MainPageHeader = () => {
-  const { loading, error, data } = useQuery(GET_MY_PROFILE);
+const ProfilePageHeader = ({ ...props }) => {
+  const { userID } = props;
+  console.log('profile page header: ', userID);
+  const { loading, error, data } = useQuery(userID ? GET_OTHERS_PROFILE(userID) : GET_MY_PROFILE);
   if (loading) {
     return <Spinner m="5" ml="155" color={SPINNER_COLOR} />;
   }
@@ -16,8 +19,27 @@ const MainPageHeader = () => {
   if (error) {
     return <Spinner m="5" ml="155" color={SPINNER_ERROR_COLOR} />;
   }
-
-  return (
+  console.log(data);
+  return userID ? (
+    <>
+      <Box width="50%">
+        <ProfileLarge
+          userID={data.user.userID}
+          nickname={data.user.nickname}
+          avatar={data.user.avatar}
+          ranking={data.user.ranking}
+          ladderRating={data.user.ladderRating}
+          totalWin={data.user.totalWin}
+          totalLose={data.user.totalLose}
+          winningPercentage={winRate(data.user.totalWin, data.user.totalLose)}
+          reverse={false}
+        />
+      </Box>
+      <Box width="50%">
+        <MainButtons />
+      </Box>
+    </>
+  ) : (
     <>
       <Box width="50%">
         <ProfileLarge
@@ -39,4 +61,4 @@ const MainPageHeader = () => {
   );
 };
 
-export default MainPageHeader;
+export default ProfilePageHeader;
