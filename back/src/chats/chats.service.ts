@@ -3,6 +3,7 @@ import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
 import { Chat } from './entities/chat.entity';
 import { validate } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class ChatsService {
@@ -146,5 +147,29 @@ export class ChatsService {
         ? true
         : false;
     return isMatchedPassword;
+  }
+
+  //mute, unmute
+  async toggleMute(uuid: string, userID: string) {
+    const chat = await Chat.findOneOrFail({
+      where: {
+        uuid: uuid,
+      },
+    }).catch(() => {
+      const error = { uuid: `chat with uuid(${uuid}) does not exist` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+    });
+    const user = await User.findOneOrFail({
+      where: {
+        userID: userID,
+      },
+    }).catch(() => {
+      const error = { uuid: `userID(${userID}) does not exist` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+    });
+    chat.muteID = chat.muteID.includes(user.userID)
+      ? chat.muteID.filter((item) => item !== user.userID)
+      : [...chat.muteID, user.userID];
+    return await Chat.save(chat);
   }
 }

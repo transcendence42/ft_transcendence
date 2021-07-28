@@ -65,4 +65,12 @@ export class ChatsResolver {
   ) {
     return this.chatsService.checkPassword(uuid, password);
   }
+
+  @Mutation(() => Chat)
+  toggleMute(
+    @Args('uuid', { type: () => String }) uuid: string,
+    @Args('userID', { type: () => String }) userID: string,
+  ) {
+    return this.chatsService.toggleMute(uuid, userID);
+  }
 }
