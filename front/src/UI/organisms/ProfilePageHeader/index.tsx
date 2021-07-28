@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { Spinner, Box } from '@chakra-ui/react';
 import MainButtons from '../../molecules/MainButtons';
@@ -12,6 +12,15 @@ import { Redirect } from 'react-router-dom';
 const ProfilePageHeader = ({ ...props }) => {
   const { userID } = props;
   const { loading, error, data } = useQuery(userID ? GET_OTHERS_PROFILE(userID) : GET_MY_PROFILE);
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => {
+      setIsMounted(false);
+    };
+  }, [isMounted]);
+
   if (loading) {
     return <Spinner m="5" ml="155" color={SPINNER_COLOR} />;
   }
