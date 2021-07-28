@@ -1,9 +1,10 @@
 import React from 'react';
-import { Avatar, Box } from '@chakra-ui/react';
+import { Box, Img } from '@chakra-ui/react';
 import { IProfileLarge } from '../../../utils/interface';
 import './index.scss';
 
 const ProfileLarge = ({
+  owner = false,
   userID = 'ID',
   nickname = 'nickname',
   avatar = '',
@@ -14,10 +15,14 @@ const ProfileLarge = ({
   totalLose = 0,
   reverse = false,
 }: IProfileLarge) => {
+  console.log(owner);
   return (
     <>
       <Box className={reverse ? 'profile-large-reverse' : 'profile-large'}>
-        <Avatar size="xl" margin="1rem" userID={userID} src={avatar} />
+        <div className="avatar-container">
+          <Img className="avatar" src={avatar} />
+          {owner ? `<div className="overlay"></div>` : ''}
+        </div>
         <div>
           <table>
             <thead>

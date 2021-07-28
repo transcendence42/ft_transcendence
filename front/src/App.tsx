@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import Chat from './pages/Chat';
 import Game from './pages/Game';
 import Login from './pages/Login';
+import { NotFound } from './pages/NotFound';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
                 <Route exact path="/profile/:userID" component={Profile} />
                 <Route path="/chat" component={Chat} />
                 <Route path="/game" component={Game} />
+                <Route path={'*'} component={NotFound} />
               </Switch>
             </Center>
             <Box width="390px" minWidth="390px" maxWidth="390px">
