@@ -18,6 +18,11 @@ export class GamesResolver {
     return this.gamesService.findAll();
   }
 
+  @Query(() => [Game], { name: 'gameRecords' })
+  findByUserID(@Args('userID', { type: () => String }) userID: string) {
+    return this.gamesService.findByUserID(userID);
+  }
+
   @Query(() => Game, { name: 'game' })
   findOne(@Args('index', { type: () => Int }) index: number) {
     return this.gamesService.findOne(index);
