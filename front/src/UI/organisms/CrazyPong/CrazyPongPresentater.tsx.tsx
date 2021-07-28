@@ -47,7 +47,7 @@ export const CrazyPongPresenter = ({
           drawText(ctx, String(player2.score), (3 * canvas.width) / 4 - 20, canvas.height / 5, 'white');
           drawNet(ctx, canvas.width, canvas.height);
           BallMovement(ctx, ball);
-          paddleMovement(ctx, { ...player1, paddleHeight: player1Y });
+          paddleMovement(ctx, { ...player1, y: player1Y });
           paddleMovement(ctx, player2);
 
           if (!collision(canvas, ball, player1, player2)) {
@@ -59,7 +59,7 @@ export const CrazyPongPresenter = ({
       }
     };
     render();
-  }, []);
+  }, [player1Y]);
 
   return (
     <canvas

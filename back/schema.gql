@@ -94,8 +94,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-07-28T06:55:39.069Z"
-  modifiedAt: DateTime = "2021-07-28T06:55:39.069Z"
+  createdAt: DateTime = "2021-07-28T08:17:57.075Z"
+  modifiedAt: DateTime = "2021-07-28T08:17:57.075Z"
 }
 
 input user {
@@ -109,8 +109,8 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-07-28T06:55:39.072Z"
-  modifiedAt: DateTime = "2021-07-28T06:55:39.072Z"
+  createdAt: DateTime = "2021-07-28T08:17:57.076Z"
+  modifiedAt: DateTime = "2021-07-28T08:17:57.076Z"
 }
 
 type Query {
