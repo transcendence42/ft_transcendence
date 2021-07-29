@@ -1,9 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { useMutation, useReactiveVar } from '@apollo/client';
 import { ContextMenu } from 'holee-contextmenu';
 
 import { currentChatVar, currentLoginIDVar } from '../../../../apollo/apolloProvider';
-import { CREATE_CHAT_LOG, TOGGLE_BLOCK, TOGGLE_MUTE, FORCED_OUT, CHATLOG_SUBSCRIPTION } from './AlarmChatPeopleQueries';
+import { CREATE_CHAT_LOG, TOGGLE_BLOCK, TOGGLE_MUTE, FORCED_OUT } from './AlarmChatPeopleQueries';
 
 const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
   return (
@@ -16,7 +16,7 @@ const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
 };
 
 export const AlarmChatPeople = ({ ...props }) => {
-  const { username, ownerID, adminID, refetchChat, subscribeToNewMessage } = props;
+  const { username, ownerID, adminID, refetchChat } = props;
   const outerRef = useRef<HTMLDivElement>(null);
   const [toggleBlock] = useMutation(TOGGLE_BLOCK);
   const [toggleMute] = useMutation(TOGGLE_MUTE);
@@ -24,15 +24,6 @@ export const AlarmChatPeople = ({ ...props }) => {
   const [forcedOut] = useMutation(FORCED_OUT);
   const loginID = currentLoginIDVar();
   const currentChatUUID = useReactiveVar(currentChatVar);
-
-  useEffect(() => {
-    const unsubscribe = subscribeToNewMessage({
-      document: CHATLOG_SUBSCRIPTION,
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [subscribeToNewMessage]);
 
   const menuOnClickHandler = async (
     e: React.MouseEvent<HTMLUListElement, MouseEvent> | React.KeyboardEvent<HTMLUListElement>,
