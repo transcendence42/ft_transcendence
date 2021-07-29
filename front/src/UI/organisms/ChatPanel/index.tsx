@@ -134,10 +134,10 @@ export const ChatPanel = ({ ...props }) => {
   const createChatFunc = ({ name, type, password }: { name: string; type: 'public' | 'private'; password: string }) => {
     let newChat = {};
     if (type === 'public') {
-      newChat = { name: name, type: type, ownerID: loginID };
+      newChat = { name: name, type: type, ownerID: loginID, userID: [loginID] };
     } else {
       //private
-      newChat = { name: name, type: type, password: password, ownerID: loginID };
+      newChat = { name: name, type: type, password: password, ownerID: loginID, userID: [loginID] };
     }
     createChat({
       variables: {
