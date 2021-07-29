@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { Box, Img } from '@chakra-ui/react';
 import { IProfileLarge } from '../../../utils/interface';
 import '../ProfileLarge/index.scss';
+import { UPDATE_NICKNAME } from './ProfileLargeEditQueries';
+import { useMutation } from '@apollo/client';
 
 export const ProfileLargeEdit = ({
   userID = 'ID',
@@ -14,6 +16,7 @@ export const ProfileLargeEdit = ({
   totalLose = 0,
   reverse = false,
 }: IProfileLarge) => {
+  const [updateNickname] = useMutation(UPDATE_NICKNAME);
   const [nick, setNick] = useState(nickname);
   const nicknameInput = useRef(null);
   const editNickname = (e) => {
@@ -26,9 +29,20 @@ export const ProfileLargeEdit = ({
     setNick(e.target.value);
   };
 
+  const updateInputValue = async (userID: string, nick: string) => {
+    await updateNickname({
+      variables: {
+        user: {
+          userID: userID,
+          nickname: nick,
+        },
+      },
+    });
+  };
+
   const onKeyPress = (e) => {
     if (e.key === 'Enter') {
-      console.log('hahahah');
+      updateInputValue(userID, nick);
     }
   };
 
