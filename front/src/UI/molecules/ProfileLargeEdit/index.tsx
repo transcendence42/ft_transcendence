@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Box, Img } from '@chakra-ui/react';
 import { IProfileLarge } from '../../../utils/interface';
 import '../ProfileLarge/index.scss';
@@ -14,6 +14,11 @@ export const ProfileLargeEdit = ({
   totalLose = 0,
   reverse = false,
 }: IProfileLarge) => {
+  const nicknameInput = useRef(null);
+  const editNickname = (e) => {
+    nicknameInput.current.innerHTML = 'yeji';
+  };
+
   return (
     <>
       <Box className={reverse ? 'profile-large-reverse' : 'profile-large'}>
@@ -24,18 +29,23 @@ export const ProfileLargeEdit = ({
           <table>
             <thead>
               <tr>
+                <td>{nickname}</td>
                 <td>
-                  {nickname}({userID})
+                  <button onClick={editNickname} onKeyDown={editNickname}>
+                    <span role="img" aria-label="pencil">
+                      ✏️
+                    </span>
+                  </button>
                 </td>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>
-                  랭킹 <strong>{ranking}위</strong>
+                  ID <strong>{userID}</strong>
                 </td>
                 <td>
-                  래더 점수 <strong>{ladderRating}점</strong>
+                  래더 <strong>{ladderRating}점</strong>({ranking}위)
                 </td>
               </tr>
               <tr>

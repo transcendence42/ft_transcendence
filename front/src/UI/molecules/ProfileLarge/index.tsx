@@ -24,18 +24,16 @@ export const ProfileLarge = ({
           <table>
             <thead>
               <tr>
-                <td>
-                  {nickname}({userID})
-                </td>
+                <td>{nickname}</td>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>
-                  랭킹 <strong>{ranking}위</strong>
+                  ID <strong>{userID}</strong>
                 </td>
                 <td>
-                  래더 점수 <strong>{ladderRating}점</strong>
+                  래더 <strong>{ladderRating}점</strong>({ranking}위)
                 </td>
               </tr>
               <tr>
