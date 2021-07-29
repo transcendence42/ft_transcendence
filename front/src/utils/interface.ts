@@ -151,3 +151,13 @@ export interface IBall {
   speed: number;
   color: string;
 }
+
+export interface IPlayingInfo {
+  index: number;
+  uuid?: string;
+  ballX: number;
+  ballY: number;
+  player1Y: number;
+  player2Y: number;
+  createdAt?: string;
+}

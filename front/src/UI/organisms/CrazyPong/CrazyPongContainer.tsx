@@ -3,16 +3,7 @@ import React, { useState } from 'react';
 
 import { CrazyPongPresenter } from './CrazyPongPresentater.tsx';
 import { SUBSCRIBE_CRAZYPONG, UPDATE_PLAYINGINFO } from './CrazyPongQuery';
-
-interface IPlayingInfo {
-  index: number;
-  uuid?: string;
-  ballX: number;
-  ballY: number;
-  player1Y: number;
-  player2Y: number;
-  createdAt?: string;
-}
+import { IPlayingInfo } from '../../../utils/interface';
 
 export const CrazyPongContainer = () => {
   const { data, loading, error } = useSubscription(SUBSCRIBE_CRAZYPONG, {

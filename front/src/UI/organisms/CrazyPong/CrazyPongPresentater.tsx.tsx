@@ -6,20 +6,11 @@ import { BallMovement } from './ballMovement';
 import { paddleMovement } from './paddleMovement';
 import { collision } from './collision';
 import { data } from './data';
+import { IPlayingInfo } from '../../../utils/interface';
 
 const { ball, player1, player2 } = data;
 
 const CANVAS_HEIGHT = 800;
-
-interface IPlayingInfo {
-  index: number;
-  uuid?: string;
-  ballX: number;
-  ballY: number;
-  player1Y: number;
-  player2Y: number;
-  createdAt?: string;
-}
 
 export const CrazyPongPresenter = ({
   playingInfo,
