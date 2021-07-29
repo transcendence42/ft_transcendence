@@ -150,6 +150,7 @@ export const AlarmChat = () => {
                 adminID={data.chat.adminID}
                 username={username}
                 refetchChat={refetch}
+                subscribeToNewMessage={subscribeToNewMessage}
               />
             ))}
           </>
