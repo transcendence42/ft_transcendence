@@ -24,7 +24,7 @@ export const ProfileLarge = ({
           <table>
             <thead>
               <tr>
-                <td>{nickname}</td>
+                <td className="nickname">{nickname}</td>
               </tr>
             </thead>
             <tbody>

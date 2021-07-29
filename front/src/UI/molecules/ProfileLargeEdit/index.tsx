@@ -16,7 +16,9 @@ export const ProfileLargeEdit = ({
 }: IProfileLarge) => {
   const nicknameInput = useRef(null);
   const editNickname = (e) => {
-    nicknameInput.current.innerHTML = 'yeji';
+    nicknameInput.current.disabled = false;
+    nicknameInput.current.value = '';
+    nicknameInput.current.focus();
   };
 
   return (
@@ -29,9 +31,18 @@ export const ProfileLargeEdit = ({
           <table>
             <thead>
               <tr>
-                <td>{nickname}</td>
+                <td className="nickname">
+                  <input
+                    type="text"
+                    className="nickname-input"
+                    ref={nicknameInput}
+                    value={nickname}
+                    placeholder="닉네임을 입력하세요."
+                  />
+                  {/* {nickname} */}
+                </td>
                 <td>
-                  <button onClick={editNickname} onKeyDown={editNickname}>
+                  <button onClick={editNickname}>
                     <span role="img" aria-label="pencil">
                       ✏️
                     </span>

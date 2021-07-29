@@ -44,6 +44,21 @@ thead {
   width: 150px;
 }
 
+.nickname-input {
+  width: 130px;
+  height: 20px;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.nickname-input:focus {
+  outline: none;
+}
+
+.nickname-input::placeholder {
+  font-size: 0.9rem;
+}
+
 .overlay {
   position: absolute;
   top: 0;
