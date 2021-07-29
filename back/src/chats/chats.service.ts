@@ -149,8 +149,8 @@ export class ChatsService {
     return isMatchedPassword;
   }
 
-  //mute, unmute
-  async toggleMute(uuid: string, userID: string) {
+  //chat, user가 있는지 확인하고 user가 chat에 존재하는지 확인
+  private async checkUserExistInChat(uuid: string, userID: string) {
     const chat = await Chat.findOneOrFail({
       where: {
         uuid: uuid,
@@ -171,9 +171,15 @@ export class ChatsService {
       const error = { uuid: `userID(${userID}) does not exist in chat` };
       throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
     }
-    chat.muteID = chat.muteID.includes(user.userID)
-      ? chat.muteID.filter((item) => item !== user.userID)
-      : [...chat.muteID, user.userID];
-    return await Chat.save(chat);
+    return { chat: chat, user: user };
+  }
+
+  //mute, unmute
+  async toggleMute(uuid: string, userID: string) {
+    const obj = await this.checkUserExistInChat(uuid, userID);
+    obj.chat.muteID = obj.chat.muteID.includes(obj.user.userID)
+      ? obj.chat.muteID.filter((item) => item !== obj.user.userID)
+      : [...obj.chat.muteID, obj.user.userID];
+    return await Chat.save(obj.chat);
   }
 }
