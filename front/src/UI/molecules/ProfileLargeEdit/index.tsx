@@ -48,15 +48,18 @@ export const ProfileLargeEdit = ({
 
   const [singleUploadMutation] = useMutation(SINGLE_UPLOAD);
 
-  const fileUpload = async (e) => {
+  const fileUpload: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
     const files = e.target.files;
     if (files && files.length === 1) {
       const file = files[0];
+      console.log('aaaa');
       const {
         data: { singleUpload },
       } = await singleUploadMutation({
         variables: {
-          file,
+          uploadUserAvatarInput: {
+            file: file,
+          },
         },
       });
       console.log(`success!!!! ${singleUpload.filename}`);

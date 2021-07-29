@@ -115,7 +115,9 @@ export class UsersResolver {
 
   @Mutation(() => UserUploadAvatarType)
   async singleUpload(@Args('uploadUserAvatarInput') { file }: UploadUserAvatarInput) {
+    console.log(file);
     const fileData = await file;
-    return fileData;
+    // return fileData;
+    return { success: true };
   }
 }
