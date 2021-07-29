@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Box, Img } from '@chakra-ui/react';
 import { IProfileLarge } from '../../../utils/interface';
 import '../ProfileLarge/index.scss';
@@ -14,11 +14,22 @@ export const ProfileLargeEdit = ({
   totalLose = 0,
   reverse = false,
 }: IProfileLarge) => {
+  const [nick, setNick] = useState(nickname);
   const nicknameInput = useRef(null);
   const editNickname = (e) => {
     nicknameInput.current.disabled = false;
     nicknameInput.current.value = '';
     nicknameInput.current.focus();
+  };
+
+  const updateNicknameInput = (e) => {
+    setNick(e.target.value);
+  };
+
+  const onKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      console.log('hahahah');
+    }
   };
 
   return (
@@ -36,10 +47,11 @@ export const ProfileLargeEdit = ({
                     type="text"
                     className="nickname-input"
                     ref={nicknameInput}
-                    value={nickname}
+                    value={nick}
                     placeholder="닉네임을 입력하세요."
+                    onChange={updateNicknameInput}
+                    onKeyPress={onKeyPress}
                   />
-                  {/* {nickname} */}
                 </td>
                 <td>
                   <button onClick={editNickname}>
