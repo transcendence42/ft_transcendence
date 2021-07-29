@@ -182,4 +182,11 @@ export class ChatsService {
       : [...obj.chat.muteID, obj.user.userID];
     return await Chat.save(obj.chat);
   }
+
+  //forced out
+  async forcedOut(uuid: string, userID: string) {
+    const obj = await this.checkUserExistInChat(uuid, userID);
+    obj.chat.userID = obj.chat.userID.filter((item) => item !== obj.user.userID);
+    return await Chat.save(obj.chat);
+  }
 }

@@ -73,4 +73,12 @@ export class ChatsResolver {
   ) {
     return this.chatsService.toggleMute(uuid, userID);
   }
+
+  @Mutation(() => Chat)
+  forcedOut(
+    @Args('uuid', { type: () => String }) uuid: string,
+    @Args('userID', { type: () => String }) userID: string,
+  ) {
+    return this.chatsService.forcedOut(uuid, userID);
+  }
 }
