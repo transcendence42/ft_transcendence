@@ -2,8 +2,9 @@ import React, { useRef, useState } from 'react';
 import { Box, Img } from '@chakra-ui/react';
 import { IProfileLarge } from '../../../utils/interface';
 import '../ProfileLarge/index.scss';
-import { SINGLE_UPLOAD, UPDATE_NICKNAME } from './ProfileLargeEditQueries';
+import { UPDATE_NICKNAME } from './ProfileLargeEditQueries';
 import { useMutation } from '@apollo/client';
+import { FileUploadButton } from '../../atoms/FileUploadButton';
 
 export const ProfileLargeEdit = ({
   userID = 'ID',
@@ -46,35 +47,13 @@ export const ProfileLargeEdit = ({
     }
   };
 
-  const [singleUploadMutation] = useMutation(SINGLE_UPLOAD);
-
-  const fileUpload: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
-    const files = e.target.files;
-    if (files && files.length === 1) {
-      const file = files[0];
-      console.log('aaaa');
-      const {
-        data: { singleUpload },
-      } = await singleUploadMutation({
-        variables: {
-          uploadUserAvatarInput: {
-            file: file,
-          },
-        },
-      });
-      console.log(`success!!!! ${singleUpload.filename}`);
-    } else {
-      console.log('elselselsel');
-    }
-  };
-
   return (
     <>
       <Box className={reverse ? 'profile-large-reverse' : 'profile-large'}>
         <div className="avatar-container">
           <Img className="avatar" src={avatar} />
         </div>
-        <input type="file" onChange={fileUpload} />
+        <FileUploadButton />
         <div>
           <table>
             <thead>
