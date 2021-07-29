@@ -167,6 +167,10 @@ export class ChatsService {
       const error = { uuid: `userID(${userID}) does not exist` };
       throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
     });
+    if (!chat.userID.includes(user.userID)) {
+      const error = { uuid: `userID(${userID}) does not exist in chat` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+    }
     chat.muteID = chat.muteID.includes(user.userID)
       ? chat.muteID.filter((item) => item !== user.userID)
       : [...chat.muteID, user.userID];
