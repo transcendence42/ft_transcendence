@@ -26,6 +26,79 @@ export const AlarmChatPeople = ({ ...props }) => {
   const loginID = currentLoginIDVar();
   const currentChatUUID = useReactiveVar(currentChatVar);
 
+  const handleRegisterAdmin = async () => {
+    await toggleAdmin({
+      variables: {
+        uuid: currentChatUUID,
+        userID: username,
+      },
+    }).then((res) => {
+      const message = res.data.toggleAdmin.adminID.includes(username) ? 'admin' : 'un-admin';
+      createChatLog({
+        variables: {
+          chatLog: {
+            chatUUID: currentChatUUID,
+            userID: username,
+            type: 'notification',
+            message: message,
+          },
+        },
+      });
+    });
+  };
+
+  const handleBlock = async () => {
+    await toggleBlock({
+      variables: {
+        blockInput: {
+          followerID: loginID,
+          followingID: username,
+        },
+      },
+    });
+  };
+
+  const handleMute = async () => {
+    await toggleMute({
+      variables: {
+        uuid: currentChatUUID,
+        userID: username,
+      },
+    }).then((res) => {
+      const message = res.data.toggleMute.muteID.includes(username) ? 'mute' : 'unmute';
+      createChatLog({
+        variables: {
+          chatLog: {
+            chatUUID: currentChatUUID,
+            userID: username,
+            type: 'notification',
+            message: message,
+          },
+        },
+      });
+    });
+  };
+
+  const handleForcedOut = async () => {
+    await forcedOut({
+      variables: {
+        uuid: currentChatUUID,
+        userID: username,
+      },
+    });
+    await createChatLog({
+      variables: {
+        chatLog: {
+          chatUUID: currentChatUUID,
+          userID: username,
+          type: 'notification',
+          message: 'forced-out',
+        },
+      },
+    });
+    refetchChat();
+  };
+
   const menuOnClickHandler = async (
     e: React.MouseEvent<HTMLUListElement, MouseEvent> | React.KeyboardEvent<HTMLUListElement>,
   ) => {
@@ -45,73 +118,16 @@ export const AlarmChatPeople = ({ ...props }) => {
           console.log(eventTarget.dataset.option);
           break;
         case 'register-admin':
-          await toggleAdmin({
-            variables: {
-              uuid: currentChatUUID,
-              userID: username,
-            },
-          }).then((res) => {
-            const message = res.data.toggleAdmin.adminID.includes(username) ? 'admin' : 'un-admin';
-            createChatLog({
-              variables: {
-                chatLog: {
-                  chatUUID: currentChatUUID,
-                  userID: username,
-                  type: 'notification',
-                  message: message,
-                },
-              },
-            });
-          });
+          await handleRegisterAdmin();
           break;
         case 'block':
-          await toggleBlock({
-            variables: {
-              blockInput: {
-                followerID: loginID,
-                followingID: username,
-              },
-            },
-          });
+          await handleBlock();
           break;
         case 'mute':
-          await toggleMute({
-            variables: {
-              uuid: currentChatUUID,
-              userID: username,
-            },
-          }).then((res) => {
-            const message = res.data.toggleMute.muteID.includes(username) ? 'mute' : 'unmute';
-            createChatLog({
-              variables: {
-                chatLog: {
-                  chatUUID: currentChatUUID,
-                  userID: username,
-                  type: 'notification',
-                  message: message,
-                },
-              },
-            });
-          });
+          await handleMute();
           break;
         case 'forced-out':
-          await forcedOut({
-            variables: {
-              uuid: currentChatUUID,
-              userID: username,
-            },
-          });
-          await createChatLog({
-            variables: {
-              chatLog: {
-                chatUUID: currentChatUUID,
-                userID: username,
-                type: 'notification',
-                message: 'forced-out',
-              },
-            },
-          });
-          refetchChat();
+          await handleForcedOut();
           break;
       }
     }
