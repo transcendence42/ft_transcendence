@@ -189,4 +189,13 @@ export class ChatsService {
     obj.chat.userID = obj.chat.userID.filter((item) => item !== obj.user.userID);
     return await Chat.save(obj.chat);
   }
+
+  //admin 위임/해제
+  async toggleAdmin(uuid: string, userID: string) {
+    const obj = await this.checkUserExistInChat(uuid, userID);
+    obj.chat.adminID = obj.chat.adminID.includes(obj.user.userID)
+      ? obj.chat.adminID.filter((item) => item !== obj.user.userID)
+      : [...obj.chat.adminID, obj.user.userID];
+    return await Chat.save(obj.chat);
+  }
 }

@@ -81,4 +81,12 @@ export class ChatsResolver {
   ) {
     return this.chatsService.forcedOut(uuid, userID);
   }
+
+  @Mutation(() => Chat)
+  toggleAdmin(
+    @Args('uuid', { type: () => String }) uuid: string,
+    @Args('userID', { type: () => String }) userID: string,
+  ) {
+    return this.chatsService.toggleAdmin(uuid, userID);
+  }
 }
