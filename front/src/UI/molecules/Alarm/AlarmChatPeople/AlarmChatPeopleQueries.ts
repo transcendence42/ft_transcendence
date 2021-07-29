@@ -38,3 +38,13 @@ export const FORCED_OUT = gql`
     }
   }
 `;
+
+export const TOGGLE_ADMIN = gql`
+  mutation toggleAdmin($uuid: String!, $userID: String!) {
+    toggleAdmin(uuid: $uuid, userID: $userID) {
+      index
+      name
+      adminID
+    }
+  }
+`;

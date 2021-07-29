@@ -3,7 +3,7 @@ import { useMutation, useReactiveVar } from '@apollo/client';
 import { ContextMenu } from 'holee-contextmenu';
 
 import { currentChatVar, currentLoginIDVar } from '../../../../apollo/apolloProvider';
-import { CREATE_CHAT_LOG, TOGGLE_BLOCK, TOGGLE_MUTE, FORCED_OUT } from './AlarmChatPeopleQueries';
+import { CREATE_CHAT_LOG, TOGGLE_BLOCK, TOGGLE_MUTE, FORCED_OUT, TOGGLE_ADMIN } from './AlarmChatPeopleQueries';
 
 const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
   return (
@@ -22,6 +22,7 @@ export const AlarmChatPeople = ({ ...props }) => {
   const [toggleMute] = useMutation(TOGGLE_MUTE);
   const [createChatLog] = useMutation(CREATE_CHAT_LOG);
   const [forcedOut] = useMutation(FORCED_OUT);
+  const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
   const loginID = currentLoginIDVar();
   const currentChatUUID = useReactiveVar(currentChatVar);
 
@@ -44,7 +45,24 @@ export const AlarmChatPeople = ({ ...props }) => {
           console.log(eventTarget.dataset.option);
           break;
         case 'register-admin':
-          console.log(eventTarget.dataset.option);
+          await toggleAdmin({
+            variables: {
+              uuid: currentChatUUID,
+              userID: username,
+            },
+          }).then((res) => {
+            const message = res.data.toggleAdmin.adminID.includes(username) ? 'admin' : 'un-admin';
+            createChatLog({
+              variables: {
+                chatLog: {
+                  chatUUID: currentChatUUID,
+                  userID: username,
+                  type: 'notification',
+                  message: message,
+                },
+              },
+            });
+          });
           break;
         case 'block':
           await toggleBlock({

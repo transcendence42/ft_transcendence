@@ -68,6 +68,18 @@ const ChatNotification = ({ chatID, message }: IchatNotification) => {
         {chatID}님이 채팅방을 나가셨습니다.
       </Text>
     );
+  } else if (message === 'admin') {
+    return (
+      <Text p="1" fontSize={ALARM_CHAT_MESSAGE_NOTIFICATION_FONTSIZE} textAlign="center">
+        {chatID}님이 관리자로 임명되었습니다.
+      </Text>
+    );
+  } else if (message === 'un-admin') {
+    return (
+      <Text p="1" fontSize={ALARM_CHAT_MESSAGE_NOTIFICATION_FONTSIZE} textAlign="center">
+        {chatID}님이 관리자에서 해임되었습니다.
+      </Text>
+    );
   } else if (message === 'forced-out') {
     return (
       <Text p="1" fontSize={ALARM_CHAT_MESSAGE_NOTIFICATION_FONTSIZE} textAlign="center">
