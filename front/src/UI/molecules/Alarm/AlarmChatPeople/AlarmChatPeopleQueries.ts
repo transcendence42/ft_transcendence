@@ -28,3 +28,13 @@ export const CREATE_CHAT_LOG = gql`
     }
   }
 `;
+
+export const FORCED_OUT = gql`
+  mutation forcedOut($uuid: String!, $userID: String!) {
+    forcedOut(uuid: $uuid, userID: $userID) {
+      uuid
+      name
+      userID
+    }
+  }
+`;

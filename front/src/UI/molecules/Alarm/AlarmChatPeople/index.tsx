@@ -3,7 +3,7 @@ import { useMutation, useReactiveVar } from '@apollo/client';
 import { ContextMenu } from 'holee-contextmenu';
 
 import { currentChatVar, currentLoginIDVar } from '../../../../apollo/apolloProvider';
-import { CREATE_CHAT_LOG, TOGGLE_BLOCK, TOGGLE_MUTE } from './AlarmChatPeopleQueries';
+import { CREATE_CHAT_LOG, TOGGLE_BLOCK, TOGGLE_MUTE, FORCED_OUT } from './AlarmChatPeopleQueries';
 
 const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
   return (
@@ -19,15 +19,18 @@ export const AlarmChatPeople = ({
   username,
   ownerID,
   adminID,
+  refetchChat,
 }: {
   username: string;
   ownerID: string;
   adminID: string[];
+  refetchChat: () => void;
 }) => {
   const outerRef = useRef<HTMLDivElement>(null);
   const [toggleBlock] = useMutation(TOGGLE_BLOCK);
   const [toggleMute] = useMutation(TOGGLE_MUTE);
   const [createChatLog] = useMutation(CREATE_CHAT_LOG);
+  const [forcedOut] = useMutation(FORCED_OUT);
   const loginID = currentLoginIDVar();
   const currentChatUUID = useReactiveVar(currentChatVar);
 
@@ -83,7 +86,23 @@ export const AlarmChatPeople = ({
           });
           break;
         case 'forced-out':
-          console.log(eventTarget.dataset.option);
+          await forcedOut({
+            variables: {
+              uuid: currentChatUUID,
+              userID: username,
+            },
+          });
+          await createChatLog({
+            variables: {
+              chatLog: {
+                chatUUID: currentChatUUID,
+                userID: username,
+                type: 'notification',
+                message: 'forced-out',
+              },
+            },
+          });
+          refetchChat();
           break;
       }
     }

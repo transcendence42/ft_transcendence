@@ -68,6 +68,12 @@ const ChatNotification = ({ chatID, message }: IchatNotification) => {
         {chatID}님이 채팅방을 나가셨습니다.
       </Text>
     );
+  } else if (message === 'forced-out') {
+    return (
+      <Text p="1" fontSize={ALARM_CHAT_MESSAGE_NOTIFICATION_FONTSIZE} textAlign="center">
+        {chatID}님이 퇴장당하셨습니다.
+      </Text>
+    );
   } else if (message === 'destroy') {
     return (
       <Text p="1" fontSize={ALARM_CHAT_MESSAGE_NOTIFICATION_FONTSIZE} textAlign="center">

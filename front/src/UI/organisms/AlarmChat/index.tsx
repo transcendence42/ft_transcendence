@@ -149,6 +149,7 @@ export const AlarmChat = () => {
                 ownerID={data.chat.ownerID}
                 adminID={data.chat.adminID}
                 username={username}
+                refetchChat={refetch}
               />
             ))}
           </>
