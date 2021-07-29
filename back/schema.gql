@@ -43,6 +43,10 @@ type Alarm {
   user: User!
 }
 
+type UserUploadAvatarType {
+  success: Boolean!
+}
+
 type Game {
   index: Int!
   isPlaying: Boolean!
@@ -84,8 +88,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-07-29T02:13:41.961Z"
-  modifiedAt: DateTime = "2021-07-29T02:13:41.961Z"
+  createdAt: DateTime = "2021-07-29T09:47:04.714Z"
+  modifiedAt: DateTime = "2021-07-29T09:47:04.714Z"
 }
 
 input user {
@@ -99,8 +103,8 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-07-29T02:13:41.962Z"
-  modifiedAt: DateTime = "2021-07-29T02:13:41.962Z"
+  createdAt: DateTime = "2021-07-29T09:47:04.715Z"
+  modifiedAt: DateTime = "2021-07-29T09:47:04.715Z"
 }
 
 type Query {
@@ -134,6 +138,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(userID: String!): User!
+  singleUpload(uploadUserAvatarInput: UploadUserAvatarInput!): UserUploadAvatarType!
   createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
   removeAlarm(index: Int!): Alarm!
@@ -169,6 +174,12 @@ input UpdateUserInput {
   userState: String
   modifiedAt: DateTime
 }
+
+input UploadUserAvatarInput {
+  file: Upload!
+}
+
+scalar Upload
 
 input CreateAlarmInput {
   userID: String!

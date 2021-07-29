@@ -9,6 +9,8 @@ import { AuthenticationProvider } from 'src/auth/auth';
 import { AlarmsService } from 'src/alarms/alarms.service';
 import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { FollowsService } from 'src/follows/follows.service';
+import { UploadUserAvatarInput } from 'src/upload/upload.input';
+import { UserUploadAvatarType } from 'src/upload/upload.type';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
@@ -109,5 +111,11 @@ export class UsersResolver {
   async followings(@Parent() user: User) {
     const { index } = user;
     return this.followsService.findFollowings({ index: index });
+  }
+
+  @Mutation(() => UserUploadAvatarType)
+  async singleUpload(@Args('uploadUserAvatarInput') { file }: UploadUserAvatarInput) {
+    const fileData = await file;
+    return fileData;
   }
 }

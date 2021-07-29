@@ -23,6 +23,7 @@ import { ChatLog } from './chat-logs/entities/chat-log.entity';
 import { Follow } from './follows/entities/follow.entity';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { Upload } from './upload/upload.scalar';
 
 adminBro.registerAdapter({ Database, Resource });
 
@@ -57,6 +58,10 @@ adminBro.registerAdapter({ Database, Resource });
         path: '/subscriptions',
         keepAlive: 5000,
       },
+      uploads: {
+        maxFileSize: 10000000, // 10 MB
+        maxFiles: 5,
+      },
     }),
     AdminModule.createAdmin({
       adminBroOptions: {
@@ -85,6 +90,6 @@ adminBro.registerAdapter({ Database, Resource });
     PassportModule.register({ session: true }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, Upload],
 })
 export class AppModule {}
