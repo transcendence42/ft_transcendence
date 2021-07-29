@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { Spinner, Box } from '@chakra-ui/react';
-import MainButtons from '../../molecules/MainButtons';
 import { ProfileLarge } from '../../molecules/ProfileLarge';
 import { SPINNER_COLOR } from '../../../utils/constants';
 import { winRate } from '../../../utils/util';
@@ -9,6 +8,7 @@ import { GET_OTHERS_PROFILE } from './ProfilePageHeaderQueries';
 import { GET_MY_PROFILE } from '../MainPageHeader/MainPageHeaderQueries';
 import { Redirect } from 'react-router-dom';
 import { ProfileLargeEdit } from '../../molecules/ProfileLargeEdit';
+import { FileUploadButton } from '../../atoms/FileUploadButton';
 
 const ProfilePageHeader = ({ ...props }) => {
   const { userID } = props;
@@ -45,9 +45,6 @@ const ProfilePageHeader = ({ ...props }) => {
           reverse={false}
         />
       </Box>
-      <Box width="50%">
-        <MainButtons />
-      </Box>
     </>
   ) : (
     <>
@@ -64,9 +61,7 @@ const ProfilePageHeader = ({ ...props }) => {
           reverse={false}
         />
       </Box>
-      <Box width="50%">
-        <MainButtons />
-      </Box>
+      <FileUploadButton />
     </>
   );
 };
