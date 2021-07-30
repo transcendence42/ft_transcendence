@@ -26,7 +26,7 @@ export class UsersResolver {
     private readonly usersService: UsersService,
     private readonly alarmsService: AlarmsService,
     private readonly followsService: FollowsService,
-  ) {}
+  ) { }
 
   @Mutation(() => User)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
@@ -51,6 +51,16 @@ export class UsersResolver {
   @Query(() => User, { name: 'me' })
   async findMe(@CurrentUser() user: User) {
     return this.usersService.findOneByUserID(user.userID);
+  }
+
+  @Query(() => Int)
+  getLadderRanking(@Args('userID', { type: () => String }) userID: string) {
+    return this.usersService.calculateLadderRanking(userID);
+  }
+
+  @Query(() => Int)
+  getMyLadderRanking(@CurrentUser() user: User) {
+    return this.usersService.calculateLadderRanking(user.userID);
   }
 
   @Query(() => [Alarm], { name: 'myAlarm' })
