@@ -11,6 +11,7 @@ import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { FollowsService } from 'src/follows/follows.service';
 import { UploadUserAvatarInput } from 'src/upload/upload.input';
 import { UserUploadAvatarType } from 'src/upload/upload.type';
+var FileSaver = require('file-saver');
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
@@ -114,10 +115,15 @@ export class UsersResolver {
   }
 
   @Mutation(() => UserUploadAvatarType)
-  async singleUpload(@Args('uploadUserAvatarInput') { file }: UploadUserAvatarInput) {
-    console.log(file);
-    const fileData = await file;
+  async singleUpload(@Args('uploadUserAvatarInput') uploadUserAvatarInput: UploadUserAvatarInput) {
+    console.log('THIS IS FILE', uploadUserAvatarInput);
+    const fileData = await uploadUserAvatarInput.file;
+    // FileSaver.saveAs(file, 'haha');
+    // fs.writeFile('yeji', file, (err) => {
+    //   console.log(err);
+    // });
     // return fileData;
+
     return { success: true };
   }
 }

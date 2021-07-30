@@ -9,7 +9,7 @@ export const FileUploadButton = () => {
     const files = e.target.files;
     if (files && files.length === 1) {
       const file = files[0];
-      console.log('aaaa');
+      console.log('file at FILEUPLOAD', file);
       const {
         data: { singleUpload },
       } = await singleUploadMutation({
