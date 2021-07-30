@@ -3,10 +3,12 @@ import { GamesService } from './games.service';
 import { Game } from './entities/game.entity';
 import { CreateGameInput } from './dto/create-game.input';
 import { UpdateGameInput } from './dto/update-game.input';
+import { User } from 'src/users/entities/user.entity';
+import { CurrentUser } from 'src/users/users.resolver';
 
 @Resolver(() => Game)
 export class GamesResolver {
-  constructor(private readonly gamesService: GamesService) {}
+  constructor(private readonly gamesService: GamesService) { }
 
   @Mutation(() => Game)
   createGame(@Args('createGameInput') createGameInput: CreateGameInput) {
@@ -21,6 +23,12 @@ export class GamesResolver {
   @Query(() => [Game], { name: 'gameRecords' })
   findByUserID(@Args('userID', { type: () => String }) userID: string) {
     return this.gamesService.findByUserID(userID);
+  }
+
+  @Query(() => [Game], { name: 'myGameRecords' })
+  findMyGameRecords(@CurrentUser() user: User) {
+    // console.log(user.userID);
+    return this.gamesService.findByUserID(user.userID);
   }
 
   @Query(() => Game, { name: 'game' })
