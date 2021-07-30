@@ -8,6 +8,8 @@ export const UPDATE_PLAYINGINFO = gql`
       ballY
       player1Y
       player2Y
+      player1Score
+      player2Score
     }
   }
 `;
@@ -20,6 +22,8 @@ export const SUBSCRIBE_CRAZYPONG = gql`
       ballY
       player1Y
       player2Y
+      player1Score
+      player2Score
     }
   }
 `;

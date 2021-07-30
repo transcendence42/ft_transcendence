@@ -86,6 +86,8 @@ type PlayingInfo {
   ballY: Float!
   player1Y: Float!
   player2Y: Float!
+  player1Score: Float!
+  player2Score: Float!
   createdAt: DateTime!
 }
 
@@ -94,8 +96,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-07-29T11:01:26.129Z"
-  modifiedAt: DateTime = "2021-07-29T11:01:26.129Z"
+  createdAt: DateTime = "2021-07-30T04:02:01.803Z"
+  modifiedAt: DateTime = "2021-07-30T04:02:01.803Z"
 }
 
 input user {
@@ -109,8 +111,8 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-07-29T11:01:26.130Z"
-  modifiedAt: DateTime = "2021-07-29T11:01:26.130Z"
+  createdAt: DateTime = "2021-07-30T04:02:01.804Z"
+  modifiedAt: DateTime = "2021-07-30T04:02:01.805Z"
 }
 
 type Query {
@@ -268,6 +270,8 @@ input CreatePlayingInfoInput {
   ballY: Float!
   player1Y: Float!
   player2Y: Float!
+  player1Score: Float!
+  player2Score: Float!
 }
 
 input UpdatePlayingInfoInput {
@@ -277,6 +281,8 @@ input UpdatePlayingInfoInput {
   ballY: Float!
   player1Y: Float!
   player2Y: Float!
+  player1Score: Float!
+  player2Score: Float!
 }
 
 type Subscription {

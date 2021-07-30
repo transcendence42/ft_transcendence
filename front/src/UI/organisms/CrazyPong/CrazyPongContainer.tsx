@@ -15,9 +15,9 @@ export const CrazyPongContainer = () => {
   const [inputName, setInputName] = useState('');
 
   const updatePlayingInfoHandler = (playingInfo: IPlayingInfo) => {
-    const { index, uuid, ballX, ballY, player1Y, player2Y } = playingInfo;
+    const { index, uuid, ballX, ballY, player1Y, player2Y, player1Score, player2Score } = playingInfo;
     updatePlayingInfo({
-      variables: { info: { index, uuid, ballX, ballY, player1Y, player2Y } },
+      variables: { info: { index, uuid, ballX, ballY, player1Y, player2Y, player1Score, player2Score } },
     });
   };
 

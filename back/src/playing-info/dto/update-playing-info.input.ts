@@ -20,4 +20,10 @@ export class UpdatePlayingInfoInput extends PartialType(CreatePlayingInfoInput) 
 
   @Field()
   player2Y: number;
+
+  @Field()
+  player1Score: number;
+
+  @Field()
+  player2Score: number;
 }

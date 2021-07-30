@@ -19,4 +19,10 @@ export class CreatePlayingInfoInput {
 
   @Field()
   player2Y: number;
+
+  @Field()
+  player1Score: number;
+
+  @Field()
+  player2Score: number;
 }

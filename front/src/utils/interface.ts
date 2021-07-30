@@ -159,5 +159,7 @@ export interface IPlayingInfo {
   ballY: number;
   player1Y: number;
   player2Y: number;
+  player1Score: number;
+  player2Score: number;
   createdAt?: string;
 }

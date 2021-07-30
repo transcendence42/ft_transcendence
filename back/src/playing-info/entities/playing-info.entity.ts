@@ -23,6 +23,12 @@ export class PlayingInfo {
   player2Y: number;
 
   @Field()
+  player1Score: number;
+
+  @Field()
+  player2Score: number;
+
+  @Field()
   @CreateDateColumn()
   createdAt: Date;
 }

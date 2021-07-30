@@ -21,8 +21,8 @@ export const CrazyPongPresenter = ({
   updatePlayingInfoHandler: (playingInfo: IPlayingInfo) => void;
   inputName: string;
 }) => {
-  const { index, ballX, ballY, player1Y, player2Y } = playingInfo;
-  console.log(index, ballX, ballY, player1Y, player2Y);
+  const { index, ballX, ballY, player1Y, player2Y, player1Score, player2Score } = playingInfo;
+  console.log(index, ballX, ballY, player1Y, player2Y, player1Score, player2Score);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -34,8 +34,8 @@ export const CrazyPongPresenter = ({
         if (ctx) {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-          drawText(ctx, String(player1.score), canvas.width / 4 - 20, canvas.height / 5, 'white');
-          drawText(ctx, String(player2.score), (3 * canvas.width) / 4 - 20, canvas.height / 5, 'white');
+          drawText(ctx, String(player1Score), canvas.width / 4 - 20, canvas.height / 5, 'white');
+          drawText(ctx, String(player2Score), (3 * canvas.width) / 4 - 20, canvas.height / 5, 'white');
           drawNet(ctx, canvas.width, canvas.height);
           BallMovement(ctx, ball);
           paddleMovement(ctx, { ...player1, y: player1Y });
@@ -50,7 +50,7 @@ export const CrazyPongPresenter = ({
       }
     };
     render();
-  }, [player1Y]);
+  }, [player1Y, player1Score, player2Score]);
 
   return (
     <canvas
@@ -67,6 +67,8 @@ export const CrazyPongPresenter = ({
             ballY: ball.y,
             player1Y: 0,
             player2Y: player2.y,
+            player1Score: player1Score,
+            player2Score: player2Score,
           });
           return (player1.y = 0);
         }
@@ -81,6 +83,8 @@ export const CrazyPongPresenter = ({
             ballY: ball.y,
             player1Y: CANVAS_HEIGHT - player1.paddleHeight,
             player2Y: player2.y,
+            player1Score: player1Score,
+            player2Score: player2Score,
           });
           return (player1.y = CANVAS_HEIGHT - player1.paddleHeight);
         }
@@ -92,6 +96,8 @@ export const CrazyPongPresenter = ({
             ballY: ball.y,
             player1Y: event.clientY - event.currentTarget.getBoundingClientRect().top - player1.paddleHeight / 2,
             player2Y: player2.y,
+            player1Score: player1Score,
+            player2Score: player2Score,
           });
           return (player1.y =
             event.clientY - event.currentTarget.getBoundingClientRect().top - player1.paddleHeight / 2);
