@@ -41,7 +41,20 @@ export const CrazyPongPresenter = ({
           paddleMovement(ctx, { ...player1, y: player1Y });
           paddleMovement(ctx, player2);
 
-          if (!collision(canvas, ball, player1, player2)) {
+          if (
+            inputName === 'holee' &&
+            !collision(
+              canvas,
+              ball,
+              player1,
+              player2,
+              player1Y,
+              player2Y,
+              player1Score,
+              player2Score,
+              updatePlayingInfoHandler,
+            )
+          ) {
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
           }
@@ -50,7 +63,7 @@ export const CrazyPongPresenter = ({
       }
     };
     render();
-  }, [player1Y, player1Score, player2Score]);
+  }, [player1Y, player2Y, player1Score, player2Score, updatePlayingInfoHandler]);
 
   return (
     <canvas
