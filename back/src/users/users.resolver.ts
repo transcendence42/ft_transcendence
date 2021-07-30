@@ -10,8 +10,9 @@ import { AlarmsService } from 'src/alarms/alarms.service';
 import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { FollowsService } from 'src/follows/follows.service';
 import { UploadUserAvatarInput } from 'src/upload/upload.input';
-import { UserUploadAvatarType } from 'src/upload/upload.type';
-var FileSaver = require('file-saver');
+import { Upload, UploadReturnType } from 'src/upload/upload.type';
+import { createWriteStream } from 'fs';
+import { GraphQLUpload } from 'apollo-server-express';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
@@ -26,7 +27,7 @@ export class UsersResolver {
     private readonly usersService: UsersService,
     private readonly alarmsService: AlarmsService,
     private readonly followsService: FollowsService,
-  ) { }
+  ) {}
 
   @Mutation(() => User)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
@@ -124,16 +125,36 @@ export class UsersResolver {
     return this.followsService.findFollowings({ index: index });
   }
 
-  @Mutation(() => UserUploadAvatarType)
-  async singleUpload(@Args('uploadUserAvatarInput') uploadUserAvatarInput: UploadUserAvatarInput) {
-    console.log('THIS IS FILE', uploadUserAvatarInput);
-    const fileData = await uploadUserAvatarInput.file;
-    // FileSaver.saveAs(file, 'haha');
-    // fs.writeFile('yeji', file, (err) => {
-    //   console.log(err);
-    // });
-    // return fileData;
+  // @Mutation(() => UploadReturnType)
+  // async singleUpload(@Args('uploadUserAvatarInput') uploadUserAvatarInput: UploadUserAvatarInput) {
+  //   console.log('THIS IS FILE', uploadUserAvatarInput);
+  //   const fileData = await uploadUserAvatarInput.file;
+  //   // FileSaver.saveAs(file, 'haha');
+  //   // fs.writeFile('yeji', file, (err) => {
+  //   //   console.log(err);
+  //   // });
+  //   // return fileData;
 
-    return { success: true };
+  //   return { success: true };
+  // }
+
+  // @Mutation(() => UploadReturnType)
+  // async uploadFile(@Args('file') file: Upload) {
+  //   console.log('Hello file', file);
+  //   return { success: true };
+  // }
+
+  @Mutation(() => Boolean)
+  async uploadFile(
+    @Args('file', { type: () => GraphQLUpload })
+    { createReadStream, filename }: Upload,
+  ): Promise<boolean> {
+    console.log(filename, createReadStream);
+    return new Promise(async (resolve, reject) =>
+      createReadStream()
+        .pipe(createWriteStream(__dirname + `/../../../images/${filename}`))
+        .on('finish', () => resolve(true))
+        .on('error', () => reject(false)),
+    );
   }
 }

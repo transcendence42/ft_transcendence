@@ -1,10 +1,11 @@
-import { ApolloClient, InMemoryCache, HttpLink, split, makeVar } from '@apollo/client';
+import { ApolloClient, InMemoryCache, split, makeVar } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { GRAPHQL_URL, SUBSCRIPTION_URL } from '../utils/constants';
 import { getCookies, bearerAuthorization } from '../utils/util';
+import { createUploadLink } from 'apollo-upload-client';
 
-const httpLink = new HttpLink({
+const httpLink = createUploadLink({
   uri: GRAPHQL_URL,
   headers: {
     authorization: bearerAuthorization(getCookies('access_token')),

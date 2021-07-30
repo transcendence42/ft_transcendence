@@ -5348,15 +5348,10 @@ fresh@0.5.2:
   resolved "https://registry.npmjs.org/fresh/-/fresh-0.5.2.tgz"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-fs-capacitor@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.npmjs.org/fs-capacitor/-/fs-capacitor-2.0.4.tgz"
-  integrity sha512-8S4f4WsCryNw2mJJchi46YgB6CR5Ze+4L1h8ewl9tEpL4SJ3ZO+c/bS4BWhB8bK+O3TMqhuZarTitd0S0eh2pA==
-
-fs-capacitor@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.npmjs.org/fs-capacitor/-/fs-capacitor-6.2.0.tgz"
-  integrity sha512-nKcE1UduoSKX27NSZlg879LdQc94OtbOsEmKMN2MBNudXREvijRKx2GEBsTMTfws+BrbkJoEuynbGSVRSpauvw==
+fs-capacitor@^2.0.4, fs-capacitor@^4.0.1, fs-capacitor@^5.0.0, fs-capacitor@^6.2.0:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/fs-capacitor/-/fs-capacitor-5.0.1.tgz#41fee9b77c697ea921c61988b112687964d8421b"
+  integrity sha512-F0a5Y+w4zQoB7qXUV+K3ZorBgLuvvBKryVd2px+aEk7o+uNFPb3oDgt2mO74I+2BItL+lYhiN9XfiY+4fATHkw==
 
 fs-extra@9.1.0, fs-extra@^9.0.0, fs-extra@^9.0.1:
   version "9.1.0"
@@ -5559,7 +5554,7 @@ graphql-tools@^4.0.8:
 
 graphql-upload@^12.0.0:
   version "12.0.0"
-  resolved "https://registry.npmjs.org/graphql-upload/-/graphql-upload-12.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/graphql-upload/-/graphql-upload-12.0.0.tgz#2351d20d294e920fb25d2eba9f7c352e37a1a02b"
   integrity sha512-ovZ3Q7sZ17Bmn8tYl22MfrpNR7nYM/DUszXWgkue7SFIlI9jtqszHAli8id8ZcnGBc9GF0gUTNSskYWW+5aNNQ==
   dependencies:
     busboy "^0.3.1"
@@ -5567,6 +5562,16 @@ graphql-upload@^12.0.0:
     http-errors "^1.8.0"
     isobject "^4.0.0"
     object-path "^0.11.5"
+
+graphql-upload@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/graphql-upload/-/graphql-upload-9.0.0.tgz#14c5250895f5d04ea83dcfcb3a16bd0e1c4cee95"
+  integrity sha512-YR2o9GoDa5On3q3lYLkLo3gHfa8crCHvMY1QbT7Zqja6BUqiihqaGjbWbvSPko/gbDSmZE+zLcX46Ef+/SmRyA==
+  dependencies:
+    busboy "^0.3.1"
+    fs-capacitor "^4.0.1"
+    http-errors "^1.7.3"
+    object-path "^0.11.4"
 
 graphql@*, graphql@^15.5.1:
   version "15.5.1"

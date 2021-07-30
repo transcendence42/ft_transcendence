@@ -3,6 +3,6 @@ import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
 export class UploadUserAvatarInput {
-  @Field()
-  file: Upload;
+  // @Field()
+  // file: Upload;
 }

@@ -43,10 +43,6 @@ type Alarm {
   user: User!
 }
 
-type UserUploadAvatarType {
-  success: Boolean!
-}
-
 type Game {
   index: Int!
   isPlaying: Boolean!
@@ -88,8 +84,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-07-30T03:47:58.154Z"
-  modifiedAt: DateTime = "2021-07-30T03:47:58.154Z"
+  createdAt: DateTime = "2021-07-30T08:58:38.692Z"
+  modifiedAt: DateTime = "2021-07-30T08:58:38.692Z"
 }
 
 input user {
@@ -103,8 +99,8 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-07-30T03:47:58.154Z"
-  modifiedAt: DateTime = "2021-07-30T03:47:58.154Z"
+  createdAt: DateTime = "2021-07-30T08:58:38.692Z"
+  modifiedAt: DateTime = "2021-07-30T08:58:38.692Z"
 }
 
 type Query {
@@ -140,7 +136,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(userID: String!): User!
-  singleUpload(uploadUserAvatarInput: UploadUserAvatarInput!): UserUploadAvatarType!
+  uploadFile(file: Upload!): Boolean!
   createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
   removeAlarm(index: Int!): Alarm!
@@ -177,10 +173,7 @@ input UpdateUserInput {
   modifiedAt: DateTime
 }
 
-input UploadUserAvatarInput {
-  file: Upload!
-}
-
+"""The `Upload` scalar type represents a file upload."""
 scalar Upload
 
 input CreateAlarmInput {

@@ -90,6 +90,6 @@ adminBro.registerAdapter({ Database, Resource });
     PassportModule.register({ session: true }),
   ],
   controllers: [AppController],
-  providers: [AppService, Upload],
+  providers: [AppService],
 })
 export class AppModule {}
