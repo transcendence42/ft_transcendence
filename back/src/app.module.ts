@@ -23,7 +23,6 @@ import { ChatLog } from './chat-logs/entities/chat-log.entity';
 import { Follow } from './follows/entities/follow.entity';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { Upload } from './upload/upload.scalar';
 
 adminBro.registerAdapter({ Database, Resource });
 

@@ -9,10 +9,9 @@ import { AuthenticationProvider } from 'src/auth/auth';
 import { AlarmsService } from 'src/alarms/alarms.service';
 import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { FollowsService } from 'src/follows/follows.service';
-import { UploadUserAvatarInput } from 'src/upload/upload.input';
-import { Upload, UploadReturnType } from 'src/upload/upload.type';
 import { createWriteStream } from 'fs';
 import { GraphQLUpload } from 'apollo-server-express';
+import { Upload } from 'src/upload/upload.type';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
@@ -87,7 +86,6 @@ export class UsersResolver {
         return this.usersService.findOne(x);
       }),
     );
-    console.log(users);
     return users;
   }
 
@@ -147,14 +145,36 @@ export class UsersResolver {
   @Mutation(() => Boolean)
   async uploadFile(
     @Args('file', { type: () => GraphQLUpload })
-    { createReadStream, filename }: Upload,
+    file: Upload,
   ): Promise<boolean> {
-    console.log(filename, createReadStream);
+    const { createReadStream, filename } = file;
     return new Promise(async (resolve, reject) =>
       createReadStream()
-        .pipe(createWriteStream(__dirname + `/../../../images/${filename}`))
+        .pipe(createWriteStream(`./images/${filename}`))
         .on('finish', () => resolve(true))
         .on('error', () => reject(false)),
     );
   }
+  // const stream = createReadStream();
+  //   await new Promise((resolve, reject) => {
+  //     console.log(file);
+  //     const writeStream = createWriteStream(__dirname + `/${filename}`);
+  //     writeStream.on('finish', resolve);
+  //     writeStream.on('error', (error) => {
+  //       console.log(error);
+  //     });
+  //     stream.on('error', (error) => writeStream.destroy(error));
+  //     stream.pipe(writeStream);
+  //   });
+
+  //   return true;
+  // }
+  //   console.log(filename, __dirname, createReadStream);
+  //   return await new Promise((resolve, reject) =>
+  //     createReadStream()
+  //       .pipe(createWriteStream(__dirname + `/../../../images/${filename}`))
+  //       .on('finish', () => resolve(true))
+  //       .on('error', () => reject(false)),
+  //   );
+  // }
 }

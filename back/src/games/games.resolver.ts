@@ -11,7 +11,7 @@ import { CurrentUser } from 'src/users/users.resolver';
 @Resolver(() => Game)
 @UseGuards(GqlAuthGuard)
 export class GamesResolver {
-  constructor(private readonly gamesService: GamesService) { }
+  constructor(private readonly gamesService: GamesService) {}
 
   @Mutation(() => Game)
   createGame(@Args('createGameInput') createGameInput: CreateGameInput) {
@@ -30,7 +30,6 @@ export class GamesResolver {
 
   @Query(() => [Game], { name: 'myGameRecords' })
   findMyGameRecords(@CurrentUser() user: User) {
-    console.log(user);
     return this.gamesService.findByUserID(user.userID);
   }
 

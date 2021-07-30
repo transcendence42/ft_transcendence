@@ -20,12 +20,12 @@ export const FileUploadButton = () => {
       //     },
       //   },
       // });
-      await uploadFile({
+      const result = await uploadFile({
         variables: {
           file: file,
         },
       });
-      console.log(`success!!!! `);
+      console.log(`success!!!! ${result}`);
     } else {
       console.log('elselselsel');
     }

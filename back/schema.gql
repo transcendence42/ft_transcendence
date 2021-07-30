@@ -84,8 +84,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-07-30T08:58:38.692Z"
-  modifiedAt: DateTime = "2021-07-30T08:58:38.692Z"
+  createdAt: DateTime = "2021-07-30T15:19:57.082Z"
+  modifiedAt: DateTime = "2021-07-30T15:19:57.082Z"
 }
 
 input user {
@@ -99,8 +99,8 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-07-30T08:58:38.692Z"
-  modifiedAt: DateTime = "2021-07-30T08:58:38.692Z"
+  createdAt: DateTime = "2021-07-30T15:19:57.082Z"
+  modifiedAt: DateTime = "2021-07-30T15:19:57.082Z"
 }
 
 type Query {
@@ -121,6 +121,7 @@ type Query {
   follow(index: Int!): Follow!
   games: [Game!]!
   gameRecords(userID: String!): [Game!]!
+  myGameRecords: [Game!]!
   game(index: Int!): Game!
   chats: [Chat!]!
   chat(uuid: String!): Chat!
