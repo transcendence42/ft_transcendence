@@ -1,12 +1,17 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, GqlExecutionContext } from '@nestjs/graphql';
 import { GamesService } from './games.service';
 import { Game } from './entities/game.entity';
 import { CreateGameInput } from './dto/create-game.input';
 import { UpdateGameInput } from './dto/update-game.input';
+import { User } from 'src/users/entities/user.entity';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from 'src/auth/guards/gql.guard';
+import { CurrentUser } from 'src/users/users.resolver';
 
 @Resolver(() => Game)
+@UseGuards(GqlAuthGuard)
 export class GamesResolver {
-  constructor(private readonly gamesService: GamesService) {}
+  constructor(private readonly gamesService: GamesService) { }
 
   @Mutation(() => Game)
   createGame(@Args('createGameInput') createGameInput: CreateGameInput) {
@@ -21,6 +26,12 @@ export class GamesResolver {
   @Query(() => [Game], { name: 'gameRecords' })
   findByUserID(@Args('userID', { type: () => String }) userID: string) {
     return this.gamesService.findByUserID(userID);
+  }
+
+  @Query(() => [Game], { name: 'myGameRecords' })
+  findMyGameRecords(@CurrentUser() user: User) {
+    console.log(user);
+    return this.gamesService.findByUserID(user.userID);
   }
 
   @Query(() => Game, { name: 'game' })
