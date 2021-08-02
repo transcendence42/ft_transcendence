@@ -21,12 +21,12 @@ export class PlayingInfo extends BaseEntity {
   @Field({ nullable: true })
   ballY: number;
 
-  @Column({ type: 'integer', nullable: true })
-  @Field({ nullable: true })
+  @Column({ type: 'integer', nullable: true, default: 5 })
+  @Field(() => Int, { nullable: true, defaultValue: 5 })
   ballVelocityX: number;
 
-  @Column({ type: 'integer', nullable: true })
-  @Field({ nullable: true })
+  @Column({ type: 'integer', nullable: true, default: 5 })
+  @Field(() => Int, { nullable: true, defaultValue: 5 })
   ballVelocityY: number;
 
   @Column({ type: 'integer', nullable: true })

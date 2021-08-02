@@ -157,6 +157,8 @@ export interface IPlayingInfo {
   uuid?: string;
   ballX: number;
   ballY: number;
+  ballVelocityX: number;
+  ballVelocityY: number;
   player1Y: number;
   player2Y: number;
   player1Score: number;
@@ -169,6 +171,8 @@ export interface IPlayingUpdateInfo {
   uuid?: string;
   ballX?: number;
   ballY?: number;
+  ballVelocityX?: number;
+  ballVelocityY?: number;
   player1Y?: number;
   player2Y?: number;
   player1Score?: number;

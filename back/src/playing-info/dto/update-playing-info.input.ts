@@ -15,10 +15,10 @@ export class UpdatePlayingInfoInput extends PartialType(CreatePlayingInfoInput) 
   @Field({ nullable: true })
   ballY: number;
 
-  @Field()
+  @Field({ nullable: true })
   ballVelocityX: number;
 
-  @Field()
+  @Field({ nullable: true })
   ballVelocityY: number;
 
   @Field({ nullable: true })

@@ -6,6 +6,8 @@ export const UPDATE_PLAYINGINFO = gql`
       index
       ballX
       ballY
+      ballVelocityX
+      ballVelocityY
       player1Y
       player2Y
       player1Score
@@ -20,6 +22,8 @@ export const SUBSCRIBE_CRAZYPONG = gql`
       index
       ballX
       ballY
+      ballVelocityX
+      ballVelocityY
       player1Y
       player2Y
       player1Score
