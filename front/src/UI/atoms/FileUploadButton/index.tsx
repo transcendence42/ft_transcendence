@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client';
 import React from 'react';
 import { UPLOAD_FILE } from './FileUploadButtonQueries';
+import './index.scss';
 
 export const FileUploadButton = () => {
-  // const [singleUploadMutation] = useMutation(SINGLE_UPLOAD);
   const [uploadFile] = useMutation(UPLOAD_FILE);
 
   const fileUpload: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
@@ -11,15 +11,6 @@ export const FileUploadButton = () => {
     if (files && files.length === 1) {
       const file = files[0];
       console.log('file at FILEUPLOAD', file);
-      // const {
-      //   data: { singleUpload },
-      // } = await singleUploadMutation({
-      //   variables: {
-      //     uploadUserAvatarInput: {
-      //       file: file,
-      //     },
-      //   },
-      // });
       const result = await uploadFile({
         variables: {
           file: file,
@@ -30,5 +21,16 @@ export const FileUploadButton = () => {
       console.log('elselselsel');
     }
   };
-  return <input type="file" onChange={fileUpload} />;
+  return (
+    <>
+      <div className="upload-button-container">
+        <label htmlFor="input-file">
+          <span role="img" aria-label="camera">
+            📷
+          </span>
+        </label>
+        <input type="file" id="input-file" onChange={fileUpload} />
+      </div>
+    </>
+  );
 };

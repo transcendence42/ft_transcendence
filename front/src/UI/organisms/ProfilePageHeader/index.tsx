@@ -8,7 +8,6 @@ import { GET_OTHERS_PROFILE } from './ProfilePageHeaderQueries';
 import { GET_MY_PROFILE } from '../MainPageHeader/MainPageHeaderQueries';
 import { Redirect } from 'react-router-dom';
 import { ProfileLargeEdit } from '../../molecules/ProfileLargeEdit';
-import { FileUploadButton } from '../../atoms/FileUploadButton';
 
 const ProfilePageHeader = ({ ...props }) => {
   const { userID } = props;
@@ -61,7 +60,6 @@ const ProfilePageHeader = ({ ...props }) => {
           reverse={false}
         />
       </Box>
-      <FileUploadButton />
     </>
   );
 };

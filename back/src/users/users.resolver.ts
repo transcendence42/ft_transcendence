@@ -107,6 +107,11 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
+  updateAvatar(@CurrentUser() user: User, @Args('avatar') avatar: string) {
+    return this.usersService.updateAvatar(user.userID, avatar);
+  }
+
+  @Mutation(() => User)
   removeUser(@Args('userID', { type: () => String }) userID: string) {
     return this.usersService.remove(userID);
   }
@@ -144,37 +149,20 @@ export class UsersResolver {
 
   @Mutation(() => Boolean)
   async uploadFile(
+    @CurrentUser() user: User,
     @Args('file', { type: () => GraphQLUpload })
     file: Upload,
   ): Promise<boolean> {
     const { createReadStream, filename } = file;
+    console.log('back', filename);
     return new Promise(async (resolve, reject) =>
       createReadStream()
         .pipe(createWriteStream(`./images/${filename}`))
-        .on('finish', () => resolve(true))
+        .on('finish', () => {
+          resolve(true);
+          // this.usersService.updateAvatar(user.userID, `./images/${filename}`);
+        })
         .on('error', () => reject(false)),
     );
   }
-  // const stream = createReadStream();
-  //   await new Promise((resolve, reject) => {
-  //     console.log(file);
-  //     const writeStream = createWriteStream(__dirname + `/${filename}`);
-  //     writeStream.on('finish', resolve);
-  //     writeStream.on('error', (error) => {
-  //       console.log(error);
-  //     });
-  //     stream.on('error', (error) => writeStream.destroy(error));
-  //     stream.pipe(writeStream);
-  //   });
-
-  //   return true;
-  // }
-  //   console.log(filename, __dirname, createReadStream);
-  //   return await new Promise((resolve, reject) =>
-  //     createReadStream()
-  //       .pipe(createWriteStream(__dirname + `/../../../images/${filename}`))
-  //       .on('finish', () => resolve(true))
-  //       .on('error', () => reject(false)),
-  //   );
-  // }
 }

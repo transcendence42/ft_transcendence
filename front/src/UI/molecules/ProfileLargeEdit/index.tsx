@@ -4,6 +4,7 @@ import { IProfileLarge } from '../../../utils/interface';
 import '../ProfileLarge/index.scss';
 import { UPDATE_NICKNAME } from './ProfileLargeEditQueries';
 import { useMutation } from '@apollo/client';
+import { FileUploadButton } from '../../atoms/FileUploadButton';
 
 export const ProfileLargeEdit = ({
   userID = 'ID',
@@ -68,11 +69,14 @@ export const ProfileLargeEdit = ({
                   />
                 </td>
                 <td>
-                  <button onClick={editNickname}>
-                    <span role="img" aria-label="pencil">
-                      ✏️
-                    </span>
-                  </button>
+                  <div className="edit-button-container">
+                    <button onClick={editNickname}>
+                      <span role="img" aria-label="pencil">
+                        ✏️
+                      </span>
+                    </button>
+                    <FileUploadButton />
+                  </div>
                 </td>
               </tr>
             </thead>

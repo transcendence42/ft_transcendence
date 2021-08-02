@@ -59,15 +59,7 @@ thead {
   font-size: 0.9rem;
 }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-}
-
-.overlay:hover {
-  background: url('/images/camera_icon.png');
+.edit-button-container {
+  display: flex;
+  flex-direction: row;
 }
