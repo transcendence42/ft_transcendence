@@ -22,7 +22,6 @@ const collision = (
       updatePlayingInfoHandler({
         index: 1,
         uuid: '1',
-        player1Score: player1Score,
         player2Score: player2Score + 1,
       });
       return false;
@@ -39,7 +38,6 @@ const collision = (
         index: 1,
         uuid: '1',
         player1Score: player1Score + 1,
-        player2Score: player2Score,
       });
       return false;
     }

@@ -41,10 +41,7 @@ export const CrazyPongPresenter = ({
           paddleMovement(ctx, { ...player1, y: player1Y });
           paddleMovement(ctx, { ...player2, y: player2Y });
 
-          if (
-            inputName === 'player1' &&
-            !collision(canvas, ball, player1, player2, player1Score, player2Score, updatePlayingInfoHandler)
-          ) {
+          if (!collision(canvas, ball, player1, player2, player1Score, player2Score, updatePlayingInfoHandler)) {
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
           }
