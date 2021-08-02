@@ -89,4 +89,12 @@ export class ChatsResolver {
   ) {
     return this.chatsService.toggleAdmin(uuid, userID);
   }
+
+  @Mutation(() => Chat)
+  createDM(
+    @Args('user1', { type: () => String }) origUserID: string,
+    @Args('user2', { type: () => String }) destUserID: string,
+  ) {
+    return this.chatsService.createDM(origUserID, destUserID);
+  }
 }

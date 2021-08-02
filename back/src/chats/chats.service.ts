@@ -198,4 +198,42 @@ export class ChatsService {
       : [...obj.chat.adminID, obj.user.userID];
     return await Chat.save(obj.chat);
   }
+
+  async createDM(origUserID: string, destUserID: string) {
+    await User.findOneOrFail({
+      where: {
+        userID: origUserID,
+      },
+    }).catch(() => {
+      const error = { uuid: `userID(${origUserID}) does not exist` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+    });
+    await User.findOneOrFail({
+      where: {
+        userID: destUserID,
+      },
+    }).catch(() => {
+      const error = { uuid: `userID(${destUserID}) does not exist` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+    });
+    const existedDM = await Chat.getRepository()
+      .createQueryBuilder()
+      .where('type=:type', { type: 'dm' })
+      .andWhere(':origUserID=any("userID")', { origUserID: origUserID })
+      .andWhere(':destUserID=any("userID")', { destUserID: destUserID })
+      .getMany();
+    if (existedDM.length === 0) {
+      const newDM = new Chat();
+      newDM.name = `${origUserID},${destUserID}`;
+      newDM.type = 'dm';
+      newDM.ownerID = origUserID;
+      newDM.userID = [origUserID, destUserID];
+      return await Chat.save(newDM);
+    }
+    if (!existedDM[0].isAlive) {
+      existedDM[0].isAlive = true;
+      return await Chat.save(existedDM[0]);
+    }
+    return existedDM[0];
+  }
 }
