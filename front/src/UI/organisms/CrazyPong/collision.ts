@@ -21,16 +21,16 @@ const collision = (
       ball.velocityX *= -1;
     } else {
       player2.score += 1;
-      updatePlayingInfoHandler({
-        index: 1,
-        uuid: '1',
-        ballX: ball.x,
-        ballY: ball.y,
-        player1Y: player1Y,
-        player2Y: player2Y,
-        player1Score: player1Score,
-        player2Score: player2Score + 1,
-      });
+      // updatePlayingInfoHandler({
+      //   index: 1,
+      //   uuid: '1',
+      //   ballX: ball.x,
+      //   ballY: ball.y,
+      //   player1Y: player1Y,
+      //   player2Y: player2Y,
+      //   player1Score: player1Score,
+      //   player2Score: player2Score + 1,
+      // });
       return false;
     }
   }
@@ -41,16 +41,16 @@ const collision = (
       ball.velocityX *= -1;
     } else {
       player1.score += 1;
-      updatePlayingInfoHandler({
-        index: 1,
-        uuid: '1',
-        ballX: ball.x,
-        ballY: ball.y,
-        player1Y: player1Y,
-        player2Y: player2Y,
-        player1Score: player1Score + 1,
-        player2Score: player2Score,
-      });
+      // updatePlayingInfoHandler({
+      //   index: 1,
+      //   uuid: '1',
+      //   ballX: ball.x,
+      //   ballY: ball.y,
+      //   player1Y: player1Y,
+      //   player2Y: player2Y,
+      //   player1Score: player1Score + 1,
+      //   player2Score: player2Score,
+      // });
       return false;
     }
   }

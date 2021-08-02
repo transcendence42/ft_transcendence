@@ -81,13 +81,13 @@ type ChatLog {
 
 type PlayingInfo {
   index: Int!
-  uuid: String!
-  ballX: Float!
-  ballY: Float!
-  player1Y: Float!
-  player2Y: Float!
-  player1Score: Float!
-  player2Score: Float!
+  uuid: String
+  ballX: Float
+  ballY: Float
+  player1Y: Float
+  player2Y: Float
+  player1Score: Int
+  player2Score: Int
   createdAt: DateTime!
 }
 
@@ -96,8 +96,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-07-30T04:02:01.803Z"
-  modifiedAt: DateTime = "2021-07-30T04:02:01.803Z"
+  createdAt: DateTime = "2021-08-02T07:27:54.629Z"
+  modifiedAt: DateTime = "2021-08-02T07:27:54.629Z"
 }
 
 input user {
@@ -111,8 +111,8 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-07-30T04:02:01.804Z"
-  modifiedAt: DateTime = "2021-07-30T04:02:01.805Z"
+  createdAt: DateTime = "2021-08-02T07:27:54.630Z"
+  modifiedAt: DateTime = "2021-08-02T07:27:54.630Z"
 }
 
 type Query {
@@ -264,25 +264,22 @@ input UpdateChatLogInput {
 }
 
 input CreatePlayingInfoInput {
-  index: Int!
   uuid: String!
   ballX: Float!
   ballY: Float!
   player1Y: Float!
   player2Y: Float!
-  player1Score: Float!
-  player2Score: Float!
 }
 
 input UpdatePlayingInfoInput {
+  uuid: String
+  ballX: Float
+  ballY: Float
+  player1Y: Float
+  player2Y: Float
   index: Int!
-  uuid: String!
-  ballX: Float!
-  ballY: Float!
-  player1Y: Float!
-  player2Y: Float!
-  player1Score: Float!
-  player2Score: Float!
+  player1Score: Float
+  player2Score: Float
 }
 
 type Subscription {

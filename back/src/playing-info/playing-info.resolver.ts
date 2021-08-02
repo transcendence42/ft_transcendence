@@ -23,8 +23,8 @@ export class PlayingInfoResolver {
   // }
 
   // @Query(() => PlayingInfo, { name: 'playingInfo' })
-  // findOne(@Args('id', { type: () => Int }) id: number) {
-  //   return this.playingInfoService.findOne(id);
+  // findOne(@Args('index', { type: () => Int }) index: number) {
+  //   return this.playingInfoService.findOne(index);
   // }
 
   // @Mutation(() => PlayingInfo)
@@ -34,8 +34,9 @@ export class PlayingInfoResolver {
 
   @Mutation(() => PlayingInfo)
   async updatePlayingInfo(@Args('playingInfoInput') updatePlayingInfoInput: UpdatePlayingInfoInput) {
-    this.pubSubProvider.getPubSub().publish('playingInfo', { playingInfo: updatePlayingInfoInput });
-    return updatePlayingInfoInput;
+    const playingInfo = await this.playingInfoService.update(updatePlayingInfoInput.index, updatePlayingInfoInput);
+    this.pubSubProvider.getPubSub().publish('playingInfo', { playingInfo: playingInfo });
+    return playingInfo;
   }
 
   @Subscription((returns) => PlayingInfo, {

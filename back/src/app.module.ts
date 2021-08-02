@@ -24,6 +24,7 @@ import { Follow } from './follows/entities/follow.entity';
 import { ConfigModule } from '@nestjs/config';
 import { PlayingInfoModule } from './playing-info/playing-info.module';
 import * as Joi from 'joi';
+import { PlayingInfo } from './playing-info/entities/playing-info.entity';
 
 adminBro.registerAdapter({ Database, Resource });
 
@@ -61,7 +62,7 @@ adminBro.registerAdapter({ Database, Resource });
     }),
     AdminModule.createAdmin({
       adminBroOptions: {
-        resources: [User, Game, Alarm, Chat, ChatLog, Follow],
+        resources: [User, Game, Alarm, Chat, ChatLog, Follow, PlayingInfo],
         rootPath: '/admin',
       },
       auth: {

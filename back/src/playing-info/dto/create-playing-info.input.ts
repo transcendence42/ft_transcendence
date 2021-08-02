@@ -2,9 +2,6 @@ import { InputType, Int, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreatePlayingInfoInput {
-  @Field(() => Int)
-  index: number;
-
   @Field()
   uuid: string;
 
@@ -19,10 +16,4 @@ export class CreatePlayingInfoInput {
 
   @Field()
   player2Y: number;
-
-  @Field()
-  player1Score: number;
-
-  @Field()
-  player2Score: number;
 }

@@ -6,24 +6,24 @@ export class UpdatePlayingInfoInput extends PartialType(CreatePlayingInfoInput) 
   @Field(() => Int)
   index: number;
 
-  @Field()
+  @Field({ nullable: true })
   uuid: string;
 
-  @Field()
+  @Field({ nullable: true })
   ballX: number;
 
-  @Field()
+  @Field({ nullable: true })
   ballY: number;
 
-  @Field()
+  @Field({ nullable: true })
   player1Y: number;
 
-  @Field()
+  @Field({ nullable: true })
   player2Y: number;
 
-  @Field()
+  @Field({ nullable: true })
   player1Score: number;
 
-  @Field()
+  @Field({ nullable: true })
   player2Score: number;
 }
