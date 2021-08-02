@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import { CrazyPongPresenter } from './CrazyPongPresentater.tsx';
 import { SUBSCRIBE_CRAZYPONG, UPDATE_PLAYINGINFO } from './CrazyPongQuery';
-import { IPlayingInfo } from '../../../utils/interface';
+import { IPlayingUpdateInfo } from '../../../utils/interface';
 
 export const CrazyPongContainer = () => {
   const { data, loading, error } = useSubscription(SUBSCRIBE_CRAZYPONG, {
@@ -14,7 +14,7 @@ export const CrazyPongContainer = () => {
   const [updatePlayingInfo] = useMutation(UPDATE_PLAYINGINFO);
   const [inputName, setInputName] = useState('');
 
-  const updatePlayingInfoHandler = (playingInfo: IPlayingInfo) => {
+  const updatePlayingInfoHandler = (playingInfo: IPlayingUpdateInfo) => {
     const { index, uuid, ballX, ballY, player1Y, player2Y, player1Score, player2Score } = playingInfo;
     updatePlayingInfo({
       variables: { info: { index, uuid, ballX, ballY, player1Y, player2Y, player1Score, player2Score } },

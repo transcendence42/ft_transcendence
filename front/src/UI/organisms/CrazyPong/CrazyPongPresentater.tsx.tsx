@@ -6,7 +6,7 @@ import { BallMovement } from './ballMovement';
 import { paddleMovement } from './paddleMovement';
 import { collision } from './collision';
 import { data } from './data';
-import { IPlayingInfo } from '../../../utils/interface';
+import { IPlayingInfo, IPlayingUpdateInfo } from '../../../utils/interface';
 
 const { ball, player1, player2 } = data;
 
@@ -18,7 +18,7 @@ export const CrazyPongPresenter = ({
   inputName,
 }: {
   playingInfo: IPlayingInfo;
-  updatePlayingInfoHandler: (playingInfo: IPlayingInfo) => void;
+  updatePlayingInfoHandler: (playingInfo: IPlayingUpdateInfo) => void;
   inputName: string;
 }) => {
   const { index, ballX, ballY, player1Y, player2Y, player1Score, player2Score } = playingInfo;
@@ -39,10 +39,10 @@ export const CrazyPongPresenter = ({
           drawNet(ctx, canvas.width, canvas.height);
           BallMovement(ctx, ball);
           paddleMovement(ctx, { ...player1, y: player1Y });
-          paddleMovement(ctx, player2);
+          paddleMovement(ctx, { ...player2, y: player2Y });
 
           if (
-            inputName === 'holee' &&
+            inputName === 'player1' &&
             !collision(
               canvas,
               ball,
@@ -69,21 +69,14 @@ export const CrazyPongPresenter = ({
     <canvas
       ref={canvasRef}
       onMouseMove={(event) => {
-        if (inputName !== 'holee') {
-          return;
-        }
         if (event.clientY < event.currentTarget.getBoundingClientRect().top + player1.paddleHeight / 2) {
           updatePlayingInfoHandler({
             index: 1,
             uuid: '1',
-            ballX: ball.x,
-            ballY: ball.y,
-            player1Y: 0,
-            player2Y: player2.y,
-            player1Score: player1Score,
-            player2Score: player2Score,
+            player1Y: inputName === 'player1' ? 0 : player1Y,
+            player2Y: inputName === 'player2' ? 0 : player2Y,
           });
-          return (player1.y = 0);
+          // return (player1.y = 0);
         }
         if (
           event.clientY >
@@ -92,28 +85,26 @@ export const CrazyPongPresenter = ({
           updatePlayingInfoHandler({
             index: 1,
             uuid: '1',
-            ballX: ball.x,
-            ballY: ball.y,
-            player1Y: CANVAS_HEIGHT - player1.paddleHeight,
-            player2Y: player2.y,
-            player1Score: player1Score,
-            player2Score: player2Score,
+            player1Y: inputName === 'player1' ? CANVAS_HEIGHT - player1.paddleHeight : player1Y,
+            player2Y: inputName === 'player2' ? CANVAS_HEIGHT - player2.paddleHeight : player2Y,
           });
-          return (player1.y = CANVAS_HEIGHT - player1.paddleHeight);
+          // return (player1.y = CANVAS_HEIGHT - player1.paddleHeight);
         }
         if (event.clientY - player1.paddleHeight / 2 > event.currentTarget.getBoundingClientRect().top) {
           updatePlayingInfoHandler({
             index: 1,
             uuid: '1',
-            ballX: ball.x,
-            ballY: ball.y,
-            player1Y: event.clientY - event.currentTarget.getBoundingClientRect().top - player1.paddleHeight / 2,
-            player2Y: player2.y,
-            player1Score: player1Score,
-            player2Score: player2Score,
+            player1Y:
+              inputName === 'player1'
+                ? event.clientY - event.currentTarget.getBoundingClientRect().top - player1.paddleHeight / 2
+                : player1Y,
+            player2Y:
+              inputName === 'player2'
+                ? event.clientY - event.currentTarget.getBoundingClientRect().top - player2.paddleHeight / 2
+                : player2Y,
           });
-          return (player1.y =
-            event.clientY - event.currentTarget.getBoundingClientRect().top - player1.paddleHeight / 2);
+          // return (player1.y =
+          //   event.clientY - event.currentTarget.getBoundingClientRect().top - player1.paddleHeight / 2);
         }
       }}
       className="canvas"

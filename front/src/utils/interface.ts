@@ -161,5 +161,17 @@ export interface IPlayingInfo {
   player2Y: number;
   player1Score: number;
   player2Score: number;
+  createdAt: string;
+}
+
+export interface IPlayingUpdateInfo {
+  index: number;
+  uuid?: string;
+  ballX?: number;
+  ballY?: number;
+  player1Y?: number;
+  player2Y?: number;
+  player1Score?: number;
+  player2Score?: number;
   createdAt?: string;
 }

@@ -1,4 +1,4 @@
-import { IPaddle, IBall, IPlayingInfo } from '../../../utils/interface';
+import { IPaddle, IBall, IPlayingUpdateInfo } from '../../../utils/interface';
 
 const collision = (
   canvas: HTMLCanvasElement,
@@ -9,7 +9,7 @@ const collision = (
   player2Y: number,
   player1Score: number,
   player2Score: number,
-  updatePlayingInfoHandler: (playingInfo: IPlayingInfo) => void,
+  updatePlayingInfoHandler: (playingInfo: IPlayingUpdateInfo) => void,
 ) => {
   if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
     ball.velocityY *= -1;
