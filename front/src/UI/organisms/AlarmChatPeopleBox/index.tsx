@@ -3,7 +3,7 @@ import { AlarmChatPeople } from '../../molecules';
 import { CHATLOG_SUBSCRIPTION } from './AlarmChatPeopleBoxQueries';
 
 export const AlarmChatPeopleBox = ({ ...props }) => {
-  const { chat, refetchChat, subscribeToNewMessage } = props;
+  const { chat, refetchChat, subscribeToNewMessage, setChatRoomState } = props;
   useEffect(() => {
     const unsubscribe = subscribeToNewMessage({
       document: CHATLOG_SUBSCRIPTION,
@@ -21,6 +21,7 @@ export const AlarmChatPeopleBox = ({ ...props }) => {
           adminID={chat.adminID}
           username={username}
           refetchChat={refetchChat}
+          setChatRoomState={setChatRoomState}
         />
       ))}
     </>

@@ -3,7 +3,14 @@ import { useMutation, useReactiveVar } from '@apollo/client';
 import { ContextMenu } from 'holee-contextmenu';
 
 import { currentChatVar, currentLoginIDVar } from '../../../../apollo/apolloProvider';
-import { CREATE_CHAT_LOG, TOGGLE_BLOCK, TOGGLE_MUTE, FORCED_OUT, TOGGLE_ADMIN } from './AlarmChatPeopleQueries';
+import {
+  CREATE_CHAT_LOG,
+  TOGGLE_BLOCK,
+  TOGGLE_MUTE,
+  FORCED_OUT,
+  TOGGLE_ADMIN,
+  CREATE_DM,
+} from './AlarmChatPeopleQueries';
 
 const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
   return (
@@ -16,8 +23,9 @@ const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
 };
 
 export const AlarmChatPeople = ({ ...props }) => {
-  const { username, ownerID, adminID, refetchChat } = props;
+  const { username, ownerID, adminID, refetchChat, setChatRoomState } = props;
   const outerRef = useRef<HTMLDivElement>(null);
+  const [createDM] = useMutation(CREATE_DM);
   const [toggleBlock] = useMutation(TOGGLE_BLOCK);
   const [toggleMute] = useMutation(TOGGLE_MUTE);
   const [createChatLog] = useMutation(CREATE_CHAT_LOG);
@@ -25,6 +33,18 @@ export const AlarmChatPeople = ({ ...props }) => {
   const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
   const loginID = currentLoginIDVar();
   const currentChatUUID = useReactiveVar(currentChatVar);
+
+  const handleSendMessage = async () => {
+    await createDM({
+      variables: {
+        user1: loginID,
+        user2: username,
+      },
+    }).then((res) => {
+      currentChatVar(res.data.createDM.uuid);
+      setChatRoomState('chat-room');
+    });
+  };
 
   const handleRegisterAdmin = async () => {
     await toggleAdmin({
@@ -109,7 +129,7 @@ export const AlarmChatPeople = ({ ...props }) => {
           console.log(eventTarget.dataset.option);
           break;
         case 'send-message':
-          console.log(eventTarget.dataset.option);
+          await handleSendMessage();
           break;
         case 'add-friend':
           console.log(eventTarget.dataset.option);

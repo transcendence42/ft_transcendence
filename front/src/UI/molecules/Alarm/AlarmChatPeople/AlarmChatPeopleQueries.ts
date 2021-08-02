@@ -48,3 +48,11 @@ export const TOGGLE_ADMIN = gql`
     }
   }
 `;
+
+export const CREATE_DM = gql`
+  mutation createDM($user1: String!, $user2: String!) {
+    createDM(user1: $user1, user2: $user2) {
+      uuid
+    }
+  }
+`;

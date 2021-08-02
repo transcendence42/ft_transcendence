@@ -142,7 +142,12 @@ export const AlarmChat = () => {
             <ChatLogSendBox muteIDList={data.chat.muteID} />
           </>
         ) : (
-          <AlarmChatPeopleBox chat={data.chat} refetchChat={refetch} subscribeToNewMessage={subscribeToNewMessage} />
+          <AlarmChatPeopleBox
+            chat={data.chat}
+            refetchChat={refetch}
+            subscribeToNewMessage={subscribeToNewMessage}
+            setChatRoomState={setChatRoomState}
+          />
         )}
       </AccordionPanel>
     </AccordionItem>
