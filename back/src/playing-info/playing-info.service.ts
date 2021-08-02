@@ -37,22 +37,22 @@ export class PlayingInfoService {
     if (updatePlayingInfoInput.uuid) {
       playingInfo.uuid = updatePlayingInfoInput.uuid;
     }
-    if (updatePlayingInfoInput.ballX) {
+    if (updatePlayingInfoInput.ballX || updatePlayingInfoInput.ballX === 0) {
       playingInfo.ballX = updatePlayingInfoInput.ballX;
     }
-    if (updatePlayingInfoInput.ballY) {
+    if (updatePlayingInfoInput.ballY || updatePlayingInfoInput.ballY === 0) {
       playingInfo.ballY = updatePlayingInfoInput.ballY;
     }
-    if (updatePlayingInfoInput.player1Y) {
+    if (updatePlayingInfoInput.player1Y || updatePlayingInfoInput.player1Y === 0) {
       playingInfo.player1Y = updatePlayingInfoInput.player1Y;
     }
-    if (updatePlayingInfoInput.player2Y) {
+    if (updatePlayingInfoInput.player2Y || updatePlayingInfoInput.player2Y === 0) {
       playingInfo.player2Y = updatePlayingInfoInput.player2Y;
     }
-    if (updatePlayingInfoInput.player1Score) {
+    if (updatePlayingInfoInput.player1Score || updatePlayingInfoInput.player1Score === 0) {
       playingInfo.player1Score = updatePlayingInfoInput.player1Score;
     }
-    if (updatePlayingInfoInput.player2Score) {
+    if (updatePlayingInfoInput.player2Score || updatePlayingInfoInput.player2Score === 0) {
       playingInfo.player2Score = updatePlayingInfoInput.player2Score;
     }
     const validate_error = await validate(playingInfo);
