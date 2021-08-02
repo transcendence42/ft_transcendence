@@ -11,6 +11,8 @@ export class PlayingInfoService {
     playingInfo.uuid = createPlayingInfoInput.uuid;
     playingInfo.ballX = createPlayingInfoInput.ballX;
     playingInfo.ballY = createPlayingInfoInput.ballY;
+    playingInfo.ballVelocityX = createPlayingInfoInput.ballVelocityX;
+    playingInfo.ballVelocityY = createPlayingInfoInput.ballVelocityY;
     playingInfo.player1Y = createPlayingInfoInput.player1Y;
     playingInfo.player2Y = createPlayingInfoInput.player2Y;
 
@@ -42,6 +44,12 @@ export class PlayingInfoService {
     }
     if (updatePlayingInfoInput.ballY || updatePlayingInfoInput.ballY === 0) {
       playingInfo.ballY = updatePlayingInfoInput.ballY;
+    }
+    if (updatePlayingInfoInput.ballVelocityX || updatePlayingInfoInput.ballVelocityX === 0) {
+      playingInfo.ballVelocityX = updatePlayingInfoInput.ballVelocityX;
+    }
+    if (updatePlayingInfoInput.ballVelocityY || updatePlayingInfoInput.ballVelocityY === 0) {
+      playingInfo.ballVelocityY = updatePlayingInfoInput.ballVelocityY;
     }
     if (updatePlayingInfoInput.player1Y || updatePlayingInfoInput.player1Y === 0) {
       playingInfo.player1Y = updatePlayingInfoInput.player1Y;

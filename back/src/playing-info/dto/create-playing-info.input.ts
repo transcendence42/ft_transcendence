@@ -12,6 +12,12 @@ export class CreatePlayingInfoInput {
   ballY: number;
 
   @Field()
+  ballVelocityX: number;
+
+  @Field()
+  ballVelocityY: number;
+
+  @Field()
   player1Y: number;
 
   @Field()
