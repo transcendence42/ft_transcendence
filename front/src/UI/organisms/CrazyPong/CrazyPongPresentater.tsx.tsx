@@ -43,17 +43,7 @@ export const CrazyPongPresenter = ({
 
           if (
             inputName === 'player1' &&
-            !collision(
-              canvas,
-              ball,
-              player1,
-              player2,
-              player1Y,
-              player2Y,
-              player1Score,
-              player2Score,
-              updatePlayingInfoHandler,
-            )
+            !collision(canvas, ball, player1, player2, player1Score, player2Score, updatePlayingInfoHandler)
           ) {
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
@@ -76,7 +66,6 @@ export const CrazyPongPresenter = ({
             player1Y: inputName === 'player1' ? 0 : player1Y,
             player2Y: inputName === 'player2' ? 0 : player2Y,
           });
-          // return (player1.y = 0);
         }
         if (
           event.clientY >
@@ -88,7 +77,6 @@ export const CrazyPongPresenter = ({
             player1Y: inputName === 'player1' ? CANVAS_HEIGHT - player1.paddleHeight : player1Y,
             player2Y: inputName === 'player2' ? CANVAS_HEIGHT - player2.paddleHeight : player2Y,
           });
-          // return (player1.y = CANVAS_HEIGHT - player1.paddleHeight);
         }
         if (event.clientY - player1.paddleHeight / 2 > event.currentTarget.getBoundingClientRect().top) {
           updatePlayingInfoHandler({
@@ -103,8 +91,6 @@ export const CrazyPongPresenter = ({
                 ? event.clientY - event.currentTarget.getBoundingClientRect().top - player2.paddleHeight / 2
                 : player2Y,
           });
-          // return (player1.y =
-          //   event.clientY - event.currentTarget.getBoundingClientRect().top - player1.paddleHeight / 2);
         }
       }}
       className="canvas"
