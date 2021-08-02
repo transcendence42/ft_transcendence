@@ -219,8 +219,10 @@ export class ChatsService {
     const existedDM = await Chat.getRepository()
       .createQueryBuilder()
       .where('type=:type', { type: 'dm' })
-      .andWhere(':origUserID=any("userID")', { origUserID: origUserID })
-      .andWhere(':destUserID=any("userID")', { destUserID: destUserID })
+      .andWhere('name=:name or name=:name2', {
+        name: `${origUserID},${destUserID}`,
+        name2: `${destUserID},${origUserID}`,
+      })
       .getMany();
     if (existedDM.length === 0) {
       const newDM = new Chat();
@@ -230,8 +232,9 @@ export class ChatsService {
       newDM.userID = [origUserID, destUserID];
       return await Chat.save(newDM);
     }
-    if (!existedDM[0].isAlive) {
+    if (!existedDM[0].isAlive || existedDM[0].userID.length !== 2) {
       existedDM[0].isAlive = true;
+      existedDM[0].userID = [origUserID, destUserID];
       return await Chat.save(existedDM[0]);
     }
     return existedDM[0];
