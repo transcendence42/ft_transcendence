@@ -1,7 +1,7 @@
 const data = {
   ball: {
-    x: 20,
-    y: 200,
+    x: 450,
+    y: 400,
     velocityX: 5,
     velocityY: 5,
     radius: 10,
