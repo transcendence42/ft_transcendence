@@ -12,7 +12,7 @@ const BallMovement = (
     index: 1,
     uuid: '1',
     ballX: ballVelocityX + ballX,
-    // ballY: ballVelocityY + ballY,
+    ballY: ballVelocityY + ballY,
   });
   // ball.x += ball.velocityX;
   // ball.y += ball.velocityY;
