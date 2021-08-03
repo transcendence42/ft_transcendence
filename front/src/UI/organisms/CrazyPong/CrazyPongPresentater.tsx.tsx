@@ -12,6 +12,7 @@ import { IPlayingInfo, IPlayingUpdateInfo } from '../../../utils/interface';
 const { ball, player1, player2 } = data;
 
 const CANVAS_HEIGHT = 800;
+let start, previousTimeStamp;
 
 export const CrazyPongPresenter = ({
   playingInfo,
@@ -29,53 +30,69 @@ export const CrazyPongPresenter = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const render = () => {
-      const canvas = canvasRef.current;
-      if (canvas) {
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const render = (timestamp) => {
+      if (start === undefined) {
+        start = timestamp;
+      }
+      const elapsed = timestamp - start;
+      if (previousTimeStamp !== timestamp) {
+        // 2 초 후 로직
+        const canvas = canvasRef.current;
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-          drawText(ctx, String(player1Score), canvas.width / 4 - 20, canvas.height / 5, 'white');
-          drawText(ctx, String(player2Score), (3 * canvas.width) / 4 - 20, canvas.height / 5, 'white');
-          drawNet(ctx, canvas.width, canvas.height);
-          drawCircle(ctx, ballX, ballY, ball.radius, ball.color);
-          BallMovement(ctx, ballX, ballY, ballVelocityX, ballVelocityY, updatePlayingInfoHandler);
-          paddleMovement(ctx, { ...player1, y: player1Y });
-          paddleMovement(ctx, { ...player2, y: player2Y });
+            drawText(ctx, String(player1Score), canvas.width / 4 - 20, canvas.height / 5, 'white');
+            drawText(ctx, String(player2Score), (3 * canvas.width) / 4 - 20, canvas.height / 5, 'white');
+            drawNet(ctx, canvas.width, canvas.height);
+            drawCircle(ctx, ballX, ballY, ball.radius, ball.color);
+            if (inputName === 'player1') {
+              BallMovement(ctx, ballX, ballY, ballVelocityX, ballVelocityY, updatePlayingInfoHandler);
+            }
+            paddleMovement(ctx, { ...player1, y: player1Y });
+            paddleMovement(ctx, { ...player2, y: player2Y });
 
-          // if (
-          //   !collision(
-          //     canvas,
-          //     ball,
-          //     ballX,
-          //     ballY,
-          //     ballVelocityX,
-          //     ballVelocityY,
-          //     player1,
-          //     player2,
-          //     player1Y,
-          //     player2Y,
-          //     player1Score,
-          //     player2Score,
-          //     updatePlayingInfoHandler,
-          //   )
-          // ) {
-          //   updatePlayingInfoHandler({
-          //     index: 1,
-          //     uuid: '1',
-          //     ballX: canvas.width / 2,
-          //     ballY: canvas.height / 2,
-          //   });
-          //   // ball.x = canvas.width / 2;
-          //   // ball.y = canvas.height / 2;
-          // }
-          requestAnimationFrame(render);
+            // if (
+            //   !collision(
+            //     canvas,
+            //     ball,
+            //     ballX,
+            //     ballY,
+            //     ballVelocityX,
+            //     ballVelocityY,
+            //     player1,
+            //     player2,
+            //     player1Y,
+            //     player2Y,
+            //     player1Score,
+            //     player2Score,
+            //     updatePlayingInfoHandler,
+            //   )
+            // ) {
+            //   updatePlayingInfoHandler({
+            //     index: 1,
+            //     uuid: '1',
+            //     ballX: canvas.width / 2,
+            //     ballY: canvas.height / 2,
+            //   });
+            //   // ball.x = canvas.width / 2;
+            //   // ball.y = canvas.height / 2;
+            // }
+          }
+
+          if (elapsed < 5000) {
+            // Stop the animation after 2 seconds
+            previousTimeStamp = timestamp;
+            window.requestAnimationFrame(render);
+          }
         }
       }
     };
-    render();
+    window.requestAnimationFrame(render);
+    // render();
   }, [
+    inputName,
     player1Y,
     player2Y,
     ballX,
