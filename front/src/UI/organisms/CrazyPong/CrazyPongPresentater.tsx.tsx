@@ -54,6 +54,7 @@ export const CrazyPongPresenter = ({
             paddleMovement(ctx, { ...player2, y: player2Y });
 
             if (
+              inputName === 'player1' &&
               !collision(
                 canvas,
                 ball,
