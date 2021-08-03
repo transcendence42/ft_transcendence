@@ -72,8 +72,8 @@ INSERT INTO chat (name, password, "isAlive", type, "ownerID", "adminID", "userID
     ('채팅방3', '', true, 'public', 'yshin', '{jwon, yechoi}', '{holee, jwon, yechoi, yshin, devil}'),
     ('채팅방4', '1234', true, 'private', 'holee', '{}', '{holee, jwon, yechoi, yshin}'),
     ('채팅방5', '1234', true, 'private', 'jwon', '{holee, yechoi}', '{holee, jwon, yechoi}'),
-    ('채팅방6', '', true, 'dm', 'holee', '{}', '{holee, jwon}'),
-    ('채팅방7', '', true, 'dm', 'yshin', '{}', '{holee, yshin}')
+    ('holee,jwon', '', true, 'dm', 'holee', '{}', '{holee, jwon}'),
+    ('yshin,holee', '', true, 'dm', 'yshin', '{}', '{yshin, holee}')
 ;
 
 --uuid 컬럼은 uuid 형식을 따르며, chat 테이블의 uuid 컬럼을 참조하므로 서브 쿼리문을 작성하였습니다.
