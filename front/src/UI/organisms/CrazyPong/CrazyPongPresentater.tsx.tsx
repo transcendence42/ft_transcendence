@@ -36,7 +36,7 @@ export const CrazyPongPresenter = ({
       }
       const elapsed = timestamp - start;
       if (previousTimeStamp !== timestamp) {
-        // 2 초 후 로직
+        // 1 초 후 로직
         const canvas = canvasRef.current;
         if (canvas) {
           const ctx = canvas.getContext('2d');
@@ -83,7 +83,7 @@ export const CrazyPongPresenter = ({
           }
 
           if (elapsed < 1000) {
-            // Stop the animation after 2 seconds
+            // Stop the animation after 1 seconds
             previousTimeStamp = timestamp;
             window.requestAnimationFrame(render);
           }
