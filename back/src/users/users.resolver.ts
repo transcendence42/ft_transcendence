@@ -10,8 +10,7 @@ import { AlarmsService } from 'src/alarms/alarms.service';
 import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { FollowsService } from 'src/follows/follows.service';
 import { createWriteStream } from 'fs';
-import { GraphQLUpload } from 'apollo-server-express';
-import { Upload } from 'src/upload/upload.type';
+import { GraphQLUpload, FileUpload } from 'graphql-upload';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
@@ -149,19 +148,16 @@ export class UsersResolver {
 
   @Mutation(() => Boolean)
   async uploadFile(
-    @CurrentUser() user: User,
     @Args('file', { type: () => GraphQLUpload })
-    file: Upload,
+    file: FileUpload,
   ): Promise<boolean> {
-    const { createReadStream, filename } = file;
+    const { createReadStream, filename } = await file;
+    const stream = createReadStream();
     console.log('back', filename);
     return new Promise(async (resolve, reject) =>
-      createReadStream()
+      stream
         .pipe(createWriteStream(`./images/${filename}`))
-        .on('finish', () => {
-          resolve(true);
-          // this.usersService.updateAvatar(user.userID, `./images/${filename}`);
-        })
+        .on('finish', () => resolve(true))
         .on('error', () => reject(false)),
     );
   }

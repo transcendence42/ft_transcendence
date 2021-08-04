@@ -16,6 +16,7 @@ export const FileUploadButton = () => {
           file: file,
         },
       });
+      console.log('this is result ', result);
       console.log(`success!!!! ${result}`);
     } else {
       console.log('elselselsel');

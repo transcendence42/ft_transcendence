@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -23,6 +23,7 @@ import { ChatLog } from './chat-logs/entities/chat-log.entity';
 import { Follow } from './follows/entities/follow.entity';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { graphqlUploadExpress } from 'graphql-upload';
 
 adminBro.registerAdapter({ Database, Resource });
 
@@ -51,15 +52,12 @@ adminBro.registerAdapter({ Database, Resource });
       synchronize: true,
     }),
     GraphQLModule.forRoot({
+      uploads: false,
       autoSchemaFile: 'schema.gql',
       installSubscriptionHandlers: true,
       subscriptions: {
         path: '/subscriptions',
         keepAlive: 5000,
-      },
-      uploads: {
-        maxFileSize: 10000000, // 10 MB
-        maxFiles: 5,
       },
     }),
     AdminModule.createAdmin({
@@ -91,4 +89,8 @@ adminBro.registerAdapter({ Database, Resource });
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(graphqlUploadExpress()).forRoutes('graphql');
+  }
+}

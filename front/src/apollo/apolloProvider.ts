@@ -9,6 +9,7 @@ const httpLink = createUploadLink({
   uri: GRAPHQL_URL,
   headers: {
     authorization: bearerAuthorization(getCookies('access_token')),
+    'keep-alive': 'true',
   },
 });
 
