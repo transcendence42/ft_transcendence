@@ -1,23 +1,25 @@
 import { useMutation } from '@apollo/client';
 import React from 'react';
+import { GET_MY_PROFILE } from '../../organisms/MainPageHeader/MainPageHeaderQueries';
 import { UPDATE_AVATAR, UPLOAD_FILE } from './FileUploadButtonQueries';
 import './index.scss';
 
 export const FileUploadButton = () => {
   const [uploadFile] = useMutation(UPLOAD_FILE);
-  const [updateAvatar] = useMutation(UPDATE_AVATAR);
+  const [updateAvatar] = useMutation(UPDATE_AVATAR, {
+    refetchQueries: [{ query: GET_MY_PROFILE }],
+  });
 
   const fileUpload: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
     const files = e.target.files;
     if (files && files.length === 1) {
       const file = files[0];
-      console.log('file at FILEUPLOAD', file);
       const saveLocation = await uploadFile({
         variables: {
           file: file,
         },
       }).catch(() => {
-        console.log('upload FIle error');
+        console.log('upload file error');
         return;
       });
       console.log('save location: ', saveLocation);
@@ -27,13 +29,10 @@ export const FileUploadButton = () => {
             avatar: process.env.REACT_APP_SERVER_URL + saveLocation.data.uploadFile,
           },
         }).catch(() => {
-          console.log('update Avatar error');
+          console.log('update avatar error');
           return;
         });
       }
-      console.log(`success!!!! ${saveLocation}`);
-    } else {
-      console.log('elselselsel');
     }
   };
   return (
