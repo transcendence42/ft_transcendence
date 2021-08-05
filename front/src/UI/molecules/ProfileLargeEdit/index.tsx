@@ -43,6 +43,7 @@ export const ProfileLargeEdit = ({
 
   const onKeyPress = (e) => {
     if (e.key === 'Enter') {
+      nicknameInput.current.disabled = true;
       updateInputValue(userID, nick);
     }
   };

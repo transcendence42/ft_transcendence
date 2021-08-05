@@ -129,15 +129,16 @@ export class UsersResolver {
 
   @Mutation(() => String)
   async uploadFile(
+    @CurrentUser() user: User,
     @Args('file', { type: () => GraphQLUpload })
     file: FileUpload,
   ): Promise<string> {
-    const { createReadStream, filename } = await file;
+    const { createReadStream } = await file;
     const stream = createReadStream();
     return new Promise(async (resolve, reject) =>
       stream
-        .pipe(createWriteStream(`./images/${filename}`))
-        .on('finish', () => resolve(`/${filename}`))
+        .pipe(createWriteStream(`./public/images/${user.userID}`))
+        .on('finish', () => resolve(`/images/${user.userID}`))
         .on('error', () => reject('')),
     );
   }

@@ -32,7 +32,7 @@ adminBro.registerAdapter({ Database, Resource });
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'images'),
+      rootPath: join(__dirname, '..', 'public'),
     }),
     ConfigModule.forRoot({
       isGlobal: true,
