@@ -78,6 +78,7 @@ export class UsersService {
 
   async updateAvatar(userID: string, avatar: string) {
     const user = await User.findOne({ userID: userID });
+    console.log('user service updateAvatar ', avatar);
     user.avatar = avatar;
 
     const validate_error = await validate(user);

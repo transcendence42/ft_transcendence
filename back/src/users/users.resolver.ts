@@ -107,6 +107,7 @@ export class UsersResolver {
 
   @Mutation(() => User)
   updateAvatar(@CurrentUser() user: User, @Args('avatar') avatar: string) {
+    console.log('mutation ', avatar);
     return this.usersService.updateAvatar(user.userID, avatar);
   }
 
@@ -127,38 +128,18 @@ export class UsersResolver {
     return this.followsService.findFollowings({ index: index });
   }
 
-  // @Mutation(() => UploadReturnType)
-  // async singleUpload(@Args('uploadUserAvatarInput') uploadUserAvatarInput: UploadUserAvatarInput) {
-  //   console.log('THIS IS FILE', uploadUserAvatarInput);
-  //   const fileData = await uploadUserAvatarInput.file;
-  //   // FileSaver.saveAs(file, 'haha');
-  //   // fs.writeFile('yeji', file, (err) => {
-  //   //   console.log(err);
-  //   // });
-  //   // return fileData;
-
-  //   return { success: true };
-  // }
-
-  // @Mutation(() => UploadReturnType)
-  // async uploadFile(@Args('file') file: Upload) {
-  //   console.log('Hello file', file);
-  //   return { success: true };
-  // }
-
-  @Mutation(() => Boolean)
+  @Mutation(() => String)
   async uploadFile(
     @Args('file', { type: () => GraphQLUpload })
     file: FileUpload,
-  ): Promise<boolean> {
+  ): Promise<string> {
     const { createReadStream, filename } = await file;
     const stream = createReadStream();
-    console.log('back', filename);
     return new Promise(async (resolve, reject) =>
       stream
         .pipe(createWriteStream(`./images/${filename}`))
-        .on('finish', () => resolve(true))
-        .on('error', () => reject(false)),
+        .on('finish', () => resolve(`/images/${filename}`))
+        .on('error', () => reject('')),
     );
   }
 }

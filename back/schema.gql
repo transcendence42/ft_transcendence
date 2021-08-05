@@ -84,8 +84,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-08-04T15:04:08.408Z"
-  modifiedAt: DateTime = "2021-08-04T15:04:08.408Z"
+  createdAt: DateTime = "2021-08-05T05:58:16.155Z"
+  modifiedAt: DateTime = "2021-08-05T05:58:16.155Z"
 }
 
 input user {
@@ -99,8 +99,8 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-08-04T15:04:08.408Z"
-  modifiedAt: DateTime = "2021-08-04T15:04:08.408Z"
+  createdAt: DateTime = "2021-08-05T05:58:16.155Z"
+  modifiedAt: DateTime = "2021-08-05T05:58:16.155Z"
 }
 
 type Query {
@@ -138,7 +138,7 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   updateAvatar(avatar: String!): User!
   removeUser(userID: String!): User!
-  uploadFile(file: Upload!): Boolean!
+  uploadFile(file: Upload!): String!
   createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
   removeAlarm(index: Int!): Alarm!
