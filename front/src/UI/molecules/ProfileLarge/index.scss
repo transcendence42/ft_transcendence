@@ -32,14 +32,13 @@ thead {
   margin: 1rem;
   margin-right: 2rem;
   position: relative;
+  object-fit: cover;
 }
 
 .avatar {
-  width: auto;
-  height: auto;
-  min-width: 100px;
-  min-height: 100px;
-  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .nickname {
