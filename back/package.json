@@ -32,6 +32,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^7.1.6",
     "@nestjs/platform-express": "^7.6.15",
+    "@nestjs/serve-static": "^2.2.2",
     "@nestjs/typeorm": "^7.1.5",
     "@types/graphql": "^14.5.0",
     "@types/react": "^17.0.14",

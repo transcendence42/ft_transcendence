@@ -107,7 +107,6 @@ export class UsersResolver {
 
   @Mutation(() => User)
   updateAvatar(@CurrentUser() user: User, @Args('avatar') avatar: string) {
-    console.log('mutation ', avatar);
     return this.usersService.updateAvatar(user.userID, avatar);
   }
 
@@ -138,7 +137,7 @@ export class UsersResolver {
     return new Promise(async (resolve, reject) =>
       stream
         .pipe(createWriteStream(`./images/${filename}`))
-        .on('finish', () => resolve(`/images/${filename}`))
+        .on('finish', () => resolve(`/${filename}`))
         .on('error', () => reject('')),
     );
   }
