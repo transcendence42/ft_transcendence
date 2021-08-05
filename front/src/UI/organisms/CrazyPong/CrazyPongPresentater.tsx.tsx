@@ -2,9 +2,9 @@ import React, { useRef, useEffect } from 'react';
 
 import './index.scss';
 import { drawCircle, drawNet, drawText } from './utils';
-import { BallMovement } from './ballMovement';
+// import { BallMovement } from './ballMovement';
 import { paddleMovement } from './paddleMovement';
-import { collision } from './collision';
+// import { collision } from './collision';
 import { data } from './data';
 import { IPlayingInfo, IPlayingUpdateInfo } from '../../../utils/interface';
 
@@ -47,39 +47,39 @@ export const CrazyPongPresenter = ({
             drawText(ctx, String(player2Score), (3 * canvas.width) / 4 - 20, canvas.height / 5, 'white');
             drawNet(ctx, canvas.width, canvas.height);
             drawCircle(ctx, ballX, ballY, ball.radius, ball.color);
-            if (inputName === 'player1') {
-              BallMovement(ctx, ballX, ballY, ballVelocityX, ballVelocityY, updatePlayingInfoHandler);
-            }
+            // if (inputName === 'player1') {
+            //   BallMovement(ctx, ballX, ballY, ballVelocityX, ballVelocityY, updatePlayingInfoHandler);
+            // }
             paddleMovement(ctx, { ...player1, y: player1Y });
             paddleMovement(ctx, { ...player2, y: player2Y });
 
-            if (
-              inputName === 'player1' &&
-              !collision(
-                canvas,
-                ball,
-                ballX,
-                ballY,
-                ballVelocityX,
-                ballVelocityY,
-                player1,
-                player2,
-                player1Y,
-                player2Y,
-                player1Score,
-                player2Score,
-                updatePlayingInfoHandler,
-              )
-            ) {
-              updatePlayingInfoHandler({
-                index: 1,
-                uuid: '1',
-                ballX: canvas.width / 2,
-                ballY: canvas.height / 2,
-              });
-              // ball.x = canvas.width / 2;
-              // ball.y = canvas.height / 2;
-            }
+            // if (
+            //   inputName === 'player1' &&
+            //   !collision(
+            //     canvas,
+            //     ball,
+            //     ballX,
+            //     ballY,
+            //     ballVelocityX,
+            //     ballVelocityY,
+            //     player1,
+            //     player2,
+            //     player1Y,
+            //     player2Y,
+            //     player1Score,
+            //     player2Score,
+            //     updatePlayingInfoHandler,
+            //   )
+            // ) {
+            //   updatePlayingInfoHandler({
+            //     index: 1,
+            //     uuid: '1',
+            //     ballX: canvas.width / 2,
+            //     ballY: canvas.height / 2,
+            //   });
+            //   // ball.x = canvas.width / 2;
+            //   // ball.y = canvas.height / 2;
+            // }
           }
 
           if (elapsed < 1000) {
