@@ -36,7 +36,9 @@ thead {
 
 .avatar {
   width: auto;
-  height: 100px;
+  height: auto;
+  min-width: 100px;
+  min-height: 100px;
   position: absolute;
 }
 
