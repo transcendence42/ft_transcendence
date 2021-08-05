@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import { GET_GAME_RECORDS } from './ProfileGameRecordsQuries';
 import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 import { useTable } from 'react-table';
-// import { postgresTimeToDate } from '../../../utils/util';
+import { convertTimestampToPlaytime, convertTimestampToDate } from '../../../utils/util';
 export interface ITableData {
   playerOneID: string;
   playerOneScore: number;
@@ -35,30 +35,14 @@ const getOpponentUserID = (userID: string | undefined, data: ITableData) => {
   return data.playerOneID === userID ? data.playerTwoID : data.playerOneID;
 };
 
-const convertTimestampToDate = (timestamp: number) => {
-  const date = new Date(timestamp);
-  const minute = date.getMinutes();
-  const second = date.getSeconds();
-  return `${minute}분 ${second}초`;
-};
-
-const getDate = (timestamp: number) => {
-  const date = new Date(timestamp);
-  const month = date.getMonth();
-  const day = date.getDate();
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-  return `${month}월 ${day}일 ${hour}시 ${minute}분`;
-};
-
 const refineData = (userID: string | undefined, tableData: Array<ITableData>) => {
   return tableData.map((x) => {
     return {
       index: '1',
       result: getGameResult(userID, x),
       score: getGameScore(userID, x),
-      playTime: convertTimestampToDate(Date.parse(x.finishedAt) - Date.parse(x.createdAt)),
-      createdAt: getDate(Date.parse(x.createdAt)),
+      playTime: convertTimestampToPlaytime(Date.parse(x.finishedAt) - Date.parse(x.createdAt)),
+      createdAt: convertTimestampToDate(Date.parse(x.createdAt)),
       opponentUserID: getOpponentUserID(userID, x),
     };
   });

@@ -33,6 +33,29 @@ const compareTimeLapseToString = (startTimestamp: Date, endTimestamp: Date): str
   return '방금전';
 };
 
+const convertTimestampToPlaytime = (timestamp: number) => {
+  const date = new Date(timestamp);
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  let result = '';
+  if (minutes !== 0 && minutes !== undefined) {
+    result = `${minutes}분 `;
+  }
+  if (seconds !== 0) {
+    result += `${seconds}초`;
+  }
+  return result;
+};
+
+const convertTimestampToDate = (timestamp: number) => {
+  const date = new Date(timestamp);
+  const month = date.getMonth();
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  return `${month}월 ${day}일 ${hours}시 ${minutes}분`;
+};
+
 const getCookies = (key: string) => {
   const cookie = document.cookie.split(';').filter((x) => x.trim().split('=')[0] === key)[0];
   if (!cookie) {
@@ -45,4 +68,13 @@ const bearerAuthorization = (token: string) => {
   return token ? `bearer ${token}` : '';
 };
 
-export { winRate, getRunningTime, postgresTimeToDate, compareTimeLapseToString, getCookies, bearerAuthorization };
+export {
+  winRate,
+  getRunningTime,
+  postgresTimeToDate,
+  compareTimeLapseToString,
+  convertTimestampToPlaytime,
+  convertTimestampToDate,
+  getCookies,
+  bearerAuthorization,
+};
