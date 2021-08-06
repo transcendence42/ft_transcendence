@@ -67,6 +67,7 @@ type Chat {
   ownerID: String!
   adminID: [String!]!
   userID: [String!]!
+  muteID: [String!]!
   createdAt: DateTime!
   modifiedAt: DateTime!
   chatLog: [ChatLog!]!
@@ -86,8 +87,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-08-06T06:08:53.348Z"
-  modifiedAt: DateTime = "2021-08-06T06:08:53.348Z"
+  createdAt: DateTime = "2021-08-06T06:33:46.858Z"
+  modifiedAt: DateTime = "2021-08-06T06:33:46.858Z"
 }
 
 input user {
@@ -103,11 +104,12 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-08-06T06:08:53.348Z"
-  modifiedAt: DateTime = "2021-08-06T06:08:53.348Z"
+  createdAt: DateTime = "2021-08-06T06:33:46.859Z"
+  modifiedAt: DateTime = "2021-08-06T06:33:46.859Z"
 }
 
 type Query {
+  getOtpAuthUrl: String!
   users: [User!]!
   user(userID: String!): User!
   userByIndex(index: Int!): User!
@@ -138,7 +140,6 @@ type Query {
 }
 
 type Mutation {
-  getOtpAuthUrl: String!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   updateAvatar(avatar: String!): User!
@@ -158,6 +159,10 @@ type Mutation {
   createChat(createChatInput: CreateChatInput!): Chat!
   updateChat(updateChatInput: UpdateChatInput!): Chat!
   removeChat(uuid: String!): Chat!
+  toggleMute(userID: String!, uuid: String!): Chat!
+  forcedOut(userID: String!, uuid: String!): Chat!
+  toggleAdmin(userID: String!, uuid: String!): Chat!
+  createDM(user2: String!, user1: String!): Chat!
   createChatLog(createChatLogInput: CreateChatLogInput!): ChatLog!
   updateChatLog(updateChatLogInput: UpdateChatLogInput!): ChatLog!
   removeChatLog(index: Int!): ChatLog!
@@ -236,6 +241,7 @@ input CreateChatInput {
   password: String
   type: String = "public"
   ownerID: String!
+  userID: [String!]!
 }
 
 input UpdateChatInput {
@@ -243,10 +249,11 @@ input UpdateChatInput {
   password: String
   type: String = "public"
   ownerID: String
+  userID: [String!]
   uuid: String!
   isAlive: Boolean
   adminID: [String!]
-  userID: [String!]
+  muteID: [String!]
 }
 
 input CreateChatLogInput {

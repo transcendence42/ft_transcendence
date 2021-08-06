@@ -27,7 +27,7 @@ export class UsersResolver {
     private readonly followsService: FollowsService,
   ) {}
 
-  @Mutation(() => String)
+  @Query(() => String)
   async getOtpAuthUrl(@CurrentUser() user: User) {
     const otpAuthUrl = await this.authService.generateTwoFactorAuthSecret(user);
     return otpAuthUrl;
