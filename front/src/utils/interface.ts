@@ -91,8 +91,9 @@ export interface ProfileMediumProps {
   currentScore?: number;
 }
 
-export interface ProfileLargeProps {
-  name: string;
+export interface IProfileLarge {
+  userID: string;
+  nickname: string;
   avatar: string;
   ranking: string;
   ladderRating: string;

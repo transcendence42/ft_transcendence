@@ -3,6 +3,8 @@ import { CreateGameInput } from './dto/create-game.input';
 import { UpdateGameInput } from './dto/update-game.input';
 import { Game } from './entities/game.entity';
 import { validate } from 'class-validator';
+import { Brackets } from 'typeorm';
+
 
 @Injectable()
 export class GamesService {
@@ -24,6 +26,21 @@ export class GamesService {
     const games = await Game.find();
     return games;
   }
+
+  async findByUserID(userID: string) {
+    const games = await Game.getRepository()
+      .createQueryBuilder('game')
+      .where('game.finishedAt IS NOT NULL')
+      .andWhere(
+        new Brackets((subQb) => {
+          subQb.where('game.playerOneID = :userID', { userID: userID });
+          subQb.orWhere('game.playerTwoID = :userID', { userID: userID });
+        }),
+      )
+      .getMany();
+    return games;
+  }
+
 
   async findOne(index: number) {
     const game = await Game.findOne(index);

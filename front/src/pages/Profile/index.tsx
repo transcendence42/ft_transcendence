@@ -1,76 +1,24 @@
-import React, { useState } from 'react';
+import { useQuery } from '@apollo/client';
+import React from 'react';
+import { GET_CURRENT_USERID } from '../../templates/ChatTemplate/ChatTemplateQueries';
 import MiddleSectionTemplate from '../../templates/MiddleSection';
-import ProfileLarge from '../../UI/molecules/ProfileLarge';
-// import { ProfileSmall } from '../../UI/molecules';
-import { Table, Thead, Tbody, Tr, Td, Th, Box } from '@chakra-ui/react';
+import { ProfileGameRecords } from '../../UI/molecules/ProfileGameRecords';
+// import { GET_MY_USERINFO } from '../../UI/molecules/ProfileGameRecords/ProfileGameRecordsQuries';
+import ProfilePageHeader from '../../UI/organisms/ProfilePageHeader';
 
-const TableHeader = () => {
-  const headerMeta = ['#', '점수', '게임시간', '게임일시', '상대방프로필'];
-
+const Profile: React.FC = (props) => {
+  const { data, error, loading } = useQuery(GET_CURRENT_USERID);
+  if (loading) {
+    console.log('loading');
+  }
+  if (error) {
+    console.log('error');
+  }
+  console.log('USER DATA ', data);
+  const userID = props.match.params.userID ? props.match.params.userID : data?.me.userID;
   return (
-    <>
-      <Thead>
-        <Tr>
-          {headerMeta.map((title, index) => (
-            <Th key={index}>{title}</Th>
-          ))}
-        </Tr>
-      </Thead>
-    </>
-  );
-};
-
-const TableRow = ({ key, data }) => {
-  const [RowData] = useState(data);
-
-  return (
-    <>
-      <Tr key={key}>
-        <Td>{RowData.index}</Td>
-        <Td>{RowData.score}</Td>
-        <Td>{RowData.playTime}</Td>
-        <Td>{RowData.createdAt}</Td>
-        <Td>{RowData.adversary}</Td>
-      </Tr>
-    </>
-  );
-};
-
-const testData = () => {
-  return {
-    index: '1',
-    score: '3:2',
-    playTime: '4분 42초',
-    createdAt: '2021-06-21 15:35',
-    adversary: 'jwon',
-  };
-};
-
-const ProfileTable = (props) => {
-  const [tableData] = useState([testData()]);
-
-  return (
-    <>
-      <Box bg="white">
-        {tableData.length !== 0 && (
-          <Table>
-            <TableHeader />
-            <Tbody>
-              {tableData.map((data, index) => {
-                return <TableRow key={index} data={data} />;
-              })}
-            </Tbody>
-          </Table>
-        )}
-      </Box>
-    </>
-  );
-};
-
-const Profile: React.FC = () => {
-  return (
-    <MiddleSectionTemplate middleSectionHeader={<ProfileLarge />}>
-      <ProfileTable />
+    <MiddleSectionTemplate middleSectionHeader={<ProfilePageHeader userID={props.match.params.userID} />}>
+      <ProfileGameRecords userID={userID} />
     </MiddleSectionTemplate>
   );
 };

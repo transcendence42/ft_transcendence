@@ -1,0 +1,9 @@
+.upload-button-container input {
+  display: none;
+}
+
+.upload-button-container {
+  display: flex;
+  flex-direction: row;
+  margin-left: 1rem;
+}
