@@ -9,7 +9,6 @@ import { AuthenticationProvider } from 'src/auth/auth';
 import { AlarmsService } from 'src/alarms/alarms.service';
 import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { FollowsService } from 'src/follows/follows.service';
-import { string } from 'joi';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
