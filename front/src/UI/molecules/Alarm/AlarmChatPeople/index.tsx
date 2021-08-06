@@ -11,6 +11,7 @@ import {
   FORCED_OUT,
   TOGGLE_ADMIN,
   CREATE_DM,
+  CREATE_ALARM,
 } from './AlarmChatPeopleQueries';
 
 const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
@@ -27,6 +28,7 @@ export const AlarmChatPeople = ({ ...props }) => {
   const { username, ownerID, adminID, refetchChat, setChatRoomState } = props;
   const outerRef = useRef<HTMLDivElement>(null);
   const [createDM] = useMutation(CREATE_DM);
+  const [createAlarm] = useMutation(CREATE_ALARM);
   const [toggleBlock] = useMutation(TOGGLE_BLOCK);
   const [toggleMute] = useMutation(TOGGLE_MUTE);
   const [createChatLog] = useMutation(CREATE_CHAT_LOG);
@@ -44,6 +46,17 @@ export const AlarmChatPeople = ({ ...props }) => {
     }).then((res) => {
       currentChatVar(res.data.createDM.uuid);
       setChatRoomState('chat-room');
+    });
+    await createAlarm({
+      variables: {
+        alarm: {
+          userID: username,
+          title: 'DM',
+          content: `${loginID}님이 메시지를 보내셨습니다.`,
+          type: 'DM',
+          link: '/chat',
+        },
+      },
     });
   };
 

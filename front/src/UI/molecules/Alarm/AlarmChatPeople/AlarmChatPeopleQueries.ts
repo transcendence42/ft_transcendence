@@ -56,3 +56,11 @@ export const CREATE_DM = gql`
     }
   }
 `;
+
+export const CREATE_ALARM = gql`
+  mutation createAlarm($alarm: CreateAlarmInput!) {
+    createAlarm(createAlarmInput: $alarm) {
+      index
+    }
+  }
+`;
