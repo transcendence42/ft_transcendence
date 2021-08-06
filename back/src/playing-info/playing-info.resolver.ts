@@ -46,7 +46,6 @@ export class PlayingInfoResolver {
   }
 
   async updateBall() {
-    // const playingInfo = this.collision(await this.playingInfoService.findOne(1));
     const updatePlayingInfo = await this.playingInfoService.update(1, null);
     this.pubSubProvider.getPubSub().publish('playingInfo', {
       playingInfo: updatePlayingInfo,

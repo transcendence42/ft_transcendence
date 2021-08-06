@@ -2,15 +2,11 @@ import React, { useRef, useEffect } from 'react';
 
 import './index.scss';
 import { drawCircle, drawNet, drawText } from './utils';
-// import { BallMovement } from './ballMovement';
 import { paddleMovement } from './paddleMovement';
-// import { collision } from './collision';
 import { data } from './data';
 import { IPlayingInfo, IPlayingUpdateInfo } from '../../../utils/interface';
 import { postgresTimeToDate } from '../../../utils/util';
-// import { postgresTimeToDate } from '../../../utils/util';
 
-// const { player1, player2 } = data;
 const { ball, player1, player2 } = data;
 
 const CANVAS_HEIGHT = 800;
@@ -27,7 +23,6 @@ export const CrazyPongPresenter = ({
   updatePlayingInfoHandler: (playingInfo: IPlayingUpdateInfo) => void;
   inputName: string;
 }) => {
-  // console.log(Date.parse(String(postgresTimeToDate(data.playingInfo.modifiedAt))));
   const {
     ballX,
     ballY,
@@ -40,19 +35,6 @@ export const CrazyPongPresenter = ({
     sequence,
     modifiedAt,
   } = playingInfo;
-  // console.log(
-  //   sequence,
-  //   ballX,
-  //   ballY,
-  //   ballVelocityX,
-  //   ballVelocityY,
-  //   player1Y,
-  //   player2Y,
-  //   player1Score,
-  //   player2Score,
-  //   inputName,
-  //   modifiedAt,
-  // );
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -77,46 +59,14 @@ export const CrazyPongPresenter = ({
             pongSequence = sequence;
             serverTime = Date.parse(String(postgresTimeToDate(modifiedAt)));
             console.log(modifiedAt, sequence, ballX, ballY, player1Y, player2Y);
-            // console.log(pongSequence);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             drawText(ctx, String(player1Score), canvas.width / 4 - 20, canvas.height / 5, 'white');
             drawText(ctx, String(player2Score), (3 * canvas.width) / 4 - 20, canvas.height / 5, 'white');
             drawNet(ctx, canvas.width, canvas.height);
             drawCircle(ctx, ballX, ballY, ball.radius, ball.color);
-            // if (inputName === 'player1') {
-            //   BallMovement(ctx, ballX, ballY, ballVelocityX, ballVelocityY, updatePlayingInfoHandler);
-            // }
             paddleMovement(ctx, { ...player1, y: player1Y });
             paddleMovement(ctx, { ...player2, y: player2Y });
-
-            // if (
-            //   inputName === 'player1' &&
-            //   !collision(
-            //     canvas,
-            //     ball,
-            //     ballX,
-            //     ballY,
-            //     ballVelocityX,
-            //     ballVelocityY,
-            //     player1,
-            //     player2,
-            //     player1Y,
-            //     player2Y,
-            //     player1Score,
-            //     player2Score,
-            //     updatePlayingInfoHandler,
-            //   )
-            // ) {
-            //   updatePlayingInfoHandler({
-            //     index: 1,
-            //     uuid: '1',
-            //     ballX: canvas.width / 2,
-            //     ballY: canvas.height / 2,
-            //   });
-            //   // ball.x = canvas.width / 2;
-            //   // ball.y = canvas.height / 2;
-            // }
           }
 
           if (elapsed < 1000) {
@@ -128,7 +78,6 @@ export const CrazyPongPresenter = ({
       }
     };
     window.requestAnimationFrame(render);
-    // render();
   }, [
     player1Y,
     player2Y,
