@@ -66,7 +66,13 @@ export class PlayingInfoResolver {
 
   @Mutation(() => PlayingInfo)
   async updatePlayingInfo(@Args('playingInfoInput') updatePlayingInfoInput: UpdatePlayingInfoInput) {
-    const playingInfo = await this.playingInfoService.update(updatePlayingInfoInput.index, updatePlayingInfoInput);
+    const playingInfo = await this.playingInfoService.update(updatePlayingInfoInput.index, {
+      ...updatePlayingInfoInput,
+      ballX: updatePlayingInfoInput.ballX + updatePlayingInfoInput.ballVelocityX,
+      ballY: updatePlayingInfoInput.ballY + updatePlayingInfoInput.ballVelocityY,
+      ballVelocityX: updatePlayingInfoInput.ballVelocityX,
+      ballVelocityY: updatePlayingInfoInput.ballVelocityY,
+    });
     this.pubSubProvider.getPubSub().publish('playingInfo', {
       playingInfo: {
         ...playingInfo,
@@ -139,7 +145,7 @@ export class PlayingInfoResolver {
     },
   })
   playingInfo(@Args('uuid') uuid: string) {
-    setInterval(() => this.updateBall(), 500);
+    setInterval(() => this.updateBall(), 100);
     return this.pubSubProvider.getPubSub().asyncIterator('playingInfo');
   }
 }
