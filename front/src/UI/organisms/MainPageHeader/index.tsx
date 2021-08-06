@@ -2,13 +2,13 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { Spinner, Box } from '@chakra-ui/react';
 import MainButtons from '../../molecules/MainButtons';
-import ProfileLarge from '../../molecules/ProfileLarge';
 import { SPINNER_COLOR, SPINNER_ERROR_COLOR } from '../../../utils/constants';
-import { GET_MAIN_PAGE_PROFILE } from './MainPageHeaderQuery';
+import { GET_MY_PROFILE } from './MainPageHeaderQueries';
 import { winRate } from '../../../utils/util';
+import { ProfileLarge } from '../../molecules/ProfileLarge';
 
 const MainPageHeader = () => {
-  const { loading, error, data } = useQuery(GET_MAIN_PAGE_PROFILE);
+  const { loading, error, data } = useQuery(GET_MY_PROFILE);
   if (loading) {
     return <Spinner m="5" ml="155" color={SPINNER_COLOR} />;
   }
