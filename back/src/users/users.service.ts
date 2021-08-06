@@ -104,6 +104,19 @@ export class UsersService {
 
     const validate_error = await validate(user);
     if (validate_error.length > 0) {
+      console.log('error on set twof actor ');
+      const _error = { username: 'UserInput is not valid check type' };
+      throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
+    } else {
+      return await User.save(user);
+    }
+  }
+
+  async turnOnTwoFactorAuthentication(userID: string) {
+    const user = await User.findOne({ userID: userID });
+    user.enableTwoFactorAuth = true;
+    const validate_error = await validate(user);
+    if (validate_error.length > 0) {
       const _error = { username: 'UserInput is not valid check type' };
       throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
     } else {

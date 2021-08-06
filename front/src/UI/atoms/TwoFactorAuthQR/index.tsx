@@ -1,10 +1,9 @@
 import { useQuery } from '@apollo/client';
-import { Center } from '@chakra-ui/layout';
 import React from 'react';
-import { GET_OTP_AUTH_URL } from './TwoFactorAuthBoxQueries';
 import { toDataURL } from 'qrcode';
+import { GET_OTP_AUTH_URL } from './TwoFactorAuthBoxQueries';
 
-export const TwoFactorAuthBox = () => {
+export const TwoFactorAuthQR = () => {
   const { data, error, loading } = useQuery(GET_OTP_AUTH_URL);
 
   if (error) {
@@ -25,9 +24,7 @@ export const TwoFactorAuthBox = () => {
 
   return (
     <>
-      <Center>
-        <img alt="opt auth url" src={src} />
-      </Center>
+      <img alt="opt auth url" src={src} />
     </>
   );
 };

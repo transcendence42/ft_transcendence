@@ -50,4 +50,11 @@ export class AuthService implements AuthenticationProvider {
     await this.usersService.setTwoFactorAuthSecret(secret, user.userID);
     return otpAuthUrl;
   }
+
+  isTwoFactorAuthCodeValid(twoFactorAuthCode: string, secret: string) {
+    return authenticator.verify({
+      token: twoFactorAuthCode,
+      secret: secret,
+    });
+  }
 }

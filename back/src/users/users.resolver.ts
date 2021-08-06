@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args, GqlExecutionContext, ResolveField, Parent, Int } from '@nestjs/graphql';
-import { Inject, createParamDecorator, ExecutionContext, UseGuards } from '@nestjs/common';
+import { Inject, createParamDecorator, ExecutionContext, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
@@ -27,10 +27,39 @@ export class UsersResolver {
     private readonly followsService: FollowsService,
   ) {}
 
+  // mutation이 아닌 query 라서 안에서 setTwoFactorAuthSecret
   @Query(() => String)
   async getOtpAuthUrl(@CurrentUser() user: User) {
     const otpAuthUrl = await this.authService.generateTwoFactorAuthSecret(user);
     return otpAuthUrl;
+  }
+
+  @Mutation(() => Boolean)
+  async turnOnTwoFactorAuthentication(
+    @CurrentUser() user: User,
+    @Args('twoFactorAuthCode', { type: () => String }) twoFactorAuthCode: string,
+  ) {
+    const secret = (await this.usersService.findOneByUserID(user.userID)).twoFactorAuthSecret;
+    const isCodeValid = this.authService.isTwoFactorAuthCodeValid(twoFactorAuthCode, secret);
+    if (!isCodeValid) {
+      throw new UnauthorizedException('Wrong authentication code');
+    }
+    await this.usersService.turnOnTwoFactorAuthentication(user.userID);
+  }
+
+  @Mutation(() => Boolean)
+  async checkOtpCode(
+    @CurrentUser() user: User,
+    @Args('twoFactorAuthCode', { type: () => String }) twoFactorAuthCode: string,
+  ) {
+    const secret = (await this.usersService.findOneByUserID(user.userID)).twoFactorAuthSecret;
+    const isCodeValid = this.authService.isTwoFactorAuthCodeValid(twoFactorAuthCode, secret);
+    console.log('isCodeValid? ', isCodeValid);
+    if (!isCodeValid) {
+      throw new UnauthorizedException('Wrong authentication code');
+    }
+    console.log('isCodeValid? ', isCodeValid);
+    return isCodeValid;
   }
 
   @Mutation(() => User)
