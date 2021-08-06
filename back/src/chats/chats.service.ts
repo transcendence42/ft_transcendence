@@ -3,9 +3,17 @@ import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
 import { Chat } from './entities/chat.entity';
 import { validate } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class ChatsService {
+  private checkNameValication(name: string) {
+    if (name.trim() === '' || name.search(/[^a-zA-Z0-9ㄱ-ㅎ가-힣 ]/g) !== -1) {
+      const error = { password: `Chat name must be number, english, or korean.` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   private checkPasswordValidation(type: string, password: string) {
     if (type === 'private') {
       if (password === '' || password === undefined) {
@@ -30,7 +38,8 @@ export class ChatsService {
     chat.password = createChatInput.password;
     chat.type = createChatInput.type;
     chat.ownerID = createChatInput.ownerID;
-    chat.userID = [createChatInput.ownerID];
+    chat.userID = createChatInput.userID;
+    this.checkNameValication(chat.name);
     this.checkPasswordValidation(createChatInput.type, createChatInput.password);
 
     //class-validator
@@ -71,6 +80,7 @@ export class ChatsService {
     chat.isAlive = updateChatInput.isAlive !== undefined ? updateChatInput.isAlive : chat.isAlive;
     chat.adminID = updateChatInput.adminID ? updateChatInput.adminID : chat.adminID;
     chat.userID = updateChatInput.userID ? updateChatInput.userID : chat.userID;
+    chat.muteID = updateChatInput.muteID ? updateChatInput.muteID : chat.muteID;
     const validate_error = await validate(chat);
     if (validate_error.length > 0) {
       throw new HttpException({ message: 'Input data validation failed' }, HttpStatus.BAD_REQUEST);
@@ -137,5 +147,96 @@ export class ChatsService {
         ? true
         : false;
     return isMatchedPassword;
+  }
+
+  //chat, user가 있는지 확인하고 user가 chat에 존재하는지 확인
+  private async checkUserExistInChat(uuid: string, userID: string) {
+    const chat = await Chat.findOneOrFail({
+      where: {
+        uuid: uuid,
+      },
+    }).catch(() => {
+      const error = { uuid: `chat with uuid(${uuid}) does not exist` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+    });
+    const user = await User.findOneOrFail({
+      where: {
+        userID: userID,
+      },
+    }).catch(() => {
+      const error = { uuid: `userID(${userID}) does not exist` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+    });
+    if (!chat.userID.includes(user.userID)) {
+      const error = { uuid: `userID(${userID}) does not exist in chat` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+    }
+    return { chat: chat, user: user };
+  }
+
+  //mute, unmute
+  async toggleMute(uuid: string, userID: string) {
+    const obj = await this.checkUserExistInChat(uuid, userID);
+    obj.chat.muteID = obj.chat.muteID.includes(obj.user.userID)
+      ? obj.chat.muteID.filter((item) => item !== obj.user.userID)
+      : [...obj.chat.muteID, obj.user.userID];
+    return await Chat.save(obj.chat);
+  }
+
+  //forced out
+  async forcedOut(uuid: string, userID: string) {
+    const obj = await this.checkUserExistInChat(uuid, userID);
+    obj.chat.userID = obj.chat.userID.filter((item) => item !== obj.user.userID);
+    return await Chat.save(obj.chat);
+  }
+
+  //admin 위임/해제
+  async toggleAdmin(uuid: string, userID: string) {
+    const obj = await this.checkUserExistInChat(uuid, userID);
+    obj.chat.adminID = obj.chat.adminID.includes(obj.user.userID)
+      ? obj.chat.adminID.filter((item) => item !== obj.user.userID)
+      : [...obj.chat.adminID, obj.user.userID];
+    return await Chat.save(obj.chat);
+  }
+
+  async createDM(origUserID: string, destUserID: string) {
+    await User.findOneOrFail({
+      where: {
+        userID: origUserID,
+      },
+    }).catch(() => {
+      const error = { uuid: `userID(${origUserID}) does not exist` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+    });
+    await User.findOneOrFail({
+      where: {
+        userID: destUserID,
+      },
+    }).catch(() => {
+      const error = { uuid: `userID(${destUserID}) does not exist` };
+      throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
+    });
+    const existedDM = await Chat.getRepository()
+      .createQueryBuilder()
+      .where('type=:type', { type: 'dm' })
+      .andWhere('name=:name or name=:name2', {
+        name: `${origUserID},${destUserID}`,
+        name2: `${destUserID},${origUserID}`,
+      })
+      .getMany();
+    if (existedDM.length === 0) {
+      const newDM = new Chat();
+      newDM.name = `${origUserID},${destUserID}`;
+      newDM.type = 'dm';
+      newDM.ownerID = origUserID;
+      newDM.userID = [origUserID, destUserID];
+      return await Chat.save(newDM);
+    }
+    if (!existedDM[0].isAlive || existedDM[0].userID.length !== 2) {
+      existedDM[0].isAlive = true;
+      existedDM[0].userID = [origUserID, destUserID];
+      return await Chat.save(existedDM[0]);
+    }
+    return existedDM[0];
   }
 }

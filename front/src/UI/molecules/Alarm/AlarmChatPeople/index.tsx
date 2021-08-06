@@ -1,31 +1,125 @@
 import React, { useRef } from 'react';
+import { useMutation, useReactiveVar } from '@apollo/client';
 import { ContextMenu } from 'holee-contextmenu';
 
-import { currentLoginIDVar } from '../../../../apollo/apolloProvider';
+import { currentChatVar, currentLoginIDVar } from '../../../../apollo/apolloProvider';
+import {
+  CREATE_CHAT_LOG,
+  TOGGLE_BLOCK,
+  TOGGLE_MUTE,
+  FORCED_OUT,
+  TOGGLE_ADMIN,
+  CREATE_DM,
+} from './AlarmChatPeopleQueries';
 
-const AlarmChatPerson = ({ outerRef, username, ownerID, adminID }) => {
+const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
   return (
     <div ref={outerRef}>
       {username}
-      {ownerID.includes(username) ? ' 👑' : null}
+      {ownerID === username ? ' 👑' : null}
       {adminID.includes(username) ? ' 🏅' : null}
     </div>
   );
 };
 
-export const AlarmChatPeople = ({
-  username,
-  ownerID,
-  adminID,
-}: {
-  username: string;
-  ownerID: string[];
-  adminID: string[];
-}) => {
+export const AlarmChatPeople = ({ ...props }) => {
+  const { username, ownerID, adminID, refetchChat, setChatRoomState } = props;
   const outerRef = useRef<HTMLDivElement>(null);
+  const [createDM] = useMutation(CREATE_DM);
+  const [toggleBlock] = useMutation(TOGGLE_BLOCK);
+  const [toggleMute] = useMutation(TOGGLE_MUTE);
+  const [createChatLog] = useMutation(CREATE_CHAT_LOG);
+  const [forcedOut] = useMutation(FORCED_OUT);
+  const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
   const loginID = currentLoginIDVar();
+  const currentChatUUID = useReactiveVar(currentChatVar);
 
-  const menuOnClickHandler = (
+  const handleSendMessage = async () => {
+    await createDM({
+      variables: {
+        user1: loginID,
+        user2: username,
+      },
+    }).then((res) => {
+      currentChatVar(res.data.createDM.uuid);
+      setChatRoomState('chat-room');
+    });
+  };
+
+  const handleRegisterAdmin = async () => {
+    await toggleAdmin({
+      variables: {
+        uuid: currentChatUUID,
+        userID: username,
+      },
+    }).then((res) => {
+      const message = res.data.toggleAdmin.adminID.includes(username) ? 'admin' : 'un-admin';
+      createChatLog({
+        variables: {
+          chatLog: {
+            chatUUID: currentChatUUID,
+            userID: username,
+            type: 'notification',
+            message: message,
+          },
+        },
+      });
+    });
+  };
+
+  const handleBlock = async () => {
+    await toggleBlock({
+      variables: {
+        blockInput: {
+          followerID: loginID,
+          followingID: username,
+        },
+      },
+    });
+  };
+
+  const handleMute = async () => {
+    await toggleMute({
+      variables: {
+        uuid: currentChatUUID,
+        userID: username,
+      },
+    }).then((res) => {
+      const message = res.data.toggleMute.muteID.includes(username) ? 'mute' : 'unmute';
+      createChatLog({
+        variables: {
+          chatLog: {
+            chatUUID: currentChatUUID,
+            userID: username,
+            type: 'notification',
+            message: message,
+          },
+        },
+      });
+    });
+  };
+
+  const handleForcedOut = async () => {
+    await forcedOut({
+      variables: {
+        uuid: currentChatUUID,
+        userID: username,
+      },
+    });
+    await createChatLog({
+      variables: {
+        chatLog: {
+          chatUUID: currentChatUUID,
+          userID: username,
+          type: 'notification',
+          message: 'forced-out',
+        },
+      },
+    });
+    refetchChat();
+  };
+
+  const menuOnClickHandler = async (
     e: React.MouseEvent<HTMLUListElement, MouseEvent> | React.KeyboardEvent<HTMLUListElement>,
   ) => {
     const eventTarget = e.target as HTMLUListElement;
@@ -35,7 +129,7 @@ export const AlarmChatPeople = ({
           console.log(eventTarget.dataset.option);
           break;
         case 'send-message':
-          console.log(eventTarget.dataset.option);
+          await handleSendMessage();
           break;
         case 'add-friend':
           console.log(eventTarget.dataset.option);
@@ -44,16 +138,16 @@ export const AlarmChatPeople = ({
           console.log(eventTarget.dataset.option);
           break;
         case 'register-admin':
-          console.log(eventTarget.dataset.option);
+          await handleRegisterAdmin();
           break;
         case 'block':
-          console.log(eventTarget.dataset.option);
+          await handleBlock();
           break;
         case 'mute':
-          console.log(eventTarget.dataset.option);
+          await handleMute();
           break;
         case 'forced-out':
-          console.log(eventTarget.dataset.option);
+          await handleForcedOut();
           break;
       }
     }
@@ -71,7 +165,7 @@ export const AlarmChatPeople = ({
               <li data-option="play-game">핑퐁게임 요청</li>
               <li data-option="register-admin">관리자 임명(해임)</li>
               <li data-option="block">차단(차단 해제)하기</li>
-              <li data-option="mute">음소거</li>
+              <li data-option="mute">음소거(음소거 해제)하기</li>
               <li data-option="forced-out">강제퇴장</li>
             </>
           )}
@@ -90,12 +184,12 @@ export const AlarmChatPeople = ({
               <li data-option="add-friend">친구추가 요청</li>
               <li data-option="play-game">핑퐁게임 요청</li>
               <li data-option="block">차단(차단 해제)하기</li>
-              <li data-option="mute">음소거</li>
+              <li data-option="mute">음소거(음소거 해제)하기</li>
               <li data-option="forced-out">강제퇴장</li>
             </>
           )}
         </ContextMenu>
-        <AlarmChatPerson outerRef={outerRef} username={username} />
+        <AlarmChatPerson outerRef={outerRef} username={username} ownerID={ownerID} adminID={adminID} />
       </>
     );
   }
@@ -112,7 +206,7 @@ export const AlarmChatPeople = ({
           </>
         )}
       </ContextMenu>
-      <AlarmChatPerson outerRef={outerRef} username={username} />
+      <AlarmChatPerson outerRef={outerRef} username={username} ownerID={ownerID} adminID={adminID} />
     </>
   );
 };

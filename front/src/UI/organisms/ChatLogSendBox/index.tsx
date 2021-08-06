@@ -5,7 +5,8 @@ import React, { useRef } from 'react';
 import { currentChatVar, currentLoginIDVar } from '../../../apollo/apolloProvider';
 import { CREATE_CHAT_LOG } from './ChatLogSendBoxQueries';
 
-export const ChatLogSendBox = () => {
+export const ChatLogSendBox = ({ ...props }) => {
+  const { muteIDList } = props;
   //mutation
   const [createChatLog] = useMutation(CREATE_CHAT_LOG);
   const inputRef = useRef<HTMLInputElement>();
@@ -22,6 +23,10 @@ export const ChatLogSendBox = () => {
     if (!['devil', 'holee', 'jwon', 'yechoi', 'yshin'].includes(tempRef.current.value)) {
       return;
     }
+    if (muteIDList.includes(tempRef.current.value)) {
+      inputRef.current.value = '';
+      return;
+    }
     await createChatLog({
       variables: {
         user: {
@@ -31,8 +36,13 @@ export const ChatLogSendBox = () => {
           type: 'message',
         },
       },
-    });
-    inputRef.current.value = '';
+    })
+      .then(() => {
+        inputRef.current.value = '';
+      })
+      .catch((err) => {
+        return;
+      });
   };
 
   const handleKeyPressInput = (e: ChangeEvent<HTMLInputElement>) => {

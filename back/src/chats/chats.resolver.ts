@@ -65,4 +65,36 @@ export class ChatsResolver {
   ) {
     return this.chatsService.checkPassword(uuid, password);
   }
+
+  @Mutation(() => Chat)
+  toggleMute(
+    @Args('uuid', { type: () => String }) uuid: string,
+    @Args('userID', { type: () => String }) userID: string,
+  ) {
+    return this.chatsService.toggleMute(uuid, userID);
+  }
+
+  @Mutation(() => Chat)
+  forcedOut(
+    @Args('uuid', { type: () => String }) uuid: string,
+    @Args('userID', { type: () => String }) userID: string,
+  ) {
+    return this.chatsService.forcedOut(uuid, userID);
+  }
+
+  @Mutation(() => Chat)
+  toggleAdmin(
+    @Args('uuid', { type: () => String }) uuid: string,
+    @Args('userID', { type: () => String }) userID: string,
+  ) {
+    return this.chatsService.toggleAdmin(uuid, userID);
+  }
+
+  @Mutation(() => Chat)
+  createDM(
+    @Args('user1', { type: () => String }) origUserID: string,
+    @Args('user2', { type: () => String }) destUserID: string,
+  ) {
+    return this.chatsService.createDM(origUserID, destUserID);
+  }
 }

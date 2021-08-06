@@ -10,6 +10,7 @@ export const GET_CHAT = gql`
       ownerID
       adminID
       userID
+      muteID
       chatLog {
         index
         userID
