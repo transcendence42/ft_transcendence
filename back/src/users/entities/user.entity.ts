@@ -17,6 +17,10 @@ export class User extends BaseEntity {
   @Field(() => Int, {})
   index: number;
 
+  @Column({ type: 'boolean', default: true })
+  @Field(() => Boolean, { defaultValue: true })
+  enableTwoFactorAuth: boolean;
+
   @Column({ nullable: true })
   @Field(() => String, { nullable: true })
   twoFactorAuthSecret: string;

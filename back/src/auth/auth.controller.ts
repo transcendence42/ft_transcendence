@@ -30,6 +30,11 @@ export class AuthController {
       res.cookie('access_token', token.access_token, {
         httpOnly: false,
       });
+      if (req.user.enableTwoFactorAuth === false) {
+        res.cookie('two_factor_auth', true, {
+          httpOnly: false,
+        });
+      }
       res.status(302).redirect(`${process.env.HOST}:${process.env.CLIENT_PORT}`);
     }
   }
