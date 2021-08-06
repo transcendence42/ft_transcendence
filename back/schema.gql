@@ -18,6 +18,7 @@ scalar DateTime
 
 type User {
   index: Int!
+  twoFactorAuthSecret: String
   userID: String!
   nickname: String
   avatar: String!
@@ -84,12 +85,13 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-07-27T09:18:34.704Z"
-  modifiedAt: DateTime = "2021-07-27T09:18:34.704Z"
+  createdAt: DateTime = "2021-08-06T03:04:01.466Z"
+  modifiedAt: DateTime = "2021-08-06T03:04:01.466Z"
 }
 
 input user {
   index: Int!
+  twoFactorAuthSecret: String
   userID: String!
   nickname: String
   avatar: String = ""
@@ -99,8 +101,8 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-07-27T09:18:34.704Z"
-  modifiedAt: DateTime = "2021-07-27T09:18:34.704Z"
+  createdAt: DateTime = "2021-08-06T03:04:01.466Z"
+  modifiedAt: DateTime = "2021-08-06T03:04:01.466Z"
 }
 
 type Query {
@@ -108,6 +110,8 @@ type Query {
   user(userID: String!): User!
   userByIndex(index: Int!): User!
   me: User!
+  getLadderRanking(userID: String!): Int!
+  getMyLadderRanking: Int!
   myAlarm: [Alarm!]!
   friends(userID: String): [User!]!
   myFriends: [User!]!
@@ -131,6 +135,7 @@ type Query {
 }
 
 type Mutation {
+  getOtpAuthUrl: String!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(userID: String!): User!
@@ -163,6 +168,7 @@ input UpdateUserInput {
   userID: String!
   nickname: String
   avatar: String
+  twoFactorAuthSecret: String
   ladderRating: Float
   totalWin: Float
   totalLose: Float

@@ -9,6 +9,7 @@ import { AuthenticationProvider } from 'src/auth/auth';
 import { AlarmsService } from 'src/alarms/alarms.service';
 import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { FollowsService } from 'src/follows/follows.service';
+import { string } from 'joi';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
@@ -23,7 +24,13 @@ export class UsersResolver {
     private readonly usersService: UsersService,
     private readonly alarmsService: AlarmsService,
     private readonly followsService: FollowsService,
-  ) { }
+  ) {}
+
+  @Mutation(() => String)
+  async getOtpAuthUrl(@CurrentUser() user: User) {
+    const otpAuthUrl = await this.authService.generateTwoFactorAuthSecret(user);
+    return otpAuthUrl;
+  }
 
   @Mutation(() => User)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {

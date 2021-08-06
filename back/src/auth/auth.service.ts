@@ -3,6 +3,7 @@ import { AuthenticationProvider, UserDetails } from './auth';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { authenticator } from 'otplib';
 
 @Injectable()
 export class AuthService implements AuthenticationProvider {
@@ -26,8 +27,8 @@ export class AuthService implements AuthenticationProvider {
     };
   }
 
-  createUser(details: UserDetails) {
-    const user = this.usersService.create({
+  async createUser(details: UserDetails) {
+    const user = await this.usersService.create({
       userID: details.username,
       nickname: details.username,
       avatar: details.photos[0]['value'],
@@ -35,7 +36,18 @@ export class AuthService implements AuthenticationProvider {
     return user;
   }
 
-  findUser(userID: string): Promise<User> | undefined {
-    return this.usersService.findOneByUserID(userID);
+  async findUser(userID: string): Promise<User> | undefined {
+    return await this.usersService.findOneByUserID(userID);
+  }
+
+  async generateTwoFactorAuthSecret(user: User) {
+    const secret = authenticator.generateSecret();
+    const otpAuthUrl = authenticator.keyuri(
+      `${user.userID}@student.42seoul.kr`,
+      process.env.TWO_FACTOR_AUTHENTICATION_APP_NAME,
+      secret,
+    );
+    await this.usersService.setTwoFactorAuthSecret(secret, user.userID);
+    return otpAuthUrl;
   }
 }

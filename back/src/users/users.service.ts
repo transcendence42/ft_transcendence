@@ -14,7 +14,7 @@ export class UsersService {
     private readonly alarmsService: AlarmsService,
     @Inject(forwardRef(() => FollowsService))
     private readonly followsService: FollowsService,
-  ) { }
+  ) {}
 
   async create(createUserInput: CreateUserInput) {
     const user = new User();
@@ -85,17 +85,30 @@ export class UsersService {
     return await User.remove(user);
   }
 
+  async setTwoFactorAuthSecret(secret: string, userID: string) {
+    const user = await User.findOne({ userID: userID });
+    user.twoFactorAuthSecret = secret;
+
+    const validate_error = await validate(user);
+    if (validate_error.length > 0) {
+      const _error = { username: 'UserInput is not valid check type' };
+      throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
+    } else {
+      return await User.save(user);
+    }
+  }
+
   async calculateLadderRanking(userID: string) {
     const rankingQb = await User.getRepository()
       .createQueryBuilder()
       .select('RANK() OVER (ORDER BY "ladderRating" DESC) AS "ladderRanking"')
-      .addSelect('"userID"')
+      .addSelect('"userID"');
     const ranking = await getConnection()
       .createQueryBuilder()
       .select('"ladderRanking"')
-      .from("(" + rankingQb.getQuery() + ")", "user")
+      .from('(' + rankingQb.getQuery() + ')', 'user')
       .where('"userID" = :userID', { userID: userID })
       .getRawOne();
-    return (ranking.ladderRanking);
+    return ranking.ladderRanking;
   }
 }
