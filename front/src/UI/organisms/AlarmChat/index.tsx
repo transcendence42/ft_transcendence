@@ -3,7 +3,6 @@ import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Tex
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { ContextMenu } from 'holee-contextmenu';
 
-import { AlarmChatPeople } from '../../molecules';
 import { AlarmChatMessagesBox } from '../AlarmChatMessagesBox';
 import { ChatLogSendBox } from '../ChatLogSendBox';
 import { PersonIcon, LockIcon } from '../../../utils/icons';
@@ -19,11 +18,12 @@ import {
 import { GET_CHAT, CHATLOG_SUBSCRIPTION } from './AlarmChatQueries';
 import { currentChatVar } from '../../../apollo/apolloProvider';
 import { EmptyChat } from '../../molecules/EmptyChat';
+import { AlarmChatPeopleBox } from '../AlarmChatPeopleBox';
 
 export const AlarmChat = () => {
   const [chatRoomState, setChatRoomState] = useState<string>('chat-room');
   const currentChat = useReactiveVar(currentChatVar);
-  const { loading, error, data, subscribeToMore } = useQuery(GET_CHAT, {
+  const { loading, error, data, subscribeToMore, refetch } = useQuery(GET_CHAT, {
     variables: {
       uuid: currentChat,
     },
@@ -45,6 +45,7 @@ export const AlarmChat = () => {
     const eventTarget = e.target as HTMLUListElement;
     if (eventTarget) {
       setChatRoomState(eventTarget.dataset.option as string);
+      refetch();
     }
   };
 
@@ -138,19 +139,15 @@ export const AlarmChat = () => {
                 chatUUID={data.chat.uuid}
               />
             </Flex>
-            <ChatLogSendBox />{' '}
+            <ChatLogSendBox muteIDList={data.chat.muteID} />
           </>
         ) : (
-          <>
-            {data.chat.userID.map((username) => (
-              <AlarmChatPeople
-                key={username}
-                ownerID={data.chat.ownerID}
-                adminID={data.chat.adminID}
-                username={username}
-              />
-            ))}
-          </>
+          <AlarmChatPeopleBox
+            chat={data.chat}
+            refetchChat={refetch}
+            subscribeToNewMessage={subscribeToNewMessage}
+            setChatRoomState={setChatRoomState}
+          />
         )}
       </AccordionPanel>
     </AccordionItem>

@@ -60,7 +60,7 @@ export const CreateChatBox = ({ ...props }) => {
   };
 
   const validateName = (value: string) => {
-    if (!value || value === '' || value.search(/[^a-zA-Z0-9ㄱ-ㅎ가-힣]/g) !== -1) {
+    if (!value || value.trim() === '' || value.search(/[^a-zA-Z0-9ㄱ-ㅎ가-힣 ]/g) !== -1) {
       setIsValidName(false);
       return false;
     }
@@ -123,7 +123,7 @@ export const CreateChatBox = ({ ...props }) => {
                   />
                 </GridItem>
                 <GridItem colSpan={2}>
-                  <FormHelperText>한글, 영문, 숫자 20자 이내</FormHelperText>
+                  <FormHelperText>공백, 한글, 영문, 숫자 20자 이내</FormHelperText>
                   <FormErrorMessage>{CHAT_INVALID_NAME_ERROR_MSG}</FormErrorMessage>
                 </GridItem>
               </Grid>

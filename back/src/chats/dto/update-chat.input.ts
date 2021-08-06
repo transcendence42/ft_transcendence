@@ -14,4 +14,7 @@ export class UpdateChatInput extends PartialType(CreateChatInput) {
 
   @Field((type) => [String], { nullable: true })
   userID: string[];
+
+  @Field((type) => [String], { nullable: true })
+  muteID: string[];
 }
