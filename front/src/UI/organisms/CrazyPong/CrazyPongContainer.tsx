@@ -12,7 +12,8 @@ export const CrazyPongContainer = () => {
     },
   });
   const [updatePlayingInfo] = useMutation(UPDATE_PLAYINGINFO);
-  const [inputName, setInputName] = useState('');
+  // const [inputName, setInputName] = useState('');
+  const [inputName] = useState('player1');
 
   const updatePlayingInfoHandler = (playingInfo: IPlayingUpdateInfo) => {
     const { index, uuid, ballX, ballY, ballVelocityX, ballVelocityY, player1Y, player2Y, player1Score, player2Score } =
@@ -39,7 +40,7 @@ export const CrazyPongContainer = () => {
     return (
       <>
         <p>loading</p>
-        <input value={inputName} onChange={(e) => setInputName(e.target.value)}></input>
+        {/* <input value={inputName} onChange={(e) => setInputName(e.target.value)}></input> */}
         {inputName}
       </>
     );

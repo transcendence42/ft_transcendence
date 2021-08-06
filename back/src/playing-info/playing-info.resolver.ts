@@ -5,8 +5,6 @@ import { CreatePlayingInfoInput } from './dto/create-playing-info.input';
 import { UpdatePlayingInfoInput } from './dto/update-playing-info.input';
 import { PubSubProvider } from '../pub-sub/pub-sub.provider';
 
-const BALL_RADIUS = 10;
-
 const data = {
   canvas: {
     height: 800,
@@ -69,7 +67,11 @@ export class PlayingInfoResolver {
   @Mutation(() => PlayingInfo)
   async updatePlayingInfo(@Args('playingInfoInput') updatePlayingInfoInput: UpdatePlayingInfoInput) {
     const playingInfo = await this.playingInfoService.update(updatePlayingInfoInput.index, updatePlayingInfoInput);
-    this.pubSubProvider.getPubSub().publish('playingInfo', { playingInfo: playingInfo });
+    this.pubSubProvider.getPubSub().publish('playingInfo', {
+      playingInfo: {
+        ...playingInfo,
+      },
+    });
     return playingInfo;
   }
 
@@ -114,7 +116,7 @@ export class PlayingInfoResolver {
 
   async updateBall() {
     const playingInfo = this.collision(await this.playingInfoService.findOne(1));
-    await this.playingInfoService.update(1, {
+    const updatePlayingInfo = await this.playingInfoService.update(1, {
       ...playingInfo,
       ballX: playingInfo.ballX + playingInfo.ballVelocityX,
       ballY: playingInfo.ballY + playingInfo.ballVelocityY,
@@ -122,13 +124,7 @@ export class PlayingInfoResolver {
       ballVelocityY: playingInfo.ballVelocityY,
     });
     this.pubSubProvider.getPubSub().publish('playingInfo', {
-      playingInfo: {
-        ...playingInfo,
-        ballX: playingInfo.ballX + playingInfo.ballVelocityX,
-        ballY: playingInfo.ballY + playingInfo.ballVelocityY,
-        ballVelocityX: playingInfo.ballVelocityX,
-        ballVelocityY: playingInfo.ballVelocityY,
-      },
+      playingInfo: updatePlayingInfo,
     });
   }
 

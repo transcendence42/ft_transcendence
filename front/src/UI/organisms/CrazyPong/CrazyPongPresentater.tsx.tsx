@@ -25,7 +25,18 @@ export const CrazyPongPresenter = ({
 }) => {
   const { index, ballX, ballY, ballVelocityX, ballVelocityY, player1Y, player2Y, player1Score, player2Score } =
     playingInfo;
-  console.log(index, ballX, ballY, ballVelocityX, ballVelocityY, player1Y, player2Y, player1Score, player2Score);
+  console.log(
+    index,
+    ballX,
+    ballY,
+    ballVelocityX,
+    ballVelocityY,
+    player1Y,
+    player2Y,
+    player1Score,
+    player2Score,
+    inputName,
+  );
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -93,7 +104,6 @@ export const CrazyPongPresenter = ({
     window.requestAnimationFrame(render);
     // render();
   }, [
-    inputName,
     player1Y,
     player2Y,
     ballX,
