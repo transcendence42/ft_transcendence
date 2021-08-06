@@ -12,6 +12,7 @@ import {
   TOGGLE_ADMIN,
   CREATE_DM,
   CREATE_ALARM,
+  CREATE_FOLLOW,
 } from './AlarmChatPeopleQueries';
 
 const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
@@ -27,6 +28,7 @@ const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
 export const AlarmChatPeople = ({ ...props }) => {
   const { username, ownerID, adminID, refetchChat, setChatRoomState } = props;
   const outerRef = useRef<HTMLDivElement>(null);
+  const [createFollow] = useMutation(CREATE_FOLLOW);
   const [createDM] = useMutation(CREATE_DM);
   const [createAlarm] = useMutation(CREATE_ALARM);
   const [toggleBlock] = useMutation(TOGGLE_BLOCK);
@@ -37,6 +39,31 @@ export const AlarmChatPeople = ({ ...props }) => {
   const loginID = currentLoginIDVar();
   const currentChatUUID = useReactiveVar(currentChatVar);
 
+  const handleAddFriend = async () => {
+    await createFollow({
+      variables: {
+        users: {
+          followerID: loginID,
+          followingID: username,
+        },
+      },
+    }).then((res) => {
+      if (!res.data.createFollow.checked) {
+        // 서로 친구 상태가 아닌 경우 알람 생성
+        createAlarm({
+          variables: {
+            alarm: {
+              userID: username,
+              title: '친구요청',
+              content: `${loginID}님이 친구 요청을 보냈습니다.`,
+              type: 'addFriend',
+              link: `/profile/${loginID}`,
+            },
+          },
+        });
+      }
+    });
+  };
   const handleSendMessage = async () => {
     await createDM({
       variables: {
@@ -143,7 +170,7 @@ export const AlarmChatPeople = ({ ...props }) => {
           await handleSendMessage();
           break;
         case 'add-friend':
-          console.log(eventTarget.dataset.option);
+          await handleAddFriend();
           break;
         case 'play-game':
           console.log(eventTarget.dataset.option);

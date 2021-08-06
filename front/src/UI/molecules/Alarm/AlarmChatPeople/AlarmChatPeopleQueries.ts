@@ -64,3 +64,18 @@ export const CREATE_ALARM = gql`
     }
   }
 `;
+
+export const CREATE_FOLLOW = gql`
+  mutation createFollow($users: CreateFollowInput!) {
+    createFollow(createFollowInput: $users) {
+      follower {
+        userID
+      }
+      following {
+        userID
+      }
+      checked
+      blocked
+    }
+  }
+`;
