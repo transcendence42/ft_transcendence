@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { graphqlUploadExpress } from '@apollographql/graphql-upload-8-fork';
 import * as cookieParser from 'cookie-parser';
 import * as passport from 'passport';
 

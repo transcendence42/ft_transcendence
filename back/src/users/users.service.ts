@@ -76,6 +76,19 @@ export class UsersService {
     }
   }
 
+  async updateAvatar(userID: string, avatar: string) {
+    const user = await User.findOne({ userID: userID });
+    user.avatar = avatar;
+
+    const validate_error = await validate(user);
+    if (validate_error.length > 0) {
+      const _error = { username: 'UserInput is not valid check type' };
+      throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
+    } else {
+      return await User.save(user);
+    }
+  }
+
   async remove(userID: string) {
     const user = await User.findOne({ userID: userID });
     if (!user) {

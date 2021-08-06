@@ -1,9 +1,9 @@
 import React from 'react';
-import { Avatar, Box } from '@chakra-ui/react';
+import { Box, Img } from '@chakra-ui/react';
 import { IProfileLarge } from '../../../utils/interface';
 import './index.scss';
 
-const ProfileLarge = ({
+export const ProfileLarge = ({
   userID = 'ID',
   nickname = 'nickname',
   avatar = '',
@@ -17,23 +17,23 @@ const ProfileLarge = ({
   return (
     <>
       <Box className={reverse ? 'profile-large-reverse' : 'profile-large'}>
-        <Avatar size="xl" margin="1rem" userID={userID} src={avatar} />
+        <div className="avatar-container">
+          <Img className="avatar" src={avatar} />
+        </div>
         <div>
           <table>
             <thead>
               <tr>
-                <td>
-                  {nickname}({userID})
-                </td>
+                <td className="nickname">{nickname}</td>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>
-                  랭킹 <strong>{ranking}위</strong>
+                  ID <strong>{userID}</strong>
                 </td>
                 <td>
-                  래더 점수 <strong>{ladderRating}점</strong>
+                  래더 <strong>{ladderRating}점</strong>({ranking}위)
                 </td>
               </tr>
               <tr>
@@ -54,5 +54,3 @@ const ProfileLarge = ({
     </>
   );
 };
-
-export default ProfileLarge;

@@ -9,6 +9,8 @@ import { AuthenticationProvider } from 'src/auth/auth';
 import { AlarmsService } from 'src/alarms/alarms.service';
 import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { FollowsService } from 'src/follows/follows.service';
+import { createWriteStream } from 'fs';
+import { GraphQLUpload, FileUpload } from 'graphql-upload';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
@@ -89,7 +91,6 @@ export class UsersResolver {
         return this.usersService.findOne(x);
       }),
     );
-    console.log(users);
     return users;
   }
 
@@ -111,6 +112,11 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
+  updateAvatar(@CurrentUser() user: User, @Args('avatar') avatar: string) {
+    return this.usersService.updateAvatar(user.userID, avatar);
+  }
+
+  @Mutation(() => User)
   removeUser(@Args('userID', { type: () => String }) userID: string) {
     return this.usersService.remove(userID);
   }
@@ -125,5 +131,21 @@ export class UsersResolver {
   async followings(@Parent() user: User) {
     const { index } = user;
     return this.followsService.findFollowings({ index: index });
+  }
+
+  @Mutation(() => String)
+  async uploadFile(
+    @CurrentUser() user: User,
+    @Args('file', { type: () => GraphQLUpload })
+    file: FileUpload,
+  ): Promise<string> {
+    const { createReadStream } = await file;
+    const stream = createReadStream();
+    return new Promise(async (resolve, reject) =>
+      stream
+        .pipe(createWriteStream(`./public/images/${user.userID}`))
+        .on('finish', () => resolve(`/images/${user.userID}`))
+        .on('error', () => reject('')),
+    );
   }
 }
