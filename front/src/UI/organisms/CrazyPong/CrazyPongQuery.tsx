@@ -28,6 +28,8 @@ export const SUBSCRIBE_CRAZYPONG = gql`
       player2Y
       player1Score
       player2Score
+      sequence
+      modifiedAt
     }
   }
 `;

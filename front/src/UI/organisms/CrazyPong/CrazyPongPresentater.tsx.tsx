@@ -7,12 +7,16 @@ import { paddleMovement } from './paddleMovement';
 // import { collision } from './collision';
 import { data } from './data';
 import { IPlayingInfo, IPlayingUpdateInfo } from '../../../utils/interface';
+import { postgresTimeToDate } from '../../../utils/util';
+// import { postgresTimeToDate } from '../../../utils/util';
 
 // const { player1, player2 } = data;
 const { ball, player1, player2 } = data;
 
 const CANVAS_HEIGHT = 800;
 let start, previousTimeStamp;
+let serverTime = 0;
+let pongSequence = -1;
 
 export const CrazyPongPresenter = ({
   playingInfo,
@@ -23,10 +27,8 @@ export const CrazyPongPresenter = ({
   updatePlayingInfoHandler: (playingInfo: IPlayingUpdateInfo) => void;
   inputName: string;
 }) => {
-  const { index, ballX, ballY, ballVelocityX, ballVelocityY, player1Y, player2Y, player1Score, player2Score } =
-    playingInfo;
-  console.log(
-    index,
+  // console.log(Date.parse(String(postgresTimeToDate(data.playingInfo.modifiedAt))));
+  const {
     ballX,
     ballY,
     ballVelocityX,
@@ -35,8 +37,22 @@ export const CrazyPongPresenter = ({
     player2Y,
     player1Score,
     player2Score,
-    inputName,
-  );
+    sequence,
+    modifiedAt,
+  } = playingInfo;
+  // console.log(
+  //   sequence,
+  //   ballX,
+  //   ballY,
+  //   ballVelocityX,
+  //   ballVelocityY,
+  //   player1Y,
+  //   player2Y,
+  //   player1Score,
+  //   player2Score,
+  //   inputName,
+  //   modifiedAt,
+  // );
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -52,6 +68,16 @@ export const CrazyPongPresenter = ({
         if (canvas) {
           const ctx = canvas.getContext('2d');
           if (ctx) {
+            if (pongSequence >= sequence) {
+              return;
+            }
+            if (Date.parse(String(postgresTimeToDate(modifiedAt))) < serverTime) {
+              return;
+            }
+            pongSequence = sequence;
+            serverTime = Date.parse(String(postgresTimeToDate(modifiedAt)));
+            console.log(modifiedAt, sequence, ballX, ballY, player1Y, player2Y);
+            // console.log(pongSequence);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             drawText(ctx, String(player1Score), canvas.width / 4 - 20, canvas.height / 5, 'white');
@@ -112,6 +138,8 @@ export const CrazyPongPresenter = ({
     ballVelocityY,
     player1Score,
     player2Score,
+    modifiedAt,
+    sequence,
     updatePlayingInfoHandler,
   ]);
 

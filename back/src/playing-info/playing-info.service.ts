@@ -63,6 +63,7 @@ export class PlayingInfoService {
     if (updatePlayingInfoInput.player2Score || updatePlayingInfoInput.player2Score === 0) {
       playingInfo.player2Score = updatePlayingInfoInput.player2Score;
     }
+    playingInfo.sequence = playingInfo.sequence + 1;
     const validate_error = await validate(playingInfo);
     if (validate_error.length > 0) {
       const _error = { playingInfo: 'PlayingInfo Input is not valid' };

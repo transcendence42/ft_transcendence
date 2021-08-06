@@ -139,7 +139,7 @@ export class PlayingInfoResolver {
     },
   })
   playingInfo(@Args('uuid') uuid: string) {
-    setInterval(() => this.updateBall(), 50);
+    setInterval(() => this.updateBall(), 500);
     return this.pubSubProvider.getPubSub().asyncIterator('playingInfo');
   }
 }

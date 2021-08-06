@@ -163,6 +163,8 @@ export interface IPlayingInfo {
   player2Y: number;
   player1Score: number;
   player2Score: number;
+  sequence: number;
+  modifiedAt: Date;
   createdAt: string;
 }
 
@@ -177,5 +179,7 @@ export interface IPlayingUpdateInfo {
   player2Y?: number;
   player1Score?: number;
   player2Score?: number;
+  sequence?: number;
+  modifiedAt?: Date;
   createdAt?: string;
 }

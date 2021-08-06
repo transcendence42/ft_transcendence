@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { CrazyPongPresenter } from './CrazyPongPresentater.tsx';
 import { SUBSCRIBE_CRAZYPONG, UPDATE_PLAYINGINFO } from './CrazyPongQuery';
 import { IPlayingUpdateInfo } from '../../../utils/interface';
+// import { postgresTimeToDate } from '../../../utils/util';
 
 export const CrazyPongContainer = () => {
   const { data, loading, error } = useSubscription(SUBSCRIBE_CRAZYPONG, {
@@ -48,6 +49,7 @@ export const CrazyPongContainer = () => {
   if (error) {
     return <p>error</p>;
   }
+  // console.log(Date.parse(String(postgresTimeToDate(data.playingInfo.modifiedAt))));
   return (
     <CrazyPongPresenter
       playingInfo={data.playingInfo}

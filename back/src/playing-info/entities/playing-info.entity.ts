@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { CreateDateColumn, PrimaryGeneratedColumn, BaseEntity, Entity, Column } from 'typeorm';
+import { CreateDateColumn, PrimaryGeneratedColumn, BaseEntity, Entity, Column, UpdateDateColumn } from 'typeorm';
 
 @Entity('PlayingInfo')
 @ObjectType()
@@ -44,6 +44,14 @@ export class PlayingInfo extends BaseEntity {
   @Column({ type: 'integer', nullable: true, default: 0 })
   @Field(() => Int, { nullable: true, defaultValue: 0 })
   player2Score: number;
+
+  @Column({ type: 'integer', nullable: true, default: 0 })
+  @Field(() => Int, { nullable: true, defaultValue: 0 })
+  sequence: number;
+
+  @UpdateDateColumn()
+  @Field(() => Date, { defaultValue: new Date() })
+  modifiedAt: Date;
 
   @Field()
   @CreateDateColumn()
