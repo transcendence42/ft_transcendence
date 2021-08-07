@@ -11,10 +11,13 @@ import Game from './pages/Game';
 import Login from './pages/Login';
 import { NotFound } from './pages/NotFound';
 import { TwoFactorAuth } from './pages/TwoFactorAuth';
+import { useQuery } from '@apollo/client';
+import { GET_MY_OPT_CONFIG } from './UI/organisms/TwoFactorAuthBox/TwoFactorAuthBoxQueries';
 
 const App = () => {
   const accessToken = getCookies('access_token');
   const twoFactorAuthChecked = getCookies('two_factor_auth');
+  const { data, error, loading } = useQuery(GET_MY_OPT_CONFIG);
 
   // 로그인하지 않은 유저
   if (!accessToken) {
@@ -28,8 +31,14 @@ const App = () => {
       </>
     );
   }
+  if (error) {
+    return <>Error</>;
+  }
+  if (loading) {
+    return <>Loading</>;
+  }
   // 2fa를 활성화했는데 인증하지 않은 경우
-  if (!twoFactorAuthChecked) {
+  if (data.me.enableTwoFactorAuth && !twoFactorAuthChecked) {
     return (
       <>
         <ChakraProvider theme={theme}>

@@ -87,8 +87,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-08-07T05:09:44.233Z"
-  modifiedAt: DateTime = "2021-08-07T05:09:44.233Z"
+  createdAt: DateTime = "2021-08-07T13:18:49.365Z"
+  modifiedAt: DateTime = "2021-08-07T13:18:49.365Z"
 }
 
 input user {
@@ -104,8 +104,8 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-08-07T05:09:44.233Z"
-  modifiedAt: DateTime = "2021-08-07T05:09:44.233Z"
+  createdAt: DateTime = "2021-08-07T13:18:49.366Z"
+  modifiedAt: DateTime = "2021-08-07T13:18:49.366Z"
 }
 
 type Query {
@@ -141,7 +141,6 @@ type Query {
 
 type Mutation {
   turnOnTwoFactorAuthentication(twoFactorAuthCode: String!): Boolean!
-  checkOtpCode(twoFactorAuthCode: String!): Boolean!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   updateAvatar(avatar: String!): User!

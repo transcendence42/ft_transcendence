@@ -1,4 +1,15 @@
-import { Resolver, Query, Mutation, Args, GqlExecutionContext, ResolveField, Parent, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  GqlExecutionContext,
+  ResolveField,
+  Parent,
+  Int,
+  Context,
+  GraphQLExecutionContext,
+} from '@nestjs/graphql';
 import { Inject, createParamDecorator, ExecutionContext, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
@@ -11,6 +22,7 @@ import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { FollowsService } from 'src/follows/follows.service';
 import { createWriteStream } from 'fs';
 import { GraphQLUpload, FileUpload } from 'graphql-upload';
+import { response } from 'express';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
@@ -45,20 +57,6 @@ export class UsersResolver {
       throw new UnauthorizedException('Wrong authentication code');
     }
     await this.usersService.turnOnTwoFactorAuthentication(user.userID);
-  }
-
-  @Mutation(() => Boolean)
-  async checkOtpCode(
-    @CurrentUser() user: User,
-    @Args('twoFactorAuthCode', { type: () => String }) twoFactorAuthCode: string,
-  ) {
-    const secret = (await this.usersService.findOneByUserID(user.userID)).twoFactorAuthSecret;
-    const isCodeValid = this.authService.isTwoFactorAuthCodeValid(twoFactorAuthCode, secret);
-    console.log('isCodeValid? ', isCodeValid);
-    if (!isCodeValid) {
-      throw new UnauthorizedException('Wrong authentication code');
-    }
-    return isCodeValid;
   }
 
   @Mutation(() => User)

@@ -1,8 +1,9 @@
-import { Controller, Get, Res, UseGuards, Inject, Req, Header } from '@nestjs/common';
+import { Controller, Get, Res, UseGuards, Inject, Req, Header, Post } from '@nestjs/common';
 import { Response } from 'express';
 import { FtAuthGuard, AuthenticatedGuard } from './guards/ft.guard';
 import { AuthenticationProvider } from './auth';
 import { UsersService } from 'src/users/users.service';
+import { selectParams } from 'admin-bro/types/src/utils/flat/select-params';
 
 @Controller('auth')
 export class AuthController {
@@ -31,6 +32,25 @@ export class AuthController {
         httpOnly: false,
       });
       if (req.user.enableTwoFactorAuth === false) {
+        res.cookie('two_factor_auth', true, {
+          httpOnly: false,
+        });
+      }
+      res.status(302).redirect(`${process.env.HOST}:${process.env.CLIENT_PORT}`);
+    }
+  }
+
+  /*
+   * /auth/redirect
+   * Oauth provider가 부를 redirect url
+   */
+  @Post('otp')
+  async setOtpCookie(@Req() req: any, @Res({ passthrough: true }) res: Response) {
+    const body = req.body;
+    if (body.otp && body.secret) {
+      const isValid = this.authService.isTwoFactorAuthCodeValid(body.otp, body.secret);
+      console.log('isValid', isValid);
+      if (isValid) {
         res.cookie('two_factor_auth', true, {
           httpOnly: false,
         });
