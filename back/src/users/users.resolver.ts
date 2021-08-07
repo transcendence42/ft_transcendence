@@ -58,7 +58,6 @@ export class UsersResolver {
     if (!isCodeValid) {
       throw new UnauthorizedException('Wrong authentication code');
     }
-    console.log('isCodeValid? ', isCodeValid);
     return isCodeValid;
   }
 
