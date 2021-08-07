@@ -1,9 +1,7 @@
-// import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 import { Button } from '@chakra-ui/react';
 import React, { useState, useRef } from 'react';
 import { GET_MY_OPT_CONFIG } from '../../organisms/TwoFactorAuthBox/TwoFactorAuthBoxQueries';
-// import { CHECK_OPT_CODE } from './TwoFactorAuthInputQueries';
 import './index.scss';
 
 export const TwoFactorAuthInput = () => {
@@ -34,6 +32,7 @@ export const TwoFactorAuthInput = () => {
       body: JSON.stringify({ otp: code, secret: data.me.twoFactorAuthSecret }),
     };
     await fetch(`${process.env.REACT_APP_CLIENT_URL}/auth/otp`, requestOptions);
+    window.location.reload();
   };
 
   return (
