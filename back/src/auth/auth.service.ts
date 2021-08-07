@@ -42,11 +42,7 @@ export class AuthService implements AuthenticationProvider {
 
   async generateTwoFactorAuthSecret(user: User) {
     const secret = authenticator.generateSecret();
-    const otpAuthUrl = authenticator.keyuri(
-      `${user.userID}@student.42seoul.kr`,
-      process.env.TWO_FACTOR_AUTHENTICATION_APP_NAME,
-      secret,
-    );
+    const otpAuthUrl = authenticator.keyuri(user.userID, process.env.TWO_FACTOR_AUTHENTICATION_APP_NAME, secret);
     await this.usersService.setTwoFactorAuthSecret(secret, user.userID);
     return otpAuthUrl;
   }
