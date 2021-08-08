@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
 import { toDataURL } from 'qrcode';
-import { GET_OTP_AUTH_URL } from './TwoFactorAuthBoxQueries';
+import { GET_OTP_AUTH_URL } from './TwoFactorAuthQR';
 
 export const TwoFactorAuthQR = () => {
   const { data, error, loading } = useQuery(GET_OTP_AUTH_URL);

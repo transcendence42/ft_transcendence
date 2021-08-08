@@ -1,8 +1,9 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { TwoFactorAuthInput } from '../../atoms/TwoFactorAuthInput';
-import { TwoFactorAuthQR } from '../../atoms/TwoFactorAuthQR';
+import { TwoFactorAuthInput } from '../../molecules/TwoFactorAuthInput';
+import { TwoFactorAuthQRBox } from '../TwoFactorAuthQRBox';
 import { GET_MY_OPT_CONFIG } from './TwoFactorAuthBoxQueries';
+import './index.scss';
 
 export const TwoFactorAuthBox = () => {
   const { data, error, loading } = useQuery(GET_MY_OPT_CONFIG);
@@ -13,7 +14,19 @@ export const TwoFactorAuthBox = () => {
     return <>Loading</>;
   }
   if (data.me.twoFactorAuthSecret) {
-    return <TwoFactorAuthInput />;
+    return (
+      <>
+        <div className="two_factor_auth_container">
+          <TwoFactorAuthInput />
+        </div>
+      </>
+    );
   }
-  return <TwoFactorAuthQR />;
+  return (
+    <>
+      <div className="two_factor_auth_container">
+        <TwoFactorAuthQRBox />
+      </div>
+    </>
+  );
 };

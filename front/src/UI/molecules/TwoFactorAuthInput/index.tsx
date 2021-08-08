@@ -37,18 +37,16 @@ export const TwoFactorAuthInput = () => {
 
   return (
     <>
-      <div className="otp_input_container">
-        <input
-          className="opt_input"
-          type="number"
-          ref={inputRef}
-          onChange={updateCode}
-          value={code || ''}
-          onKeyPress={onKeyPress}
-          placeholder="OTP 값을 입력하세요."
-        />
-        <Button onClick={submitOptCode}>제출하기</Button>
-      </div>
+      <input
+        className="opt_input"
+        type="number"
+        ref={inputRef}
+        onChange={updateCode}
+        value={code || ''}
+        onKeyPress={onKeyPress}
+        placeholder="OTP 값을 입력하세요."
+      />
+      <Button onClick={submitOptCode}>제출하기</Button>
     </>
   );
 };
