@@ -112,15 +112,16 @@ export class UsersService {
     }
   }
 
-  async turnOnTwoFactorAuthentication(userID: string) {
+  async toggleTwoFactorAuthentication(userID: string) {
     const user = await User.findOne({ userID: userID });
-    user.enableTwoFactorAuth = true;
+    user.enableTwoFactorAuth = user.enableTwoFactorAuth === true ? false : true;
     const validate_error = await validate(user);
     if (validate_error.length > 0) {
       const _error = { username: 'UserInput is not valid check type' };
       throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
     } else {
-      return await User.save(user);
+      await User.save(user);
+      return user.enableTwoFactorAuth;
     }
   }
 

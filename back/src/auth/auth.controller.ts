@@ -3,7 +3,6 @@ import { Response } from 'express';
 import { FtAuthGuard, AuthenticatedGuard } from './guards/ft.guard';
 import { AuthenticationProvider } from './auth';
 import { UsersService } from 'src/users/users.service';
-import { selectParams } from 'admin-bro/types/src/utils/flat/select-params';
 
 @Controller('auth')
 export class AuthController {

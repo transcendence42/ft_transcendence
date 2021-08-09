@@ -47,16 +47,20 @@ export class UsersResolver {
   }
 
   @Mutation(() => Boolean)
-  async turnOnTwoFactorAuthentication(
+  async toggleTwoFactorAuthentication(
     @CurrentUser() user: User,
-    @Args('twoFactorAuthCode', { type: () => String }) twoFactorAuthCode: string,
+    // @Args('twoFactorAuthCode', { type: () => String }) twoFactorAuthCode: string,
   ) {
-    const secret = (await this.usersService.findOneByUserID(user.userID)).twoFactorAuthSecret;
-    const isCodeValid = this.authService.isTwoFactorAuthCodeValid(twoFactorAuthCode, secret);
-    if (!isCodeValid) {
-      throw new UnauthorizedException('Wrong authentication code');
-    }
-    await this.usersService.turnOnTwoFactorAuthentication(user.userID);
+    // const secret = (await this.usersService.findOneByUserID(user.userID)).twoFactorAuthSecret;
+    // const isCodeValid = this.authService.isTwoFactorAuthCodeValid(twoFactorAuthCode, secret);
+    // if (!isCodeValid) {
+    //   throw new UnauthorizedException('Wrong authentication code');
+    // }
+    const result = await this.usersService.toggleTwoFactorAuthentication(user.userID).catch(() => {
+      console.log('error: toggleTwoFactorAuthentication');
+      return false;
+    });
+    return result;
   }
 
   @Mutation(() => User)
