@@ -124,6 +124,8 @@ type Query {
   user(userID: String!): User!
   userByIndex(index: Int!): User!
   me: User!
+  getLadderRanking(userID: String!): Int!
+  getMyLadderRanking: Int!
   myAlarm: [Alarm!]!
   friends(userID: String): [User!]!
   myFriends: [User!]!
@@ -134,6 +136,8 @@ type Query {
   follows: [Follow!]!
   follow(index: Int!): Follow!
   games: [Game!]!
+  gameRecords(userID: String!): [Game!]!
+  myGameRecords: [Game!]!
   game(index: Int!): Game!
   chats: [Chat!]!
   chat(uuid: String!): Chat!
@@ -148,7 +152,9 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
+  updateAvatar(avatar: String!): User!
   removeUser(userID: String!): User!
+  uploadFile(file: Upload!): String!
   createAlarm(createAlarmInput: CreateAlarmInput!): Alarm!
   checkAlarm(checkAlarmInput: CheckAlarmInput!): Alarm!
   removeAlarm(index: Int!): Alarm!
@@ -186,6 +192,9 @@ input UpdateUserInput {
   userState: String
   modifiedAt: DateTime
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input CreateAlarmInput {
   userID: String!

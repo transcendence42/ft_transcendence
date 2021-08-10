@@ -63,6 +63,8 @@ export const ChatTableRow = ({ ...props }) => {
               message: 'enter',
             },
           },
+        }).catch(() => {
+          return;
         });
         await refetchChat();
       }
