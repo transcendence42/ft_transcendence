@@ -63,7 +63,6 @@ const App = () => {
               <Route exact path="/profile/:userID" component={Profile} />
               <Route path="/chat" component={Chat} />
               <Route path="/game" component={Game} />
-              <Route path="/2fa" component={TwoFactorAuth} />
               <Route path="/404" component={NotFound} />
               <Redirect from="*" to="/404" />
             </Switch>
