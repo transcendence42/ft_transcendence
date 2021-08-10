@@ -69,9 +69,11 @@ export class AuthController {
    */
   @Get('logout')
   logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('two_factor_auth');
     res.cookie('access_token', '', {
       httpOnly: false,
     });
+
     res.status(302).redirect(`${process.env.HOST}:${process.env.CLIENT_PORT}`);
   }
 }
