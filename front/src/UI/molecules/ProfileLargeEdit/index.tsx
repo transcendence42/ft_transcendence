@@ -3,8 +3,10 @@ import { Box, Img } from '@chakra-ui/react';
 import { IProfileLarge } from '../../../utils/interface';
 import '../ProfileLarge/index.scss';
 import { UPDATE_NICKNAME } from './ProfileLargeEditQueries';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { FileUploadButton } from '../../atoms/FileUploadButton';
+import { OptButton } from '../../atoms/OtpButton';
+import { GET_MY_OPT_CONFIG } from '../../organisms/TwoFactorAuthBox/TwoFactorAuthBoxQueries';
 
 export const ProfileLargeEdit = ({
   userID = 'ID',
@@ -48,6 +50,14 @@ export const ProfileLargeEdit = ({
     }
   };
 
+  const { data, error, loading } = useQuery(GET_MY_OPT_CONFIG);
+  if (error) {
+    return <>Error</>;
+  }
+  if (loading) {
+    return <>Loading</>;
+  }
+
   return (
     <>
       <Box className={reverse ? 'profile-large-reverse' : 'profile-large'}>
@@ -77,6 +87,7 @@ export const ProfileLargeEdit = ({
                       </span>
                     </button>
                     <FileUploadButton />
+                    <OptButton isEnabled={data.me.enableTwoFactorAuth} />
                   </div>
                 </td>
               </tr>

@@ -152,3 +152,10 @@ export interface IBall {
   speed: number;
   color: string;
 }
+
+/*
+ ** Profile
+ */
+export interface IOptButton {
+  isEnabled: boolean;
+}
