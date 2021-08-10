@@ -18,6 +18,8 @@ scalar DateTime
 
 type User {
   index: Int!
+  enableTwoFactorAuth: Boolean!
+  twoFactorAuthSecret: String
   userID: String!
   nickname: String
   avatar: String!
@@ -65,6 +67,7 @@ type Chat {
   ownerID: String!
   adminID: [String!]!
   userID: [String!]!
+  muteID: [String!]!
   createdAt: DateTime!
   modifiedAt: DateTime!
   chatLog: [ChatLog!]!
@@ -84,12 +87,14 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-08-05T11:57:36.279Z"
-  modifiedAt: DateTime = "2021-08-05T11:57:36.279Z"
+  createdAt: DateTime = "2021-08-10T05:15:01.678Z"
+  modifiedAt: DateTime = "2021-08-10T05:15:01.678Z"
 }
 
 input user {
   index: Int!
+  enableTwoFactorAuth: Boolean = false
+  twoFactorAuthSecret: String
   userID: String!
   nickname: String
   avatar: String = ""
@@ -99,11 +104,12 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-08-05T11:57:36.279Z"
-  modifiedAt: DateTime = "2021-08-05T11:57:36.279Z"
+  createdAt: DateTime = "2021-08-10T05:15:01.679Z"
+  modifiedAt: DateTime = "2021-08-10T05:15:01.679Z"
 }
 
 type Query {
+  getOtpAuthUrl: String!
   users: [User!]!
   user(userID: String!): User!
   userByIndex(index: Int!): User!
@@ -134,6 +140,7 @@ type Query {
 }
 
 type Mutation {
+  toggleTwoFactorAuthentication: Boolean!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   updateAvatar(avatar: String!): User!
@@ -153,6 +160,10 @@ type Mutation {
   createChat(createChatInput: CreateChatInput!): Chat!
   updateChat(updateChatInput: UpdateChatInput!): Chat!
   removeChat(uuid: String!): Chat!
+  toggleMute(userID: String!, uuid: String!): Chat!
+  forcedOut(userID: String!, uuid: String!): Chat!
+  toggleAdmin(userID: String!, uuid: String!): Chat!
+  createDM(user2: String!, user1: String!): Chat!
   createChatLog(createChatLogInput: CreateChatLogInput!): ChatLog!
   updateChatLog(updateChatLogInput: UpdateChatLogInput!): ChatLog!
   removeChatLog(index: Int!): ChatLog!
@@ -168,6 +179,7 @@ input UpdateUserInput {
   userID: String!
   nickname: String
   avatar: String
+  twoFactorAuthSecret: String
   ladderRating: Float
   totalWin: Float
   totalLose: Float
@@ -230,6 +242,7 @@ input CreateChatInput {
   password: String
   type: String = "public"
   ownerID: String!
+  userID: [String!]!
 }
 
 input UpdateChatInput {
@@ -237,10 +250,11 @@ input UpdateChatInput {
   password: String
   type: String = "public"
   ownerID: String
+  userID: [String!]
   uuid: String!
   isAlive: Boolean
   adminID: [String!]
-  userID: [String!]
+  muteID: [String!]
 }
 
 input CreateChatLogInput {

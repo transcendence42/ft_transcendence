@@ -98,6 +98,33 @@ export class UsersService {
     return await User.remove(user);
   }
 
+  async setTwoFactorAuthSecret(secret: string, userID: string) {
+    const user = await User.findOne({ userID: userID });
+    user.twoFactorAuthSecret = secret;
+
+    const validate_error = await validate(user);
+    if (validate_error.length > 0) {
+      console.log('error on set twof actor ');
+      const _error = { username: 'UserInput is not valid check type' };
+      throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
+    } else {
+      return await User.save(user);
+    }
+  }
+
+  async toggleTwoFactorAuthentication(userID: string) {
+    const user = await User.findOne({ userID: userID });
+    user.enableTwoFactorAuth = user.enableTwoFactorAuth === true ? false : true;
+    const validate_error = await validate(user);
+    if (validate_error.length > 0) {
+      const _error = { username: 'UserInput is not valid check type' };
+      throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
+    } else {
+      await User.save(user);
+      return user.enableTwoFactorAuth;
+    }
+  }
+
   async calculateLadderRanking(userID: string) {
     const rankingQb = await User.getRepository()
       .createQueryBuilder()
