@@ -1,8 +1,10 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { validate } from 'class-validator';
+import * as bcrypt from 'bcrypt';
+
 import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
 import { Chat } from './entities/chat.entity';
-import { validate } from 'class-validator';
 import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
@@ -138,15 +140,21 @@ export class ChatsService {
 
   //비공개 채팅방의 비밀번호가 맞는지 확인.
   async checkPassword(uuid: string, password: string) {
-    const isMatchedPassword =
-      (await Chat.getRepository()
-        .createQueryBuilder()
-        .where('uuid=:uuid', { uuid: uuid })
-        .andWhere('password=:password', { password: password })
-        .getCount()) > 0
-        ? true
-        : false;
-    return isMatchedPassword;
+    // const isMatchedPassword =
+    //   (await Chat.getRepository()
+    //     .createQueryBuilder()
+    //     .where('uuid=:uuid', { uuid: uuid })
+    //     .andWhere('password=:password', { password: password })
+    //     .getCount()) > 0
+    //     ? true
+    //     : false;
+    // return isMatchedPassword;
+    const chat = await Chat.findOne({
+      where: {
+        uuid: uuid,
+      },
+    });
+    return await bcrypt.compare(password, chat.password);
   }
 
   //chat, user가 있는지 확인하고 user가 chat에 존재하는지 확인
