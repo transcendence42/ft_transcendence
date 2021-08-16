@@ -1,5 +1,14 @@
 import React, { useRef, MouseEvent, useEffect, useState } from 'react';
-import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
+import {
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Box,
+  Text,
+  Flex,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { ContextMenu } from 'holee-contextmenu';
 
@@ -19,11 +28,13 @@ import { GET_CHAT, CHATLOG_SUBSCRIPTION } from './AlarmChatQueries';
 import { currentChatVar, currentLoginIDVar } from '../../../apollo/apolloProvider';
 import { EmptyChat } from '../../molecules/EmptyChat';
 import { AlarmChatPeopleBox } from '../AlarmChatPeopleBox';
+import { AlarmChatPasswordManage } from '../AlarmChatPasswordManage';
 
 export const AlarmChat = () => {
   const [chatRoomState, setChatRoomState] = useState<string>('chat-room');
   const currentChat = useReactiveVar(currentChatVar);
   const loginID = currentLoginIDVar();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { loading, error, data, subscribeToMore, refetch } = useQuery(GET_CHAT, {
     variables: {
@@ -46,7 +57,7 @@ export const AlarmChat = () => {
   ) => {
     const eventTarget = e.target as HTMLUListElement;
     if (eventTarget.dataset.option === 'manage-password') {
-      console.log('manage-password');
+      onOpen();
       return;
     }
     if (eventTarget) {
@@ -157,6 +168,7 @@ export const AlarmChat = () => {
           />
         )}
       </AccordionPanel>
+      <AlarmChatPasswordManage isOpen={isOpen} onClose={onClose} refetchChat={refetch} chat={data.chat} />
     </AccordionItem>
   );
 };
