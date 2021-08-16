@@ -6,6 +6,7 @@ import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
 import { Chat } from './entities/chat.entity';
 import { User } from 'src/users/entities/user.entity';
+import { SALT_ROUND } from './utils/constants';
 
 @Injectable()
 export class ChatsService {
@@ -83,6 +84,16 @@ export class ChatsService {
     chat.adminID = updateChatInput.adminID ? updateChatInput.adminID : chat.adminID;
     chat.userID = updateChatInput.userID ? updateChatInput.userID : chat.userID;
     chat.muteID = updateChatInput.muteID ? updateChatInput.muteID : chat.muteID;
+    if (updateChatInput.password) {
+      // 비밀번호를 설정/변경 하는 경우
+      this.checkPasswordValidation(updateChatInput.type, updateChatInput.password);
+      chat.password = await bcrypt.hash(updateChatInput.password, SALT_ROUND);
+      chat.type = updateChatInput.type;
+    } else if (updateChatInput.password === '') {
+      // 비밀번호를 해제하는 경우
+      chat.type = 'public';
+      chat.password = '';
+    }
     const validate_error = await validate(chat);
     if (validate_error.length > 0) {
       throw new HttpException({ message: 'Input data validation failed' }, HttpStatus.BAD_REQUEST);
