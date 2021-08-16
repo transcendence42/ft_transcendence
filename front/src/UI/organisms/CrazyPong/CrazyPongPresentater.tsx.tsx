@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 
 import './index.scss';
 import { drawCircle, drawNet, drawText } from './utils';
@@ -6,6 +6,7 @@ import { paddleMovement } from './paddleMovement';
 import { data } from './data';
 import { IPlayingInfo, IPlayingUpdateInfo } from '../../../utils/interface';
 import { postgresTimeToDate } from '../../../utils/util';
+import _ from 'lodash';
 
 const { ball, player1, player2 } = data;
 
@@ -92,44 +93,51 @@ export const CrazyPongPresenter = ({
     updatePlayingInfoHandler,
   ]);
 
+  const paddleThrottleHandler = (event: React.MouseEvent) => {
+    const eventTarget = event.target as HTMLCanvasElement;
+    if (event.clientY < eventTarget.getBoundingClientRect().top + player1.paddleHeight / 2) {
+      updatePlayingInfoHandler({
+        index: 1,
+        uuid: '1',
+        player1Y: inputName === 'player1' ? 0 : player1Y,
+        player2Y: inputName === 'player2' ? 0 : player2Y,
+      });
+    }
+    if (event.clientY > eventTarget.getBoundingClientRect().top + CANVAS_HEIGHT - player1.paddleHeight / 2) {
+      updatePlayingInfoHandler({
+        index: 1,
+        uuid: '1',
+        player1Y: inputName === 'player1' ? CANVAS_HEIGHT - player1.paddleHeight : player1Y,
+        player2Y: inputName === 'player2' ? CANVAS_HEIGHT - player2.paddleHeight : player2Y,
+      });
+    }
+    if (event.clientY - player1.paddleHeight / 2 > eventTarget.getBoundingClientRect().top) {
+      updatePlayingInfoHandler({
+        index: 1,
+        uuid: '1',
+        player1Y:
+          inputName === 'player1'
+            ? event.clientY - eventTarget.getBoundingClientRect().top - player1.paddleHeight / 2
+            : player1Y,
+        player2Y:
+          inputName === 'player2'
+            ? event.clientY - eventTarget.getBoundingClientRect().top - player2.paddleHeight / 2
+            : player2Y,
+      });
+    }
+  };
+
+  const mouseMoveHandler = useMemo(() => {
+    const throttled = _.throttle((e) => paddleThrottleHandler(e), 100);
+    return (event: React.MouseEvent) => {
+      return throttled(event);
+    };
+  }, []);
+
   return (
     <canvas
       ref={canvasRef}
-      onMouseMove={(event) => {
-        if (event.clientY < event.currentTarget.getBoundingClientRect().top + player1.paddleHeight / 2) {
-          updatePlayingInfoHandler({
-            index: 1,
-            uuid: '1',
-            player1Y: inputName === 'player1' ? 0 : player1Y,
-            player2Y: inputName === 'player2' ? 0 : player2Y,
-          });
-        }
-        if (
-          event.clientY >
-          event.currentTarget.getBoundingClientRect().top + CANVAS_HEIGHT - player1.paddleHeight / 2
-        ) {
-          updatePlayingInfoHandler({
-            index: 1,
-            uuid: '1',
-            player1Y: inputName === 'player1' ? CANVAS_HEIGHT - player1.paddleHeight : player1Y,
-            player2Y: inputName === 'player2' ? CANVAS_HEIGHT - player2.paddleHeight : player2Y,
-          });
-        }
-        if (event.clientY - player1.paddleHeight / 2 > event.currentTarget.getBoundingClientRect().top) {
-          updatePlayingInfoHandler({
-            index: 1,
-            uuid: '1',
-            player1Y:
-              inputName === 'player1'
-                ? event.clientY - event.currentTarget.getBoundingClientRect().top - player1.paddleHeight / 2
-                : player1Y,
-            player2Y:
-              inputName === 'player2'
-                ? event.clientY - event.currentTarget.getBoundingClientRect().top - player2.paddleHeight / 2
-                : player2Y,
-          });
-        }
-      }}
+      onMouseMove={mouseMoveHandler}
       className="canvas"
       width="900"
       height={String(CANVAS_HEIGHT)}

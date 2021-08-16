@@ -65,6 +65,7 @@ type Chat {
   ownerID: String!
   adminID: [String!]!
   userID: [String!]!
+  muteID: [String!]!
   createdAt: DateTime!
   modifiedAt: DateTime!
   chatLog: [ChatLog!]!
@@ -100,8 +101,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-08-06T14:21:38.110Z"
-  modifiedAt: DateTime = "2021-08-06T14:21:38.110Z"
+  createdAt: DateTime = "2021-08-16T10:52:52.543Z"
+  modifiedAt: DateTime = "2021-08-16T10:52:52.543Z"
 }
 
 input user {
@@ -115,8 +116,8 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-08-06T14:21:38.113Z"
-  modifiedAt: DateTime = "2021-08-06T14:21:38.113Z"
+  createdAt: DateTime = "2021-08-16T10:52:52.544Z"
+  modifiedAt: DateTime = "2021-08-16T10:52:52.544Z"
 }
 
 type Query {
@@ -169,6 +170,10 @@ type Mutation {
   createChat(createChatInput: CreateChatInput!): Chat!
   updateChat(updateChatInput: UpdateChatInput!): Chat!
   removeChat(uuid: String!): Chat!
+  toggleMute(userID: String!, uuid: String!): Chat!
+  forcedOut(userID: String!, uuid: String!): Chat!
+  toggleAdmin(userID: String!, uuid: String!): Chat!
+  createDM(user2: String!, user1: String!): Chat!
   createChatLog(createChatLogInput: CreateChatLogInput!): ChatLog!
   updateChatLog(updateChatLogInput: UpdateChatLogInput!): ChatLog!
   removeChatLog(index: Int!): ChatLog!
@@ -248,6 +253,7 @@ input CreateChatInput {
   password: String
   type: String = "public"
   ownerID: String!
+  userID: [String!]!
 }
 
 input UpdateChatInput {
@@ -255,10 +261,11 @@ input UpdateChatInput {
   password: String
   type: String = "public"
   ownerID: String
+  userID: [String!]
   uuid: String!
   isAlive: Boolean
   adminID: [String!]
-  userID: [String!]
+  muteID: [String!]
 }
 
 input CreateChatLogInput {
