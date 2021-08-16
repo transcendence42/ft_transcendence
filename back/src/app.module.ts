@@ -62,6 +62,7 @@ adminBro.registerAdapter({ Database, Resource });
       uploads: false,
       autoSchemaFile: 'schema.gql',
       installSubscriptionHandlers: true,
+      context: ({ req, res }) => ({ req, res }),
       subscriptions: {
         path: '/subscriptions',
         keepAlive: 5000,

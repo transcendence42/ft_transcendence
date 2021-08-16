@@ -183,4 +183,10 @@ export interface IPlayingUpdateInfo {
   sequence?: number;
   modifiedAt?: Date;
   createdAt?: string;
+  
+/*
+ ** Profile
+ */
+export interface IOptButton {
+  isEnabled: boolean;
 }

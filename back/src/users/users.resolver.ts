@@ -1,5 +1,16 @@
-import { Resolver, Query, Mutation, Args, GqlExecutionContext, ResolveField, Parent, Int } from '@nestjs/graphql';
-import { Inject, createParamDecorator, ExecutionContext, UseGuards } from '@nestjs/common';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  GqlExecutionContext,
+  ResolveField,
+  Parent,
+  Int,
+  Context,
+  GraphQLExecutionContext,
+} from '@nestjs/graphql';
+import { Inject, createParamDecorator, ExecutionContext, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
@@ -11,6 +22,7 @@ import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { FollowsService } from 'src/follows/follows.service';
 import { createWriteStream } from 'fs';
 import { GraphQLUpload, FileUpload } from 'graphql-upload';
+import { response } from 'express';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
@@ -26,6 +38,30 @@ export class UsersResolver {
     private readonly alarmsService: AlarmsService,
     private readonly followsService: FollowsService,
   ) {}
+
+  // mutation이 아닌 query 라서 안에서 setTwoFactorAuthSecret
+  @Query(() => String)
+  async getOtpAuthUrl(@CurrentUser() user: User) {
+    const otpAuthUrl = await this.authService.generateTwoFactorAuthSecret(user);
+    return otpAuthUrl;
+  }
+
+  @Mutation(() => Boolean)
+  async toggleTwoFactorAuthentication(
+    @CurrentUser() user: User,
+    // @Args('twoFactorAuthCode', { type: () => String }) twoFactorAuthCode: string,
+  ) {
+    // const secret = (await this.usersService.findOneByUserID(user.userID)).twoFactorAuthSecret;
+    // const isCodeValid = this.authService.isTwoFactorAuthCodeValid(twoFactorAuthCode, secret);
+    // if (!isCodeValid) {
+    //   throw new UnauthorizedException('Wrong authentication code');
+    // }
+    const result = await this.usersService.toggleTwoFactorAuthentication(user.userID).catch(() => {
+      console.log('error: toggleTwoFactorAuthentication');
+      return false;
+    });
+    return result;
+  }
 
   @Mutation(() => User)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {

@@ -18,6 +18,8 @@ scalar DateTime
 
 type User {
   index: Int!
+  enableTwoFactorAuth: Boolean!
+  twoFactorAuthSecret: String
   userID: String!
   nickname: String
   avatar: String!
@@ -107,6 +109,8 @@ input follow {
 
 input user {
   index: Int!
+  enableTwoFactorAuth: Boolean = false
+  twoFactorAuthSecret: String
   userID: String!
   nickname: String
   avatar: String = ""
@@ -121,6 +125,7 @@ input user {
 }
 
 type Query {
+  getOtpAuthUrl: String!
   users: [User!]!
   user(userID: String!): User!
   userByIndex(index: Int!): User!
@@ -151,6 +156,7 @@ type Query {
 }
 
 type Mutation {
+  toggleTwoFactorAuthentication: Boolean!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   updateAvatar(avatar: String!): User!
@@ -191,6 +197,7 @@ input UpdateUserInput {
   userID: String!
   nickname: String
   avatar: String
+  twoFactorAuthSecret: String
   ladderRating: Float
   totalWin: Float
   totalLose: Float

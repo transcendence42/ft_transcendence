@@ -5,6 +5,9 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
   @Field(() => String)
   userID: string;
 
+  @Field(() => String, { nullable: true })
+  twoFactorAuthSecret: string;
+
   @Field({ nullable: true })
   nickname: string;
 

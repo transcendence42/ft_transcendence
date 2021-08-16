@@ -7,7 +7,11 @@ import {
   UpdateDateColumn,
   Column,
   Generated,
+  BeforeInsert,
 } from 'typeorm';
+import { InternalServerErrorException } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { SALT_ROUND } from '../utils/constants';
 
 export type ChatType = 'public' | 'private' | 'dm';
 
@@ -66,4 +70,14 @@ export class Chat extends BaseEntity {
   @Field()
   @UpdateDateColumn()
   modifiedAt: Date;
+
+  @BeforeInsert()
+  async hashPassword() {
+    try {
+      this.password = await bcrypt.hash(this.password, SALT_ROUND);
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException();
+    }
+  }
 }

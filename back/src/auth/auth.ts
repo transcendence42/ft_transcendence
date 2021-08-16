@@ -10,4 +10,6 @@ export interface AuthenticationProvider {
   validateUser(details: UserDetails);
   createUser(details: UserDetails);
   findUser(userID: string): Promise<User> | undefined;
+  generateTwoFactorAuthSecret(user: User): Promise<string>;
+  isTwoFactorAuthCodeValid(twoFactorAuthCode: string, secret: string): boolean;
 }

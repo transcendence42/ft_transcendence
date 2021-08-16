@@ -18,12 +18,23 @@ export class FollowsService {
     follow.follower = await this.usersService.findOneByUserID(createFollowInput.followerID);
     follow.following = await this.usersService.findOneByUserID(createFollowInput.followingID);
 
+    // follow 요청 중복 확인
+    const existFollow = await Follow.findOne({
+      where: {
+        follower: follow.follower,
+        following: follow.following,
+      },
+    });
+    if (existFollow) {
+      return existFollow;
+    }
+
     const validate_error = await validate(follow);
     if (validate_error.length > 0) {
       const _error = { follow: 'FollowInput is not valid check type' };
       throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
     } else {
-      let f4f = await this.findF4F(follow.follower, follow.following);
+      const f4f = await this.findF4F(follow.follower, follow.following);
       if (f4f) {
         f4f.checked = true;
         follow.checked = true;
@@ -135,7 +146,7 @@ export class FollowsService {
       const _error = { follow: 'FollowInput is not valid check type' };
       throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
     } else {
-      let f4f = await this.findF4F(follow.follower, follow.following);
+      const f4f = await this.findF4F(follow.follower, follow.following);
       if (f4f) {
         f4f.checked = true;
         follow.checked = true;
