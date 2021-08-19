@@ -82,13 +82,29 @@ type ChatLog {
   createdAt: DateTime!
 }
 
+type PlayingInfo {
+  index: Int!
+  uuid: String
+  ballX: Float
+  ballY: Float
+  ballVelocityX: Int
+  ballVelocityY: Int
+  player1Y: Float
+  player2Y: Float
+  player1Score: Int
+  player2Score: Int
+  sequence: Int
+  modifiedAt: DateTime!
+  createdAt: DateTime!
+}
+
 input follow {
   following: user
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-08-10T05:47:36.593Z"
-  modifiedAt: DateTime = "2021-08-10T05:47:36.593Z"
+  createdAt: DateTime = "2021-08-16T10:52:52.543Z"
+  modifiedAt: DateTime = "2021-08-16T10:52:52.543Z"
 }
 
 input user {
@@ -104,8 +120,8 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-08-10T05:47:36.594Z"
-  modifiedAt: DateTime = "2021-08-10T05:47:36.594Z"
+  createdAt: DateTime = "2021-08-16T10:52:52.544Z"
+  modifiedAt: DateTime = "2021-08-16T10:52:52.544Z"
 }
 
 type Query {
@@ -167,6 +183,8 @@ type Mutation {
   createChatLog(createChatLogInput: CreateChatLogInput!): ChatLog!
   updateChatLog(updateChatLogInput: UpdateChatLogInput!): ChatLog!
   removeChatLog(index: Int!): ChatLog!
+  createPlayingInfo(createPlayingInfoInput: CreatePlayingInfoInput!): PlayingInfo!
+  updatePlayingInfo(playingInfoInput: UpdatePlayingInfoInput!): PlayingInfo!
 }
 
 input CreateUserInput {
@@ -272,7 +290,31 @@ input UpdateChatLogInput {
   index: Int!
 }
 
+input CreatePlayingInfoInput {
+  uuid: String!
+  ballX: Float!
+  ballY: Float!
+  ballVelocityX: Float!
+  ballVelocityY: Float!
+  player1Y: Float!
+  player2Y: Float!
+}
+
+input UpdatePlayingInfoInput {
+  uuid: String
+  ballX: Float
+  ballY: Float
+  ballVelocityX: Float
+  ballVelocityY: Float
+  player1Y: Float
+  player2Y: Float
+  index: Int!
+  player1Score: Float
+  player2Score: Float
+}
+
 type Subscription {
   alarmAdded(userID: String!): Alarm!
   chatLogAdded(uuid: String!): ChatLog!
+  playingInfo(uuid: String!): PlayingInfo!
 }

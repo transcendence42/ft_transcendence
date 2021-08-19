@@ -153,6 +153,38 @@ export interface IBall {
   color: string;
 }
 
+export interface IPlayingInfo {
+  index: number;
+  uuid?: string;
+  ballX: number;
+  ballY: number;
+  ballVelocityX: number;
+  ballVelocityY: number;
+  player1Y: number;
+  player2Y: number;
+  player1Score: number;
+  player2Score: number;
+  sequence: number;
+  modifiedAt: Date;
+  createdAt: string;
+}
+
+export interface IPlayingUpdateInfo {
+  index: number;
+  uuid?: string;
+  ballX?: number;
+  ballY?: number;
+  ballVelocityX?: number;
+  ballVelocityY?: number;
+  player1Y?: number;
+  player2Y?: number;
+  player1Score?: number;
+  player2Score?: number;
+  sequence?: number;
+  modifiedAt?: Date;
+  createdAt?: string;
+}
+
 /*
  ** Profile
  */
