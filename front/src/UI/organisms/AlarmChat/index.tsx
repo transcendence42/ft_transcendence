@@ -1,5 +1,14 @@
 import React, { useRef, MouseEvent, useEffect, useState } from 'react';
-import { AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Text, Flex } from '@chakra-ui/react';
+import {
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Box,
+  Text,
+  Flex,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { ContextMenu } from 'holee-contextmenu';
 
@@ -16,13 +25,17 @@ import {
   EMPTY_CHAT_UUID,
 } from '../../../utils/constants';
 import { GET_CHAT, CHATLOG_SUBSCRIPTION } from './AlarmChatQueries';
-import { currentChatVar } from '../../../apollo/apolloProvider';
+import { currentChatVar, currentLoginIDVar } from '../../../apollo/apolloProvider';
 import { EmptyChat } from '../../molecules/EmptyChat';
 import { AlarmChatPeopleBox } from '../AlarmChatPeopleBox';
+import { AlarmChatPasswordManage } from '../AlarmChatPasswordManage';
 
 export const AlarmChat = () => {
   const [chatRoomState, setChatRoomState] = useState<string>('chat-room');
   const currentChat = useReactiveVar(currentChatVar);
+  const loginID = currentLoginIDVar();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const { loading, error, data, subscribeToMore, refetch } = useQuery(GET_CHAT, {
     variables: {
       uuid: currentChat,
@@ -43,6 +56,10 @@ export const AlarmChat = () => {
     e: React.MouseEvent<HTMLUListElement, MouseEvent> | React.KeyboardEvent<HTMLUListElement>,
   ) => {
     const eventTarget = e.target as HTMLUListElement;
+    if (eventTarget.dataset.option === 'manage-password') {
+      onOpen();
+      return;
+    }
     if (eventTarget) {
       setChatRoomState(eventTarget.dataset.option as string);
       refetch();
@@ -93,6 +110,7 @@ export const AlarmChat = () => {
             <ContextMenu outerRef={outerRef} menuOnClick={(e) => menuOnClickHandler(e)}>
               <li data-option="chat-room">채팅창</li>
               <li data-option="chat-people-room">채팅 인원창</li>
+              {data.chat.ownerID === loginID ? <li data-option="manage-password">채팅 패스워드 관리</li> : null}
             </ContextMenu>
             <Flex ref={outerRef} flexDirection="row" alignItems="center">
               <Text fontWeight={ALARM_TITLE_FONTWEIGHT} fontSize={ALARM_TITLE_FONTSIZE}>
@@ -150,6 +168,7 @@ export const AlarmChat = () => {
           />
         )}
       </AccordionPanel>
+      <AlarmChatPasswordManage isOpen={isOpen} onClose={onClose} refetchChat={refetch} chat={data.chat} />
     </AccordionItem>
   );
 };

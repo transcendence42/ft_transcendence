@@ -24,3 +24,25 @@ export const UPDATE_CHAT = gql`
     }
   }
 `;
+
+export const GET_CHAT = gql`
+  query GetChat($uuid: String!) {
+    chat(uuid: $uuid) {
+      index
+      uuid
+      name
+      type
+      ownerID
+      adminID
+      userID
+      muteID
+      chatLog {
+        index
+        userID
+        message
+        type
+        createdAt
+      }
+    }
+  }
+`;
