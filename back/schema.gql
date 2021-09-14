@@ -98,13 +98,18 @@ type PlayingInfo {
   createdAt: DateTime!
 }
 
+type Match {
+  userID: String!
+  uuid: String!
+}
+
 input follow {
   following: user
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-08-16T10:52:52.543Z"
-  modifiedAt: DateTime = "2021-08-16T10:52:52.543Z"
+  createdAt: DateTime = "2021-09-14T12:22:29.693Z"
+  modifiedAt: DateTime = "2021-09-14T12:22:29.694Z"
 }
 
 input user {
@@ -120,8 +125,8 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-08-16T10:52:52.544Z"
-  modifiedAt: DateTime = "2021-08-16T10:52:52.544Z"
+  createdAt: DateTime = "2021-09-14T12:22:29.696Z"
+  modifiedAt: DateTime = "2021-09-14T12:22:29.696Z"
 }
 
 type Query {
@@ -153,6 +158,7 @@ type Query {
   chatLogs: [ChatLog!]!
   chatLog(index: Int!): ChatLog!
   chatLogsFromChat(uuid: String!): [ChatLog!]!
+  match(id: Int!): Match!
 }
 
 type Mutation {
@@ -185,6 +191,9 @@ type Mutation {
   removeChatLog(index: Int!): ChatLog!
   createPlayingInfo(createPlayingInfoInput: CreatePlayingInfoInput!): PlayingInfo!
   updatePlayingInfo(playingInfoInput: UpdatePlayingInfoInput!): PlayingInfo!
+  createMatch(createMatchInput: CreateMatchInput!): Match!
+  updateMatch(updateMatchInput: UpdateMatchInput!): Match!
+  removeMatch(id: Int!): Match!
 }
 
 input CreateUserInput {
@@ -311,6 +320,16 @@ input UpdatePlayingInfoInput {
   index: Int!
   player1Score: Float
   player2Score: Float
+}
+
+input CreateMatchInput {
+  userID: String!
+  uuid: String!
+}
+
+input UpdateMatchInput {
+  userID: String!
+  uuid: String!
 }
 
 type Subscription {
