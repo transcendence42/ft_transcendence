@@ -12,16 +12,16 @@ export class Game extends BaseEntity {
   @Field(() => Boolean, { defaultValue: true }) // graphQL decorator
   isPlaying: boolean;
 
-  @Column({ type: 'varchar', length: 15 })
-  @Field(() => String)
+  @Column({ type: 'varchar', nullable: true, length: 15 })
+  @Field(() => String, { nullable: true, defaultValue: 'player1' })
   playerOneID: string;
 
   @Column({ type: 'integer', nullable: true, default: 0 })
   @Field(() => Int, { nullable: true, defaultValue: 0 })
   playerOneScore: number;
 
-  @Column({ type: 'varchar', length: 15 })
-  @Field(() => String)
+  @Column({ type: 'varchar', nullable: true, length: 15 })
+  @Field(() => String, { nullable: true, defaultValue: 'player2' })
   playerTwoID: string;
 
   @Column({ type: 'integer', nullable: true, default: 0 })

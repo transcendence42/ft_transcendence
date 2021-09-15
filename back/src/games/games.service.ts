@@ -5,7 +5,6 @@ import { Game } from './entities/game.entity';
 import { validate } from 'class-validator';
 import { Brackets } from 'typeorm';
 
-
 @Injectable()
 export class GamesService {
   async create(createGameInput: CreateGameInput) {
@@ -40,7 +39,6 @@ export class GamesService {
       .getMany();
     return games;
   }
-
 
   async findOne(index: number) {
     const game = await Game.findOne(index);

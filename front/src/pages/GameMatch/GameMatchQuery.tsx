@@ -1,12 +1,19 @@
 import { gql } from '@apollo/client';
 
-export const UPDATE_GAMEQUEUE = gql`
-  mutation ($info: CreateMatchInput!) {
-    gameQueue(createMatchInput: $info) {
-      userID
-      uuid
-      player1
-      player2
+const UPDATE_GAMEQUEUE = gql`
+  mutation ($userID: String!) {
+    gameQueue(userID: $userID) {
+      index
     }
   }
 `;
+
+const GET_GAMEQUEUE_FINDME = gql`
+  query {
+    me {
+      userID
+    }
+  }
+`;
+
+export { UPDATE_GAMEQUEUE, GET_GAMEQUEUE_FINDME };

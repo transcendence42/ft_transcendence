@@ -28,7 +28,6 @@ import { PlayingInfo } from './playing-info/entities/playing-info.entity';
 import { graphqlUploadExpress } from 'graphql-upload';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { MatchModule } from './match/match.module';
 
 adminBro.registerAdapter({ Database, Resource });
 
@@ -95,7 +94,6 @@ adminBro.registerAdapter({ Database, Resource });
     AuthModule,
     PassportModule.register({ session: true }),
     PlayingInfoModule,
-    MatchModule,
   ],
   controllers: [AppController],
   providers: [AppService],
