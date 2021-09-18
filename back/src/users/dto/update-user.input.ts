@@ -27,7 +27,7 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
   userState: string;
 
   @Field({ nullable: true })
-  isMatched: boolean;
+  isMatched: string;
 
   @Field({ nullable: true })
   modifiedAt: Date;

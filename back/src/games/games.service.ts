@@ -11,6 +11,7 @@ export class GamesService {
     const game = new Game();
     game.playerOneID = createGameInput.playerOneID;
     game.playerTwoID = createGameInput.playerTwoID;
+    game.uuid = createGameInput.uuid;
 
     const validate_error = await validate(game);
     if (validate_error.length > 0) {

@@ -29,6 +29,7 @@ type User {
   followings: [Follow!]
   followers: [Follow!]
   userState: String!
+  isMatched: String!
   createdAt: DateTime!
   modifiedAt: DateTime!
 }
@@ -47,6 +48,7 @@ type Alarm {
 
 type Game {
   index: Int!
+  uuid: String
   isPlaying: Boolean!
   playerOneID: String
   playerOneScore: Int
@@ -103,8 +105,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-09-18T05:06:31.042Z"
-  modifiedAt: DateTime = "2021-09-18T05:06:31.042Z"
+  createdAt: DateTime = "2021-09-18T08:20:26.827Z"
+  modifiedAt: DateTime = "2021-09-18T08:20:26.827Z"
 }
 
 input user {
@@ -120,8 +122,9 @@ input user {
   followings: [follow!]
   followers: [follow!]
   userState: String = "login"
-  createdAt: DateTime = "2021-09-18T05:06:31.042Z"
-  modifiedAt: DateTime = "2021-09-18T05:06:31.042Z"
+  isMatched: String = "notMatched"
+  createdAt: DateTime = "2021-09-18T08:20:26.828Z"
+  modifiedAt: DateTime = "2021-09-18T08:20:26.828Z"
 }
 
 type Query {
@@ -173,7 +176,7 @@ type Mutation {
   createGame(createGameInput: CreateGameInput!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
   removeGame(index: Int!): Game!
-  gameQueue(userID: String!): Game!
+  gameQueue(userID: String!): Game
   createChat(createChatInput: CreateChatInput!): Chat!
   updateChat(updateChatInput: UpdateChatInput!): Chat!
   removeChat(uuid: String!): Chat!
@@ -203,6 +206,7 @@ input UpdateUserInput {
   totalWin: Float
   totalLose: Float
   userState: String
+  isMatched: String
   modifiedAt: DateTime
 }
 
@@ -243,11 +247,13 @@ input BlockInput {
 input CreateGameInput {
   playerOneID: String!
   playerTwoID: String!
+  uuid: String!
 }
 
 input UpdateGameInput {
   playerOneID: String
   playerTwoID: String
+  uuid: String
   index: Int!
   isPlaying: Boolean
   playerOneScore: Int

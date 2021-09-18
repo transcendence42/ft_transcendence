@@ -7,4 +7,7 @@ export class CreateGameInput {
 
   @Field(() => String)
   readonly playerTwoID: string;
+
+  @Field(() => String)
+  readonly uuid: string;
 }
