@@ -65,6 +65,7 @@ export class UsersService {
     user.ladderRating = updateUserInput.ladderRating;
     user.totalWin = updateUserInput.totalWin;
     user.totalLose = updateUserInput.totalLose;
+    user.isMatched = updateUserInput.isMatched;
     user.userState = updateUserInput.userState;
     user.modifiedAt = updateUserInput.modifiedAt;
     const validate_error = await validate(user);
