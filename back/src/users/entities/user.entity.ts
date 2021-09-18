@@ -62,6 +62,10 @@ export class User extends BaseEntity {
   @Field({ defaultValue: 'login' })
   userState: string;
 
+  @Column({ type: 'bool', default: false })
+  @Field(() => Boolean, { defaultValue: false })
+  isMatched: boolean;
+
   @CreateDateColumn()
   @Field(() => Date, { defaultValue: new Date() })
   createdAt: Date;
