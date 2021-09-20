@@ -37,16 +37,29 @@ const MainButtons = ({ userID, isMatched }) => {
   // 2. 아래 redirect 가 잘 동작하는지 주석 풀고 확인
   // 3. uuid 로직 어떻게 짤지
   // 4. redirect에 해당 정보 같이 보내기.
-  console.log('data', data);
-  console.log('isMatched', isMatched);
+  // console.log('data', data);
+  // console.log('isMatched', isMatched);
 
   if (isMatched === 'matched') {
-    history.push('/game');
+    history.push({
+      pathname: '/game',
+      state: {
+        userID: userID,
+      },
+    });
+    // console.log('data1', data);
   }
 
   if (data) {
     if (data?.gameQueue) {
-      history.push('/game');
+      // console.log('data2', data);
+      history.push({
+        pathname: '/game',
+        state: {
+          userID: userID,
+        },
+      });
+      // history.push('/game');
     }
   }
 

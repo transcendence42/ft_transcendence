@@ -59,6 +59,22 @@ type Game {
   modifiedAt: DateTime!
 }
 
+type PlayingInfo {
+  index: Int!
+  uuid: String
+  ballX: Int
+  ballY: Int
+  ballVelocityX: Int
+  ballVelocityY: Int
+  player1Y: Float
+  player2Y: Float
+  player1Score: Int
+  player2Score: Int
+  sequence: Int
+  modifiedAt: DateTime!
+  createdAt: DateTime!
+}
+
 type Chat {
   index: Int!
   uuid: String!
@@ -84,29 +100,13 @@ type ChatLog {
   createdAt: DateTime!
 }
 
-type PlayingInfo {
-  index: Int!
-  uuid: String
-  ballX: Float
-  ballY: Float
-  ballVelocityX: Int
-  ballVelocityY: Int
-  player1Y: Float
-  player2Y: Float
-  player1Score: Int
-  player2Score: Int
-  sequence: Int
-  modifiedAt: DateTime!
-  createdAt: DateTime!
-}
-
 input follow {
   following: user
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-09-18T08:20:26.827Z"
-  modifiedAt: DateTime = "2021-09-18T08:20:26.827Z"
+  createdAt: DateTime = "2021-09-20T13:25:58.190Z"
+  modifiedAt: DateTime = "2021-09-20T13:25:58.190Z"
 }
 
 input user {
@@ -123,8 +123,8 @@ input user {
   followers: [follow!]
   userState: String = "login"
   isMatched: String = "notMatched"
-  createdAt: DateTime = "2021-09-18T08:20:26.828Z"
-  modifiedAt: DateTime = "2021-09-18T08:20:26.828Z"
+  createdAt: DateTime = "2021-09-20T13:25:58.191Z"
+  modifiedAt: DateTime = "2021-09-20T13:25:58.191Z"
 }
 
 type Query {
@@ -299,23 +299,17 @@ input UpdateChatLogInput {
 
 input CreatePlayingInfoInput {
   uuid: String!
-  ballX: Float!
-  ballY: Float!
-  ballVelocityX: Float!
-  ballVelocityY: Float!
-  player1Y: Float!
-  player2Y: Float!
 }
 
 input UpdatePlayingInfoInput {
   uuid: String
+  index: Int!
   ballX: Float
   ballY: Float
   ballVelocityX: Float
   ballVelocityY: Float
   player1Y: Float
   player2Y: Float
-  index: Int!
   player1Score: Float
   player2Score: Float
 }

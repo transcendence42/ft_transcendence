@@ -30,7 +30,7 @@ export class GamesService {
   async findByUserID(userID: string) {
     const games = await Game.getRepository()
       .createQueryBuilder('game')
-      .where('game.finishedAt IS NOT NULL')
+      .where('game.finishedAt IS NULL')
       .andWhere(
         new Brackets((subQb) => {
           subQb.where('game.playerOneID = :userID', { userID: userID });

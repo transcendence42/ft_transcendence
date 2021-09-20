@@ -33,3 +33,13 @@ export const SUBSCRIBE_CRAZYPONG = gql`
     }
   }
 `;
+
+export const GET_MY_GAME_RECORDS = gql`
+  query {
+    myGameRecords {
+      index
+      playerOneID
+      playerTwoID
+    }
+  }
+`;

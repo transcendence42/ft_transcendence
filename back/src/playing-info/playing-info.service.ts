@@ -40,12 +40,6 @@ export class PlayingInfoService {
   async create(createPlayingInfoInput: CreatePlayingInfoInput) {
     const playingInfo = new PlayingInfo();
     playingInfo.uuid = createPlayingInfoInput.uuid;
-    playingInfo.ballX = createPlayingInfoInput.ballX;
-    playingInfo.ballY = createPlayingInfoInput.ballY;
-    playingInfo.ballVelocityX = createPlayingInfoInput.ballVelocityX;
-    playingInfo.ballVelocityY = createPlayingInfoInput.ballVelocityY;
-    playingInfo.player1Y = createPlayingInfoInput.player1Y;
-    playingInfo.player2Y = createPlayingInfoInput.player2Y;
 
     const validate_error = await validate(playingInfo);
     if (validate_error.length > 0) {
@@ -106,6 +100,8 @@ export class PlayingInfoService {
 
   async update(index: number, updatePlayingInfoInput: UpdatePlayingInfoInput) {
     const playingInfo = await PlayingInfo.findOne(index);
+
+    console.log(playingInfo);
 
     playingInfo.ballX = playingInfo.ballX + playingInfo.ballVelocityX;
     playingInfo.ballY = playingInfo.ballY + playingInfo.ballVelocityY;

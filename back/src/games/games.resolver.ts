@@ -8,13 +8,19 @@ import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guards/gql.guard';
 import { CurrentUser } from 'src/users/users.resolver';
 import { UsersService } from 'src/users/users.service';
+import { CreatePlayingInfoInput } from 'src/playing-info/dto/create-playing-info.input';
+import { PlayingInfoService } from 'src/playing-info/playing-info.service';
 
 const gameQueue = [];
 
 @Resolver(() => Game)
 @UseGuards(GqlAuthGuard)
 export class GamesResolver {
-  constructor(private readonly gamesService: GamesService, private readonly usersService: UsersService) {}
+  constructor(
+    private readonly gamesService: GamesService,
+    private readonly usersService: UsersService,
+    private readonly playingInfoService: PlayingInfoService,
+  ) {}
 
   @Mutation(() => Game)
   createGame(@Args('createGameInput') createGameInput: CreateGameInput) {
@@ -31,6 +37,7 @@ export class GamesResolver {
     return this.gamesService.findByUserID(userID);
   }
 
+  // not working
   @Query(() => [Game], { name: 'myGameRecords' })
   findMyGameRecords(@CurrentUser() user: User) {
     return this.gamesService.findByUserID(user.userID);
@@ -78,10 +85,21 @@ export class GamesResolver {
     const newGame = await this.gamesService.create(newGameInput);
     this.usersService.updateIsMatched(player1, 'matched');
     this.usersService.updateIsMatched(player2, 'matched');
+    const createPlayingInfo: CreatePlayingInfoInput = { uuid: newGame.uuid };
+    const newPlayingInfo = await this.playingInfoService.create(createPlayingInfo);
     console.log('newGame', newGame);
+    console.log('newPlayingInfo', newPlayingInfo);
     return newGame;
   }
 }
+// "ballX": 20,
+// "ballY": 200,
+// "player1Y": 350,
+// "player2Y": 350,
+// "player1Score": 0,
+// "player2Score": 0,
+// "ballVelocityY": 5,
+// "ballVelocityX": 5,
 
 // player 1 queue 집어넣음, [player1], user waiting: refetching
 // player 2 queue 집어넣음, [player2], user waiting: refetching

@@ -13,12 +13,12 @@ export class PlayingInfo extends BaseEntity {
   @Field({ nullable: true })
   uuid: string;
 
-  @Column({ type: 'integer', nullable: true })
-  @Field({ nullable: true })
+  @Column({ type: 'integer', nullable: true, default: 20 })
+  @Field(() => Int, { nullable: true, defaultValue: 20 })
   ballX: number;
 
-  @Column({ type: 'integer', nullable: true })
-  @Field({ nullable: true })
+  @Column({ type: 'integer', nullable: true, default: 200 })
+  @Field(() => Int, { nullable: true, defaultValue: 200 })
   ballY: number;
 
   @Column({ type: 'integer', nullable: true, default: 5 })
@@ -29,12 +29,12 @@ export class PlayingInfo extends BaseEntity {
   @Field(() => Int, { nullable: true, defaultValue: 5 })
   ballVelocityY: number;
 
-  @Column({ type: 'integer', nullable: true })
-  @Field({ nullable: true })
+  @Column({ type: 'integer', nullable: true, default: 350 })
+  @Field({ nullable: true, defaultValue: 350 })
   player1Y: number;
 
-  @Column({ type: 'integer', nullable: true })
-  @Field({ nullable: true })
+  @Column({ type: 'integer', nullable: true, default: 350 })
+  @Field({ nullable: true, defaultValue: 350 })
   player2Y: number;
 
   @Column({ type: 'integer', nullable: true, default: 0 })
