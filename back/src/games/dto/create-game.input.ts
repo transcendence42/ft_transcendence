@@ -1,4 +1,4 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreateGameInput {
@@ -7,4 +7,7 @@ export class CreateGameInput {
 
   @Field(() => String)
   readonly playerTwoID: string;
+
+  @Field(() => String)
+  readonly uuid: string;
 }

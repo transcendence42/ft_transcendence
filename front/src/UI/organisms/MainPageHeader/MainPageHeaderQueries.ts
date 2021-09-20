@@ -11,6 +11,7 @@ export const GET_MY_PROFILE = gql`
       totalWin
       totalLose
       modifiedAt
+      isMatched
     }
   }
 `;
