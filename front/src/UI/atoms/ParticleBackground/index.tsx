@@ -29,7 +29,7 @@ export const ParticleBackground = () => {
         },
         fullScreen: {
           enable: true,
-          zIndex: 0,
+          zIndex: -1,
         },
         detectRetina: true,
         duration: 0,
@@ -487,7 +487,7 @@ export const ParticleBackground = () => {
               enable: false,
               minimumValue: 0,
             },
-            value: 0,
+            value: -1,
             opacityRate: 1,
             sizeRate: 1,
             velocityRate: 1,
