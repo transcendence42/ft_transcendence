@@ -51,15 +51,15 @@ export class Chat extends BaseEntity {
   @Column('varchar')
   ownerID: string;
 
-  @Field((type) => [String])
+  @Field(() => [String])
   @Column({ type: 'varchar', array: true, nullable: true, default: {} })
   adminID: string[];
 
-  @Field((type) => [String])
+  @Field(() => [String])
   @Column({ type: 'varchar', array: true, nullable: true, default: {} })
   userID: string[];
 
-  @Field((type) => [String])
+  @Field(() => [String])
   @Column({ type: 'varchar', array: true, nullable: true, default: {} })
   muteID: string[];
 

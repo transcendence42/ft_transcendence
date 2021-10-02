@@ -61,6 +61,7 @@ export class ChatLogsService {
   }
 
   async update(index: number, updateChatLogInput: UpdateChatLogInput) {
+    updateChatLogInput;
     const chatLog = await ChatLog.findOne(index);
     return chatLog;
   }

@@ -52,13 +52,14 @@ export class AlarmsResolver {
     return newAlarm;
   }
 
-  @Subscription((returns) => Alarm, {
+  @Subscription(() => Alarm, {
     name: 'alarmAdded',
     filter(payload, variables) {
       return payload.alarmAdded.userID === variables.userID;
     },
   })
   addAlarmHandler(@Args('userID') userID: string) {
+    userID;
     return this.pubSubProvider.getPubSub().asyncIterator('alarmAdded');
   }
 
