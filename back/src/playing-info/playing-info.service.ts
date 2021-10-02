@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
+import { createQueryBuilder, getRepository } from 'typeorm';
 import { CreatePlayingInfoInput } from './dto/create-playing-info.input';
 import { UpdatePlayingInfoInput } from './dto/update-playing-info.input';
 import { PlayingInfo } from './entities/playing-info.entity';
@@ -59,6 +60,31 @@ export class PlayingInfoService {
     return playingInfo;
   }
 
+  async findOneByUuid(uuid: string) {
+    // const playingInfo = await PlayingInfo.getRepository()
+    //   .createQueryBuilder('PlayingInfo')
+    //   .select('PlayingInfo.uuid', 'uuid')
+    //   .where('PlayingInfo.uuid = :uuid', { uuid: uuid })
+    //   .where('PlayingInfo.uuid IN (:uuid)', { uuid: uuid })
+    //   .getMany();
+
+    // const playingInfo = await createQueryBuilder()
+    //   .select('PlayingInfo')
+    //   .from(PlayingInfo, 'PlayingInfo')
+    //   .where('PlayingInfo.uuid = :uuid', { uuid: uuid });
+
+    // const playingInfo = await createQueryBuilder('PlayingInfo').where('PlayingInfo.uuid = :uuid', { uuid: 'uuid' });
+
+    // console.log(uuid);
+    const playingInfo = await PlayingInfo.getRepository()
+      .createQueryBuilder()
+      .where('uuid = :uuid', { uuid: uuid })
+      .getMany();
+
+    // console.log('findonebyuuid: ', playingInfo);
+    return playingInfo[0];
+  }
+
   collision(playingInfo) {
     const { ballX, ballY, player1Y, player2Y, ballVelocityX, ballVelocityY } = playingInfo;
 
@@ -98,10 +124,10 @@ export class PlayingInfoService {
     return playingInfo;
   }
 
-  async update(index: number, updatePlayingInfoInput: UpdatePlayingInfoInput) {
-    const playingInfo = await PlayingInfo.findOne(index);
-
-    console.log(playingInfo);
+  async update(uuid: string, updatePlayingInfoInput: UpdatePlayingInfoInput) {
+    const playingInfo = await this.findOneByUuid(uuid);
+    // console.log('uuid: ', uuid);
+    // console.log('playing-info update: ', playingInfo);
 
     playingInfo.ballX = playingInfo.ballX + playingInfo.ballVelocityX;
     playingInfo.ballY = playingInfo.ballY + playingInfo.ballVelocityY;

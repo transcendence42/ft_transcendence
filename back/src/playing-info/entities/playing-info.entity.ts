@@ -8,9 +8,8 @@ export class PlayingInfo extends BaseEntity {
   @Field(() => Int)
   index: number;
 
-  // 나중에 @Generated('uuid')로 바꿔야함, nullable도 제거하고
-  @Column('varchar', { length: 20, nullable: true })
-  @Field({ nullable: true })
+  @Column('varchar')
+  @Field()
   uuid: string;
 
   @Column({ type: 'integer', nullable: true, default: 20 })

@@ -81,7 +81,7 @@ export class GamesResolver {
     const player1 = gameQueue.shift();
     const player2 = gameQueue.shift();
     // uuid 생성로직
-    const newGameInput: CreateGameInput = { playerOneID: player1, playerTwoID: player2, uuid: 'uua12312' };
+    const newGameInput: CreateGameInput = { playerOneID: player1, playerTwoID: player2 };
     const newGame = await this.gamesService.create(newGameInput);
     this.usersService.updateIsMatched(player1, 'matched');
     this.usersService.updateIsMatched(player2, 'matched');

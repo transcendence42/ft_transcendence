@@ -1,5 +1,13 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BaseEntity,
+  Generated,
+} from 'typeorm';
 
 @Entity('game') // typeORM decorator
 @ObjectType() // graphQL decorator
@@ -8,9 +16,9 @@ export class Game extends BaseEntity {
   @Field(() => Int)
   index: number;
 
-  // 나중에 @Generated('uuid')로 바꿔야함, nullable도 제거하고
-  @Column('varchar', { length: 20, nullable: true })
-  @Field({ nullable: true })
+  @Generated('uuid') // uuid 생성 코드. DB에서 생성됨.
+  @Column({ type: 'uuid' })
+  @Field()
   uuid: string;
 
   @Column({ type: 'boolean', default: true }) // typeORM decorator

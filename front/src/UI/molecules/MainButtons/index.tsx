@@ -59,7 +59,6 @@ const MainButtons = ({ userID, isMatched }) => {
           userID: userID,
         },
       });
-      // history.push('/game');
     }
   }
 
