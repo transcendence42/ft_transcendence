@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
-import { createQueryBuilder, getRepository } from 'typeorm';
 import { CreatePlayingInfoInput } from './dto/create-playing-info.input';
 import { UpdatePlayingInfoInput } from './dto/update-playing-info.input';
 import { PlayingInfo } from './entities/playing-info.entity';

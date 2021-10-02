@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int, Subscription } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Subscription } from '@nestjs/graphql';
 import { PlayingInfoService } from './playing-info.service';
 import { PlayingInfo } from './entities/playing-info.entity';
 import { CreatePlayingInfoInput } from './dto/create-playing-info.input';
@@ -46,7 +46,6 @@ export class PlayingInfoResolver {
   }
 
   async updateBall(uuid: string) {
-    console.log('playing-info updateBall: ', uuid);
     const updatePlayingInfo = await this.playingInfoService.update(uuid, null);
     this.pubSubProvider.getPubSub().publish('playingInfo', {
       playingInfo: updatePlayingInfo,
@@ -58,7 +57,7 @@ export class PlayingInfoResolver {
   //   setInterval(() => this.updateBall(), 50);
   // }
 
-  @Subscription((returns) => PlayingInfo, {
+  @Subscription(() => PlayingInfo, {
     filter: (payload, variables) => {
       return payload.playingInfo.uuid === variables.uuid;
     },

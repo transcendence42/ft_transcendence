@@ -50,11 +50,11 @@ export class User extends BaseEntity {
   totalLose: number;
 
   @OneToMany(() => Follow, (follow) => follow.following)
-  @Field((type) => [Follow], { nullable: true })
+  @Field(() => [Follow], { nullable: true })
   followings: Follow[];
 
   @OneToMany(() => Follow, (follow) => follow.follower)
-  @Field((type) => [Follow], { nullable: true })
+  @Field(() => [Follow], { nullable: true })
   followers: Follow[];
 
   // default status set

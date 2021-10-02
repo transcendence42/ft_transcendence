@@ -1,4 +1,4 @@
-import { Controller, Get, Res, UseGuards, Inject, Req, Header, Post } from '@nestjs/common';
+import { Controller, Get, Res, UseGuards, Inject, Req, Post } from '@nestjs/common';
 import { Response } from 'express';
 import { FtAuthGuard, AuthenticatedGuard } from './guards/ft.guard';
 import { AuthenticationProvider } from './auth';
@@ -16,7 +16,9 @@ export class AuthController {
    */
   @Get('login')
   @UseGuards(FtAuthGuard)
-  login(@Req() res) {}
+  login(@Req() res) {
+    console.log('auth login controllor', res);
+  }
 
   /*
    * /auth/redirect
