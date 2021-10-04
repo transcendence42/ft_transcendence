@@ -7,13 +7,19 @@ import { SUBSCRIBE_CRAZYPONG, UPDATE_PLAYINGINFO } from './CrazyPongQuery';
 import { CrazyPongPresenter } from './CrazyPongPresentater.tsx';
 
 import { IPlayingUpdateInfo } from '../../../utils/interface';
-// import { postgresTimeToDate } from '../../../utils/util';
 
 interface stateType {
   userID: string;
 }
 
-export const CrazyPongContainer = ({ data }: { data: any }) => {
+interface Game {
+  index: number;
+  uuid: string;
+  playerOneID: string;
+  playerTwoID: string;
+}
+
+export const CrazyPongContainer = ({ data }: { data: Game }) => {
   console.log('CPcontainer data: ', data);
   console.log('CPcontainer game uuid: ', data.uuid);
   const location = useLocation<stateType>();
