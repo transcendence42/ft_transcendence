@@ -21,7 +21,7 @@ export class CreateChatInput {
   @IsNotEmpty()
   ownerID: string;
 
-  @Field((type) => [String])
+  @Field(() => [String])
   @IsNotEmpty()
   userID: string[];
 }

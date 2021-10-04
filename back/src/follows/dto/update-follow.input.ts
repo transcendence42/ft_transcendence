@@ -7,10 +7,10 @@ export class UpdateFollowInput extends PartialType(CreateFollowInput) {
   index: number;
 
   @Field(() => Boolean, { nullable: true })
-  checked: Boolean;
+  checked: boolean;
 
   @Field(() => Boolean, { nullable: true })
-  blocked: Boolean;
+  blocked: boolean;
 }
 
 @InputType()

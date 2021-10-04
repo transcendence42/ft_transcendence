@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int, Subscription } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Subscription } from '@nestjs/graphql';
 import { PlayingInfoService } from './playing-info.service';
 import { PlayingInfo } from './entities/playing-info.entity';
 import { CreatePlayingInfoInput } from './dto/create-playing-info.input';
@@ -22,10 +22,10 @@ export class PlayingInfoResolver {
   //   return this.playingInfoService.findAll();
   // }
 
-  // @Query(() => PlayingInfo, { name: 'playingInfo' })
-  // findOne(@Args('index', { type: () => Int }) index: number) {
-  //   return this.playingInfoService.findOne(index);
-  // }
+  @Query(() => PlayingInfo, { name: 'playingInfo' })
+  findOne(@Args('uuid', { type: () => String }) uuid: string) {
+    return this.playingInfoService.findOneByUuid(uuid);
+  }
 
   // @Mutation(() => PlayingInfo)
   // removePlayingInfo(@Args('id', { type: () => Int }) id: number) {
@@ -34,7 +34,7 @@ export class PlayingInfoResolver {
 
   @Mutation(() => PlayingInfo)
   async updatePlayingInfo(@Args('playingInfoInput') updatePlayingInfoInput: UpdatePlayingInfoInput) {
-    const playingInfo = await this.playingInfoService.update(updatePlayingInfoInput.index, {
+    const playingInfo = await this.playingInfoService.update(updatePlayingInfoInput.uuid, {
       ...updatePlayingInfoInput,
     });
     this.pubSubProvider.getPubSub().publish('playingInfo', {
@@ -45,8 +45,8 @@ export class PlayingInfoResolver {
     return playingInfo;
   }
 
-  async updateBall() {
-    const updatePlayingInfo = await this.playingInfoService.update(1, null);
+  async updateBall(uuid: string) {
+    const updatePlayingInfo = await this.playingInfoService.update(uuid, null);
     this.pubSubProvider.getPubSub().publish('playingInfo', {
       playingInfo: updatePlayingInfo,
     });
@@ -57,13 +57,21 @@ export class PlayingInfoResolver {
   //   setInterval(() => this.updateBall(), 50);
   // }
 
-  @Subscription((returns) => PlayingInfo, {
+  @Subscription(() => PlayingInfo, {
     filter: (payload, variables) => {
       return payload.playingInfo.uuid === variables.uuid;
     },
   })
   playingInfo(@Args('uuid') uuid: string) {
-    setInterval(() => this.updateBall(), 100);
+    console.log('subscription: ', uuid);
+    setInterval(
+      (uuid) => {
+        this.updateBall(uuid);
+      },
+      100,
+      uuid,
+    );
+    // setInterval(this.updateBall, 100, uuid);
     return this.pubSubProvider.getPubSub().asyncIterator('playingInfo');
   }
 }

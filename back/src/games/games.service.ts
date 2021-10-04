@@ -11,7 +11,6 @@ export class GamesService {
     const game = new Game();
     game.playerOneID = createGameInput.playerOneID;
     game.playerTwoID = createGameInput.playerTwoID;
-    game.uuid = createGameInput.uuid;
 
     const validate_error = await validate(game);
     if (validate_error.length > 0) {
@@ -28,6 +27,20 @@ export class GamesService {
   }
 
   async findByUserID(userID: string) {
+    const games = await Game.getRepository()
+      .createQueryBuilder('game')
+      .where('game.finishedAt IS NULL')
+      .andWhere(
+        new Brackets((subQb) => {
+          subQb.where('game.playerOneID = :userID', { userID: userID });
+          subQb.orWhere('game.playerTwoID = :userID', { userID: userID });
+        }),
+      )
+      .getMany();
+    return games;
+  }
+
+  async findEndGameByUserID(userID: string) {
     const games = await Game.getRepository()
       .createQueryBuilder('game')
       .where('game.finishedAt IS NOT NULL')

@@ -40,12 +40,6 @@ export class PlayingInfoService {
   async create(createPlayingInfoInput: CreatePlayingInfoInput) {
     const playingInfo = new PlayingInfo();
     playingInfo.uuid = createPlayingInfoInput.uuid;
-    playingInfo.ballX = createPlayingInfoInput.ballX;
-    playingInfo.ballY = createPlayingInfoInput.ballY;
-    playingInfo.ballVelocityX = createPlayingInfoInput.ballVelocityX;
-    playingInfo.ballVelocityY = createPlayingInfoInput.ballVelocityY;
-    playingInfo.player1Y = createPlayingInfoInput.player1Y;
-    playingInfo.player2Y = createPlayingInfoInput.player2Y;
 
     const validate_error = await validate(playingInfo);
     if (validate_error.length > 0) {
@@ -63,6 +57,14 @@ export class PlayingInfoService {
   async findOne(index: number) {
     const playingInfo = await PlayingInfo.findOne(index);
     return playingInfo;
+  }
+
+  async findOneByUuid(uuid: string) {
+    const playingInfo = await PlayingInfo.getRepository()
+      .createQueryBuilder()
+      .where('uuid = :uuid', { uuid: uuid })
+      .getMany();
+    return playingInfo[0];
   }
 
   collision(playingInfo) {
@@ -104,8 +106,10 @@ export class PlayingInfoService {
     return playingInfo;
   }
 
-  async update(index: number, updatePlayingInfoInput: UpdatePlayingInfoInput) {
-    const playingInfo = await PlayingInfo.findOne(index);
+  async update(uuid: string, updatePlayingInfoInput: UpdatePlayingInfoInput) {
+    const playingInfo = await this.findOneByUuid(uuid);
+    // console.log('uuid: ', uuid);
+    // console.log('playing-info update: ', playingInfo);
 
     playingInfo.ballX = playingInfo.ballX + playingInfo.ballVelocityX;
     playingInfo.ballY = playingInfo.ballY + playingInfo.ballVelocityY;

@@ -41,12 +41,13 @@ export class ChatLogsResolver {
     return this.chatLogsService.remove(index);
   }
 
-  @Subscription((returns) => ChatLog, {
+  @Subscription(() => ChatLog, {
     filter: (payload, variables) => {
       return payload.chatLogAdded.chatUUID === variables.uuid;
     },
   })
   chatLogAdded(@Args('uuid') uuid: string) {
+    uuid;
     return this.pubSubProvider.getPubSub().asyncIterator('chatLogAdded');
   }
 }

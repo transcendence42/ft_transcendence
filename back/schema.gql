@@ -48,7 +48,7 @@ type Alarm {
 
 type Game {
   index: Int!
-  uuid: String
+  uuid: String!
   isPlaying: Boolean!
   playerOneID: String
   playerOneScore: Int
@@ -57,6 +57,22 @@ type Game {
   createdAt: DateTime!
   finishedAt: DateTime
   modifiedAt: DateTime!
+}
+
+type PlayingInfo {
+  index: Int!
+  uuid: String!
+  ballX: Int
+  ballY: Int
+  ballVelocityX: Int
+  ballVelocityY: Int
+  player1Y: Float
+  player2Y: Float
+  player1Score: Int
+  player2Score: Int
+  sequence: Int
+  modifiedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type Chat {
@@ -84,29 +100,13 @@ type ChatLog {
   createdAt: DateTime!
 }
 
-type PlayingInfo {
-  index: Int!
-  uuid: String
-  ballX: Float
-  ballY: Float
-  ballVelocityX: Int
-  ballVelocityY: Int
-  player1Y: Float
-  player2Y: Float
-  player1Score: Int
-  player2Score: Int
-  sequence: Int
-  modifiedAt: DateTime!
-  createdAt: DateTime!
-}
-
 input follow {
   following: user
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-09-18T08:20:26.827Z"
-  modifiedAt: DateTime = "2021-09-18T08:20:26.827Z"
+  createdAt: DateTime = "2021-10-04T01:09:57.307Z"
+  modifiedAt: DateTime = "2021-10-04T01:09:57.307Z"
 }
 
 input user {
@@ -123,8 +123,8 @@ input user {
   followers: [follow!]
   userState: String = "login"
   isMatched: String = "notMatched"
-  createdAt: DateTime = "2021-09-18T08:20:26.828Z"
-  modifiedAt: DateTime = "2021-09-18T08:20:26.828Z"
+  createdAt: DateTime = "2021-10-04T01:09:57.307Z"
+  modifiedAt: DateTime = "2021-10-04T01:09:57.307Z"
 }
 
 type Query {
@@ -156,6 +156,7 @@ type Query {
   chatLogs: [ChatLog!]!
   chatLog(index: Int!): ChatLog!
   chatLogsFromChat(uuid: String!): [ChatLog!]!
+  playingInfo(uuid: String!): PlayingInfo!
 }
 
 type Mutation {
@@ -247,13 +248,11 @@ input BlockInput {
 input CreateGameInput {
   playerOneID: String!
   playerTwoID: String!
-  uuid: String!
 }
 
 input UpdateGameInput {
   playerOneID: String
   playerTwoID: String
-  uuid: String
   index: Int!
   isPlaying: Boolean
   playerOneScore: Int
@@ -299,23 +298,17 @@ input UpdateChatLogInput {
 
 input CreatePlayingInfoInput {
   uuid: String!
-  ballX: Float!
-  ballY: Float!
-  ballVelocityX: Float!
-  ballVelocityY: Float!
-  player1Y: Float!
-  player2Y: Float!
 }
 
 input UpdatePlayingInfoInput {
   uuid: String
+  index: Int!
   ballX: Float
   ballY: Float
   ballVelocityX: Float
   ballVelocityY: Float
   player1Y: Float
   player2Y: Float
-  index: Int!
   player1Score: Float
   player2Score: Float
 }

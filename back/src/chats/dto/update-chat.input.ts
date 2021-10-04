@@ -9,12 +9,12 @@ export class UpdateChatInput extends PartialType(CreateChatInput) {
   @Field({ nullable: true })
   isAlive: boolean;
 
-  @Field((type) => [String], { nullable: true })
+  @Field(() => [String], { nullable: true })
   adminID: string[];
 
-  @Field((type) => [String], { nullable: true })
+  @Field(() => [String], { nullable: true })
   userID: string[];
 
-  @Field((type) => [String], { nullable: true })
+  @Field(() => [String], { nullable: true })
   muteID: string[];
 }
