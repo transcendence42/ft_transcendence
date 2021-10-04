@@ -115,7 +115,7 @@ export class PlayingInfoResolver {
       (uuid) => {
         this.updateBall(uuid);
       },
-      100,
+      50,
       uuid,
     );
     // setInterval(this.updateBall, 100, uuid);
