@@ -3,8 +3,8 @@ import { InputType, Field, PartialType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateGameInput extends PartialType(CreateGameInput) {
-  @Field(() => Int)
-  readonly index: number;
+  @Field(() => String)
+  readonly uuid: string;
 
   @Field({ nullable: true })
   isPlaying: boolean;
@@ -18,6 +18,6 @@ export class UpdateGameInput extends PartialType(CreateGameInput) {
   @Field({ nullable: true })
   finishedAt: Date;
 
-  @Field({ nullable: true })
+  @Field(() => Date, { nullable: true, defaultValue: new Date() })
   modifiedAt: Date;
 }
