@@ -60,27 +60,10 @@ export class PlayingInfoService {
   }
 
   async findOneByUuid(uuid: string) {
-    // const playingInfo = await PlayingInfo.getRepository()
-    //   .createQueryBuilder('PlayingInfo')
-    //   .select('PlayingInfo.uuid', 'uuid')
-    //   .where('PlayingInfo.uuid = :uuid', { uuid: uuid })
-    //   .where('PlayingInfo.uuid IN (:uuid)', { uuid: uuid })
-    //   .getMany();
-
-    // const playingInfo = await createQueryBuilder()
-    //   .select('PlayingInfo')
-    //   .from(PlayingInfo, 'PlayingInfo')
-    //   .where('PlayingInfo.uuid = :uuid', { uuid: uuid });
-
-    // const playingInfo = await createQueryBuilder('PlayingInfo').where('PlayingInfo.uuid = :uuid', { uuid: 'uuid' });
-
-    // console.log(uuid);
     const playingInfo = await PlayingInfo.getRepository()
       .createQueryBuilder()
       .where('uuid = :uuid', { uuid: uuid })
       .getMany();
-
-    // console.log('findonebyuuid: ', playingInfo);
     return playingInfo[0];
   }
 

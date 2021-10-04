@@ -40,6 +40,20 @@ export class GamesService {
     return games;
   }
 
+  async findEndGameByUserID(userID: string) {
+    const games = await Game.getRepository()
+      .createQueryBuilder('game')
+      .where('game.finishedAt IS NOT NULL')
+      .andWhere(
+        new Brackets((subQb) => {
+          subQb.where('game.playerOneID = :userID', { userID: userID });
+          subQb.orWhere('game.playerTwoID = :userID', { userID: userID });
+        }),
+      )
+      .getMany();
+    return games;
+  }
+
   async findOne(index: number) {
     const game = await Game.findOne(index);
     return game;
