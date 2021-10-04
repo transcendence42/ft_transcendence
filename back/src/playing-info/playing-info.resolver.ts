@@ -40,7 +40,7 @@ export class PlayingInfoResolver {
   // }
 
   checkfinish(player1Score: number, player2Score: number) {
-    return player1Score >= 5 || player2Score >= 5;
+    return player1Score >= 1 || player2Score >= 1;
   }
 
   async updateGameEntity(updatePlayingInfoInput: UpdatePlayingInfoInput): Promise<Game> {

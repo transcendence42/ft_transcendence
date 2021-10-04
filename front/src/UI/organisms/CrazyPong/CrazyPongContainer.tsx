@@ -24,6 +24,7 @@ export const CrazyPongContainer = ({ data }: { data: Game }) => {
   const location = useLocation<stateType>();
   const [inputName, setInputName] = useState('');
   const [updatePlayingInfo] = useMutation(UPDATE_PLAYINGINFO);
+
   const subscriptionCrazyPong = useSubscription(SUBSCRIBE_CRAZYPONG, {
     variables: {
       uuid: data.uuid,
