@@ -7,18 +7,15 @@ import { PubSubProvider } from '../pub-sub/pub-sub.provider';
 import { GamesService } from 'src/games/games.service';
 import { UpdateGameInput } from 'src/games/dto/update-game.input';
 import { Game } from 'src/games/entities/game.entity';
-import { forwardRef, Inject } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
-// import { UsersService } from 'src/users/users.service';
-// import { UpdateUserInput } from 'src/users/dto/update-user.input';
+import { UpdateAfterGameInput, UpdateUserInput } from 'src/users/dto/update-user.input';
 
 @Resolver(() => PlayingInfo)
 export class PlayingInfoResolver {
   constructor(
     private readonly playingInfoService: PlayingInfoService,
-    @Inject(forwardRef(() => GamesService))
     private readonly gamesService: GamesService,
-    // private readonly usersService: UsersService,
+    private readonly usersService: UsersService,
     private readonly pubSubProvider: PubSubProvider,
   ) {}
 
@@ -58,44 +55,33 @@ export class PlayingInfoResolver {
     return await this.gamesService.update(updateGameInput.uuid, updateGameInput);
   }
 
-  // updateUserIsMatchedFalse(playerOneID: string, playerTwoID: string) {
-  //   const updatePlayerOneInput: UpdateUserInput = {
-  //     userID: playerOneID,
-  //     nickname: null,
-  //     twoFactorAuthSecret: null,
-  //     avatar: null,
-  //     ladderRating: null,
-  //     totalWin: null,
-  //     totalLose: null,
-  //     userState: 'login',
-  //     isMatched: 'notMatched',
-  //     modifiedAt: new Date(),
-  //   };
-  //   const updatePlayerTwoInput: UpdateUserInput = {
-  //     userID: playerTwoID,
-  //     nickname: null,
-  //     twoFactorAuthSecret: null,
-  //     avatar: null,
-  //     ladderRating: null,
-  //     totalWin: null,
-  //     totalLose: null,
-  //     isMatched: 'notMatched',
-  //     userState: 'login',
-  //     modifiedAt: new Date(),
-  //   };
-  //   this.usersService.update(playerOneID, updatePlayerOneInput);
-  //   this.usersService.update(playerTwoID, updatePlayerTwoInput);
-  // }
+  updateUserIsMatchedFalse(playerOneID: string, playerTwoID: string) {
+    const updatePlayerOneInput: UpdateAfterGameInput = {
+      userID: playerOneID,
+      userState: 'login',
+      isMatched: 'notMatched',
+      modifiedAt: new Date(),
+    };
+    const updatePlayerTwoInput: UpdateAfterGameInput = {
+      userID: playerTwoID,
+      isMatched: 'notMatched',
+      userState: 'login',
+      modifiedAt: new Date(),
+    };
+    this.usersService.updateAfterGame(playerOneID, updatePlayerOneInput);
+    this.usersService.updateAfterGame(playerTwoID, updatePlayerTwoInput);
+  }
 
   @Mutation(() => PlayingInfo)
   async updatePlayingInfo(@Args('playingInfoInput') updatePlayingInfoInput: UpdatePlayingInfoInput) {
     const playingInfo = await this.playingInfoService.update(updatePlayingInfoInput.uuid, {
       ...updatePlayingInfoInput,
     });
-    console.log('updatePlayingInfo', playingInfo);
     if (this.checkfinish(playingInfo.player1Score, playingInfo.player2Score)) {
-      const game = await this.updateGameEntity(playingInfo);
-      // this.updateUserIsMatchedFalse(game.playerOneID, game.playerTwoID);
+      this.updateGameEntity(playingInfo);
+      const getPlayerName = await this.gamesService.findOneByUuid(updatePlayingInfoInput.uuid);
+      console.log('update-playing-info: ', getPlayerName);
+      this.updateUserIsMatchedFalse(getPlayerName.playerOneID, getPlayerName.playerTwoID);
       return playingInfo;
     }
     this.pubSubProvider.getPubSub().publish('playingInfo', {

@@ -19,7 +19,6 @@ export class GamesResolver {
   constructor(
     private readonly gamesService: GamesService,
     private readonly usersService: UsersService,
-    @Inject(forwardRef(() => PlayingInfoService))
     private readonly playingInfoService: PlayingInfoService,
   ) {}
 

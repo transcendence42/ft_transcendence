@@ -5,6 +5,7 @@ export const GET_MY_GAME_RECORDS = gql`
     myGameRecords {
       index
       uuid
+      isPlaying
       playerOneID
       playerTwoID
     }
