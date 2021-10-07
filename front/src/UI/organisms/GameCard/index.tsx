@@ -58,7 +58,7 @@ const GameCard = ({ uuid, playerA, playerB, startTime }: GameCardProps) => {
             currentScore={playerB.currentScore}
           />
         </Box>
-        <Button margin="0.3rem" onClick={connectUuidGame}>
+        <Button margin="0.3rem" onClick={() => connectUuidGame(uuid)}>
           관전하기
         </Button>
       </Box>
