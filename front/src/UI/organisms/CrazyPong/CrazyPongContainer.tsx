@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useSubscription } from '@apollo/client';
 import { useLocation } from 'react-router';
+
 import { SUBSCRIBE_CRAZYPONG, UPDATE_PLAYINGINFO } from './CrazyPongQuery';
 
 import { CrazyPongPresenter } from './CrazyPongPresentater.tsx';
@@ -20,11 +21,10 @@ interface Game {
 }
 
 export const CrazyPongContainer = ({ data }: { data: Game }) => {
-  console.log('CPcontainer data: ', data);
-  console.log('CPcontainer game uuid: ', data.uuid);
   const location = useLocation<stateType>();
   const [inputName, setInputName] = useState('');
   const [updatePlayingInfo] = useMutation(UPDATE_PLAYINGINFO);
+
   const subscriptionCrazyPong = useSubscription(SUBSCRIBE_CRAZYPONG, {
     variables: {
       uuid: data.uuid,
@@ -36,8 +36,6 @@ export const CrazyPongContainer = ({ data }: { data: Game }) => {
       return;
     }
     if (location.state.userID === data.playerOneID) {
-      // setGameUuid(data?.myGameRecords[0]?.uuid);
-      // data?.myGameRecords[0]?.uuid
       setInputName('player1');
     } else {
       setInputName('player2');

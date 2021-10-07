@@ -26,6 +26,7 @@ export class GamesService {
     return games;
   }
 
+  /* 진행 중인 게임 찾기 */
   async findByUserID(userID: string) {
     const games = await Game.getRepository()
       .createQueryBuilder('game')
@@ -37,9 +38,11 @@ export class GamesService {
         }),
       )
       .getMany();
+    // console.log('game-services-findByUserID: ', games);
     return games;
   }
 
+  /* 종료한 게임 찾기 */
   async findEndGameByUserID(userID: string) {
     const games = await Game.getRepository()
       .createQueryBuilder('game')
@@ -59,8 +62,16 @@ export class GamesService {
     return game;
   }
 
-  async update(index: number, updateGameInput: UpdateGameInput) {
-    const game = await Game.findOne(index);
+  async findOneByUuid(uuid: string) {
+    const game = await Game.getRepository()
+      .createQueryBuilder('game')
+      .where('game.uuid = :uuid', { uuid: uuid })
+      .getOne();
+    return game;
+  }
+
+  async update(uuid: string, updateGameInput: UpdateGameInput) {
+    const game = await this.findOneByUuid(uuid);
     game.isPlaying = updateGameInput.isPlaying;
     game.playerOneID = updateGameInput.playerOneID;
     game.playerOneScore = updateGameInput.playerOneScore;

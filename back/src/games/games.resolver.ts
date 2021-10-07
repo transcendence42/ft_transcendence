@@ -4,7 +4,7 @@ import { Game } from './entities/game.entity';
 import { CreateGameInput } from './dto/create-game.input';
 import { UpdateGameInput } from './dto/update-game.input';
 import { User } from 'src/users/entities/user.entity';
-import { UseGuards } from '@nestjs/common';
+import { forwardRef, Inject, UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guards/gql.guard';
 import { CurrentUser } from 'src/users/users.resolver';
 import { UsersService } from 'src/users/users.service';
@@ -50,7 +50,7 @@ export class GamesResolver {
 
   @Mutation(() => Game)
   updateGame(@Args('updateGameInput') updateGameInput: UpdateGameInput) {
-    return this.gamesService.update(updateGameInput.index, updateGameInput);
+    return this.gamesService.update(updateGameInput.uuid, updateGameInput);
   }
 
   @Mutation(() => Game)
