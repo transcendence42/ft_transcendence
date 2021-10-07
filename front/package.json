@@ -27,6 +27,7 @@
     "graphql": "^15.5.1",
     "holee-contextmenu": "^1.2.3",
     "http-proxy-middleware": "^2.0.1",
+    "lodash": "^4.17.21",
     "node-sass": "yarn:sass",
     "qrcode": "^1.4.4",
     "react": "^17.0.2",

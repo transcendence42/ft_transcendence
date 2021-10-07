@@ -1,9 +1,12 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { validate } from 'class-validator';
+import * as bcrypt from 'bcrypt';
+
 import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
 import { Chat } from './entities/chat.entity';
-import { validate } from 'class-validator';
 import { User } from 'src/users/entities/user.entity';
+import { SALT_ROUND } from './utils/constants';
 
 @Injectable()
 export class ChatsService {
@@ -81,6 +84,16 @@ export class ChatsService {
     chat.adminID = updateChatInput.adminID ? updateChatInput.adminID : chat.adminID;
     chat.userID = updateChatInput.userID ? updateChatInput.userID : chat.userID;
     chat.muteID = updateChatInput.muteID ? updateChatInput.muteID : chat.muteID;
+    if (updateChatInput.password) {
+      // 비밀번호를 설정/변경 하는 경우
+      this.checkPasswordValidation(updateChatInput.type, updateChatInput.password);
+      chat.password = await bcrypt.hash(updateChatInput.password, SALT_ROUND);
+      chat.type = updateChatInput.type;
+    } else if (updateChatInput.password === '') {
+      // 비밀번호를 해제하는 경우
+      chat.type = 'public';
+      chat.password = '';
+    }
     const validate_error = await validate(chat);
     if (validate_error.length > 0) {
       throw new HttpException({ message: 'Input data validation failed' }, HttpStatus.BAD_REQUEST);
@@ -138,15 +151,12 @@ export class ChatsService {
 
   //비공개 채팅방의 비밀번호가 맞는지 확인.
   async checkPassword(uuid: string, password: string) {
-    const isMatchedPassword =
-      (await Chat.getRepository()
-        .createQueryBuilder()
-        .where('uuid=:uuid', { uuid: uuid })
-        .andWhere('password=:password', { password: password })
-        .getCount()) > 0
-        ? true
-        : false;
-    return isMatchedPassword;
+    const chat = await Chat.findOne({
+      where: {
+        uuid: uuid,
+      },
+    });
+    return await bcrypt.compare(password, chat.password);
   }
 
   //chat, user가 있는지 확인하고 user가 chat에 존재하는지 확인

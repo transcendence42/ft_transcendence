@@ -12,7 +12,7 @@ export const ParticleBackground = () => {
             value: '#232741',
           },
           image: "url('/logo_login_page.png')",
-          position: '50% 35%',
+          position: '50% 25%',
           repeat: 'no-repeat',
           size: '30%',
           opacity: 1,

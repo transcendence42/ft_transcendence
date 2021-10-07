@@ -8,7 +8,9 @@ import { winRate } from '../../../utils/util';
 import { ProfileLarge } from '../../molecules/ProfileLarge';
 
 const MainPageHeader = () => {
-  const { loading, error, data } = useQuery(GET_MY_PROFILE);
+  const { loading, error, data } = useQuery(GET_MY_PROFILE, {
+    pollInterval: 200,
+  });
   if (loading) {
     return <Spinner m="5" ml="155" color={SPINNER_COLOR} />;
   }
@@ -16,6 +18,8 @@ const MainPageHeader = () => {
   if (error) {
     return <Spinner m="5" ml="155" color={SPINNER_ERROR_COLOR} />;
   }
+  console.log('data main', data);
+  console.log('data isMatched', data.me.isMatched);
 
   return (
     <>
@@ -33,7 +37,7 @@ const MainPageHeader = () => {
         />
       </Box>
       <Box width="50%">
-        <MainButtons />
+        <MainButtons userID={data.me.userID} isMatched={data.me.isMatched} />
       </Box>
     </>
   );

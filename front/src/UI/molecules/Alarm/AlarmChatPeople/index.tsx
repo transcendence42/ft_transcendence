@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useMutation, useReactiveVar } from '@apollo/client';
+import { Link } from 'react-router-dom';
 import { ContextMenu } from 'holee-contextmenu';
 
 import { currentChatVar, currentLoginIDVar } from '../../../../apollo/apolloProvider';
@@ -10,6 +11,8 @@ import {
   FORCED_OUT,
   TOGGLE_ADMIN,
   CREATE_DM,
+  CREATE_ALARM,
+  CREATE_FOLLOW,
 } from './AlarmChatPeopleQueries';
 
 const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
@@ -25,7 +28,9 @@ const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
 export const AlarmChatPeople = ({ ...props }) => {
   const { username, ownerID, adminID, refetchChat, setChatRoomState } = props;
   const outerRef = useRef<HTMLDivElement>(null);
+  const [createFollow] = useMutation(CREATE_FOLLOW);
   const [createDM] = useMutation(CREATE_DM);
+  const [createAlarm] = useMutation(CREATE_ALARM);
   const [toggleBlock] = useMutation(TOGGLE_BLOCK);
   const [toggleMute] = useMutation(TOGGLE_MUTE);
   const [createChatLog] = useMutation(CREATE_CHAT_LOG);
@@ -34,6 +39,31 @@ export const AlarmChatPeople = ({ ...props }) => {
   const loginID = currentLoginIDVar();
   const currentChatUUID = useReactiveVar(currentChatVar);
 
+  const handleAddFriend = async () => {
+    await createFollow({
+      variables: {
+        users: {
+          followerID: loginID,
+          followingID: username,
+        },
+      },
+    }).then((res) => {
+      if (!res.data.createFollow.checked) {
+        // 서로 친구 상태가 아닌 경우 알람 생성
+        createAlarm({
+          variables: {
+            alarm: {
+              userID: username,
+              title: '친구요청',
+              content: `${loginID}님이 친구 요청을 보냈습니다.`,
+              type: 'addFriend',
+              link: `/profile/${loginID}`,
+            },
+          },
+        });
+      }
+    });
+  };
   const handleSendMessage = async () => {
     await createDM({
       variables: {
@@ -43,6 +73,17 @@ export const AlarmChatPeople = ({ ...props }) => {
     }).then((res) => {
       currentChatVar(res.data.createDM.uuid);
       setChatRoomState('chat-room');
+    });
+    await createAlarm({
+      variables: {
+        alarm: {
+          userID: username,
+          title: 'DM',
+          content: `${loginID}님이 메시지를 보내셨습니다.`,
+          type: 'DM',
+          link: '/chat',
+        },
+      },
     });
   };
 
@@ -125,14 +166,11 @@ export const AlarmChatPeople = ({ ...props }) => {
     const eventTarget = e.target as HTMLUListElement;
     if (eventTarget) {
       switch (eventTarget.dataset.option) {
-        case 'profile':
-          console.log(eventTarget.dataset.option);
-          break;
         case 'send-message':
           await handleSendMessage();
           break;
         case 'add-friend':
-          console.log(eventTarget.dataset.option);
+          await handleAddFriend();
           break;
         case 'play-game':
           console.log(eventTarget.dataset.option);
@@ -149,6 +187,8 @@ export const AlarmChatPeople = ({ ...props }) => {
         case 'forced-out':
           await handleForcedOut();
           break;
+        default:
+          break;
       }
     }
   };
@@ -159,7 +199,9 @@ export const AlarmChatPeople = ({ ...props }) => {
         <ContextMenu outerRef={outerRef} menuOnClick={(e) => menuOnClickHandler(e)}>
           {loginID === username ? null : (
             <>
-              <li data-option="profile">{username} 프로필 보기</li>
+              <Link to={'/profile/' + username}>
+                <li>프로필 보기</li>
+              </Link>
               <li data-option="send-message">메세지 보내기</li>
               <li data-option="add-friend">친구추가 요청</li>
               <li data-option="play-game">핑퐁게임 요청</li>

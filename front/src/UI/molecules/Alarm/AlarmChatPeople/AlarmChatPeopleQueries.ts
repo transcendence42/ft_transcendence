@@ -56,3 +56,26 @@ export const CREATE_DM = gql`
     }
   }
 `;
+
+export const CREATE_ALARM = gql`
+  mutation createAlarm($alarm: CreateAlarmInput!) {
+    createAlarm(createAlarmInput: $alarm) {
+      index
+    }
+  }
+`;
+
+export const CREATE_FOLLOW = gql`
+  mutation createFollow($users: CreateFollowInput!) {
+    createFollow(createFollowInput: $users) {
+      follower {
+        userID
+      }
+      following {
+        userID
+      }
+      checked
+      blocked
+    }
+  }
+`;

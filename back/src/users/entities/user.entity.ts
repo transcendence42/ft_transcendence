@@ -62,6 +62,13 @@ export class User extends BaseEntity {
   @Field({ defaultValue: 'login' })
   userState: string;
 
+  // notMatched : queue에 넣지 않은 상태
+  // waiting: queue 에서 기다리는 중
+  // matched: matching 된 상태
+  @Column({ type: 'varchar', default: 'notMatched' })
+  @Field(() => String, { defaultValue: 'notMatched' })
+  isMatched: string;
+
   @CreateDateColumn()
   @Field(() => Date, { defaultValue: new Date() })
   createdAt: Date;

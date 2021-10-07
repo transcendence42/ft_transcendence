@@ -65,8 +65,22 @@ export class UsersService {
     user.ladderRating = updateUserInput.ladderRating;
     user.totalWin = updateUserInput.totalWin;
     user.totalLose = updateUserInput.totalLose;
+    user.isMatched = updateUserInput.isMatched;
     user.userState = updateUserInput.userState;
     user.modifiedAt = updateUserInput.modifiedAt;
+    const validate_error = await validate(user);
+    if (validate_error.length > 0) {
+      const _error = { username: 'UserInput is not valid check type' };
+      throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
+    } else {
+      return await User.save(user);
+    }
+  }
+
+  async updateIsMatched(userID: string, isMatched: string) {
+    const user = await User.findOne({ userID: userID });
+    user.isMatched = isMatched;
+
     const validate_error = await validate(user);
     if (validate_error.length > 0) {
       const _error = { username: 'UserInput is not valid check type' };

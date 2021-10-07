@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { Tr, Td } from '@chakra-ui/table';
 import { Box } from '@chakra-ui/react';
 import { LeaveChatBox } from '../LeaveChatBox';
@@ -7,12 +7,46 @@ import { LeaveChatMsg } from '../../molecules/LeaveChatMsg';
 import { LockIcon } from '../../../utils/icons';
 import { currentChatVar, currentLoginIDVar } from '../../../apollo/apolloProvider';
 import { CHAT_LIST_TYPE_MY_LIST, CHAT_LIST_TYPE_DM_LIST } from '../../../utils/constants';
-import { CREATE_CHAT_LOG, UPDATE_CHAT } from './ChatTableRowQueries';
+import { CREATE_CHAT_LOG, GET_CHAT, UPDATE_CHAT } from './ChatTableRowQueries';
 
 export const ChatTableRow = ({ ...props }) => {
   const { chat, rowIndex, chatListType, leaveChat, onOpen, setChatForCheckModal, refetchChat } = props;
   const [createChatLog] = useMutation(CREATE_CHAT_LOG);
   const [updateChat] = useMutation(UPDATE_CHAT);
+  const [getChat] = useLazyQuery(GET_CHAT, {
+    fetchPolicy: 'network-only',
+    onCompleted: async (res) => {
+      if (res.chat.type === 'private') {
+        setChatForCheckModal(res.chat);
+        onOpen();
+      } else {
+        if (!res.chat.userID.includes(loginID)) {
+          await updateChat({
+            variables: {
+              newChat: {
+                uuid: res.chat.uuid,
+                userID: [...res.chat.userID, loginID],
+              },
+            },
+          });
+          await createChatLog({
+            variables: {
+              user: {
+                userID: loginID,
+                chatUUID: res.chat.uuid,
+                type: 'notification',
+                message: 'enter',
+              },
+            },
+          }).catch(() => {
+            return;
+          });
+          await refetchChat();
+        }
+        currentChatVar(res.chat.uuid);
+      }
+    },
+  });
 
   // 로그인 ID 가져오기
   const loginID = currentLoginIDVar();
@@ -41,35 +75,7 @@ export const ChatTableRow = ({ ...props }) => {
   filteredChatList.splice(2, 0, ['numOfPeople', numOfPeople]); // 인원수 추가
 
   const handleClickChat = async () => {
-    if (chat.type === 'private') {
-      setChatForCheckModal(chat);
-      onOpen();
-    } else {
-      if (!chat.userID.includes(loginID)) {
-        await updateChat({
-          variables: {
-            newChat: {
-              uuid: chat.uuid,
-              userID: [...chat.userID, loginID],
-            },
-          },
-        });
-        await createChatLog({
-          variables: {
-            user: {
-              userID: loginID,
-              chatUUID: chat.uuid,
-              type: 'notification',
-              message: 'enter',
-            },
-          },
-        }).catch(() => {
-          return;
-        });
-        await refetchChat();
-      }
-      currentChatVar(chat.uuid);
-    }
+    getChat({ variables: { uuid: chat.uuid } });
   };
 
   const resultRow = filteredChatList.map((item, i) => {
