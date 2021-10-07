@@ -4,6 +4,7 @@ export const GET_GAME_LIST = gql`
   query {
     games {
       index
+      uuid
       isPlaying
       playerOneID
       playerOneScore

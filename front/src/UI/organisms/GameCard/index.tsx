@@ -4,11 +4,22 @@ import { MdTimer } from 'react-icons/md';
 import ProfileMedium from '../../molecules/ProfileMedium';
 import { GameCardProps } from '../../../utils/interface';
 import { getRunningTime } from '../../../utils/util';
+import { useHistory } from 'react-router-dom';
 import './index.scss';
 
-const GameCard = ({ playerA, playerB, startTime }: GameCardProps) => {
+const GameCard = ({ uuid, playerA, playerB, startTime }: GameCardProps) => {
   const isoStartTime: Date = useMemo(() => new Date(startTime), [startTime]);
   const [runningTime, setRunningTime] = useState(getRunningTime(isoStartTime));
+  const history = useHistory();
+
+  const connectUuidGame = (uuid: string) => {
+    history.push({
+      pathname: '/observer',
+      state: {
+        uuid: uuid,
+      },
+    });
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -47,7 +58,9 @@ const GameCard = ({ playerA, playerB, startTime }: GameCardProps) => {
             currentScore={playerB.currentScore}
           />
         </Box>
-        <Button margin="0.3rem">관전하기</Button>
+        <Button margin="0.3rem" onClick={connectUuidGame}>
+          관전하기
+        </Button>
       </Box>
     </>
   );

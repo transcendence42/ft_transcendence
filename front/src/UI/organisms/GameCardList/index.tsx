@@ -15,21 +15,23 @@ const GameCardList = () => {
   return (
     <>
       <SimpleGrid columns={3} spacing={4}>
-        {playingGames.map(({ id, playerOneID, playerOneScore, playerTwoID, playerTwoScore, createdAt }: IGame) => {
-          const playerOneInfo: PlayerInfo = {
-            name: playerOneID,
-            currentScore: playerOneScore,
-          };
-          const playerTwoInfo: PlayerInfo = {
-            name: playerTwoID,
-            currentScore: playerTwoScore,
-          };
-          return (
-            <Box key={id}>
-              <GameCard playerA={playerOneInfo} playerB={playerTwoInfo} startTime={createdAt}></GameCard>
-            </Box>
-          );
-        })}
+        {playingGames.map(
+          ({ id, uuid, playerOneID, playerOneScore, playerTwoID, playerTwoScore, createdAt }: IGame) => {
+            const playerOneInfo: PlayerInfo = {
+              name: playerOneID,
+              currentScore: playerOneScore,
+            };
+            const playerTwoInfo: PlayerInfo = {
+              name: playerTwoID,
+              currentScore: playerTwoScore,
+            };
+            return (
+              <Box key={id}>
+                <GameCard uuid={uuid} playerA={playerOneInfo} playerB={playerTwoInfo} startTime={createdAt}></GameCard>
+              </Box>
+            );
+          },
+        )}
       </SimpleGrid>
     </>
   );

@@ -88,6 +88,22 @@ export class GamesService {
     }
   }
 
+  async updatePlayerScore(uuid: string, playerNumber: number, newScore: number) {
+    const game = await this.findOneByUuid(uuid);
+    if (playerNumber === 1) {
+      game.playerOneScore = newScore;
+    } else if (playerNumber === 2) {
+      game.playerTwoScore = newScore;
+    }
+    const validate_error = await validate(game);
+    if (validate_error.length > 0) {
+      const _error = { game: 'Game Input is not valid' };
+      throw new HttpException({ message: 'Game Input validation failed', _error }, HttpStatus.BAD_REQUEST);
+    } else {
+      return await Game.save(game);
+    }
+  }
+
   async remove(index: number) {
     const game = await Game.findOne(index);
     if (!game) {

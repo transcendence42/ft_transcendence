@@ -17,7 +17,7 @@ export class PlayingInfoResolver {
     private readonly gamesService: GamesService,
     private readonly usersService: UsersService,
     private readonly pubSubProvider: PubSubProvider,
-  ) {}
+  ) { }
 
   @Mutation(() => PlayingInfo)
   createPlayingInfo(@Args('createPlayingInfoInput') createPlayingInfoInput: CreatePlayingInfoInput) {
@@ -40,7 +40,7 @@ export class PlayingInfoResolver {
   // }
 
   checkfinish(player1Score: number, player2Score: number) {
-    return player1Score >= 1 || player2Score >= 1;
+    return player1Score >= 2 || player2Score >= 2;
   }
 
   async updateGameEntity(updatePlayingInfoInput: UpdatePlayingInfoInput): Promise<Game> {

@@ -18,8 +18,6 @@ const MainPageHeader = () => {
   if (error) {
     return <Spinner m="5" ml="155" color={SPINNER_ERROR_COLOR} />;
   }
-  console.log('data main', data);
-  console.log('data isMatched', data.me.isMatched);
 
   return (
     <>

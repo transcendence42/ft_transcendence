@@ -23,18 +23,7 @@ const Game: React.FC = () => {
   if (!data.myGameRecords[data.myGameRecords.length - 1]) {
     window.location.replace('http://127.0.0.1:3000/');
     return <>game over</>;
-  }
-
-  // console.log('CP Container: ', data);
-  // if (!data || !data.isPlaying) {
-  //   history.push({
-  //     pathname: '/',
-  //   });
-  //   return <>game over</>;
-  // }
-
-  // RETURN 한번 해보기 history에
-  else {
+  } else {
     return (
       <MiddleSection middleSectionHeader={<GamePageHeader />}>
         <CrazyPongContainer data={data.myGameRecords[data.myGameRecords.length - 1]} />

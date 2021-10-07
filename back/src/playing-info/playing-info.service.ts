@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
+import { GamesService } from 'src/games/games.service';
 import { CreatePlayingInfoInput } from './dto/create-playing-info.input';
 import { UpdatePlayingInfoInput } from './dto/update-playing-info.input';
 import { PlayingInfo } from './entities/playing-info.entity';
@@ -37,6 +38,11 @@ const data = {
 };
 @Injectable()
 export class PlayingInfoService {
+
+  constructor(
+    private readonly gamesService: GamesService,
+  ) { };
+
   async create(createPlayingInfoInput: CreatePlayingInfoInput) {
     const playingInfo = new PlayingInfo();
     playingInfo.uuid = createPlayingInfoInput.uuid;
@@ -79,13 +85,15 @@ export class PlayingInfoService {
       if (player1Y + data.player1.paddleHeight >= ballY && player1Y <= ballY) {
         return { ...playingInfo, ballVelocityX: (playingInfo.ballVelocityX *= -1) };
       } else {
-        return {
+        const updateResult = {
           ...playingInfo,
           player2Score: (playingInfo.player2Score += 1),
           ballX: data.canvas.width / 2 - ballVelocityX,
           ballY: data.canvas.height / 2 - ballVelocityY,
           // gameStatus: 'end',
         };
+        this.gamesService.updatePlayerScore(updateResult.uuid, 2, updateResult.player2Score);
+        return updateResult;
       }
     }
 
@@ -94,13 +102,15 @@ export class PlayingInfoService {
       if (player2Y + data.player2.paddleHeight >= ballY && player2Y <= ballY) {
         return { ...playingInfo, ballVelocityX: (playingInfo.ballVelocityX *= -1) };
       } else {
-        return {
+        const updateResult = {
           ...playingInfo,
           player1Score: (playingInfo.player1Score += 1),
           ballX: data.canvas.width / 2 - ballVelocityX,
           ballY: data.canvas.height / 2 - ballVelocityY,
           // gameStatus: 'end',
         };
+        this.gamesService.updatePlayerScore(updateResult.uuid, 1, updateResult.player1Score);
+        return updateResult;
       }
     }
     return playingInfo;

@@ -9,4 +9,4 @@ import { UsersModule } from 'src/users/users.module';
   providers: [PlayingInfoResolver, PlayingInfoService],
   exports: [PlayingInfoService],
 })
-export class PlayingInfoModule {}
+export class PlayingInfoModule { }

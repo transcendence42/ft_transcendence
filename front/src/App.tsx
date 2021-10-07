@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import Chat from './pages/Chat';
 import Game from './pages/Game';
 import Login from './pages/Login';
+import Observer from './pages/Observer';
 import { NotFound } from './pages/NotFound';
 import { TwoFactorAuth } from './pages/TwoFactorAuth';
 import { useQuery } from '@apollo/client';
@@ -63,6 +64,7 @@ const App = () => {
               <Route exact path="/profile/:userID" component={Profile} />
               <Route path="/chat" component={Chat} />
               <Route path="/game" component={Game} />
+              <Route path="/observer" component={Observer} />
               <Route path="/404" component={NotFound} />
               <Redirect from="*" to="/404" />
             </Switch>
