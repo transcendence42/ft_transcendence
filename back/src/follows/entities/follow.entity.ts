@@ -27,11 +27,11 @@ export class Follow extends BaseEntity {
 
   @Column({ type: Boolean, default: false })
   @Field(() => Boolean, { defaultValue: false })
-  checked: Boolean;
+  checked: boolean;
 
   @Column({ type: Boolean, default: false })
   @Field(() => Boolean, { defaultValue: false })
-  blocked: Boolean;
+  blocked: boolean;
 
   @CreateDateColumn()
   @Field(() => Date, { defaultValue: new Date() })

@@ -32,3 +32,18 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
   @Field({ nullable: true })
   modifiedAt: Date;
 }
+
+@InputType()
+export class UpdateAfterGameInput extends PartialType(CreateUserInput) {
+  @Field(() => String)
+  userID: string;
+
+  @Field({ nullable: true })
+  userState: string;
+
+  @Field({ nullable: true })
+  isMatched: string;
+
+  @Field({ nullable: true })
+  modifiedAt: Date;
+}

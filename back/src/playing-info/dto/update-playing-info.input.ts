@@ -6,7 +6,7 @@ export class UpdatePlayingInfoInput extends PartialType(CreatePlayingInfoInput) 
   @Field(() => Int)
   index: number;
 
-  @Field({ nullable: true })
+  @Field(() => String)
   uuid: string;
 
   @Field({ nullable: true })

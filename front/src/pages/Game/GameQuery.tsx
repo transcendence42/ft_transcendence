@@ -1,16 +1,13 @@
 import { gql } from '@apollo/client';
 
-export const GET_GAME_LIST = gql`
+export const GET_MY_GAME_RECORDS = gql`
   query {
-    games {
+    myGameRecords {
       index
       uuid
       isPlaying
       playerOneID
-      playerOneScore
       playerTwoID
-      playerTwoScore
-      createdAt
     }
   }
 `;

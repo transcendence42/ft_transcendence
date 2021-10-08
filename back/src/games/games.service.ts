@@ -11,7 +11,6 @@ export class GamesService {
     const game = new Game();
     game.playerOneID = createGameInput.playerOneID;
     game.playerTwoID = createGameInput.playerTwoID;
-    game.uuid = createGameInput.uuid;
 
     const validate_error = await validate(game);
     if (validate_error.length > 0) {
@@ -27,7 +26,24 @@ export class GamesService {
     return games;
   }
 
+  /* 진행 중인 게임 찾기 */
   async findByUserID(userID: string) {
+    const games = await Game.getRepository()
+      .createQueryBuilder('game')
+      .where('game.finishedAt IS NULL')
+      .andWhere(
+        new Brackets((subQb) => {
+          subQb.where('game.playerOneID = :userID', { userID: userID });
+          subQb.orWhere('game.playerTwoID = :userID', { userID: userID });
+        }),
+      )
+      .getMany();
+    // console.log('game-services-findByUserID: ', games);
+    return games;
+  }
+
+  /* 종료한 게임 찾기 */
+  async findEndGameByUserID(userID: string) {
     const games = await Game.getRepository()
       .createQueryBuilder('game')
       .where('game.finishedAt IS NOT NULL')
@@ -46,8 +62,16 @@ export class GamesService {
     return game;
   }
 
-  async update(index: number, updateGameInput: UpdateGameInput) {
-    const game = await Game.findOne(index);
+  async findOneByUuid(uuid: string) {
+    const game = await Game.getRepository()
+      .createQueryBuilder('game')
+      .where('game.uuid = :uuid', { uuid: uuid })
+      .getOne();
+    return game;
+  }
+
+  async update(uuid: string, updateGameInput: UpdateGameInput) {
+    const game = await this.findOneByUuid(uuid);
     game.isPlaying = updateGameInput.isPlaying;
     game.playerOneID = updateGameInput.playerOneID;
     game.playerOneScore = updateGameInput.playerOneScore;
@@ -55,6 +79,22 @@ export class GamesService {
     game.playerTwoScore = updateGameInput.playerTwoScore;
     game.finishedAt = updateGameInput.finishedAt;
     game.modifiedAt = updateGameInput.modifiedAt;
+    const validate_error = await validate(game);
+    if (validate_error.length > 0) {
+      const _error = { game: 'Game Input is not valid' };
+      throw new HttpException({ message: 'Game Input validation failed', _error }, HttpStatus.BAD_REQUEST);
+    } else {
+      return await Game.save(game);
+    }
+  }
+
+  async updatePlayerScore(uuid: string, playerNumber: number, newScore: number) {
+    const game = await this.findOneByUuid(uuid);
+    if (playerNumber === 1) {
+      game.playerOneScore = newScore;
+    } else if (playerNumber === 2) {
+      game.playerTwoScore = newScore;
+    }
     const validate_error = await validate(game);
     if (validate_error.length > 0) {
       const _error = { game: 'Game Input is not valid' };

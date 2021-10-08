@@ -1,16 +1,5 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  GqlExecutionContext,
-  ResolveField,
-  Parent,
-  Int,
-  Context,
-  GraphQLExecutionContext,
-} from '@nestjs/graphql';
-import { Inject, createParamDecorator, ExecutionContext, UseGuards, UnauthorizedException } from '@nestjs/common';
+import { Resolver, Query, Mutation, Args, GqlExecutionContext, ResolveField, Parent, Int } from '@nestjs/graphql';
+import { Inject, createParamDecorator, ExecutionContext, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
@@ -22,7 +11,6 @@ import { Alarm } from 'src/alarms/entities/alarm.entity';
 import { FollowsService } from 'src/follows/follows.service';
 import { createWriteStream } from 'fs';
 import { GraphQLUpload, FileUpload } from 'graphql-upload';
-import { response } from 'express';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);

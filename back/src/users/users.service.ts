@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { UpdateAfterGameInput, UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 import { validate } from 'class-validator';
 import { AlarmsService } from 'src/alarms/alarms.service';
@@ -59,6 +59,7 @@ export class UsersService {
 
   async update(userID: string, updateUserInput: UpdateUserInput) {
     const user = await User.findOne({ userID: userID });
+    console.log('user update: ', updateUserInput);
     user.userID = updateUserInput.userID;
     user.nickname = updateUserInput.nickname;
     user.avatar = updateUserInput.avatar;
@@ -68,6 +69,22 @@ export class UsersService {
     user.isMatched = updateUserInput.isMatched;
     user.userState = updateUserInput.userState;
     user.modifiedAt = updateUserInput.modifiedAt;
+    const validate_error = await validate(user);
+    if (validate_error.length > 0) {
+      const _error = { username: 'UserInput is not valid check type' };
+      throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
+    } else {
+      return await User.save(user);
+    }
+  }
+
+  async updateAfterGame(userID: string, updateAfterGameInput: UpdateAfterGameInput) {
+    const user = await User.findOne({ userID: userID });
+    user.userID = updateAfterGameInput.userID;
+    user.isMatched = updateAfterGameInput.isMatched;
+    user.userState = updateAfterGameInput.userState;
+    user.modifiedAt = updateAfterGameInput.modifiedAt;
+
     const validate_error = await validate(user);
     if (validate_error.length > 0) {
       const _error = { username: 'UserInput is not valid check type' };

@@ -77,6 +77,7 @@ export interface PlayerInfo {
 }
 
 export interface GameCardProps {
+  uuid: string;
   playerA: PlayerInfo;
   playerB: PlayerInfo;
   startTime: Date;
@@ -105,6 +106,7 @@ export interface IProfileLarge {
 
 export interface IGame {
   id: number;
+  uuid: string;
   isPlaying: boolean;
   playerOneID: string;
   playerOneScore: number;
