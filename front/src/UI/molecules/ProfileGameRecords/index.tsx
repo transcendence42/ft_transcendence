@@ -36,9 +36,9 @@ const getOpponentUserID = (userID: string | undefined, data: ITableData) => {
 };
 
 const refineData = (userID: string | undefined, tableData: Array<ITableData>) => {
-  return tableData.map((x) => {
+  return tableData.map((x, i) => {
     return {
-      index: '1',
+      index: i + 1,
       result: getGameResult(userID, x),
       score: getGameScore(userID, x),
       playTime: convertTimestampToPlaytime(Date.parse(x.finishedAt) - Date.parse(x.createdAt)),
@@ -48,8 +48,22 @@ const refineData = (userID: string | undefined, tableData: Array<ITableData>) =>
   });
 };
 
+const postgresTimeCompare = (timestamp: string, timestamp2: string): number => {
+  // [year, month, date, hour, minute, second]
+  const dateTime = timestamp.substring(0, 19).split('T');
+  const [year, month, date, hour, minute, second] = [...dateTime[0].split('-'), ...dateTime[1].split(':')];
+  return new Date(Number(year), Number(month), Number(date), Number(hour), Number(minute), Number(second)).getTime();
+};
+
 const DataTable = ({ tableData, userID }: IGameRecords) => {
-  const data = refineData(userID, tableData);
+  const dataSort = [...tableData].sort((a, b) => {
+    const dateA = postgresTimeCompare(a.createdAt);
+    const dateB = postgresTimeCompare(b.createdAt);
+    return dateA < dateB ? 1 : -1;
+  });
+  const data = refineData(userID, dataSort);
+  console.log('redefined: ', data);
+
   const columns = React.useMemo(
     () => [
       {

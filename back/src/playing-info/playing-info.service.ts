@@ -127,6 +127,14 @@ export class PlayingInfoService {
       sequence: playingInfo.sequence + 1,
     });
 
+    const checkfinish = (player1Score: number, player2Score: number) => {
+      return player1Score >= 2 || player2Score >= 2;
+    };
+
+    if (checkfinish(playingInfo.player1Score, playingInfo.player2Score)) {
+      return collisionInfoInput;
+    }
+
     const validate_error = await validate(collisionInfoInput);
     if (validate_error.length > 0) {
       const _error = { playingInfo: 'PlayingInfo Input is not valid' };

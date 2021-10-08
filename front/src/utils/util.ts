@@ -49,7 +49,7 @@ const convertTimestampToPlaytime = (timestamp: number) => {
 
 const convertTimestampToDate = (timestamp: number) => {
   const date = new Date(timestamp);
-  const month = date.getMonth();
+  const month = date.getMonth() + 1;
   const day = date.getDate();
   const hours = date.getHours();
   const minutes = date.getMinutes();

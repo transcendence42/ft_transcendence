@@ -9,7 +9,7 @@ interface stateType {
   uuid: string;
 }
 
-const END_SCORE = 3;
+const END_SCORE = 2;
 const MAIN_URL = 'http://127.0.0.1:3000/';
 
 const gameOver = (player1Score: number, player2Score: number) => {

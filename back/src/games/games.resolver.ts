@@ -34,7 +34,7 @@ export class GamesResolver {
 
   @Query(() => [Game], { name: 'gameRecords' })
   findByUserID(@Args('userID', { type: () => String }) userID: string) {
-    return this.gamesService.findByUserID(userID);
+    return this.gamesService.findEndGameByUserID(userID);
   }
 
   // not working
