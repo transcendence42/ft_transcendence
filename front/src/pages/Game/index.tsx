@@ -4,10 +4,8 @@ import GamePageHeader from '../../UI/organisms/GamePageHeader';
 import { useQuery } from '@apollo/client';
 import { GET_MY_GAME_RECORDS } from './GameQuery';
 import { CrazyPongContainer } from '../../UI/organisms/CrazyPong';
-// import { useHistory } from 'react-router-dom';
 
 const Game: React.FC = () => {
-  // const history = useHistory();
   const { loading, error, data } = useQuery(GET_MY_GAME_RECORDS, {
     pollInterval: 1000,
   });
