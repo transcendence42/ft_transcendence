@@ -16,7 +16,7 @@ const GamePageHeader = ({ playerOneID, playerTwoID }: IPlayers) => {
   if (error || playerTwoIDQuery?.error) {
     console.log('playerOneIDQuery: ', error);
     console.log('playerTwoIDQuery: ', playerTwoIDQuery?.error);
-    return <>GamePageHeader error</>;
+    return <>GamePageHeadererror</>;
   }
 
   return (
@@ -45,7 +45,7 @@ const GamePageHeader = ({ playerOneID, playerTwoID }: IPlayers) => {
           totalWin={playerTwoIDQuery.data.user.totalWin}
           totalLose={playerTwoIDQuery.data.user.totalLose}
           winningPercentage={winRate(playerTwoIDQuery.data.user.totalWin, playerTwoIDQuery.data.user.totalLose)}
-          reverse={false}
+          reverse={true}
         />
       </Box>
     </>
