@@ -38,10 +38,7 @@ const data = {
 };
 @Injectable()
 export class PlayingInfoService {
-
-  constructor(
-    private readonly gamesService: GamesService,
-  ) { };
+  constructor(private readonly gamesService: GamesService) {}
 
   async create(createPlayingInfoInput: CreatePlayingInfoInput) {
     const playingInfo = new PlayingInfo();
@@ -118,8 +115,6 @@ export class PlayingInfoService {
 
   async update(uuid: string, updatePlayingInfoInput: UpdatePlayingInfoInput) {
     const playingInfo = await this.findOneByUuid(uuid);
-    // console.log('uuid: ', uuid);
-    // console.log('playing-info update: ', playingInfo);
 
     playingInfo.ballX = playingInfo.ballX + playingInfo.ballVelocityX;
     playingInfo.ballY = playingInfo.ballY + playingInfo.ballVelocityY;

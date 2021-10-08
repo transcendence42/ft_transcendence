@@ -86,9 +86,7 @@ export class GamesResolver {
     this.usersService.updateIsMatched(player1, 'matched');
     this.usersService.updateIsMatched(player2, 'matched');
     const createPlayingInfo: CreatePlayingInfoInput = { uuid: newGame.uuid };
-    const newPlayingInfo = await this.playingInfoService.create(createPlayingInfo);
-    console.log('newGame', newGame);
-    console.log('newPlayingInfo', newPlayingInfo);
+    await this.playingInfoService.create(createPlayingInfo);
     return newGame;
   }
 }
