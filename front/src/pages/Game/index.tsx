@@ -19,13 +19,19 @@ const Game: React.FC = () => {
   if (error) {
     return <p>game component error</p>;
   }
-
   if (!data.myGameRecords[data.myGameRecords.length - 1]) {
     window.location.replace('http://127.0.0.1:3000/');
     return <>game over</>;
   } else {
     return (
-      <MiddleSection middleSectionHeader={<GamePageHeader />}>
+      <MiddleSection
+        middleSectionHeader={
+          <GamePageHeader
+            playerOneID={data.myGameRecords[data.myGameRecords.length - 1].playerOneID}
+            playerTwoID={data.myGameRecords[data.myGameRecords.length - 1].playerTwoID}
+          />
+        }
+      >
         <CrazyPongContainer data={data.myGameRecords[data.myGameRecords.length - 1]} />
       </MiddleSection>
     );
