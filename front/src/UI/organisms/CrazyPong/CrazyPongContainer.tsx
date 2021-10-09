@@ -42,12 +42,6 @@ export const CrazyPongContainer = ({ data }: { data: Game }) => {
     }
   }, [inputName]);
 
-  // if (mutation)
-  // 반환값 매칭이 아니면 return ;
-  // 매칭이 되면 uuid 반환 받아서 그거 밑에 넣기
-
-  // console.log('userID ', location.state.userID);
-
   const updatePlayingInfoHandler = (playingInfo: IPlayingUpdateInfo) => {
     const { index, ballX, ballY, ballVelocityX, ballVelocityY, player1Y, player2Y, player1Score, player2Score } =
       playingInfo;

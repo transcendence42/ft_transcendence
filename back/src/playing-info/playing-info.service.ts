@@ -38,10 +38,7 @@ const data = {
 };
 @Injectable()
 export class PlayingInfoService {
-
-  constructor(
-    private readonly gamesService: GamesService,
-  ) { };
+  constructor(private readonly gamesService: GamesService) {}
 
   async create(createPlayingInfoInput: CreatePlayingInfoInput) {
     const playingInfo = new PlayingInfo();
@@ -118,8 +115,6 @@ export class PlayingInfoService {
 
   async update(uuid: string, updatePlayingInfoInput: UpdatePlayingInfoInput) {
     const playingInfo = await this.findOneByUuid(uuid);
-    // console.log('uuid: ', uuid);
-    // console.log('playing-info update: ', playingInfo);
 
     playingInfo.ballX = playingInfo.ballX + playingInfo.ballVelocityX;
     playingInfo.ballY = playingInfo.ballY + playingInfo.ballVelocityY;
@@ -131,6 +126,14 @@ export class PlayingInfoService {
       ballY: playingInfo.ballY,
       sequence: playingInfo.sequence + 1,
     });
+
+    const checkfinish = (player1Score: number, player2Score: number) => {
+      return player1Score >= 2 || player2Score >= 2;
+    };
+
+    if (checkfinish(playingInfo.player1Score, playingInfo.player2Score)) {
+      return collisionInfoInput;
+    }
 
     const validate_error = await validate(collisionInfoInput);
     if (validate_error.length > 0) {

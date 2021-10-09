@@ -28,18 +28,6 @@ const MainButtons = ({ userID, isMatched }) => {
     return <p>error gameQueue</p>;
   }
 
-  // console.log(data);
-
-  /* TODO:: back에서 mutation 받음. 같이 /game 페이지로 리다이렉션 및 정보 보냄 */
-
-  // 해볼 순서
-  // 1. data?.gameQueue 가 잘 들어오는지 확인
-  // 2. 아래 redirect 가 잘 동작하는지 주석 풀고 확인
-  // 3. uuid 로직 어떻게 짤지
-  // 4. redirect에 해당 정보 같이 보내기.
-  // console.log('data', data);
-  // console.log('isMatched', isMatched);
-
   if (isMatched === 'matched') {
     history.push({
       pathname: '/game',
@@ -47,12 +35,10 @@ const MainButtons = ({ userID, isMatched }) => {
         userID: userID,
       },
     });
-    // console.log('data1', data);
   }
 
   if (data) {
     if (data?.gameQueue) {
-      // console.log('data2', data);
       history.push({
         pathname: '/game',
         state: {

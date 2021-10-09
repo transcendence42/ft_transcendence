@@ -187,6 +187,11 @@ export interface IPlayingUpdateInfo {
   createdAt?: string;
 }
 
+export interface IPlayers {
+  playerOneID: string;
+  playerTwoID: string;
+}
+
 /*
  ** Profile
  */

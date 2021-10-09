@@ -8,7 +8,7 @@ import { GamesService } from 'src/games/games.service';
 import { UpdateGameInput } from 'src/games/dto/update-game.input';
 import { Game } from 'src/games/entities/game.entity';
 import { UsersService } from 'src/users/users.service';
-import { UpdateAfterGameInput, UpdateUserInput } from 'src/users/dto/update-user.input';
+import { UpdateAfterGameInput } from 'src/users/dto/update-user.input';
 
 @Resolver(() => PlayingInfo)
 export class PlayingInfoResolver {
@@ -17,7 +17,7 @@ export class PlayingInfoResolver {
     private readonly gamesService: GamesService,
     private readonly usersService: UsersService,
     private readonly pubSubProvider: PubSubProvider,
-  ) { }
+  ) {}
 
   @Mutation(() => PlayingInfo)
   createPlayingInfo(@Args('createPlayingInfoInput') createPlayingInfoInput: CreatePlayingInfoInput) {
@@ -40,6 +40,7 @@ export class PlayingInfoResolver {
   // }
 
   checkfinish(player1Score: number, player2Score: number) {
+    // Number(process.env.END_SCORE)
     return player1Score >= 2 || player2Score >= 2;
   }
 
@@ -80,7 +81,7 @@ export class PlayingInfoResolver {
     if (this.checkfinish(playingInfo.player1Score, playingInfo.player2Score)) {
       this.updateGameEntity(playingInfo);
       const getPlayerName = await this.gamesService.findOneByUuid(updatePlayingInfoInput.uuid);
-      console.log('update-playing-info: ', getPlayerName);
+      // console.log('update-playing-info: ', getPlayerName);
       this.updateUserIsMatchedFalse(getPlayerName.playerOneID, getPlayerName.playerTwoID);
       return playingInfo;
     }

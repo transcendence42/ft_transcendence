@@ -105,8 +105,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-10-07T12:55:12.361Z"
-  modifiedAt: DateTime = "2021-10-07T12:55:12.361Z"
+  createdAt: DateTime = "2021-10-08T13:35:23.812Z"
+  modifiedAt: DateTime = "2021-10-08T13:35:23.812Z"
 }
 
 input user {
@@ -123,8 +123,8 @@ input user {
   followers: [follow!]
   userState: String = "login"
   isMatched: String = "notMatched"
-  createdAt: DateTime = "2021-10-07T12:55:12.362Z"
-  modifiedAt: DateTime = "2021-10-07T12:55:12.362Z"
+  createdAt: DateTime = "2021-10-08T13:35:23.812Z"
+  modifiedAt: DateTime = "2021-10-08T13:35:23.812Z"
 }
 
 type Query {
@@ -275,7 +275,7 @@ input UpdateGameInput {
   playerOneScore: Int
   playerTwoScore: Int
   finishedAt: DateTime
-  modifiedAt: DateTime = "2021-10-07T12:55:12.550Z"
+  modifiedAt: DateTime = "2021-10-08T13:35:23.943Z"
 }
 
 input CreateChatInput {

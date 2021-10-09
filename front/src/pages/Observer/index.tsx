@@ -9,11 +9,17 @@ interface stateType {
   uuid: string;
 }
 
+const END_SCORE = 2;
+const MAIN_URL = 'http://127.0.0.1:3000/';
+
+const gameOver = (player1Score: number, player2Score: number) => {
+  return player1Score >= END_SCORE || player2Score >= END_SCORE;
+};
+
 const Observer: React.FC = () => {
   const location = useLocation<stateType>();
   const [inputName] = useState('');
 
-  console.log(location);
   const subscriptionCrazyPong = useSubscription(SUBSCRIBE_CRAZYPONG, {
     variables: {
       uuid: location.state.uuid,
@@ -33,6 +39,11 @@ const Observer: React.FC = () => {
   }
   if (subscriptionCrazyPong.error) {
     return <p>subscription error</p>;
+  }
+
+  const { player1Score, player2Score } = subscriptionCrazyPong.data?.playingInfo;
+  if (gameOver(player1Score, player2Score)) {
+    window.location.replace(MAIN_URL);
   }
   return (
     <CrazyPongPresenter

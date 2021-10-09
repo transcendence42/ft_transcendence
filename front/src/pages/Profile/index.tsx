@@ -14,7 +14,6 @@ const Profile: React.FC = (props) => {
   if (error) {
     console.log('error');
   }
-  console.log('USER DATA ', data);
   const userID = props.match.params.userID ? props.match.params.userID : data?.me.userID;
   return (
     <MiddleSectionTemplate middleSectionHeader={<ProfilePageHeader userID={props.match.params.userID} />}>
