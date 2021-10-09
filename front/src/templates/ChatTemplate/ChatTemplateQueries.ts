@@ -11,6 +11,7 @@ export const GET_CURRENT_USERID = gql`
       totalWin
       totalLose
       modifiedAt
+      isMatched
       followings {
         following {
           index

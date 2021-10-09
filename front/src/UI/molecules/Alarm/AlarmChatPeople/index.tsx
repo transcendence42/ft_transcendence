@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useMutation, useReactiveVar } from '@apollo/client';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { ContextMenu } from 'holee-contextmenu';
 
 import { currentChatVar, currentLoginIDVar } from '../../../../apollo/apolloProvider';
@@ -13,6 +13,7 @@ import {
   CREATE_DM,
   CREATE_ALARM,
   CREATE_FOLLOW,
+  GAME_WITH_FRIEND,
 } from './AlarmChatPeopleQueries';
 
 const AlarmChatPerson = ({ outerRef, username, ownerID, adminID = [] }) => {
@@ -38,6 +39,36 @@ export const AlarmChatPeople = ({ ...props }) => {
   const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
   const loginID = currentLoginIDVar();
   const currentChatUUID = useReactiveVar(currentChatVar);
+
+  const history = useHistory();
+  const [gameWithFriend] = useMutation(GAME_WITH_FRIEND, {
+    variables: {
+      players: {
+        playerOneID: username,
+        playerTwoID: loginID,
+      },
+    },
+  });
+
+  const gameQueue = async (myId: string, userID: string) => {
+    await gameWithFriend({
+      variables: {
+        players: {
+          playerOneID: userID,
+          playerTwoID: myId,
+        },
+      },
+    });
+  };
+
+  const redirectGamePage = () => {
+    history.push({
+      pathname: '/game',
+      state: {
+        userID: loginID,
+      },
+    });
+  };
 
   const handleAddFriend = async () => {
     await createFollow({
@@ -173,7 +204,8 @@ export const AlarmChatPeople = ({ ...props }) => {
           await handleAddFriend();
           break;
         case 'play-game':
-          console.log(eventTarget.dataset.option);
+          gameQueue(loginID, username);
+          redirectGamePage();
           break;
         case 'register-admin':
           await handleRegisterAdmin();

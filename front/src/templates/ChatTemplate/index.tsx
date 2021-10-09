@@ -12,16 +12,30 @@ import {
 } from '../../utils/constants';
 import { GET_CURRENT_USERID } from './ChatTemplateQueries';
 import { currentLoginIDVar } from '../../apollo/apolloProvider';
+import { useHistory } from 'react-router';
 
 const ChatTemplate = () => {
+  const history = useHistory();
   // 로그인 ID 가져오기
-  const { data, loading, error } = useQuery(GET_CURRENT_USERID);
+  const { data, loading, error } = useQuery(GET_CURRENT_USERID, {
+    pollInterval: 200,
+  });
   if (loading) {
     return <>Loading...</>;
   }
   if (error) {
     return <>ERROR</>;
   }
+
+  if (data?.me.isMatched === 'matched') {
+    history.push({
+      pathname: '/game',
+      state: {
+        userID: data.me.userID,
+      },
+    });
+  }
+
   currentLoginIDVar(data.me.userID);
   return (
     <Grid minH="100vh" width="920px" margin="20px" templateRows="repeat(2, 1fr)">

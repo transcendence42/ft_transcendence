@@ -10,7 +10,6 @@ export const ChatLogSendBox = ({ ...props }) => {
   //mutation
   const [createChatLog] = useMutation(CREATE_CHAT_LOG);
   const inputRef = useRef<HTMLInputElement>();
-  const tempRef = useRef<HTMLInputElement>(); // TODO: 삭제 할 것.
   const currentChat = useReactiveVar(currentChatVar);
 
   // 로그인 ID 가져오기
@@ -19,11 +18,7 @@ export const ChatLogSendBox = ({ ...props }) => {
     if (inputRef.current.value === '') {
       return;
     }
-    // TODO: 삭제 할 것.
-    if (!['devil', 'holee', 'jwon', 'yechoi', 'yshin'].includes(tempRef.current.value)) {
-      return;
-    }
-    if (muteIDList.includes(tempRef.current.value)) {
+    if (muteIDList.includes(loginID)) {
       inputRef.current.value = '';
       return;
     }
@@ -31,7 +26,7 @@ export const ChatLogSendBox = ({ ...props }) => {
       variables: {
         user: {
           chatUUID: currentChat,
-          userID: tempRef.current.value ? tempRef.current.value : loginID, // TODO: session 값으로 변경 할 것.
+          userID: loginID,
           message: inputRef.current.value,
           type: 'message',
         },
@@ -54,11 +49,7 @@ export const ChatLogSendBox = ({ ...props }) => {
   return (
     <>
       <Grid templateColumns="2fr 7fr 1fr" pt={2}>
-        {/* TODO: 임시 아이디 입력칸 삭제할 것. 상기 grid template 조절할 것. */}
-        <GridItem colSpan={1}>
-          <Input placeholder="임시 아이디" ref={tempRef}></Input>
-        </GridItem>
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <Input placeholder="메시지를 입력하세요" ref={inputRef} onKeyPress={(e) => handleKeyPressInput(e)}></Input>
         </GridItem>
         <GridItem colSpan={1}>

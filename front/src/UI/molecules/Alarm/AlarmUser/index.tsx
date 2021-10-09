@@ -33,7 +33,7 @@ export const AlarmUser = ({
   myId: string;
 }) => {
   const history = useHistory();
-  const [gameWithFriend, { data }] = useMutation(GAME_WITH_FRIEND, {
+  const [gameWithFriend] = useMutation(GAME_WITH_FRIEND, {
     variables: {
       players: {
         playerOneID: nickName,
@@ -54,7 +54,6 @@ export const AlarmUser = ({
   };
 
   const redirectGamePage = () => {
-    console.log('redirectGamePage data: ', data);
     history.push({
       pathname: '/game',
       state: {
