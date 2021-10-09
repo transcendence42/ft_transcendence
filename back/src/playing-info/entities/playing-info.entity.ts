@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { CreateDateColumn, PrimaryGeneratedColumn, BaseEntity, Entity, Column, UpdateDateColumn } from 'typeorm';
 
 @Entity('PlayingInfo')
@@ -12,12 +12,12 @@ export class PlayingInfo extends BaseEntity {
   @Field()
   uuid: string;
 
-  @Column({ type: 'integer', nullable: true, default: 20 })
-  @Field(() => Int, { nullable: true, defaultValue: 20 })
+  @Column({ type: 'float', nullable: true, default: 20 })
+  @Field(() => Float, { nullable: true, defaultValue: 20 })
   ballX: number;
 
-  @Column({ type: 'integer', nullable: true, default: 200 })
-  @Field(() => Int, { nullable: true, defaultValue: 200 })
+  @Column({ type: 'float', nullable: true, default: 200 })
+  @Field(() => Float, { nullable: true, defaultValue: 200 })
   ballY: number;
 
   @Column({ type: 'integer', nullable: true, default: 5 })
@@ -28,11 +28,11 @@ export class PlayingInfo extends BaseEntity {
   @Field(() => Int, { nullable: true, defaultValue: 5 })
   ballVelocityY: number;
 
-  @Column({ type: 'integer', nullable: true, default: 350 })
+  @Column({ type: 'float', nullable: true, default: 350 })
   @Field({ nullable: true, defaultValue: 350 })
   player1Y: number;
 
-  @Column({ type: 'integer', nullable: true, default: 350 })
+  @Column({ type: 'float', nullable: true, default: 350 })
   @Field({ nullable: true, defaultValue: 350 })
   player2Y: number;
 

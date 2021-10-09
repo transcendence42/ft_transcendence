@@ -5,7 +5,6 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GET_CURRENT_USERID } from '../../../templates/ChatTemplate/ChatTemplateQueries';
 
 const FollowButton = ({ followingID }: { followingID: string }) => {
-  console.log('follow Btn: ', followingID);
   const { data, error, loading } = useQuery(GET_CURRENT_USERID);
   const [createFollow] = useMutation(CREATE_FOLLOW);
   const [createAlarm] = useMutation(CREATE_ALARM);

@@ -8,9 +8,7 @@ import { AlarmUserListPresenter } from './AlarmUserListPresenter';
 import { GET_ALARM_USER_LIST } from './AlarmUserListQueries';
 
 export const AlarmUserListContainer = () => {
-  const { loading, error, data } = useQuery(GET_ALARM_USER_LIST, {
-    variables: { userID: 'holee' },
-  });
+  const { loading, error, data } = useQuery(GET_ALARM_USER_LIST);
 
   if (loading) {
     return <Spinner m="5" ml="155" color={SPINNER_COLOR} />;
@@ -19,5 +17,5 @@ export const AlarmUserListContainer = () => {
     return <Spinner m="5" ml="155" color={SPINNER_ERROR_COLOR} />;
   }
 
-  return <AlarmUserListPresenter data={data.me.followings} />;
+  return <AlarmUserListPresenter data={data.me.followings} myId={data.me.userID} />;
 };

@@ -59,7 +59,7 @@ export const CrazyPongPresenter = ({
             }
             pongSequence = sequence;
             serverTime = Date.parse(String(postgresTimeToDate(modifiedAt)));
-            console.log(modifiedAt, sequence, ballX, ballY, player1Y, player2Y);
+            // console.log(modifiedAt, sequence, ballX, ballY, player1Y, player2Y);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             drawText(ctx, String(player1Score), canvas.width / 4 - 20, canvas.height / 5, 'white');
