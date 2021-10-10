@@ -11,7 +11,7 @@ import {
   ALARM_BACKGROUND_COLOR,
 } from '../../../utils/constants';
 
-export const AlarmUserListPresenter = ({ data }) => {
+export const AlarmUserListPresenter = ({ data, myId }) => {
   return (
     <AccordionItem>
       <h2>
@@ -33,7 +33,7 @@ export const AlarmUserListPresenter = ({ data }) => {
         {data.map(({ following }) => {
           if (following) {
             const { index, userID, userState, avatar } = following;
-            return <AlarmUser key={index} nickName={userID} userState={userState} avatar={avatar} />;
+            return <AlarmUser key={index} nickName={userID} userState={userState} avatar={avatar} myId={myId} />;
           }
           return null;
         })}

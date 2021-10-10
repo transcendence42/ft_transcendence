@@ -11,7 +11,6 @@ const GamePageHeader = ({ playerOneID, playerTwoID }: IPlayers) => {
   const { loading, error, data } = useQuery(GET_OTHERS_PROFILE(playerOneID));
   const playerTwoIDQuery = useQuery(GET_OTHERS_PROFILE(playerTwoID));
 
-  console.log('playerone: ', data);
   if (loading || playerTwoIDQuery?.loading) return <>loading</>;
   if (error || playerTwoIDQuery?.error) {
     console.log('playerOneIDQuery: ', error);

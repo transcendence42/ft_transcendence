@@ -62,8 +62,8 @@ type Game {
 type PlayingInfo {
   index: Int!
   uuid: String!
-  ballX: Int
-  ballY: Int
+  ballX: Float
+  ballY: Float
   ballVelocityX: Int
   ballVelocityY: Int
   player1Y: Float
@@ -105,8 +105,8 @@ input follow {
   follower: user
   checked: Boolean = false
   blocked: Boolean = false
-  createdAt: DateTime = "2021-10-08T13:35:23.812Z"
-  modifiedAt: DateTime = "2021-10-08T13:35:23.812Z"
+  createdAt: DateTime = "2021-10-09T14:09:04.331Z"
+  modifiedAt: DateTime = "2021-10-09T14:09:04.331Z"
 }
 
 input user {
@@ -123,8 +123,8 @@ input user {
   followers: [follow!]
   userState: String = "login"
   isMatched: String = "notMatched"
-  createdAt: DateTime = "2021-10-08T13:35:23.812Z"
-  modifiedAt: DateTime = "2021-10-08T13:35:23.812Z"
+  createdAt: DateTime = "2021-10-09T14:09:04.331Z"
+  modifiedAt: DateTime = "2021-10-09T14:09:04.331Z"
 }
 
 type Query {
@@ -180,6 +180,7 @@ type Mutation {
   updateGame(updateGameInput: UpdateGameInput!): Game!
   removeGame(index: Int!): Game!
   gameQueue(userID: String!): Game
+  gameWithFriend(players: CreateGameInput!): Game
   createChat(createChatInput: CreateChatInput!): Chat!
   updateChat(updateChatInput: UpdateChatInput!): Chat!
   removeChat(uuid: String!): Chat!
@@ -275,7 +276,7 @@ input UpdateGameInput {
   playerOneScore: Int
   playerTwoScore: Int
   finishedAt: DateTime
-  modifiedAt: DateTime = "2021-10-08T13:35:23.943Z"
+  modifiedAt: DateTime = "2021-10-09T14:09:04.422Z"
 }
 
 input CreateChatInput {

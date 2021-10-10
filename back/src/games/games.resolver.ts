@@ -10,6 +10,7 @@ import { CurrentUser } from 'src/users/users.resolver';
 import { UsersService } from 'src/users/users.service';
 import { CreatePlayingInfoInput } from 'src/playing-info/dto/create-playing-info.input';
 import { PlayingInfoService } from 'src/playing-info/playing-info.service';
+import { string } from 'joi';
 
 const gameQueue = [];
 
@@ -66,7 +67,6 @@ export class GamesResolver {
     }
 
     gameQueue.push(userID);
-    console.log(1, userID, gameQueue);
     // 2. 매칭 안됐을때
     // user isMatched를 waiting 으로 바꾸기
     if (gameQueue.length <= 1) {
@@ -74,7 +74,6 @@ export class GamesResolver {
       return null;
     }
 
-    console.log(2, userID, gameQueue);
     // 3. 매칭 되었을때
     // 3명 이상일땐 작동안함.
     // user isMatched를 matched로 바꾸기
@@ -85,6 +84,18 @@ export class GamesResolver {
     const newGame = await this.gamesService.create(newGameInput);
     this.usersService.updateIsMatched(player1, 'matched');
     this.usersService.updateIsMatched(player2, 'matched');
+    const createPlayingInfo: CreatePlayingInfoInput = { uuid: newGame.uuid };
+    await this.playingInfoService.create(createPlayingInfo);
+    return newGame;
+  }
+
+  @Mutation(() => Game, { nullable: true })
+  async gameWithFriend(@Args('players', { type: () => CreateGameInput }) players: CreateGameInput) {
+    // uuid 생성로직
+    const newGameInput: CreateGameInput = { playerOneID: players.playerOneID, playerTwoID: players.playerTwoID };
+    const newGame = await this.gamesService.create(newGameInput);
+    this.usersService.updateIsMatched(players.playerOneID, 'matched');
+    this.usersService.updateIsMatched(players.playerTwoID, 'matched');
     const createPlayingInfo: CreatePlayingInfoInput = { uuid: newGame.uuid };
     await this.playingInfoService.create(createPlayingInfo);
     return newGame;
