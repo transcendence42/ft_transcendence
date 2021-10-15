@@ -12,10 +12,6 @@ import {
   ALARM_CONTENT_FONTWEIGHT,
   ALARM_USER_NICKNAME_FONTSIZE,
   TOAST_DURATION,
-  TOAST_SEND_MESSAGE_TITLE,
-  TOAST_SEND_MESSAGE_DESCRIPTION,
-  TOAST_ADD_FRIEND_TITLE,
-  TOAST_ADD_FRIEND_DESCRIPTION,
   TOAST_PLAY_GAME_TITLE,
   TOAST_PLAY_GAME_DESCRIPTION,
 } from '../../../../utils/constants';
@@ -79,24 +75,17 @@ export const AlarmUser = ({
     if (eventTarget) {
       switch (eventTarget.dataset.option) {
         case 'profile':
+          history.push({
+            pathname: `/profile/${nickName}`,
+            state: {
+              userID: myId,
+            },
+          });
           break;
         case 'send-message':
-          toast({
-            title: TOAST_SEND_MESSAGE_TITLE,
-            description: TOAST_SEND_MESSAGE_DESCRIPTION,
-            status: 'success',
-            duration: TOAST_DURATION,
-            isClosable: true,
-          });
+          // 추가 위치
           break;
         case 'add-friend':
-          toast({
-            title: TOAST_ADD_FRIEND_TITLE,
-            description: TOAST_ADD_FRIEND_DESCRIPTION,
-            status: 'success',
-            duration: TOAST_DURATION,
-            isClosable: true,
-          });
           break;
         case 'play-game':
           gameQueue(myId, nickName);
