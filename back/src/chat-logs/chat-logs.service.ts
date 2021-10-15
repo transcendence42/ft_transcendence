@@ -25,8 +25,11 @@ export class ChatLogsService {
       const error = { userID: `user(ID: ${createChatLogInput.userID}) does not exist.` };
       throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
     });
-    //음소거 된 유저가 메세지를 보낼 경우
-    if (createChatLogInput.type === 'message' && chat.muteID.includes(user.userID)) {
+    //음소거 된 유저가 메세지를 보낼 경우 또는 채팅방에 없는 유저가 메세지를 보낼 경우 400
+    if (
+      createChatLogInput.type === 'message' &&
+      (chat.muteID.includes(user.userID) || !chat.userId.includes(user.userID))
+    ) {
       throw new HttpException({ message: 'Input data validation failed' }, HttpStatus.BAD_REQUEST);
     }
     const chatLog = new ChatLog();
