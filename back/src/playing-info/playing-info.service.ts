@@ -5,6 +5,8 @@ import { CreatePlayingInfoInput } from './dto/create-playing-info.input';
 import { UpdatePlayingInfoInput } from './dto/update-playing-info.input';
 import { PlayingInfo } from './entities/playing-info.entity';
 
+const END_SCORE = 2;
+
 const data = {
   canvas: {
     height: 800,
@@ -128,10 +130,15 @@ export class PlayingInfoService {
     });
 
     const checkfinish = (player1Score: number, player2Score: number) => {
-      return player1Score >= 2 || player2Score >= 2;
+      if (player1Score >= END_SCORE) return 1;
+      else if (player2Score >= END_SCORE) return 2;
+      return 0;
     };
 
     if (checkfinish(playingInfo.player1Score, playingInfo.player2Score)) {
+      // #next 점수가 === end_score 이면 User mutation userState 변경.
+      // #next USER QUERY => userState 상태 확인한다음 상태가 playing일떄만 변경
+
       return collisionInfoInput;
     }
 

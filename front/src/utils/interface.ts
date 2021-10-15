@@ -37,6 +37,7 @@ export interface IchatNotification {
 }
 
 export interface IUser {
+  userID: string;
   nickname: string;
   avatar: string;
   totalWin: number;
@@ -48,7 +49,7 @@ export interface IUser {
 export interface IUserList {
   index: string;
   userID: string;
-  userState: string;
+  userState: 'login' | 'playing' | 'logout';
   avatar: string;
 }
 

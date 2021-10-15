@@ -37,8 +37,8 @@ export class User extends BaseEntity {
   @Field(() => String, { defaultValue: '' })
   avatar: string;
 
-  @Column({ type: 'int', default: 0 })
-  @Field(() => Int, { defaultValue: 0 })
+  @Column({ type: 'int', default: 3000 })
+  @Field(() => Int, { defaultValue: 3000 })
   ladderRating: number;
 
   @Column({ type: 'int', default: 0 })
