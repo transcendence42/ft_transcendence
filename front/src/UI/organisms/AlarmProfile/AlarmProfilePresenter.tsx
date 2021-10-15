@@ -7,7 +7,15 @@ import { IUser } from '../../../utils/interface';
 import { ProfileSmall } from '../../molecules';
 import { ALARM_PROFILE_BACKGROUND_COLOR } from '../../../utils/constants';
 
-export const AlarmProfilePresenter = ({ nickname, avatar, totalWin, totalLose, ladderRating, ranking }: IUser) => {
+export const AlarmProfilePresenter = ({
+  userID,
+  nickname,
+  avatar,
+  totalWin,
+  totalLose,
+  ladderRating,
+  ranking,
+}: IUser) => {
   return (
     <Flex alignItems="center">
       <ProfileSmall
@@ -21,7 +29,7 @@ export const AlarmProfilePresenter = ({ nickname, avatar, totalWin, totalLose, l
         backgroundColor={ALARM_PROFILE_BACKGROUND_COLOR}
       />
       <Box position="relative" pl="14" style={{ cursor: 'pointer' }}>
-        <a href="/auth/logout">{logoutIcon()}</a>
+        <a href={`/auth/logout/?userID=${userID}`}>{logoutIcon()}</a>
       </Box>
     </Flex>
   );

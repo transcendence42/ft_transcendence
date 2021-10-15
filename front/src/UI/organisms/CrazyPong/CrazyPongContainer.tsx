@@ -73,7 +73,7 @@ export const CrazyPongContainer = ({ data }: { data: Game }) => {
   if (subscriptionCrazyPong.error) {
     return <p>subscription error</p>;
   }
-  // console.log(Date.parse(String(postgresTimeToDate(data.playingInfo.modifiedAt))));
+
   return (
     <CrazyPongPresenter
       playingInfo={subscriptionCrazyPong.data.playingInfo}

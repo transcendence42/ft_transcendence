@@ -19,6 +19,7 @@ export const AlarmProfileContainer = () => {
 
   return (
     <AlarmProfilePresenter
+      userID={data.me.userID}
       nickname={data.me.nickname}
       avatar={data.me.avatar}
       totalWin={data.me.totalWin}

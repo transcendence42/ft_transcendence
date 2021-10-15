@@ -70,12 +70,17 @@ export class AuthController {
    * /auth/logout
    */
   @Get('logout')
-  logout(@Res({ passthrough: true }) res: Response) {
+  logout(@Req() req: any, @Res({ passthrough: true }) res: Response) {
     res.clearCookie('two_factor_auth');
     res.cookie('access_token', '', {
       httpOnly: false,
     });
-
+    // userState를 logout으로 바꾸는 usersService 부르기
+    if (req.query?.userID) {
+      this.userService.updateUserState(req.query.userID, 'logout');
+    } else {
+      console.log('logout: no user ID in query');
+    }
     res.status(302).redirect(`${process.env.HOST}:${process.env.CLIENT_PORT}`);
   }
 }
