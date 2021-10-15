@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useMutation, useReactiveVar } from '@apollo/client';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { ContextMenu } from 'holee-contextmenu';
 
 import { currentChatVar, currentLoginIDVar } from '../../../../apollo/apolloProvider';
@@ -219,6 +219,14 @@ export const AlarmChatPeople = ({ ...props }) => {
         case 'forced-out':
           await handleForcedOut();
           break;
+        case 'profile':
+          history.push({
+            pathname: `/profile/${username}`,
+            state: {
+              userID: loginID,
+            },
+          });
+          break;
         default:
           break;
       }
@@ -231,9 +239,7 @@ export const AlarmChatPeople = ({ ...props }) => {
         <ContextMenu outerRef={outerRef} menuOnClick={(e) => menuOnClickHandler(e)}>
           {loginID === username ? null : (
             <>
-              <Link to={'/profile/' + username}>
-                <li>프로필 보기</li>
-              </Link>
+              <li data-option="profile">{username} 프로필 보기</li>
               <li data-option="send-message">메세지 보내기</li>
               <li data-option="add-friend">친구추가 요청</li>
               <li data-option="play-game">핑퐁게임 요청</li>
@@ -251,7 +257,15 @@ export const AlarmChatPeople = ({ ...props }) => {
     return (
       <>
         <ContextMenu outerRef={outerRef} menuOnClick={(e) => menuOnClickHandler(e)}>
-          {loginID === username ? null : (
+          {loginID === username ? null : ownerID === username ? (
+            <>
+              <li data-option="profile">{username} 프로필 보기</li>
+              <li data-option="send-message">메세지 보내기</li>
+              <li data-option="add-friend">친구추가 요청</li>
+              <li data-option="play-game">핑퐁게임 요청</li>
+              <li data-option="block">차단(차단 해제)하기</li>
+            </>
+          ) : (
             <>
               <li data-option="profile">{username} 프로필 보기</li>
               <li data-option="send-message">메세지 보내기</li>
