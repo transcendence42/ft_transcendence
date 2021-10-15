@@ -15,7 +15,8 @@ import {
   TOAST_PLAY_GAME_TITLE,
   TOAST_PLAY_GAME_DESCRIPTION,
 } from '../../../../utils/constants';
-import { GAME_WITH_FRIEND } from './AlarmUserQuery';
+import { GAME_WITH_FRIEND, CREATE_DM, CREATE_ALARM } from './AlarmUserQuery';
+import { currentChatVar } from '../../../../apollo/apolloProvider';
 
 export const AlarmUser = ({
   nickName,
@@ -37,6 +38,8 @@ export const AlarmUser = ({
       },
     },
   });
+  const [createDM] = useMutation(CREATE_DM);
+  const [createAlarm] = useMutation(CREATE_ALARM);
 
   const gameQueue = async (myId: string, userID: string) => {
     await gameWithFriend({
@@ -54,6 +57,28 @@ export const AlarmUser = ({
       pathname: '/game',
       state: {
         userID: myId,
+      },
+    });
+  };
+
+  const handleSendMessage = async () => {
+    await createDM({
+      variables: {
+        user1: myId,
+        user2: nickName,
+      },
+    }).then((res) => {
+      currentChatVar(res.data.createDM.uuid);
+    });
+    await createAlarm({
+      variables: {
+        alarm: {
+          userID: nickName,
+          title: 'DM',
+          content: `${myId}님이 메시지를 보내셨습니다.`,
+          type: 'DM',
+          link: '/chat',
+        },
       },
     });
   };
@@ -83,7 +108,7 @@ export const AlarmUser = ({
           });
           break;
         case 'send-message':
-          // 추가 위치
+          handleSendMessage();
           break;
         case 'add-friend':
           break;
