@@ -6,7 +6,7 @@ const playPongUrl =
 
 const Rule: React.FC = (props) => {
   return (
-    <>
+    <section>
       <header style={{ margin: '5px' }}>
         <Heading size="2xl">How To Play</Heading>
         <Text fontSize="3xl"> ----------------------- </Text>
