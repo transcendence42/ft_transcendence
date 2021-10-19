@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . /app/
 
 RUN apk update && apk add bash
-RUN yarn install --silent
+RUN yarn
 RUN yarn build
 
 EXPOSE 5500
