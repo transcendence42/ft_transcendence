@@ -37,7 +37,9 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-table": "^7.7.0",
+    "react-tsparticles": "^1.33.2",
     "subscriptions-transport-ws": "^0.9.19",
+    "tsparticles": "^1.33.2",
     "typescript": "^3.9.5",
     "web-vitals": "^0.2.2"
   },

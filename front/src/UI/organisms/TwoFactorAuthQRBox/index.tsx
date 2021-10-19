@@ -10,9 +10,11 @@ export const TwoFactorAuthQRBox = () => {
   };
   return (
     <>
-      <div>QR 코드로 OTP 계정을 발급 받으세요.</div>
+      {/* <div>QR 코드로 OTP 계정을 발급 받으세요.</div> */}
       <TwoFactorAuthQR />
-      <Button onClick={onClick}>OTP 인증하기</Button>
+      <Button mt={2} onClick={onClick}>
+        OTP 인증하기
+      </Button>
     </>
   );
 };
