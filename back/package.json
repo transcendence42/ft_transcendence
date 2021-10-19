@@ -42,7 +42,7 @@
     "admin-bro-expressjs": "^2.1.1",
     "admin-bro-typeorm": "^0.1.6-alpha.9",
     "apollo-server-express": "^2.25.2",
-    "bcrypt": "^5.0.1",
+    "bcrypt-nodejs": "^0.0.3",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "cookie-parser": "^1.4.5",
