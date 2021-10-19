@@ -5,7 +5,7 @@ const Search: React.FC = (props) => {
 
   const findUser = (e) => {
     if (e.code === 'Enter') {
-      window.location.replace(`http://127.0.0.1:3000/profile/${userName}`);
+      window.location.replace(`${process.env.REACT_APP_CLIENT_URL}/profile/${userName}`);
     }
   };
 
