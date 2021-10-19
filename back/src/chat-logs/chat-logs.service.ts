@@ -28,7 +28,7 @@ export class ChatLogsService {
     //음소거 된 유저가 메세지를 보낼 경우 또는 채팅방에 없는 유저가 메세지를 보낼 경우 400
     if (
       createChatLogInput.type === 'message' &&
-      (chat.muteID.includes(user.userID) || !chat.userId.includes(user.userID))
+      (chat.muteID.includes(user.userID) || !chat.userID.includes(user.userID))
     ) {
       throw new HttpException({ message: 'Input data validation failed' }, HttpStatus.BAD_REQUEST);
     }
