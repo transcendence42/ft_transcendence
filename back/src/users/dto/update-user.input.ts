@@ -44,6 +44,9 @@ export class UpdateAfterGameInput extends PartialType(CreateUserInput) {
   @Field({ nullable: true })
   isMatched: string;
 
+  @Field()
+  isWinner: boolean;
+
   @Field({ nullable: true })
   modifiedAt: Date;
 }

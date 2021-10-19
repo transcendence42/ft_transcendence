@@ -14,6 +14,7 @@ import { NotFound } from './pages/NotFound';
 import { TwoFactorAuth } from './pages/TwoFactorAuth';
 import { useQuery } from '@apollo/client';
 import { GET_MY_OPT_CONFIG } from './UI/organisms/TwoFactorAuthBox/TwoFactorAuthBoxQueries';
+import Search from './pages/Search';
 
 const App = () => {
   const accessToken = getCookies('access_token');
@@ -60,6 +61,7 @@ const App = () => {
           <Center width="full" minWidth="965px">
             <Switch>
               <Route exact path="/" component={Main} />
+              <Route exact path="/search" component={Search} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/profile/:userID" component={Profile} />
               <Route path="/chat" component={Chat} />

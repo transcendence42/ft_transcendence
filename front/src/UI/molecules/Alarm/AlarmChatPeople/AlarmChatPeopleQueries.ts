@@ -79,3 +79,12 @@ export const CREATE_FOLLOW = gql`
     }
   }
 `;
+
+export const GAME_WITH_FRIEND = gql`
+  mutation ($players: CreateGameInput!) {
+    gameWithFriend(players: $players) {
+      playerOneID
+      playerTwoID
+    }
+  }
+`;

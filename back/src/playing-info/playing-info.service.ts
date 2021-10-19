@@ -5,6 +5,8 @@ import { CreatePlayingInfoInput } from './dto/create-playing-info.input';
 import { UpdatePlayingInfoInput } from './dto/update-playing-info.input';
 import { PlayingInfo } from './entities/playing-info.entity';
 
+const END_SCORE = 2;
+
 const data = {
   canvas: {
     height: 800,
@@ -38,10 +40,7 @@ const data = {
 };
 @Injectable()
 export class PlayingInfoService {
-
-  constructor(
-    private readonly gamesService: GamesService,
-  ) { };
+  constructor(private readonly gamesService: GamesService) {}
 
   async create(createPlayingInfoInput: CreatePlayingInfoInput) {
     const playingInfo = new PlayingInfo();
@@ -118,8 +117,6 @@ export class PlayingInfoService {
 
   async update(uuid: string, updatePlayingInfoInput: UpdatePlayingInfoInput) {
     const playingInfo = await this.findOneByUuid(uuid);
-    // console.log('uuid: ', uuid);
-    // console.log('playing-info update: ', playingInfo);
 
     playingInfo.ballX = playingInfo.ballX + playingInfo.ballVelocityX;
     playingInfo.ballY = playingInfo.ballY + playingInfo.ballVelocityY;
@@ -131,6 +128,19 @@ export class PlayingInfoService {
       ballY: playingInfo.ballY,
       sequence: playingInfo.sequence + 1,
     });
+
+    const checkfinish = (player1Score: number, player2Score: number) => {
+      if (player1Score >= END_SCORE) return 1;
+      else if (player2Score >= END_SCORE) return 2;
+      return 0;
+    };
+
+    if (checkfinish(playingInfo.player1Score, playingInfo.player2Score)) {
+      // #next 점수가 === end_score 이면 User mutation userState 변경.
+      // #next USER QUERY => userState 상태 확인한다음 상태가 playing일떄만 변경
+
+      return collisionInfoInput;
+    }
 
     const validate_error = await validate(collisionInfoInput);
     if (validate_error.length > 0) {

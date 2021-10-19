@@ -14,6 +14,8 @@ export class AuthService implements AuthenticationProvider {
     const user: User | null = await this.usersService.findOneByUserID(username);
     if (user) {
       console.log('login success');
+      // userState를 login으로 바꾸는 usersService 부르기
+      this.usersService.updateUserState(user.userID, 'login');
       return user;
     }
     const newUser = await this.createUser(details);

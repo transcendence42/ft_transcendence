@@ -80,6 +80,16 @@ export class UsersService {
 
   async updateAfterGame(userID: string, updateAfterGameInput: UpdateAfterGameInput) {
     const user = await User.findOne({ userID: userID });
+
+    if (user.userState == 'playing') {
+      if (updateAfterGameInput.isWinner) {
+        user.totalWin += 1;
+        user.ladderRating += 100;
+      } else {
+        user.totalLose += 1;
+        user.ladderRating -= 50;
+      }
+    }
     user.userID = updateAfterGameInput.userID;
     user.isMatched = updateAfterGameInput.isMatched;
     user.userState = updateAfterGameInput.userState;
@@ -94,9 +104,23 @@ export class UsersService {
     }
   }
 
+  async updateUserState(userID: string, userState: string) {
+    const user = await User.findOne({ userID: userID });
+    user.userState = userState;
+    const validate_error = await validate(user);
+    if (validate_error.length > 0) {
+      const _error = { username: 'UserInput is not valid check type' };
+      throw new HttpException({ message: 'Input data validation failed', _error }, HttpStatus.BAD_REQUEST);
+    } else {
+      return await User.save(user);
+    }
+  }
+
+  // userState 여부도 받아서 업데이트 해주기 👍👍👍
   async updateIsMatched(userID: string, isMatched: string) {
     const user = await User.findOne({ userID: userID });
     user.isMatched = isMatched;
+    user.userState = 'playing';
 
     const validate_error = await validate(user);
     if (validate_error.length > 0) {

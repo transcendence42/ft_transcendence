@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { Spinner, Box } from '@chakra-ui/react';
+import { Spinner, Box, Center } from '@chakra-ui/react';
 import { ProfileLarge } from '../../molecules/ProfileLarge';
 import { SPINNER_COLOR } from '../../../utils/constants';
 import { winRate } from '../../../utils/util';
@@ -8,6 +8,7 @@ import { GET_OTHERS_PROFILE } from './ProfilePageHeaderQueries';
 import { GET_MY_PROFILE } from '../MainPageHeader/MainPageHeaderQueries';
 import { Redirect } from 'react-router-dom';
 import { ProfileLargeEdit } from '../../molecules/ProfileLargeEdit';
+import FollowButton from '../../molecules/FollowButton';
 
 const ProfilePageHeader = ({ ...props }) => {
   const { userID } = props;
@@ -43,6 +44,11 @@ const ProfilePageHeader = ({ ...props }) => {
           winningPercentage={winRate(data.user.totalWin, data.user.totalLose)}
           reverse={false}
         />
+      </Box>
+      <Box width="50%">
+        <Center>
+          <FollowButton followingID={data.user.userID} />
+        </Center>
       </Box>
     </>
   ) : (

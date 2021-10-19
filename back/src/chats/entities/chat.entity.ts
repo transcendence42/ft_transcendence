@@ -73,6 +73,7 @@ export class Chat extends BaseEntity {
 
   @BeforeInsert()
   async hashPassword() {
+    if (!this.password) return;
     try {
       this.password = await bcrypt.hash(this.password, SALT_ROUND);
     } catch (error) {

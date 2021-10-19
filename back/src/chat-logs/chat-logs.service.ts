@@ -26,7 +26,6 @@ export class ChatLogsService {
       throw new HttpException({ message: 'Input data validation failed', error }, HttpStatus.BAD_REQUEST);
     });
     //음소거 된 유저가 메세지를 보낼 경우
-    //TODO: 채팅방 목록에 없는 유저가 채팅을 보낼 때 exception 발생
     if (createChatLogInput.type === 'message' && chat.muteID.includes(user.userID)) {
       throw new HttpException({ message: 'Input data validation failed' }, HttpStatus.BAD_REQUEST);
     }

@@ -8,7 +8,9 @@ import { GamesService } from 'src/games/games.service';
 import { UpdateGameInput } from 'src/games/dto/update-game.input';
 import { Game } from 'src/games/entities/game.entity';
 import { UsersService } from 'src/users/users.service';
-import { UpdateAfterGameInput, UpdateUserInput } from 'src/users/dto/update-user.input';
+import { UpdateAfterGameInput } from 'src/users/dto/update-user.input';
+
+const END_SCORE = 2;
 
 @Resolver(() => PlayingInfo)
 export class PlayingInfoResolver {
@@ -17,7 +19,7 @@ export class PlayingInfoResolver {
     private readonly gamesService: GamesService,
     private readonly usersService: UsersService,
     private readonly pubSubProvider: PubSubProvider,
-  ) { }
+  ) {}
 
   @Mutation(() => PlayingInfo)
   createPlayingInfo(@Args('createPlayingInfoInput') createPlayingInfoInput: CreatePlayingInfoInput) {
@@ -40,7 +42,9 @@ export class PlayingInfoResolver {
   // }
 
   checkfinish(player1Score: number, player2Score: number) {
-    return player1Score >= 2 || player2Score >= 2;
+    if (player1Score >= END_SCORE) return 1;
+    else if (player2Score >= END_SCORE) return 2;
+    return 0;
   }
 
   async updateGameEntity(updatePlayingInfoInput: UpdatePlayingInfoInput): Promise<Game> {
@@ -55,17 +59,19 @@ export class PlayingInfoResolver {
     return await this.gamesService.update(updateGameInput.uuid, updateGameInput);
   }
 
-  updateUserIsMatchedFalse(playerOneID: string, playerTwoID: string) {
+  updateUserIsMatchedFalse(playerOneID: string, playerTwoID: string, winner: number) {
     const updatePlayerOneInput: UpdateAfterGameInput = {
       userID: playerOneID,
       userState: 'login',
       isMatched: 'notMatched',
+      isWinner: winner === 1 ? true : false,
       modifiedAt: new Date(),
     };
     const updatePlayerTwoInput: UpdateAfterGameInput = {
       userID: playerTwoID,
-      isMatched: 'notMatched',
       userState: 'login',
+      isMatched: 'notMatched',
+      isWinner: winner === 2 ? true : false,
       modifiedAt: new Date(),
     };
     this.usersService.updateAfterGame(playerOneID, updatePlayerOneInput);
@@ -77,11 +83,12 @@ export class PlayingInfoResolver {
     const playingInfo = await this.playingInfoService.update(updatePlayingInfoInput.uuid, {
       ...updatePlayingInfoInput,
     });
-    if (this.checkfinish(playingInfo.player1Score, playingInfo.player2Score)) {
+    // 1 == playerOne winner , 2 == playerTwo winner
+    const checkFinish: number = this.checkfinish(playingInfo.player1Score, playingInfo.player2Score);
+    if (checkFinish) {
       this.updateGameEntity(playingInfo);
       const getPlayerName = await this.gamesService.findOneByUuid(updatePlayingInfoInput.uuid);
-      console.log('update-playing-info: ', getPlayerName);
-      this.updateUserIsMatchedFalse(getPlayerName.playerOneID, getPlayerName.playerTwoID);
+      this.updateUserIsMatchedFalse(getPlayerName.playerOneID, getPlayerName.playerTwoID, checkFinish);
       return playingInfo;
     }
     this.pubSubProvider.getPubSub().publish('playingInfo', {

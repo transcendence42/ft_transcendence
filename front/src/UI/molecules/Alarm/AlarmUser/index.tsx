@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 
 import { Avatar, AvatarBadge, Flex, Box, Text, useToast } from '@chakra-ui/react';
 import { ContextMenu } from 'holee-contextmenu';
+import { useMutation } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 import {
   ALARM_MESSAGE_LOGIN_USER_STATE_COLOR,
@@ -10,15 +12,52 @@ import {
   ALARM_CONTENT_FONTWEIGHT,
   ALARM_USER_NICKNAME_FONTSIZE,
   TOAST_DURATION,
-  TOAST_SEND_MESSAGE_TITLE,
-  TOAST_SEND_MESSAGE_DESCRIPTION,
-  TOAST_ADD_FRIEND_TITLE,
-  TOAST_ADD_FRIEND_DESCRIPTION,
   TOAST_PLAY_GAME_TITLE,
   TOAST_PLAY_GAME_DESCRIPTION,
 } from '../../../../utils/constants';
+import { GAME_WITH_FRIEND } from './AlarmUserQuery';
 
-export const AlarmUser = ({ nickName, userState, avatar }: { nickName: string; userState: string; avatar: string }) => {
+export const AlarmUser = ({
+  nickName,
+  userState,
+  avatar,
+  myId,
+}: {
+  nickName: string;
+  userState: string;
+  avatar: string;
+  myId: string;
+}) => {
+  const history = useHistory();
+  const [gameWithFriend] = useMutation(GAME_WITH_FRIEND, {
+    variables: {
+      players: {
+        playerOneID: nickName,
+        playerTwoID: myId,
+      },
+    },
+  });
+
+  const gameQueue = async (myId: string, userID: string) => {
+    await gameWithFriend({
+      variables: {
+        players: {
+          playerOneID: userID,
+          playerTwoID: myId,
+        },
+      },
+    });
+  };
+
+  const redirectGamePage = () => {
+    history.push({
+      pathname: '/game',
+      state: {
+        userID: myId,
+      },
+    });
+  };
+
   const outerRef = useRef<HTMLDivElement>(null);
   const toast = useToast();
   let avatarState = '';
@@ -36,26 +75,21 @@ export const AlarmUser = ({ nickName, userState, avatar }: { nickName: string; u
     if (eventTarget) {
       switch (eventTarget.dataset.option) {
         case 'profile':
+          history.push({
+            pathname: `/profile/${nickName}`,
+            state: {
+              userID: myId,
+            },
+          });
           break;
         case 'send-message':
-          toast({
-            title: TOAST_SEND_MESSAGE_TITLE,
-            description: TOAST_SEND_MESSAGE_DESCRIPTION,
-            status: 'success',
-            duration: TOAST_DURATION,
-            isClosable: true,
-          });
+          // 추가 위치
           break;
         case 'add-friend':
-          toast({
-            title: TOAST_ADD_FRIEND_TITLE,
-            description: TOAST_ADD_FRIEND_DESCRIPTION,
-            status: 'success',
-            duration: TOAST_DURATION,
-            isClosable: true,
-          });
           break;
         case 'play-game':
+          gameQueue(myId, nickName);
+          redirectGamePage();
           toast({
             title: TOAST_PLAY_GAME_TITLE,
             description: TOAST_PLAY_GAME_DESCRIPTION,
