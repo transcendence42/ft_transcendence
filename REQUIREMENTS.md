@@ -90,4 +90,4 @@
 
 ## 평가표
 
-- [ ] the ruleset is available somewhere onthe website and can be consulted by users
+- [x] the ruleset is available somewhere onthe website and can be consulted by users

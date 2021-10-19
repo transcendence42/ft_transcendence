@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo } from 'react';
+import React, { useRef, useEffect, useMemo, useState } from 'react';
 
 import './index.scss';
 import { drawCircle, drawNet, drawText } from './utils';
@@ -7,6 +7,8 @@ import { data } from './data';
 import { IPlayingInfo, IPlayingUpdateInfo } from '../../../utils/interface';
 import { postgresTimeToDate } from '../../../utils/util';
 import _ from 'lodash';
+import { SmallCircleButton } from '../../atoms/SmallCircleButton';
+import { Center } from '@chakra-ui/layout';
 
 const { ball, player1, player2 } = data;
 
@@ -36,7 +38,7 @@ export const CrazyPongPresenter = ({
     sequence,
     modifiedAt,
   } = playingInfo;
-
+  const [ballColor, setBallColor] = useState('white');
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -65,7 +67,7 @@ export const CrazyPongPresenter = ({
             drawText(ctx, String(player1Score), canvas.width / 4 - 20, canvas.height / 5, 'white');
             drawText(ctx, String(player2Score), (3 * canvas.width) / 4 - 20, canvas.height / 5, 'white');
             drawNet(ctx, canvas.width, canvas.height);
-            drawCircle(ctx, ballX, ballY, ball.radius, ball.color);
+            drawCircle(ctx, ballX, ballY, ball.radius, ballColor);
             paddleMovement(ctx, { ...player1, y: player1Y });
             paddleMovement(ctx, { ...player2, y: player2Y });
           }
@@ -135,12 +137,26 @@ export const CrazyPongPresenter = ({
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      onMouseMove={mouseMoveHandler}
-      className="canvas"
-      width="900"
-      height={String(CANVAS_HEIGHT)}
-    ></canvas>
+    <section>
+      <canvas
+        ref={canvasRef}
+        onMouseMove={mouseMoveHandler}
+        className="canvas"
+        width="900"
+        height={String(CANVAS_HEIGHT)}
+      ></canvas>
+      <section>
+        <Center style={{ marginTop: '1rem' }}>
+          <h3>
+            <strong>공 색 바꾸기 버튼 클릭</strong>
+          </h3>
+        </Center>
+        <Center>
+          <SmallCircleButton color="green" setBallColor={setBallColor} />
+          <SmallCircleButton color="red" setBallColor={setBallColor} />
+          <SmallCircleButton color="white" setBallColor={setBallColor} />
+        </Center>
+      </section>
+    </section>
   );
 };
