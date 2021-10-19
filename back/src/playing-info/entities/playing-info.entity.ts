@@ -8,7 +8,7 @@ export class PlayingInfo extends BaseEntity {
   @Field(() => Int)
   index: number;
 
-  @Column('varchar')
+  @Column({ type: 'varchar', nullable: true })
   @Field()
   uuid: string;
 
