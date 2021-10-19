@@ -1,5 +1,5 @@
 import React from 'react';
-import { PhoneIcon, ChatIcon, Search2Icon, BellIcon, IconProps } from '@chakra-ui/icons';
+import { PhoneIcon, ChatIcon, Search2Icon, BellIcon, IconProps, InfoOutlineIcon } from '@chakra-ui/icons';
 
 export interface Iicon {
   title: string;
@@ -27,5 +27,10 @@ export const NavigationData: Iicon[] = [
     title: 'Search',
     icon: React.createElement(Search2Icon),
     link: '/search',
+  },
+  {
+    title: 'How TO',
+    icon: React.createElement(InfoOutlineIcon),
+    link: '/rule',
   },
 ];
