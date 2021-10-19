@@ -29,7 +29,7 @@ export const NavigationData: Iicon[] = [
     link: '/search',
   },
   {
-    title: 'How TO',
+    title: 'Rules',
     icon: React.createElement(InfoOutlineIcon),
     link: '/rule',
   },

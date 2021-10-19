@@ -199,3 +199,8 @@ export interface IPlayers {
 export interface IOptButton {
   isEnabled: boolean;
 }
+
+export interface ISmallCircleButton {
+  color: string;
+  setBallColor: (prev: string) => void;
+}
