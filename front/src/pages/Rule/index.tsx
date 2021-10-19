@@ -22,7 +22,7 @@ const Rule: React.FC = (props) => {
         <Text fontSize="3xl">- 탁구채는 마우스로 상하 방향으로 움직일 수 있습니다.</Text>
         <Text fontSize="3xl">- 먼저, 3점을 내면 승리합니다.</Text>
       </section>
-    </>
+    </section>
   );
 };
 
