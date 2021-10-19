@@ -10,6 +10,7 @@ import Chat from './pages/Chat';
 import Game from './pages/Game';
 import Login from './pages/Login';
 import Observer from './pages/Observer';
+import Rule from './pages/Rule';
 import { NotFound } from './pages/NotFound';
 import { TwoFactorAuth } from './pages/TwoFactorAuth';
 import { useQuery } from '@apollo/client';
@@ -67,6 +68,7 @@ const App = () => {
               <Route path="/chat" component={Chat} />
               <Route path="/game" component={Game} />
               <Route path="/observer" component={Observer} />
+              <Route path="/rule" component={Rule} />
               <Route path="/404" component={NotFound} />
               <Redirect from="*" to="/404" />
             </Switch>
