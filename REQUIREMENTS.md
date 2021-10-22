@@ -11,15 +11,13 @@
 - [x] Database는 PostgreSQL을 써야한다.
 - [x] Frontend는 typescript framework를 써야한다.
 - [x] 웹사이트는 SPA(single page app)이어야 한다. 웹브라우저의 뒤로가기 버튼을 사용할 수 있어야 한다.
-- [ ] 웹사이트는 Google Chrome, Firefox, Safari과 호환되어야한다.
+- [x] 웹사이트는 Google Chrome, Firefox, Safari과 호환되어야한다.
   - [x] Google Chrome
   - [x] Firefox
-  - [ ] Safari
-- [ ] 웹사이트에 대한 모든 에러나 경고는 처리돼야한다.
-  - [ ] 테이블 (profile) - jwon
-  - [ ] me
+  - [x] Safari
+- [x] 웹사이트에 대한 모든 에러나 경고는 처리돼야한다.
 - [x] 라이브러리는 자유롭게 사용해도 된다.
-- [ ] 모든건 `docker-compose up –build` 하나로 실행 돼야한다.
+- [x] 모든건 `docker-compose up –build` 하나로 실행 돼야한다.
 
 ### Main Page
 
@@ -32,10 +30,6 @@
 - [x] 데이터베이스에 저장되는 비밀번호는 모두 암호화돼야한다.
 - [x] 웹사이트는 SQL injections으로부터 보호돼야한다.
 - [x] form이나 사용자 input에 대해 서버 사이드에서 유효성 검사를 해야한다.
-  - [x] holee: playinginfo 로직에서 공 update함수 내에서 모두 back에서 유효성 검사를 한다.
-  - [ ] yechoi
-  - [ ] yshin
-  - [ ] jwon
 
 ### User Account
 
@@ -70,8 +64,8 @@
 - [x] **모드**
   - [x] public
   - [x] private or protected by a password
-- [ ] **기능**
-  - [ ] 다른 사용자에게 직접적으로 메세지 보내는 기능 구현
+- [x] **기능**
+  - [x] 다른 사용자에게 직접적으로 메세지 보내는 기능 구현
   - [x] block 기능 구현
     - [x] block 당하면 더 이상 메세지를 볼 수 없다.
   - [x] 채팅창안에서 다른 사용자에게 탁구게임을 제안 할 수 있다.

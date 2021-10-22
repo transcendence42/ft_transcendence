@@ -33,7 +33,7 @@ export const ProfileLarge = ({
                   ID <strong>{userID}</strong>
                 </td>
                 <td>
-                  래더 <strong>{ladderRating}점</strong>({ranking}위)
+                  래더 <strong>{ladderRating}점</strong>
                 </td>
               </tr>
               <tr>

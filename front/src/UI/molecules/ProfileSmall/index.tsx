@@ -37,10 +37,7 @@ export const ProfileSmall = ({
             <Text
               fontWeight={ALARM_CONTENT_FONTWEIGHT}
               fontSize={ALARM_PROFILE_CONTENT_FONTSIZE}
-            >{`${totalWin}승 ${totalLose}패 (${winRate(
-              totalWin,
-              totalLose,
-            )}%) | 래더 ${ladderRating}점 (${ranking}위)`}</Text>
+            >{`${totalWin}승 ${totalLose}패 (${winRate(totalWin, totalLose)}%) | 래더 ${ladderRating}점`}</Text>
           </Flex>
         </Box>
       </Flex>
