@@ -10,7 +10,7 @@ interface stateType {
 }
 
 const END_SCORE = 2;
-const MAIN_URL = 'http://127.0.0.1:3000/';
+const MAIN_URL = String(process.env.REACT_APP_CLIENT_URL);
 
 const gameOver = (player1Score: number, player2Score: number) => {
   return player1Score >= END_SCORE || player2Score >= END_SCORE;
@@ -43,7 +43,7 @@ const Observer: React.FC = () => {
 
   const { player1Score, player2Score } = subscriptionCrazyPong.data?.playingInfo;
   if (gameOver(player1Score, player2Score)) {
-    window.location.replace(MAIN_URL);
+    location.replace(MAIN_URL);
   }
   return (
     <CrazyPongPresenter

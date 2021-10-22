@@ -18,7 +18,7 @@ const Game: React.FC = () => {
     return <p>game component error</p>;
   }
   if (!data.myGameRecords[data.myGameRecords.length - 1]) {
-    window.location.replace('http://127.0.0.1:3000/');
+    window.location.replace(String(process.env.REACT_APP_CLIENT_URL));
     return <>game over</>;
   } else {
     return (

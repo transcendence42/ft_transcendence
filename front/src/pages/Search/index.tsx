@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const Search: React.FC = (props) => {
   const [userName, setUserName] = useState('');
+  const history = useHistory();
 
   const findUser = (e) => {
     if (e.code === 'Enter') {
-      window.location.replace(`${process.env.REACT_APP_CLIENT_URL}/profile/${userName}`);
+      history.push(`/profile/${userName}`);
+      // window.location.replace(`${process.env.REACT_APP_CLIENT_URL}/profile/${userName}`);
     }
   };
 
