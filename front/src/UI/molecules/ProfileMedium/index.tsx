@@ -20,7 +20,6 @@ const ProfileMedium = ({
           <div>
             <strong>{name}</strong>
           </div>
-          <div>래더 랭킹 {ranking}위</div>
           <div>
             {totalWin}승 {totalLose}패({winRate(totalWin, totalLose)}%)
           </div>

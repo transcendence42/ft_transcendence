@@ -51,7 +51,6 @@ const MainButtons = ({ userID, isMatched }) => {
   return (
     <>
       <div className="main-buttons-container">
-        <Button size="lg">연습하기</Button>
         <Button size="lg" onClick={() => gameQueue(userID)}>
           게임시작
         </Button>
