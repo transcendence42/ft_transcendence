@@ -15,7 +15,7 @@ const MainPageHeader = () => {
     return <Spinner m="5" ml="155" color={SPINNER_COLOR} />;
   }
 
-  if (error) {
+  if (error || !data.me) {
     return <Spinner m="5" ml="155" color={SPINNER_ERROR_COLOR} />;
   }
 
